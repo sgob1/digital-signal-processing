@@ -36,15 +36,15 @@ To compile a new document at any new file change, invoke `make continuous`.
 
 ### Windows
 
-1. [Download ad install](https://tug.org/texlive/windows.html) TeX Live
+1. [Download ad install](https://tug.org/texlive/windows.html) TeX Live;
 2. Download a full-fledged TeX editor, for instance
-   [TeXstudio](https://www.texstudio.org/)
-3. Modify its default compiler from `pdflatex` to `xelatex`. To do so, browse
-   its settings; under "Compile" section you might find "default compiler".
-   Switch that to "XeLaTeX"
-4. Open the source file
-5. Run "compile" by pressing related button, or press *F6*.
-6. [Install gnuplot](http://www.gnuplot.info/).
+   [TeXstudio](https://www.texstudio.org/);
+3. [Install gnuplot](http://www.gnuplot.info/);
+4. Modify TeXstudio's default compiler from `pdflatex` to `xelatex`. To do so,
+   browse its settings; under "Compile" section you might find "default
+   compiler". Switch that to "XeLaTeX";
+5. Open the source file;
+6. Run "compile" by pressing related button, or press *F6*.
 
 ## Producing latex figures from octave (`.m`) files
 
