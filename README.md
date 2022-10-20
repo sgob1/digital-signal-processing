@@ -32,7 +32,7 @@ Having installed required packages, clone the repository and run
 make
 ```
 In order to clean the repository along with the compiled pdf, run `make clean`.
-To compile a new document at any new file change, invoke `make continuous`.
+To compile a new document at any new file change, invoke `make continuously`.
 
 ### Windows
 

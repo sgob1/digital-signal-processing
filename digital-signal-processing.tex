@@ -706,7 +706,7 @@ To do so, one should perform the following algebraic transformations,
 
 In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequences $0.3\pi$, $0.5\pi$ and $0.7\pi$.
 
-However, that's not the only signal possible that is capable of generating that very same sequence. Indeed, also the two following signals $w_a(t)$ and $g_a(t)$
+However, that's not the only signal possible that is capable of generating that very same sequence. Veritably, also the two following signals $w_a(t)$ and $g_a(t)$
 \begin{align*}
     w_a(t) &= 8 \cos{60 \pi t} + 5\cos{(100 \pi t + 0.6435)} - 10\sin {140\pi t}\\
     g_a(t) &= 2 \cos{60 \pi t} + 4\cos{100 \pi t} + 10\sin {260\pi t}\\
@@ -738,7 +738,7 @@ A \textbf{discrete-time system} is a system that processes a given \emph{input s
     \draw[->] (operation.east) -- (output.west);
 \end{tikzpicture}
 \end{center}
-Indeed, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$ that transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and depend on the requirements. 
+Sure thing, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$ that transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and depend on the requirements. 
 
 We have already seen some examples of discrete-time systems. For instance, two of these were the \emph{modulator} and the \emph{adder} discrete-time systems, both $2$-input, $1$-output systems.
 \begin{center}
@@ -816,7 +816,7 @@ which establishes that the output $y[n]$ at the time instant $n$ is the sum of t
 
 An accumulator, as its name suggests, \emph{cumulatively adds} all input sample values from the beginning of the signal history up to the current time instant $n$. This behavior is indeed evident by looking at the terms in the sides of Equation~\ref{eqn:accumulatorEquation}.
 
-Any accumulator could be split into two terms, a first being a constant, and the second one capable of describing a \emph{causal} input sequence. Indeed,
+Any accumulator could be split into two terms, a first being a constant, and the second one capable of describing a \emph{causal} input sequence. In truth,
 \begin{align}
     y[n] &= \sum_{i=-\infty}^{n} x[i] \\
          &= \sum_{i=-\infty}^{-1} x[i] + \sum_{i=0}^{n}x[i]\\
@@ -832,7 +832,7 @@ The \textbf{$M$-point Moving Average System} is a discrete-time system described
 \end{equation}
 The $M$-point attribute is related to the fact that---starting from time instant $0$---exactly $M$ points are averaged together, while ``moving'' stands for the fact that the value of the system can be interpreted as a constantly-moving average between points, since the output value will vary as new input samples are added to the sum.
 
-In most applications, the input data $x[n]$ is a bounded sequence; therefore, the $M$-point average $y[n]$ is a bounded sequence as well. Indeed, if there is no bias in the measurements, an improved estimate of the noisy data is obtained by simply increasing the value of $M$.
+In most applications, the input data $x[n]$ is a bounded sequence; therefore, the $M$-point average $y[n]$ is a bounded sequence as well. Doubtlessly, if there is no bias in the measurements, an improved estimate of the noisy data is obtained by simply increasing the value of $M$.
 
 A direct implementation of the moving average discrete-time system requires $M-1$ additions, a single division and the storage of $M-1$ past input data samples. As we will see later on, this is far from the most efficient solution.
 
@@ -1202,7 +1202,7 @@ by substituting with the impulse sequence one gets
     h[n] = \sum_{i=-\infty}^{n} \delta[l] = \mu[n].
 \]
 
-Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected. Indeed, this sounds like performing an ``integration'' operation, although there are some substantial differences involved.§FIXME
+Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected. Undoubtedly, this sounds like performing an ``integration'' operation, although there are some substantial differences involved.§FIXME
 
 The impulse response $h[n]$ of the factor-of-two interpolator
 \[
@@ -2319,7 +2319,7 @@ The mean-square convergence property of the sequence $h_{LP}[n]$ can be further 
 \[
     H_{LP,K}(e^{j\omega}) = \sum_{n=-K}^K e^{-j\omega n}\sinc {\omega_c n},
 \]
-for many values of $K$, as in Figure~\ref{tikz:discreteTimeFourierTransformExampleSinc}. A particularly interesting effect the Figure shows is the \textbf{Gibbs phenomenon}, a behavior of the DTFT in which multiple ripples---whose energy is smaller as the value of $K$ increases---are present. Indeed, Gibbs phenomenon can be described as the oscillatory behavior of the Fourier series of a piecewise continuously differentiable periodic function around a jump discontinuity.
+for many values of $K$, as in Figure~\ref{tikz:discreteTimeFourierTransformExampleSinc}. A particularly interesting effect the Figure shows is the \textbf{Gibbs phenomenon}, a behavior of the DTFT in which multiple ripples---whose energy is smaller as the value of $K$ increases---are present. Verily, Gibbs phenomenon can be described as the oscillatory behavior of the Fourier series of a piecewise continuously differentiable periodic function around a jump discontinuity.
 \begin{figure*}[ht]
 \begin{center}
         \begin{tikzpicture}[
@@ -2526,7 +2526,6 @@ The last equation, in particular, depends on a parameter $\alpha$: if $|\alpha| 
 \end{tabular}
 \caption{Notable discrete-time Fourier Transform properties. $X_{cs}(e^{j\omega})$ and $X_{ca}(e^{j\omega})$ are the conjugate-symmetric and conjugate-antisymmetric parts of $X(e^{j\omega})$, respectively. Likewise, $x_{cx}[n]$ and $x_{ca}[n]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $x[n]$.}\label{tab:discreteTimeFourierTransformPropertiesAndTheorems}
 \end{table*}
-\bigskip
 
 \begin{table*}[ht]
 \centering
@@ -2548,7 +2547,6 @@ The last equation, in particular, depends on a parameter $\alpha$: if $|\alpha| 
 \end{tabular}
 \caption{Notable discrete-time Fourier Transform properties. Sequences $x_{ev}[n]$ and $x_{od}[n]$ are, respectively, the even and the odd parts of the sequence $x[n]$.}\label{tab:discreteTimeFourierTransformPropertiesAndTheorems2}
 \end{table*}
-\bigskip
 
 \begin{table*}[ht]
 \centering
@@ -2568,7 +2566,6 @@ The last equation, in particular, depends on a parameter $\alpha$: if $|\alpha| 
 \end{tabular}
 \caption{Notable discrete-time Fourier Transform properties.}\label{tab:discreteTimeFourierTransformPropertiesAndTheorems3}
 \end{table*}
-\bigskip
 
 A number of important properties and theorems, very useful in digital signal processing applications, are listed without proof in Tables~\ref{tab:discreteTimeFourierTransformPropertiesAndTheorems}, \ref{tab:discreteTimeFourierTransformPropertiesAndTheorems2} and~\ref{tab:discreteTimeFourierTransformPropertiesAndTheorems3}.
 
@@ -2769,7 +2766,7 @@ which are enough to produce a plot of the desired unwrapped phase function of \t
 }\caption{\emph{Unwrapped} phase spectrum plot of phase spectrum of Example~\ref{eqn:octaveExampleFreqz}. By employing \texttt{unwrap} function in \texttt{octave}, the discontinuity in the $\arctan{}$ function had disappeared.}\label{oct:octaveExampleFreqzUnwrap}
     \end{center}
 \end{figure}
-Indeed, the unwrapped representation remains imperative when plotting phase spectra.
+Undeniably, the unwrapped representation remains imperative when plotting phase spectra.
 
 \subsection{The Convolution Theorem}
 
@@ -2816,7 +2813,7 @@ An immediate application of this crucial result is that the linear convolution $
 \end{center}
 \end{figure}
 
-The aforementioned process is not feasible in reality for two reasons: first of all, it is never convenient---let alone possible---to effectively handle \emph{continuous} signals. Indeed, no machine can possibly compute all the infinite points required for the computation. Secondarily and not less importantly, the inverse discrete-time Fourier Transform is an \emph{integral}. Performing integrations on a continuous is far from efficient for the same reasons as above.
+The aforementioned procedure is not feasible in reality for two reasons: first of all, it is never convenient---let alone possible---to effectively handle \emph{continuous} signals. Indeed, no machine can possibly compute all the infinite points required for the computation. Secondarily and not less importantly, the inverse discrete-time Fourier Transform is an \emph{integral}. Performing integrations on a continuous is far from efficient for the same reasons as above.
 
 With the Convolution Theorem ends the chapter on Discrete-time Fourier Transforms. Indeed, as we will see, the Convolution Theorem will prove useful even for the next subject of study, the \emph{Discrete Fourier Transforms}.
 
@@ -2841,7 +2838,7 @@ The first Equation~\ref{eqn:analysisEquation} is called \emph{Analysis equation}
 \end{equation}
 a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] is equal to $1$ if and only if indexes $l = k$, a property that if satisfied then the basis sequences are said to be \emph{orthogonal to each other}.
 
-Indeed, in order for $\phi^*$ to be the inverse orthogonal transform, $\phi$ and $\phi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquation} into the analysis equation~\ref{eqn:analysisEquation},
+Really, in order for $\phi^*$ to be the inverse orthogonal transform, $\phi$ and $\phi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquation} into the analysis equation~\ref{eqn:analysisEquation},
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] \psi^*[k,n] &= \sum_{n=0}^{N-1}\left( \frac 1 N \sum_{k=0}^{N-1} \mathcal X[k] \psi[n,k]\right)\psi^*[l,n] \\
                                       &= \sum_{k=0}^{N-1} \mathcal X[k] \left( \frac 1 N \sum_{n=0}^{N-1}\psi[n,k]\psi^*[l,n]\right) \\
@@ -2889,7 +2886,7 @@ expressed under the new notation\footnote{
     \]
     showing a positive sign at the exponentiation.
 }.
-Verifying the above inverse transform is straightforward, as it is enough to substitute the original transform into the inverse, then multiply both sides of the equation by $W_N^{ln}$ and sum the result from $n=0$ to $n=N-1$. Indeed,
+Verifying the above inverse transform is straightforward, as it is enough to substitute the original transform into the inverse, then multiply both sides of the equation by $W_N^{ln}$ and sum the result from $n=0$ to $n=N-1$. Of course,
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] W_N^{ln}
     &= \sum_{n=0}^{N-1}\left(\frac 1 N\sum_{k=0}^{K-1} X[k] W_N^{-kn}\right)W_n^{ln}\\
@@ -2947,7 +2944,7 @@ and by means of Identity~\ref{eqn:dftWnProperty} one finally obtains that
             \frac N 2 & k = r\\
             \frac N 2 & k = N - r\\
             0         & \mbox{ otherwise }
-    \end{array}\right\}
+    \end{array}\right.
 \]
 
 The DFT of a cosine wave is a pair of impulses of amplitude $\frac N 2$, located at samples $r$ and $N-r$ that represent \emph{the same} frequency. Conceptually then, a cosine DFT is a pair of impulses just like in the case of the Discrete-time Fourier Transform.
@@ -3114,6 +3111,8 @@ which is analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired rela
 
 This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by rearranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subjected to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
 
+The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed.
+
 When applying Equation~\ref{eqn:dftInfiniteReplicas} to finite-length sequences, one assumes that the samples outside the specified range are all zeros (like in zero-padding). Hence, if $x[n]$ is a sequence of length $M$ with $M \leq N$, then the sequence $y[n] = x[n]$ for all values $0 \leq n \leq N-1$. This behavior results from the fact that $N$ samples are more than what is needed ($M$ samples are needed to describe the original sequence $x[n]$). On contrary, in the opposite case of $M > N$ there is a so called \emph{time-domain aliasing} of samples of the sequence $x[n]$ in generating $y[n]$, with the end result that $x[n]$ cannot be recovered anymore from $y[n]$.
 
 Suppose one has the sequence 
@@ -3207,7 +3206,73 @@ The above property is just the tip of the iceberg of a deeper rule, which is kno
 
 \section{Overview of Fourier Transforms classes}
 
-In general, Fourier Transforms can be divided in multiple classes. The following
+In general, Fourier Transforms can be divided in multiple classes. The following list indexes all possible cases related to various class of signals and their Fourier Transform.
+
+\begin{itemize}
+    \item \textbf{The sequence is continuous and aperiodic in the time domain}---then its Fourier Transform will be \emph{continuous and aperiodic} as well. In practice, this means that, given a signal $x_a(t)$, the Fourier Transform $X_a(f)$ will be
+        \begin{equation}\label{eqn:fourierTransformContinuousAperiodic}
+            X_a(f) = \int_{-\infty}^\infty x_a(t) e^{-j2\pi ft} dt,
+        \end{equation}
+        with its inverse transform of the form
+        \begin{equation}\label{eqn:inverseFourierTransformContinuousAperiodic}
+            x_a(t) = \int_{-\infty}^\infty X_a(f) e^{+j2\pi ft} df.
+        \end{equation}
+        The very same can be said of \emph{signals whose period is protracted for a very long time}, that is all signals that can be thought as ``almost aperiodic'' in the sense that they are remarkably far-reaching.
+    \item \textbf{The sequence is continuous and periodic in the time domain}---then, its Fourier Transform will be \emph{discrete and aperiodic}. Its aperiodicity is inherited from the fact that the original signal is \emph{continuous}, just like in the previous case. Indeed, the formulas will be
+        \begin{equation}\label{eqn:fourierTransformContinuousPeriodic}
+            X[k] = \frac{1}{T_p}\int_{T_p} x_a(t) e^{-j2\pi kf_0t} dt,
+        \end{equation}
+        where the integration occurs in a portion of the signal that is the period $T_p$; its inverse transform will be of the form
+        \begin{equation}\label{eqn:inverseFourierTransformContinuousPeriodic}
+            x_a(t) = \sum_{k=-\infty}^\infty X[k] e^{+j2\pi kf_0t}.
+        \end{equation}
+        The value of $f_0$ is exactly the inverse of the length of the period $T_p$, that is $f_0 = \frac 1 {T_p}$. Veritably, in the case of signals whose period is far-reaching---that is, when $T_p$ is a lofty quantity---the frequency $f_0 \rightarrow 0$ as $T_p$ approaches infinity. Indeed, such transforms will resemble much and much more the continuous ones we find in the case of continuous aperiodic signals.
+    \item \textbf{The sequence is discrete and aperiodic in the time domain}---then, its Fourier Transform is \emph{continuous and periodic}. This is the case of the Discrete-time Fourier Transform as in Equation~\ref{eqn:discreteTimeFourierTransform}, a ccase that is conceptually the dual of the \emph{discrete and aperiodic sequences} that lead to continuous and periodic transforms. In truth, in this case the formulas are actually the reverse, as
+        \begin{equation}\label{eqn:fourierTransformDiscreteAperiodic}
+            X(\omega) = \sum_{n=-\infty}^\infty x[n] e^{-j\omega n},
+        \end{equation}
+        \begin{equation}\label{eqn:inverseFourierTransformDiscreteAperiodic}
+            x[n] = \frac{1}{2\pi}\int_{2\pi} X(\omega) e^{+j\omega n} d\omega.
+        \end{equation}
+        Noteworthily, the period for the Discrete-time Fourier Transform will be $2\pi$, as seen in~\ref{eqn:phasePrincipalValue}; undeniably, the integration is performed in a single period of $2\pi$.
+    \item \textbf{The sequence is discrete and periodic in the time domain}---then, its Fourier Transform is \emph{discrete and periodic} as well. Undoubtedly, we are again facing the Discrete Fourier Transform as in Equation~\ref{eqn:discreteFourierTransform}. The formulas will for sure be
+        \begin{equation}\label{eqn:fourierTransformDiscretePeriodic}
+            X[k] = \sum_{n=0}^{N-1} x[n] e^{-j2\pi \frac{kn}{N}},
+        \end{equation}
+        \begin{equation}\label{eqn:inverseFourierTransformDiscretePeriodic}
+            x[n] = \sum_{k=0}^{N-1} X[n] e^{+j2\pi \frac{kn}{N}},
+        \end{equation}
+        As already seen, there's a brawny relationship between the Discrete-time Fourier Transform and the Discrete Fourier Transform. As a matter of fact, the DFTF can be obtained by a DFT from an interpolation procedure; whilst the DFT can be obtained by sampling a DTFT.
+\end{itemize}
+
+To summarize concisely,
+\begin{enumerate}
+    \item from \textbf{continuous} signals one can only retrieve \textbf{aperiodic} transforms;
+    \item \textbf{discrete} signals will yield \textbf{periodic} transforms;
+    \item \textbf{aperiodic} signals will tally to \textbf{continuous} transforms;
+    \item \textbf{periodic} signals will generate \textbf{discrete} transforms;
+\end{enumerate}
+
+If one pays adequate attention, can notice that there's a pattern comprised in the above rules, that is the following Table~\ref{tab:fourierTransformRules},
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|c|l|}
+    \hline
+    \textbf{signal} & $\longleftrightarrow$ & \textbf{transform} \\
+    \hline
+    continuous & $\longleftrightarrow$ & aperiodic\\
+    \hline
+    discrete & $\longleftrightarrow$ & periodic\\
+    \hline
+    aperiodic & $\longleftrightarrow$ & continuous\\
+    \hline
+    periodic & $\longleftrightarrow$ & discrete\\
+    \hline
+\end{tabular}
+\caption{Rules for retrieving the nature of the Fourier Transform based off the nature of the original signal--sequence.}\label{tab:fourierTransformRules}
+\end{table}
+
+Essentially, to determine the kind of Fourier Transform it is enough to look at the nature of the original signal--sequence and apply the above rules expressed in Table~\ref{tab:fourierTransformRules}. For instance, if $x$ is a \emph{discrete aperiodic} sequence, its Fourier Transform $X$ will be \emph{periodic continuous}. Analogously, let $x$ be a \emph{periodic discrete} sequence; its Fourier Transform $X$ will be \emph{discrete periodic} as well by applying the very same rules.
 
 
 \include{references}

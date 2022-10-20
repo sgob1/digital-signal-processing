@@ -1,7 +1,7 @@
 pdf:
 	latexmk -xelatex -shell-escape digital-signal-processing.tex
 
-continuous:
+continuously:
 	latexmk -pvc -xelatex -shell-escape digital-signal-processing.tex
 
 clean:
