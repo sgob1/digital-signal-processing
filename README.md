@@ -36,7 +36,7 @@ To compile a new document at any new file change, invoke `make continuous`.
 
 ### Windows
 
-1. [Download ad install](https://tug.org/texlive/windows.html) TeX Live;
+1. [Download and install](https://tug.org/texlive/windows.html) TeX Live;
 2. Download a full-fledged TeX editor, for instance
    [TeXstudio](https://www.texstudio.org/);
 3. [Install gnuplot](http://www.gnuplot.info/);
