@@ -1,0 +1,80 @@
+\thispagestyle{plain}
+\begin{titlepage}
+        \begin{center}
+                \Large
+                \textsc{Università degli Studi di Trieste}
+
+                \par\noindent\rule{\textwidth}{0.8pt}
+                \vspace*{0.6cm}
+
+                \large
+                \emph{Marco Sgobino}
+
+                \large
+                \vspace*{0.6cm}
+
+                \Large Notes from the course of
+                \vspace*{0.6cm}
+
+                \Huge
+                \textsc{Digital Signal Processing}
+                \vspace*{.1cm}
+
+                \vspace*{2cm}
+
+                \large
+                \begin{center}
+                    \begin{tikzpicture}[scale=1.5]
+                        \node [draw=blue, rectangle, minimum height=8cm, minimum width=13cm, fill=blue!10](box) at (3.75,-2) {};
+                    \node [](input) at (0,0){$x[n]$};
+                    \node [draw, dot](B) at (1,0){};
+                    \node [draw, fill=black!5,boxfilter](C) at (2,0){$z^{-1}$};
+                    \node [draw, fill=black!5,circle,plus,thick,minimum width=.5 cm](adder) at (4,-3){};
+                    \node [draw, dot, label=above:{$x[n-1]$}](D) at (3,0){};
+                    \node [draw, fill=black!5,boxfilter](E) at (4,0){$z^{-1}$};
+                    \node [draw, dot, label=above:{$x[n-2]$}](F) at (5,0){};
+                    \node [draw, fill=black!5,boxfilter](G) at (6,0){$z^{-1}$};
+                    \node [draw, dot, label=above:{$x[n-3]$}] (H) at (7,0){};
+                    \node [draw, fill=black!5,multiplierdownwards, label=north east:{$\alpha_1$}](alpha1) at (1,-1){};
+                    \node [draw, fill=black!5,multiplierdownwards, label=north east:{$\alpha_2$}](alpha2) at (3,-1){};
+                    \node [draw, fill=black!5,multiplierdownwards, label=north east:{$\alpha_3$}](alpha3) at (5,-1){};
+                    \node [draw, fill=black!5,multiplierdownwards, label=north east:{$\alpha_4$}](alpha4) at (7,-1){};
+                    \node [](output) at (4,-4){$y[n]$};
+
+                    \draw[thick] (input) -- (B);
+                    \draw[-stealth, thick] (B) -- (C);
+                    \draw[thick] (C) -- (D);
+                    \draw[-stealth, thick] (D) -- (E);
+                    \draw[thick] (E) -- (F);
+                    \draw[-stealth, thick] (F) -- (G);
+                    \draw[-stealth, thick] (G) -- (H) -- (alpha4);
+                    \draw[-stealth, thick] (B) -- (alpha1);
+                    \draw[-stealth, thick] (D) -- (alpha2);
+                    \draw[-stealth, thick] (F) -- (alpha3);
+                    \draw[-stealth, thick] (alpha1) |- (adder);
+                    \draw[-stealth, thick] (alpha2) -- (3,-2) -- (adder);
+                    \draw[-stealth, thick] (alpha3) -- (5,-2) -- (adder);
+                    \draw[-stealth, thick] (alpha4) |- (adder);
+                    \draw[-stealth, thick] (adder) -- (output);
+
+                    \end{tikzpicture}
+                \end{center}
+
+                \vfill
+
+                \large
+                \today
+
+
+                \par\noindent\rule{\textwidth}{0.8pt}
+                \vspace*{0.6cm}
+                \large
+                \emph{Academic Year 2021-2022}
+
+                \newpage
+
+                \thispagestyle{plain}
+                \vspace*{0.5cm}
+                \vfill
+        \end{center}
+\end{titlepage}

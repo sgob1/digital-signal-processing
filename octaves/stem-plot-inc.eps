@@ -1,0 +1,595 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: gl2ps_renderer figure
+%%Creator: GL2PS 1.4.2, (C) 1999-2020 C. Geuzaine
+%%For: Octave
+%%CreationDate: Wed Oct 19 08:50:17 2022
+%%LanguageLevel: 3
+%%DocumentData: Clean7Bit
+%%Pages: 1
+%%BoundingBox: 0 0 400 300
+%%EndComments
+%%BeginProlog
+/gl2psdict 64 dict def gl2psdict begin
+/tryPS3shading false def % set to false to force subdivision
+/rThreshold 0.064 def % red component subdivision threshold
+/gThreshold 0.034 def % green component subdivision threshold
+/bThreshold 0.1 def % blue component subdivision threshold
+/BD { bind def } bind def
+/C  { setrgbcolor } BD
+/G  { 0.082 mul exch 0.6094 mul add exch 0.3086 mul add neg 1.0 add setgray } BD
+/W  { setlinewidth } BD
+/LC  { setlinecap } BD
+/LJ  { setlinejoin } BD
+/FC { findfont exch /SH exch def SH scalefont setfont } BD
+/SW { dup stringwidth pop } BD
+/S  { FC moveto show } BD
+/SBC{ FC moveto SW -2 div 0 rmoveto show } BD
+/SBR{ FC moveto SW neg 0 rmoveto show } BD
+/SCL{ FC moveto 0 SH -2 div rmoveto show } BD
+/SCC{ FC moveto SW -2 div SH -2 div rmoveto show } BD
+/SCR{ FC moveto SW neg SH -2 div rmoveto show } BD
+/STL{ FC moveto 0 SH neg rmoveto show } BD
+/STC{ FC moveto SW -2 div SH neg rmoveto show } BD
+/STR{ FC moveto SW neg SH neg rmoveto show } BD
+/FCT { FC translate 0 0 } BD
+/SR  { gsave FCT moveto rotate show grestore } BD
+/SRX  { gsave FCT moveto rotate xshow grestore } BD
+/SBCR{ gsave FCT moveto rotate SW -2 div 0 rmoveto show grestore } BD
+/SBRR{ gsave FCT moveto rotate SW neg 0 rmoveto show grestore } BD
+/SCLR{ gsave FCT moveto rotate 0 SH -2 div rmoveto show grestore} BD
+/SCCR{ gsave FCT moveto rotate SW -2 div SH -2 div rmoveto show grestore} BD
+/SCRR{ gsave FCT moveto rotate SW neg SH -2 div rmoveto show grestore} BD
+/STLR{ gsave FCT moveto rotate 0 SH neg rmoveto show grestore } BD
+/STCR{ gsave FCT moveto rotate SW -2 div SH neg rmoveto show grestore } BD
+/STRR{ gsave FCT moveto rotate SW neg SH neg rmoveto show grestore } BD
+/P  { newpath 0.0 360.0 arc closepath fill } BD
+/LS { newpath moveto } BD
+/L  { lineto } BD
+/LE { lineto stroke } BD
+/T  { newpath moveto lineto lineto closepath fill } BD
+/STshfill {
+      /b1 exch def /g1 exch def /r1 exch def /y1 exch def /x1 exch def
+      /b2 exch def /g2 exch def /r2 exch def /y2 exch def /x2 exch def
+      /b3 exch def /g3 exch def /r3 exch def /y3 exch def /x3 exch def
+      gsave << /ShadingType 4 /ColorSpace [/DeviceRGB]
+      /DataSource [ 0 x1 y1 r1 g1 b1 0 x2 y2 r2 g2 b2 0 x3 y3 r3 g3 b3 ] >>
+      shfill grestore } BD
+/Tm { 3 -1 roll 8 -1 roll 13 -1 roll add add 3 div
+      3 -1 roll 7 -1 roll 11 -1 roll add add 3 div
+      3 -1 roll 6 -1 roll 9 -1 roll add add 3 div C T } BD
+/STsplit {
+      4 index 15 index add 0.5 mul
+      4 index 15 index add 0.5 mul
+      4 index 15 index add 0.5 mul
+      4 index 15 index add 0.5 mul
+      4 index 15 index add 0.5 mul
+      5 copy 5 copy 25 15 roll
+      9 index 30 index add 0.5 mul
+      9 index 30 index add 0.5 mul
+      9 index 30 index add 0.5 mul
+      9 index 30 index add 0.5 mul
+      9 index 30 index add 0.5 mul
+      5 copy 5 copy 35 5 roll 25 5 roll 15 5 roll
+      4 index 10 index add 0.5 mul
+      4 index 10 index add 0.5 mul
+      4 index 10 index add 0.5 mul
+      4 index 10 index add 0.5 mul
+      4 index 10 index add 0.5 mul
+      5 copy 5 copy 40 5 roll 25 5 roll 15 5 roll 25 5 roll
+      STnoshfill STnoshfill STnoshfill STnoshfill } BD
+/STnoshfill {
+      2 index 8 index sub abs rThreshold gt
+      { STsplit }
+      { 1 index 7 index sub abs gThreshold gt
+        { STsplit }
+        { dup 6 index sub abs bThreshold gt
+          { STsplit }
+          { 2 index 13 index sub abs rThreshold gt
+            { STsplit }
+            { 1 index 12 index sub abs gThreshold gt
+              { STsplit }
+              { dup 11 index sub abs bThreshold gt
+                { STsplit }
+                { 7 index 13 index sub abs rThreshold gt
+                  { STsplit }
+                  { 6 index 12 index sub abs gThreshold gt
+                    { STsplit }
+                    { 5 index 11 index sub abs bThreshold gt
+                      { STsplit }
+                      { Tm }
+                      ifelse }
+                    ifelse }
+                  ifelse }
+                ifelse }
+              ifelse }
+            ifelse }
+          ifelse }
+        ifelse }
+      ifelse } BD
+tryPS3shading
+{ /shfill where
+  { /ST { STshfill } BD }
+  { /ST { STnoshfill } BD }
+  ifelse }
+{ /ST { STnoshfill } BD }
+ifelse
+end
+%%EndProlog
+%%BeginSetup
+/DeviceRGB setcolorspace
+gl2psdict begin
+%%EndSetup
+%%Page: 1 1
+%%BeginPageSetup
+%%EndPageSetup
+mark
+gsave
+1.0 1.0 scale
+1 1 1 C
+newpath 0 0 moveto 400 0 lineto 400 300 lineto 0 300 lineto
+closepath fill
+gsave
+1.0 1.0 scale
+1 1 1 C
+newpath 0 0 moveto 400 0 lineto 400 300 lineto 0 300 lineto
+closepath fill
+newpath 0 0 moveto 400 0 lineto 400 300 lineto 0 300 lineto
+closepath clip
+1 1 1 C
+52 277.5 362 33 52 33 T
+52 277.5 362 277.5 362 33 T
+0.5 W
+0.15 0.15 0.15 C
+52 33 LS
+52 36.0937 LE
+52 277.5 LS
+52 274.406 LE
+103.667 33 LS
+103.667 36.0937 LE
+103.667 277.5 LS
+103.667 274.406 LE
+155.333 33 LS
+155.333 36.0937 LE
+155.333 277.5 LS
+155.333 274.406 LE
+207 33 LS
+207 36.0937 LE
+207 277.5 LS
+207 274.406 LE
+258.667 33 LS
+258.667 36.0937 LE
+258.667 277.5 LS
+258.667 274.406 LE
+310.333 33 LS
+310.333 36.0937 LE
+310.333 277.5 LS
+310.333 274.406 LE
+362 33 LS
+362 36.0937 LE
+362 277.5 LS
+362 274.406 LE
+52 33 LS
+55.1 33 LE
+362 33 LS
+358.9 33 LE
+52 94.125 LS
+55.1 94.125 LE
+362 94.125 LS
+358.9 94.125 LE
+52 155.25 LS
+55.1 155.25 LE
+362 155.25 LS
+358.9 155.25 LE
+52 216.375 LS
+55.1 216.375 LE
+362 216.375 LS
+358.9 216.375 LE
+52 277.5 LS
+55.1 277.5 LE
+362 277.5 LS
+358.9 277.5 LE
+2 LC
+[16 0] 0 setdash
+52 33 LS
+362 33 LE
+52 277.5 LS
+362 277.5 LE
+52 33 LS
+52 277.5 LE
+362 33 LS
+362 277.5 LE
+0 LC
+1 LJ
+[] 0 setdash
+0.34524 0.34524 0.34524 C
+52 155.25 LS
+52 84.9778 LE
+62.3333 155.25 LS
+62.3333 54.9366 LE
+72.6667 155.25 LS
+72.6667 37.0589 LE
+83 155.25 LS
+83 33.5124 LE
+93.3333 155.25 LS
+93.3333 44.7272 LE
+103.667 155.25 LS
+103.667 69.3433 LE
+114 155.25 LS
+114 104.376 LE
+124.333 155.25 LS
+124.333 145.577 LE
+134.667 155.25 LS
+134.667 187.952 LE
+145 155.25 LS
+145 226.361 LE
+155.333 155.25 LS
+155.333 256.147 LE
+165.667 155.25 LS
+165.667 273.7 LE
+176 155.25 LS
+176 276.889 LE
+186.333 155.25 LS
+186.333 265.33 LE
+196.667 155.25 LS
+196.667 240.422 LE
+207 155.25 LS
+207 205.188 LE
+217.333 155.25 LS
+217.333 163.898 LE
+227.667 155.25 LS
+227.667 121.559 LE
+238 155.25 LS
+238 83.3057 LE
+248.333 155.25 LS
+248.333 53.776 LE
+258.667 155.25 LS
+258.667 36.5504 LE
+269 155.25 LS
+269 33.7176 LE
+279.333 155.25 LS
+279.333 45.6213 LE
+289.667 155.25 LS
+289.667 70.8179 LE
+300 155.25 LS
+300 106.252 LE
+310.333 155.25 LS
+310.333 147.628 LE
+320.667 155.25 LS
+320.667 189.928 LE
+331 155.25 LS
+331 228.023 LE
+341.333 155.25 LS
+341.333 257.294 LE
+2 W
+1 LC
+55 84.9778 LS
+54.4271 83.2144 L
+52.9271 82.1246 L
+51.0729 82.1246 L
+49.5729 83.2144 L
+49 84.9778 L
+49.5729 86.7411 L
+51.0729 87.8309 L
+52.9271 87.8309 L
+54.4271 86.7411 L
+55 84.9778 LE
+65.3333 54.9366 LS
+64.7604 53.1733 L
+63.2604 52.0834 L
+61.4063 52.0834 L
+59.9063 53.1733 L
+59.3333 54.9366 L
+59.9063 56.7 L
+61.4063 57.7898 L
+63.2604 57.7898 L
+64.7604 56.7 L
+65.3333 54.9366 LE
+75.6667 37.0589 LS
+75.0937 35.2956 L
+73.5937 34.2057 L
+71.7396 34.2057 L
+70.2396 35.2956 L
+69.6667 37.0589 L
+70.2396 38.8223 L
+71.7396 39.9121 L
+73.5937 39.9121 L
+75.0937 38.8223 L
+75.6667 37.0589 LE
+86 33.5124 LS
+85.427 31.7491 L
+83.927 30.6592 L
+82.0729 30.6592 L
+80.5729 31.7491 L
+80 33.5124 L
+80.5729 35.2758 L
+82.0729 36.3656 L
+83.927 36.3656 L
+85.427 35.2758 L
+86 33.5124 LE
+96.3333 44.7272 LS
+95.7604 42.9638 L
+94.2604 41.874 L
+92.4063 41.874 L
+90.9063 42.9638 L
+90.3333 44.7272 L
+90.9063 46.4905 L
+92.4063 47.5803 L
+94.2604 47.5803 L
+95.7604 46.4905 L
+96.3333 44.7272 LE
+106.667 69.3433 LS
+106.094 67.58 L
+104.594 66.4901 L
+102.74 66.4901 L
+101.24 67.58 L
+100.667 69.3433 L
+101.24 71.1067 L
+102.74 72.1965 L
+104.594 72.1965 L
+106.094 71.1067 L
+106.667 69.3433 LE
+117 104.376 LS
+116.427 102.613 L
+114.927 101.523 L
+113.073 101.523 L
+111.573 102.613 L
+111 104.376 L
+111.573 106.139 L
+113.073 107.229 L
+114.927 107.229 L
+116.427 106.139 L
+117 104.376 LE
+127.333 145.577 LS
+126.76 143.814 L
+125.26 142.724 L
+123.406 142.724 L
+121.906 143.814 L
+121.333 145.577 L
+121.906 147.341 L
+123.406 148.431 L
+125.26 148.431 L
+126.76 147.341 L
+127.333 145.577 LE
+137.667 187.952 LS
+137.094 186.188 L
+135.594 185.099 L
+133.74 185.099 L
+132.24 186.188 L
+131.667 187.952 L
+132.24 189.715 L
+133.74 190.805 L
+135.594 190.805 L
+137.094 189.715 L
+137.667 187.952 LE
+148 226.361 LS
+147.427 224.597 L
+145.927 223.508 L
+144.073 223.508 L
+142.573 224.597 L
+142 226.361 L
+142.573 228.124 L
+144.073 229.214 L
+145.927 229.214 L
+147.427 228.124 L
+148 226.361 LE
+158.333 256.147 LS
+157.76 254.384 L
+156.26 253.294 L
+154.406 253.294 L
+152.906 254.384 L
+152.333 256.147 L
+152.906 257.911 L
+154.406 259 L
+156.26 259 L
+157.76 257.911 L
+158.333 256.147 LE
+168.667 273.7 LS
+168.094 271.936 L
+166.594 270.846 L
+164.74 270.846 L
+163.24 271.936 L
+162.667 273.7 L
+163.24 275.463 L
+164.74 276.553 L
+166.594 276.553 L
+168.094 275.463 L
+168.667 273.7 LE
+179 276.889 LS
+178.427 275.126 L
+176.927 274.036 L
+175.073 274.036 L
+173.573 275.126 L
+173 276.889 L
+173.573 278.653 L
+175.073 279.742 L
+176.927 279.742 L
+178.427 278.653 L
+179 276.889 LE
+189.333 265.33 LS
+188.76 263.566 L
+187.26 262.476 L
+185.406 262.476 L
+183.906 263.566 L
+183.333 265.33 L
+183.906 267.093 L
+185.406 268.183 L
+187.26 268.183 L
+188.76 267.093 L
+189.333 265.33 LE
+199.667 240.422 LS
+199.094 238.659 L
+197.594 237.569 L
+195.74 237.569 L
+194.24 238.659 L
+193.667 240.422 L
+194.24 242.186 L
+195.74 243.276 L
+197.594 243.276 L
+199.094 242.186 L
+199.667 240.422 LE
+210 205.188 LS
+209.427 203.424 L
+207.927 202.334 L
+206.073 202.334 L
+204.573 203.424 L
+204 205.188 L
+204.573 206.951 L
+206.073 208.041 L
+207.927 208.041 L
+209.427 206.951 L
+210 205.188 LE
+220.333 163.898 LS
+219.76 162.134 L
+218.26 161.044 L
+216.406 161.044 L
+214.906 162.134 L
+214.333 163.898 L
+214.906 165.661 L
+216.406 166.751 L
+218.26 166.751 L
+219.76 165.661 L
+220.333 163.898 LE
+230.667 121.559 LS
+230.094 119.796 L
+228.594 118.706 L
+226.74 118.706 L
+225.24 119.796 L
+224.667 121.559 L
+225.24 123.322 L
+226.74 124.412 L
+228.594 124.412 L
+230.094 123.322 L
+230.667 121.559 LE
+241 83.3057 LS
+240.427 81.5424 L
+238.927 80.4526 L
+237.073 80.4526 L
+235.573 81.5424 L
+235 83.3057 L
+235.573 85.0691 L
+237.073 86.1589 L
+238.927 86.1589 L
+240.427 85.0691 L
+241 83.3057 LE
+251.333 53.7759 LS
+250.76 52.0126 L
+249.26 50.9228 L
+247.406 50.9228 L
+245.906 52.0126 L
+245.333 53.7759 L
+245.906 55.5393 L
+247.406 56.6291 L
+249.26 56.6291 L
+250.76 55.5393 L
+251.333 53.7759 LE
+261.667 36.5504 LS
+261.094 34.787 L
+259.594 33.6972 L
+257.74 33.6972 L
+256.24 34.787 L
+255.667 36.5504 L
+256.24 38.3137 L
+257.74 39.4035 L
+259.594 39.4035 L
+261.094 38.3137 L
+261.667 36.5504 LE
+272 33.7176 LS
+271.427 31.9543 L
+269.927 30.8645 L
+268.073 30.8645 L
+266.573 31.9543 L
+266 33.7176 L
+266.573 35.481 L
+268.073 36.5708 L
+269.927 36.5708 L
+271.427 35.481 L
+272 33.7176 LE
+282.333 45.6213 LS
+281.76 43.8579 L
+280.26 42.7681 L
+278.406 42.7681 L
+276.906 43.8579 L
+276.333 45.6213 L
+276.906 47.3846 L
+278.406 48.4744 L
+280.26 48.4744 L
+281.76 47.3846 L
+282.333 45.6213 LE
+292.667 70.8179 LS
+292.094 69.0545 L
+290.594 67.9647 L
+288.74 67.9647 L
+287.24 69.0545 L
+286.667 70.8179 L
+287.24 72.5813 L
+288.74 73.6711 L
+290.594 73.6711 L
+292.094 72.5813 L
+292.667 70.8179 LE
+303 106.252 LS
+302.427 104.489 L
+300.927 103.399 L
+299.073 103.399 L
+297.573 104.489 L
+297 106.252 L
+297.573 108.016 L
+299.073 109.105 L
+300.927 109.105 L
+302.427 108.016 L
+303 106.252 LE
+313.333 147.628 LS
+312.76 145.865 L
+311.26 144.775 L
+309.406 144.775 L
+307.906 145.865 L
+307.333 147.628 L
+307.906 149.391 L
+309.406 150.481 L
+311.26 150.481 L
+312.76 149.391 L
+313.333 147.628 LE
+323.667 189.928 LS
+323.094 188.164 L
+321.594 187.075 L
+319.74 187.075 L
+318.24 188.164 L
+317.667 189.928 L
+318.24 191.691 L
+319.74 192.781 L
+321.594 192.781 L
+323.094 191.691 L
+323.667 189.928 LE
+334 228.023 LS
+333.427 226.259 L
+331.927 225.17 L
+330.073 225.17 L
+328.573 226.259 L
+328 228.023 L
+328.573 229.786 L
+330.073 230.876 L
+331.927 230.876 L
+333.427 229.786 L
+334 228.023 LE
+344.333 257.294 LS
+343.76 255.53 L
+342.26 254.44 L
+340.406 254.44 L
+338.906 255.53 L
+338.333 257.294 L
+338.906 259.057 L
+340.406 260.147 L
+342.26 260.147 L
+343.76 259.057 L
+344.333 257.294 LE
+0 LC
+0 0 0 C
+52 155.25 LS
+362 155.25 LE
+grestore
+grestore
+showpage
+cleartomark
+%%PageTrailer
+%%Trailer
+end
+%%EOF
