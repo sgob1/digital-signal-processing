@@ -11,9 +11,9 @@ running console of `gnuplot`. Optional requirements are `octave` along with the
 
 ### Linux
 
-1. Download and install a LaTeX distribution (for instance, `texlive`). Package
-   `gnuplot` are also required to produce some images and thus to fully compile
-   the document.
+First, download and install a LaTeX distribution (for instance, `texlive`).
+Package `gnuplot` are also required to produce some images and thus to fully
+compile the document.
 Some commands to install the **full** `texlive` distribution are the following,
 * **Fedora**: run `dnf install texlive-scheme-full gnuplot`
 * **Arch Linux**: run `pacman -S texlive-most gnuplot`
@@ -27,7 +27,7 @@ some plots, as some of them are produced through octave.
 Arch Linux doesn't package `octave-signal`. Installation from Octave's forge or
 AUR is advised.
 
-2. Clone the repository and run
+Having installed required packages, clone the repository and run
 ```
 make
 ```
