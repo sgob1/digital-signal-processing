@@ -42,6 +42,7 @@
 \usepackage{makecell}
 \usepackage{setspace}
 \usepackage{parskip}
+\setcounter{MaxMatrixCols}{20}
 \usepackage[a4paper, inner=\innermargin, outer=\outermargin]{geometry}
 
 \setlength{\columnsep}{42pt}
@@ -2524,7 +2525,7 @@ The last equation, in particular, depends on a parameter $\alpha$: if $|\alpha| 
     $x_{ca}[n]$ & $jX_{im}(e^{j\omega})$ \\
     \hline
 \end{tabular}
-\caption{Notable discrete-time Fourier Transform properties. $X_{cs}(e^{j\omega})$ and $X_{ca}(e^{j\omega})$ are the conjugate-symmetric and conjugate-antisymmetric parts of $X(e^{j\omega})$, respectively. Likewise, $x_{cx}[n]$ and $x_{ca}[n]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $x[n]$.}\label{tab:discreteTimeFourierTransformPropertiesAndTheorems}
+\caption{Notable discrete-time Fourier Transform properties. $X_{cs}(e^{j\omega})$ and $X_{ca}(e^{j\omega})$ are the conjugate-symmetric and conjugate-antisymmetric parts of $X(e^{j\omega})$, respectively. Likewise, $x_{cs}[n]$ and $x_{ca}[n]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $x[n]$.}\label{tab:discreteTimeFourierTransformPropertiesAndTheorems}
 \end{table*}
 
 \begin{table*}[ht]
@@ -3274,6 +3275,151 @@ If one pays adequate attention, can notice that there's a pattern comprised in t
 
 Essentially, to determine the kind of Fourier Transform it is enough to look at the nature of the original signal--sequence and apply the above rules expressed in Table~\ref{tab:fourierTransformRules}. For instance, if $x$ is a \emph{discrete aperiodic} sequence, its Fourier Transform $X$ will be \emph{periodic continuous}. Analogously, let $x$ be a \emph{periodic discrete} sequence; its Fourier Transform $X$ will be \emph{discrete periodic} as well by applying the very same rules.
 
+\section{Properties of Discrete Fourier Transforms}
+
+Discrete Fourier Transforms share a lot of properties with the Discrete-time Fourier Transforms, its continuous counterpart. Some of these properties are essentially identical to those of the DTFT, while some others are different. A summary of the Discrete Fourier Transforms properties are given by the following Tables~\ref{tab:discreteFourierTransformPropertiesAndTheorems}, \ref{tab:discreteFourierTransformPropertiesAndTheorems2}~and~\ref{tab:discreteFourierTransformPropertiesAndTheorems3}. All properties refer to sequences of length $N$.
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{c c}
+    \hline
+    \textbf{Sequence} & \textbf{Discrete Fourier Transform} \\
+    \hline
+    $x[n]$  & $X[k]$ \\
+    \hline
+    $x^*[\langle -n\rangle_N]$ & $X^*[k]$ \\
+    $\Re{\{x[n]\}}$ & $X_{pcs}[k] = \frac 1 2 \{X[\langle k\rangle_N] + X^*[\langle -k \rangle_N]\}$\\
+    $j\Im{\{x[n]\}}$ & $X_{pca}[k] = \frac 1 2 \{X[\langle k\rangle_N] - X^*[\langle -k\rangle_N]\}$\\
+    $x_{pcs}[n]$ & $\Re{X[k]}$ \\
+    $x_{pca}[n]$ & $j\Im{X[k]}$ \\
+    \hline
+\end{tabular}
+\caption{Notable Discrete Fourier Transform properties. $x_{pcs}[k]$ and $X_{pca}[k]$ are the conjugate-symmetric and conjugate-antisymmetric parts of $x[k]$, respectively. Likewise, $X_{pcs}[k]$ and $X_{pca}[k]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $X[k]$. The expression $\langle -k \rangle_N$ denotes the \emph{modulo expression}---the sequence is periodic of period $N$. $X$ is periodic and of infinite length.}\label{tab:discreteFourierTransformPropertiesAndTheorems}
+\end{table*}
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{c c}
+    \hline
+    \textbf{Sequence} & \textbf{Discrete Fourier Transform} \\
+    \hline
+    $x[n]$ & $X[k] = \Re{X[k]} + j\Im{X[k]}$ \\
+    \hline
+    $x_{pe}[n]$ & $\Re{X[k]}$ \\
+    $x_{po}[n]$ & $j\Im {X[k]}$ \\
+    \hline
+    Symmetry relations & $X[k] = X^*[\langle -k\rangle_N]$ \\
+    --- & $\Re X[k] = \Re X[\langle -l\rangle_N]$ \\
+    --- & $\Im X[k] = -\Im X[\langle -l \rangle_N]$ \\
+    --- & $|X[k]| = |X[\langle -l \rangle_N]|$ \\
+    --- & $\arg{X[k]} = -\arg{X[\langle -l \rangle_N]}$ \\
+    \hline
+\end{tabular}
+\caption{Notable Discrete Fourier Transform properties. Sequences $x_{pe}[n]$ and $x_{po}[n]$ are, respectively, the even and the odd parts of the sequence $x[n]$. In the above table, $x[n]$ is a real sequence.}\label{tab:discreteFourierTransformPropertiesAndTheorems2}
+\end{table*}
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{ccc}
+    \hline
+    \textbf{Name} & \textbf{Sequence} & \textbf{Discrete Fourier Transform} \\
+    \hline
+    Linearity & $\alpha g[n] + \beta h[n]$ & $\alpha G[k] + \beta H[k]$\\
+    Circular time-shifting & $g[\langle n-n_0\rangle_N]$ & $W_N^{kn_0} G[k]$ \\
+    Circular frequency-shifting & $W_N^{-kn_0}g[n]$ & $G[\langle k - k_0 \rangle_N]$ \\
+    Duality & $G[n]$ & $Ng[\langle -k \rangle_N]$ \\
+    Circular $N$-point convolution & $\sum_{m=0}^{N-1} g[m] h[\langle n - m \rangle_N]$ &$ G[k] \cdot H[k]$\\
+    Modulation & $g[n] \cdot h[n]$ &$ \frac{1}{N} \sum:{m=0}^{N-1} G[k] \cdot H[\langle k - m\rangle_N]$\\
+    \hline
+    Parseval's relation & $\sum_{n=-\infty}^\infty g[n]h^*[n]$ &$= \frac 1 {2\pi} \int_{-\pi}^\pi G(e^{j\omega})H^*(e^{j\omega})d\omega$\\
+    \hline
+\end{tabular}
+\caption{Notable Discrete Fourier Transform properties. Notice how the properties---set side by side to those of Table~\ref{tab:discreteTimeFourierTransformPropertiesAndTheorems3} are now \emph{circular} properties that make use of the modulo operation.}\label{tab:discreteFourierTransformPropertiesAndTheorems3}
+\end{table*}
+
+\section{Circular operations on finite-length sequences}
+
+Finite-length sequences have distinctive traits for which a special care is required. In particular, common operations such as time-shifting, time-reversal and convolutions have to be conceived diversely.
+
+Contemplate a length-$N$ sequence $x[n]$, defined for samples $0\leq n \leq N-1$. Its sample values are equal to zero for all samples before $0$ and after $N-1$, that is for $n < 0 \wedge n \leq N$. A \emph{time-reversal} operation on $x[n]$ would result in a sequence $x[-n]$ of length $N$, that is defined for time instants $-(N-1) \leq n \leq 0$. Furthermore, a \emph{linear time-shift} of $x[n]$ by a quantity $M \in \Z$ would result in a sequence $x[n+M]$ of length $N$, no longer defined for $0 \leq n \leq N-1$, but for $M \leq n \leq N-1 + M$. Correspondingly, a \emph{convolution sum} of two sequences of length $N$ defined for $0 \leq n \leq N-1$ would result in a sequence of length $2N + 1$, defined for $0 \leq n \leq 2N-2$---such that it is longer than the original sequences.
+
+Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this login, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}.
+
+\subsection{Modulo operation}
+The time-reversal operation on a finite-length sequence is obtained by means of the \textbf{modulo operation}. Let $0,1,\dots, N-1$ be a set of $N$ positive integers and let $m \in \Z$ be any integer. The integer $r$ obtained by evaluating
+\begin{equation}\label{eqn:moduloOperation}
+    r = m \mod N
+\end{equation}
+is called the \textbf{residue}. The residue $r$ is an integer whose value is between $0$ and $N-1$ (as the modulo operation yields). We will denote the modulo operation with the notation \[ \langle m \rangle_N = m \mod N. \] Due to modulo properties, if $r = \langle m \rangle_N$ then $r = m + lN$, where $l \in \Z$ such that $0 \leq m + lN \leq N-1$.
+As an example, let $N=7$ and $m = 25$: one has 
+\[
+    r = 25 + 7l = 25 - 7 \times 3 = 4
+\]
+which means $\langle 25 \rangle_7 = 4$. Another example is $N=7$ and $m=-15$, for which
+\[
+    r = -15 + 7l = -15 + 7 \times 3 = 6
+\]
+and yields $\langle -15 \rangle_7 = 6$.
+
+\subsection{Circular time-reversal operation}
+Another operation we are going to find a substitute for is the \emph{time-reversal}---in practice, we are going to build the \textbf{circular time-reversal operation}.
+
+Circular time-reversals grab the original sequence, and invert the order of the sequence by preserving the time instant at position $0$. The circular time-reversal $\{y[n]\}$ of $\{x[n]\}$ is a new sequence of length $N$ as well, thus defined for $0 \leq n \leq N-1$, given by the formula
+\begin{equation}\label{eqn:circularTimeReversal}
+    \{y[n]\} = \{x[\langle -n \rangle_N]\}.
+\end{equation}
+As an example, consider the sequence in Figure~\ref{tikz:circularTimeReversal}, where the original sequence is said to be \emph{circularly reversed}.
+\begin{figure}[ht]
+\begin{center}
+    \begin{tikzpicture}
+        \node[label=north:{Original sequence}] (original) at (0,0) {$\{x[n]\} = \begin{Bmatrix} x[0] & x[1] & x[2] & x[3] & x[4]\end{Bmatrix}$};
+        \node[label=north:{Circular time-reversed sequence}] (original) at (0,-2) {$\{y[n]\} = \begin{Bmatrix} x[0] & x[4] & x[3] & x[2] & x[1]\end{Bmatrix}$};
+        \draw[-stealth, thick] (-1.75,-0.45) -- (+3,-.45);
+        \draw[-stealth, thick] (-1.35,-2.35) .. controls (-2.95,-3.45) and (+8.4,-2.25) .. (-.65,-2.35);
+    \end{tikzpicture}
+    \end{center}\caption{The \emph{circular time-reversal} technique. The output sequence is a reversed original copy, except for the sample at the origin which remains in place.}\label{tikz:circularTimeReversal}
+\end{figure}
+
+Basically, the circular time-reversal is a special kind of time-reversal in which the ``position'' from $0$ to $N-1$ of the original sequence is preserved, whilst its samples are almost totally reversed, with the sole exception of the sample at the origin. A sequence like 
+\[
+    \begin{matrix} -1 & 7 & 5 & 9 & 4 & -12\end{matrix}
+\]
+when exposed to the circular time-reversal operation is remodeled into the sequence
+\[
+    \begin{matrix} -1 & -12 & 4 & 9 & 5 & 7\end{matrix}.
+\]
+
+\subsection{Circular shift operation}
+As formerly mentioned, the time shifting operation has to be modified as well to fit our Discrete Fourier Transform signal processing. Sure thing, we might introduce the \textbf{circular shift} operation, defined using the modulo operation as in~\ref{eqn:moduloOperation} as well.
+
+Let $x[n]$ be a sequence possessing length $N$, defined for $0 \leq n \leq N-1$---the \emph{circularly shifted by $n_0$ samples} version $x_c[n]$ is given by
+\begin{equation}\label{eqn:circularShift}
+    x_c[n] = x[\langle n - n_0 \rangle_N]r,
+\end{equation}
+with $x_c[n]$ also being a length-$N$ sequence defined for the same time instants $0\leq n \leq N-1$ as the original sequence. For $n_0 > 0$ one performs a \emph{right circular shift}---the above equation implies
+
+
+\subsection{Circular padding operation}
+The implicit periodicity of the sequences manipulated with the Discrete Fourier Transform requires to substitute the \emph{zero-padding} operation with a \emph{circular padding} variant. Very much, instead of performing
+\[
+    \begin{Bmatrix} 1 & 2 & 3 & 4 \end{Bmatrix} \rightarrow \begin{Bmatrix} \cdots & 0 & 1 & 2 & 3 & 4 & 0 & \cdots\end{Bmatrix}
+\]
+one performs the operation described in Figure~\ref{tikz:circularZeroPadding}.
+
+\begin{figure}[ht]
+\begin{center}
+    \begin{tikzpicture}
+        \node[label=north:{Original sequence}] (original) at (0,0) {$\begin{bmatrix} 1 & 2 & 3 & 4\end{bmatrix}$};
+        \node[label=north:{Padded sequence}] (chain) at (0,-2) {$\begin{bmatrix}\cdots & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & \cdots \end{bmatrix}$};
+        \draw[-stealth] (0,-0.25) .. controls (0,-.75) and (-2,-1) .. (-2.15,-1.75);
+        \draw[-stealth] (0,-0.25) .. controls (0,-.75) and (+2,-1) .. (+2.15,-1.75);
+        \draw[-stealth] (0,-0.25) .. controls (0,-.75) and (-2.5,-1) .. (-3.25,-1.75);
+        \draw[-stealth] (0,-0.25) .. controls (0,-.75) and (+2.5,-1) .. (+3.25,-1.75);
+    \end{tikzpicture}
+    \end{center}\caption{The \emph{circular padding} technique. Pay attention at how the pattern $\begin{bmatrix} 1 & 2 & 3 & 4 \end{bmatrix}$ is repeated indefinitely, to construct an infinite-length signal which repeats indefinitely with a period of the same length of the original signal---in this situation, $N=4$.}\label{tikz:circularZeroPadding}
+\end{figure}
+
+This way, one does not append an infinite number of zeros, but instead appends an infinite number of signal replicas before and after the original sequence. Of course, the resulting signal will virtually be of infinite length---still, it will be a periodic sequence.
 
 \include{references}
 
