@@ -1259,9 +1259,9 @@ because of input--output relationship expressed by~\ref{eqn:impulseResponseLTI}.
 \end{equation}
 
 Equations~\ref{eqn:impulseResponseLTIArbitrary}~and~\ref{eqn:impulseResponseLTIArbitraryAlternate} both describe the same operation known as the \textbf{convolution sum} of the sequences $x[n]$ and $h[n]$. The operation is so important that a specific operator has been adopted,
-\[
+\begin{equation}\label{eqn:convolutionSum}
     y[n] = x[n] \circledast h[n].
-\]
+\end{equation}
 
 The properties of the convolution sum are the following ones\footnote{An important remark on this is that the following properties hold only for \emph{infinite-precision} and \emph{infinite-range} representations, as truncated ones might suffer from §FIXME}:
 \begin{itemize}
@@ -2839,7 +2839,7 @@ The first Equation~\ref{eqn:analysisEquation} is called \emph{Analysis equation}
 \end{equation}
 a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] is equal to $1$ if and only if indexes $l = k$, a property that if satisfied then the basis sequences are said to be \emph{orthogonal to each other}.
 
-Really, in order for $\phi^*$ to be the inverse orthogonal transform, $\phi$ and $\phi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquation} into the analysis equation~\ref{eqn:analysisEquation},
+Really, in order for $\psi^*$ to be the inverse orthogonal transform, $\psi$ and $\psi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquation} into the analysis equation~\ref{eqn:analysisEquation},
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] \psi^*[k,n] &= \sum_{n=0}^{N-1}\left( \frac 1 N \sum_{k=0}^{N-1} \mathcal X[k] \psi[n,k]\right)\psi^*[l,n] \\
                                       &= \sum_{k=0}^{N-1} \mathcal X[k] \left( \frac 1 N \sum_{n=0}^{N-1}\psi[n,k]\psi^*[l,n]\right) \\
@@ -3339,16 +3339,16 @@ Discrete Fourier Transforms share a lot of properties with the Discrete-time Fou
 
 \section{Circular operations on finite-length sequences}
 
-Finite-length sequences have distinctive traits for which a special care is required. In particular, common operations such as time-shifting, time-reversal and convolutions have to be conceived diversely.
+Finite-length sequences have distinctive traits for which a special care is required. In particular, common operations such as time-shifting, time-reversal and convolutions have to be conceived diversely. I'm referring in particular to all operations which \emph{modify} the domain of the original signal---let's say, $0 \leq n \leq N-1$---by producing a result whose domain is \emph{different} from $0 \leq n \leq N-1$. Since the Discrete Fourier Transform is periodic with the \emph{same} period of the original signal, one wants to avoid to modify the domain of the resulting signal with any operation.
 
 Contemplate a length-$N$ sequence $x[n]$, defined for samples $0\leq n \leq N-1$. Its sample values are equal to zero for all samples before $0$ and after $N-1$, that is for $n < 0 \wedge n \leq N$. A \emph{time-reversal} operation on $x[n]$ would result in a sequence $x[-n]$ of length $N$, that is defined for time instants $-(N-1) \leq n \leq 0$. Furthermore, a \emph{linear time-shift} of $x[n]$ by a quantity $M \in \Z$ would result in a sequence $x[n+M]$ of length $N$, no longer defined for $0 \leq n \leq N-1$, but for $M \leq n \leq N-1 + M$. Correspondingly, a \emph{convolution sum} of two sequences of length $N$ defined for $0 \leq n \leq N-1$ would result in a sequence of length $2N + 1$, defined for $0 \leq n \leq 2N-2$---such that it is longer than the original sequences.
 
-Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this login, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}.
+Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this logic, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}.
 
 \subsection{Modulo operation}
 The time-reversal operation on a finite-length sequence is obtained by means of the \textbf{modulo operation}. Let $0,1,\dots, N-1$ be a set of $N$ positive integers and let $m \in \Z$ be any integer. The integer $r$ obtained by evaluating
 \begin{equation}\label{eqn:moduloOperation}
-    r = m \mod N
+    r = \langle m \rangle_N = m \mod N
 \end{equation}
 is called the \textbf{residue}. The residue $r$ is an integer whose value is between $0$ and $N-1$ (as the modulo operation yields). We will denote the modulo operation with the notation \[ \langle m \rangle_N = m \mod N. \] Due to modulo properties, if $r = \langle m \rangle_N$ then $r = m + lN$, where $l \in \Z$ such that $0 \leq m + lN \leq N-1$.
 As an example, let $N=7$ and $m = 25$: one has 
@@ -3384,7 +3384,7 @@ Basically, the circular time-reversal is a special kind of time-reversal in whic
 \[
     \begin{matrix} -1 & 7 & 5 & 9 & 4 & -12\end{matrix}
 \]
-when exposed to the circular time-reversal operation is remodeled into the sequence
+the moment it is exposed to the circular time-reversal operation is remodeled into the sequence
 \[
     \begin{matrix} -1 & -12 & 4 & 9 & 5 & 7\end{matrix}.
 \]
@@ -3394,17 +3394,94 @@ As formerly mentioned, the time shifting operation has to be modified as well to
 
 Let $x[n]$ be a sequence possessing length $N$, defined for $0 \leq n \leq N-1$---the \emph{circularly shifted by $n_0$ samples} version $x_c[n]$ is given by
 \begin{equation}\label{eqn:circularShift}
-    x_c[n] = x[\langle n - n_0 \rangle_N]r,
+    x_c[n] = x[\langle n - n_0 \rangle_N],
 \end{equation}
-with $x_c[n]$ also being a length-$N$ sequence defined for the same time instants $0\leq n \leq N-1$ as the original sequence. For $n_0 > 0$ one performs a \emph{right circular shift}---the above equation implies
+with $x_c[n]$ also being a length-$N$ sequence defined for the same time instants $0\leq n \leq N-1$ as the original sequence. For $n_0 > 0$ one performs a \emph{right circular shift}---the above equation implies that the new sequence is defined as such
+\[
+    x_c[n] = 
+    \left\{
+        \begin{array}{ll}
+            x[n-n_0] & n_0 \leq n \leq N-1\\
+            x[N- n-n_0] & 0 \leq n < n_0
+        \end{array}
+    \right.
+\]
 
+Figuring out the implications of the above system can be tricky---Figure~\ref{tikz:circularShift} helps with an illustration of what happens when a signal is circularly-shifted
+
+\begin{figure}[ht]
+\begin{center}
+    \begin{tikzpicture}
+        %\node[above,font=\large\bfseries] at (0,3.5) {Unit sample se\-quen\-ce};
+        \draw[-stealth] (-.5,0) -- (1.6,0) node[anchor=north west] {$n$};
+
+        \foreach \x in {0,1,...,5}
+            \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
+        
+        \draw[-stealth] (-.25,1.6) .. controls (-.25,1.6) and (1.5,1.6) .. (1.5,1.6);
+        \draw[-Circle] (0*0.25,0) -- (0*0.25,1*0.25);
+        \draw[-Circle] (1*0.25,0) -- (1*0.25,2*0.25);
+        \draw[-Circle] (2*0.25,0) -- (2*0.25,3*0.25);
+        \draw[-Circle] (3*0.25,0) -- (3*0.25,4*0.25);
+        \draw[-Circle] (4*0.25,0) -- (4*0.25,5*0.25);
+        \draw[-Circle] (5*0.25,0) -- (5*0.25,6*0.25);
+        \node[label=south:{Original}] (label) at (0.65,-.5) {};
+        \node[label=south:{$x[n]$}] (labeltwo) at (0.65,-1) {};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        %\node[above,font=\large\bfseries] at (0,3.5) {Unit sample se\-quen\-ce};
+        \draw[-stealth] (-.5,0) -- (1.6,0) node[anchor=north west] {$n$};
+
+        \foreach \x in {0,1,...,5}
+            \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
+        
+        \draw[-stealth] (5*.25,1.6) .. controls (+1.25,1.6) and (1,1.9) .. (0,1.6);
+        \draw[-stealth] (+.25,1.5) .. controls (+.25,1.5) and (1,1.5) .. (1,1.5);
+        \draw[-Circle] (0*0.25,0) -- (0*0.25,6*0.25);
+        \draw[-Circle] (1*0.25,0) -- (1*0.25,1*0.25);
+        \draw[-Circle] (2*0.25,0) -- (2*0.25,2*0.25);
+        \draw[-Circle] (3*0.25,0) -- (3*0.25,3*0.25);
+        \draw[-Circle] (4*0.25,0) -- (4*0.25,4*0.25);
+        \draw[-Circle] (5*0.25,0) -- (5*0.25,5*0.25);
+        \node[label=south:{$x[\langle n-1\rangle_6]$}] (label) at (0.65,-.5) {};
+        \node[label=south:{$x[\langle n+5\rangle_6]$}] (labeltwo) at (0.65,-1) {};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        %\node[above,font=\large\bfseries] at (0,3.5) {Unit sample se\-quen\-ce};
+        \draw[-stealth] (-.5,0) -- (1.6,0) node[anchor=north west] {$n$};
+
+        \foreach \x in {0,1,...,5}
+            \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
+        
+        \draw[-stealth] (1,1.5) .. controls (1,1.5) and (1.25,1.5) .. (1.25,1.5);
+        \draw[-stealth] (5*.25,1.6) .. controls (+1.25,1.6) and (1,1.9) .. (0,1.6);
+        \draw[-stealth] (0,1.5) .. controls (0,1.5) and (.65,1.5) .. (.65,1.5);
+        \draw[-Circle] (0*0.25,0) -- (0*0.25,3*0.25);
+        \draw[-Circle] (1*0.25,0) -- (1*0.25,4*0.25);
+        \draw[-Circle] (2*0.25,0) -- (2*0.25,5*0.25);
+        \draw[-Circle] (3*0.25,0) -- (3*0.25,6*0.25);
+        \draw[-Circle] (4*0.25,0) -- (4*0.25,1*0.25);
+        \draw[-Circle] (5*0.25,0) -- (5*0.25,2*0.25);
+        \node[label=south:{$x[\langle n-4\rangle_6]$}] (label) at (0.65,-.5) {};
+        \node[label=south:{$x[\langle n+2\rangle_6]$}] (labeltwo) at (0.65,-1) {};
+    \end{tikzpicture}
+\end{center}\caption{Circular shift operation on a ramp sequence of length $N = 6$. As the samples are pushed to the right, they ``come back'' from the left, realizing a circular pattern. Of course, the original sequence $x[n]$ is equal to a sequence $x[\langle n - 6\rangle_N] = x[n]$ that is circularly shifted of a quantity that is the same of its entire length, thanks to the modulo operation.}\label{tikz:circularShift}
+\end{figure}
+
+As can be seen from Figure~\ref{tikz:circularShift}, a right circular shift from $n_0$ is completely equivalent to a left circular shift by $N-n_0$ sample periods. As soon as we are performing a shift by means of the modulo operation, any circular shift by a quantity $n_g > N$ will be completely equivalent to a circular shift by $\langle n_g \rangle_N$, as any number greater than $N$ will be exposed to the modulo operation as in~\ref{eqn:moduloOperation}, causing the result to be still less than $N$. For instance, suppose one has a length-$11$ signal and wants to perform a circular shift by $n_g = 67$. What takes effect is that such shift will be completely equivalent to a shift $n_0 = \langle n_g \rangle_N$, that is
+\[
+    n_0 = \langle n_g \rangle_N = \langle 67 \rangle_{11} = 67 \mod 11 = 1
+\]
+completely comparable to a simple unit shift.
 
 \subsection{Circular padding operation}
-The implicit periodicity of the sequences manipulated with the Discrete Fourier Transform requires to substitute the \emph{zero-padding} operation with a \emph{circular padding} variant. Very much, instead of performing
+Yet another operation should be modified---the zero-padding operation, which would elseways alter the length of the original signal. In point of fact, the zero-padding operation \emph{actually means} altering the length of the original signal by adding a bunch of zeros to the left or to the right. Such an operation cannot deal proficiently in relation to the Discrete Fourier Transforms, since as we have earlier said the favored approach would be to preserve the characteristics of the original signal.
+
+The implicit periodicity of the sequences manipulated with the Discrete Fourier Transform requires to substitute the \emph{zero-padding} operation with a \emph{circular padding} variant. This circular padding variant will reconstruct and remodel our input signal by periodicizing it, an operation that will pad our signal with \emph{as many replicas of the original sequance as needed} instead of padding with zeros. This means that instead of performing
 \[
-    \begin{Bmatrix} 1 & 2 & 3 & 4 \end{Bmatrix} \rightarrow \begin{Bmatrix} \cdots & 0 & 1 & 2 & 3 & 4 & 0 & \cdots\end{Bmatrix}
+    \begin{Bmatrix} 1 & 2 & 3 & 4 \end{Bmatrix} \rightarrow \begin{Bmatrix} \cdots & 0 & 0 & 1 & 2 & 3 & 4 & 0 & 0 & \cdots\end{Bmatrix}
 \]
-one performs the operation described in Figure~\ref{tikz:circularZeroPadding}.
+one adds multiple replicas of the very same signal as from input. The operation is illustrated in Figure~\ref{tikz:circularZeroPadding}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -3420,6 +3497,125 @@ one performs the operation described in Figure~\ref{tikz:circularZeroPadding}.
 \end{figure}
 
 This way, one does not append an infinite number of zeros, but instead appends an infinite number of signal replicas before and after the original sequence. Of course, the resulting signal will virtually be of infinite length---still, it will be a periodic sequence.
+
+The circular padding acts very well with the Discrete Fourier Transforms. When we have examined the Discrete Fourier Transform we figured out that the $N$-point Inverse Discrete Fourier Transform $y[n]$ as expressed by Equation~\ref{eqn:dftInfiniteReplicas} was akin to the original $N$-length sequence $x[n]$, but composed of \emph{infinite replicas} of the original sequence. Regardless of the fact that the DFT was attained with its original formula as in~\ref{eqn:discreteFourierTransform} or from sampling the Discrete-time Fourier Transform, as a matter of fact the inverse DFT is an infinite-length sequence which is assembled from the original sampling by adding infinite replicas of $x[n]$ at a distance $N$ each other, an operation that is fully equivalent to applying infinite times circular padding to the original sequence.
+
+As we just modified three basic operations of signal processing to adapt to the Discrete Fourier Transform, we approach the adjustment of our last operation, the \emph{circular convolution}.
+
+\subsection{Circular Convolution}
+
+\textbf{Circular convolution} is akin to linear convolution, with the paramount difference that in place of convolving two sequences in the old fashion by first time-reversing and then shifting one of the sequences from $-\infty$ to $+\infty$ one \emph{circularly reverses} and then \emph{circularly shifts} a sequence over another---a profound discrepancy that will be soon outlined in extra detail.
+
+Let $g[n]$ and $h[n]$ be two sequences each possessing length $N$. Their linear convolution---the standard convolution as seen in~\ref{eqn:convolutionSum}---results in a new sequence $y_L[n]$ of length $2N-1$ given by
+\[
+    y_L[n] = \sum_{l=0}^{N-1} g[l] h[n-l], 0 \leq n \leq 2N-2.
+\]
+When computing $y_L$ the underlying assumption was that both input sequences were zero-padded to extend their lengths to match the output's length $2N-1$. The longer duration of the output $y_L[n]$ results from the time-reversal of the sequence $h[n]$ and its linear shift from left to right, as the convolution sum requires to do. A new sequence of ``double-length less one'' is created with the linear approach.
+
+The first nonzero value of $y_L[n]$ is $y_L[0] = g[0]h[0]$---that is when the two signals first ``rendezvous'' during the shift from left to right of sequence $h[n-l]$---and the last nonzero value is $y_L[2N-2] = g[N-1]h[N-1]$---just before the $h[n-l]$ sequence ``departs'' from the steady sequence $g[l]$. Further samples will all yield $0$, as there is no more superposition between sequences $g[l]$ and $h[n-l]$.
+
+As we have earlier mentioned, this is a poor way to perform the convolution as the output sequence will have a \emph{different} period than input sequences, an undesired behavior. From there arises the need of developing a new convolution-like operation, whose result is still a length-$N$ sequence $y_C[n]$ alike the input sequences. The new operation is called the \textbf{Circular convolution} and is cleverly designed as a convolution whose \emph{time-reversal} and \emph{time-shifting} operations are replaced by their \emph{circular} counterparts by means of the modulo operation:
+\begin{equation}\label{eqn:circularConvolution}
+    y_C[n] = \sum_{l=0}^{N-1} g[l]h[\langle n-l \rangle_N], 0 \leq n \leq N-1,
+\end{equation}
+an operation whose result is now defined for $0 \leq n \leq N-1$ rather than for $0 \leq n \leq 2N-2$.
+
+Since the just defined operation involves two length-$N$ sequences, it is often referred to as an $N$-point circular convolution, denoted as
+\begin{equation}\label{eqn:circularConvolutionSymbol}
+    y[n] = g[n] \encircle{N}  h[n].
+\end{equation}
+
+Just like the linear convolution sum, the circular convolution is commutative, which is
+\[
+    g[n] \encircle{N} h[n] = h[n] \encircle{N} g[n].
+\]
+
+As an example, consider the following 
+\begin{align*}
+    \{g[n]\} &= \begin{Bmatrix} \underset{\uparrow}{1} & 2 & 0 & 1\end{Bmatrix}\\
+    \{h[n]\} &= \begin{Bmatrix} \underset{\uparrow}{2} & 2 & 1 & 1\end{Bmatrix}
+\end{align*}
+depicted below,
+\begin{center}
+    \begin{tikzpicture}
+        \node[] at (2,1.2) {$g[n]$};
+        \draw[-stealth] (-.2,0) -- (2.2,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,3}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {$\x$};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,1*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,2*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (1,0) {};
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,1*0.5);
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \node[] at (2,1.2) {$h[n]$};
+        \draw[-stealth] (-.2,0) -- (2.2,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,3}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {$\x$};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,2*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,2*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,1*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,1*0.5);
+    \end{tikzpicture}
+\end{center}
+
+As they are $4$-length signals, the end result will be a length-$4$ sequence $y_C[n]$ given by
+\[
+    y_C[n] = g[n] \encircle{4} h[n] = \sum_{l=0}^{3} g[l]h[\langle n - l\rangle_4], 0 \leq n \leq 3.
+\]
+Pursuing step-by-step the above formula one obtains the first sample of the circular convolution by
+\begin{align*}
+    y_C[0]
+    &= \sum_{l=0}^{3} g[l] h[\langle -l\rangle_4] \\
+    &= g[0]h[0] + g[1]h[3] + g[2]h[2] + g[3]h[1]\\
+    &= 1\times 2 + 2 \times 1 + 0 \times 1 + 1 \times 2 = 6.
+\end{align*}
+and as one can see, as there is no shift when $l=0$ the circularly time-reversed sequence $h[\langle l \rangle_N]$ follows the very same pattern in Equation~\ref{eqn:circularTimeReversal}.
+
+Equivalently,
+\begin{align*}
+    y_C[1]
+    &= \sum_{l=0}^{3} g[l] h[\langle 1 -l\rangle_4] \\
+    &= g[0]h[1] + g[1]h[0] + g[2]h[3] + g[3]h[2]\\
+    &= 1\times 2 + 2 \times 2 + 0 \times 1 + 1 \times 1 = 7;\\
+    y_C[2]
+    &= \sum_{l=0}^{3} g[l] h[\langle 2 -l\rangle_4] \\
+    &= g[0]h[2] + g[1]h[1] + g[2]h[0] + g[3]h[3]\\
+    &= 1\times 1 + 2 \times 2 + 0 \times 2 + 1 \times 1 = 6,
+\end{align*}
+and lastly
+\begin{align*}
+    y_C[3]
+    &= \sum_{l=0}^{3} g[l] h[\langle 3 -l\rangle_4] \\
+    &= g[0]h[3] + g[1]h[2] + g[2]h[1] + g[3]h[0]\\
+    &= 1\times 1 + 2 \times 1 + 0 \times 2 + 1 \times 2 = 5.
+\end{align*}
+obtaining the output sequence
+\begin{center}
+    \begin{tikzpicture}
+        \node[] at (2,3.2) {$y_C[n]$};
+        \draw[-stealth] (-.2,0) -- (2.2,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,3}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {$\x$};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,6*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,7*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,6*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,5*0.5);
+    \end{tikzpicture},
+\end{center}
+a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
+
+Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation.
+
+
+
+
+
+
+
+
+
+
 
 \include{references}
 

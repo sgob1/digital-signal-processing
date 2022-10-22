@@ -54,3 +54,7 @@
 
 \renewcommand\proofname{\textup{\emph{Proof.}}} % default is 'Proof.' 
 \renewcommand\qedsymbol{$\blacksquare$}
+
+\newcommand\encircle[1]{%
+    \hspace*{2pt}\tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=-2.5pt, minimum size=0pt] {\strut \footnotesize #1};\hspace*{2pt}}
