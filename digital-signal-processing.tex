@@ -3546,6 +3546,10 @@ depicted below,
         \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,2*0.5);
         \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (1,0) {};
         \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,1*0.5);
+        \node at (0*0.5+.15, 1*0.5+.15) {$1$};
+        \node at (1*0.5+.15, 2*0.5+.15) {$2$};
+        \node at (2*0.5+.15, 0*0.5+.15) {$0$};
+        \node at (3*0.5+.15, 1*0.5+.15) {$1$};
     \end{tikzpicture}
     \begin{tikzpicture}
         \node[] at (2,1.2) {$h[n]$};
@@ -3556,6 +3560,10 @@ depicted below,
         \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,2*0.5);
         \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,1*0.5);
         \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,1*0.5);
+        \node at (0*0.5+.15, 2*0.5+.15) {$2$};
+        \node at (1*0.5+.15, 2*0.5+.15) {$2$};
+        \node at (2*0.5+.15, 1*0.5+.15) {$1$};
+        \node at (3*0.5+.15, 1*0.5+.15) {$2$};
     \end{tikzpicture}
 \end{center}
 
@@ -3601,6 +3609,10 @@ obtaining the output sequence
         \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,7*0.5);
         \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,6*0.5);
         \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,5*0.5);
+        \node at (0*0.5+.15, 6*0.5+.15) {$6$};
+        \node at (1*0.5+.15, 7*0.5+.15) {$7$};
+        \node at (2*0.5+.15, 6*0.5+.15) {$6$};
+        \node at (3*0.5+.15, 5*0.5+.15) {$5$};
     \end{tikzpicture},
 \end{center}
 a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
