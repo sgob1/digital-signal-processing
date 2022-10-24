@@ -3563,7 +3563,7 @@ depicted below,
         \node at (0*0.5+.15, 2*0.5+.15) {$2$};
         \node at (1*0.5+.15, 2*0.5+.15) {$2$};
         \node at (2*0.5+.15, 1*0.5+.15) {$1$};
-        \node at (3*0.5+.15, 1*0.5+.15) {$2$};
+        \node at (3*0.5+.15, 1*0.5+.15) {$1$};
     \end{tikzpicture}
 \end{center}
 
@@ -3617,13 +3617,7 @@ obtaining the output sequence
 \end{center}
 a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
 
-Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation.
-
-
-
-
-
-
+Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c).
 
 
 
