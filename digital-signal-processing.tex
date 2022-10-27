@@ -256,9 +256,9 @@ window. Modulation is denoted with a cross inside a circle, as shown in Diagram~
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=purple!15,circle,cross, thick,minimum width=0.5 cm](B) at (1,0){}; 
-    \node [](C) at(2,0){$y[n]$}; 
-    \node [](D) at(1,-1){$w[n]$}; 
+    \node [draw, fill=purple!15,circle,cross, thick,minimum width=0.5 cm](B) at (1,0){};
+    \node [](C) at(2,0){$y[n]$};
+    \node [](D) at(1,-1){$w[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
     \draw[->] (D) -- (B);
@@ -272,8 +272,8 @@ Other elementary operations are the \emph{multiplication} operation and the \emp
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=red!10,isosceles triangle,thick,minimum width=.4 cm](B) at (1.5,0){$A$}; 
-    \node [](C) at(3,0){$y[n]$}; 
+    \node [draw, fill=red!10,isosceles triangle,thick,minimum width=.4 cm](B) at (1.5,0){$A$};
+    \node [](C) at(3,0){$y[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
 \end{tikzpicture}\caption{Notation for the multiplication (product for a constant) operation.}\label{tikz:multiplication-operation}
@@ -284,8 +284,8 @@ Other elementary operations are the \emph{multiplication} operation and the \emp
 \begin{center}
 \begin{tikzpicture}
     \node [](A) at (0,0){$x[n]$};
-    \node [draw, fill=green!15,circle,plus,thick,minimum width=.5 cm](B) at (1,0){}; 
-    \node [](C) at(2,0){$z[n]$}; 
+    \node [draw, fill=green!15,circle,plus,thick,minimum width=.5 cm](B) at (1,0){};
+    \node [](C) at(2,0){$z[n]$};
     \node [](D) at(1,-1){$y[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
@@ -305,8 +305,8 @@ anticipation it is $z$. Hence, $y[n] = x[n - 1]$ and $y[n] = x[x + 1]$.
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=red!10,boxfilter](B) at (1.5,0){$z^{-1}$}; 
-    \node [](C) at(3,0){$x[n-1]$}; 
+    \node [draw, fill=red!10,boxfilter](B) at (1.5,0){$z^{-1}$};
+    \node [](C) at(3,0){$x[n-1]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
 \end{tikzpicture}\caption{Notation for the time delaying operation.}\label{tikz:delaying-operation}
@@ -317,8 +317,8 @@ anticipation it is $z$. Hence, $y[n] = x[n - 1]$ and $y[n] = x[x + 1]$.
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=red!10,rectangle,thick,minimum width=.7 cm, minimum height=.5cm](B) at (1.5,0){$z$}; 
-    \node [](C) at(3,0){$x[n+1]$}; 
+    \node [draw, fill=red!10,rectangle,thick,minimum width=.7 cm, minimum height=.5cm](B) at (1.5,0){$z$};
+    \node [](C) at(3,0){$x[n+1]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
 \end{tikzpicture}\caption{Notation for the time advance operation.}\label{tikz:advance-operation}
@@ -332,9 +332,9 @@ Yet another common `operation' is the \emph{branching} operation, in which a sig
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=black!100,inner sep=1pt,circle,label=above:{b}](B) at (1.5,0){}; 
-    \node [](C) at(3,0){$x[n]$}; 
-    \node [](D) at(1.5,-1.5){$x[n]$}; 
+    \node [draw, fill=black!100,inner sep=1pt,circle,label=above:{b}](B) at (1.5,0){};
+    \node [](C) at(3,0){$x[n]$};
+    \node [](D) at(1.5,-1.5){$x[n]$};
     \draw[->] (A) -- (B) -- (C);
     \draw[->] (B) -- (D);
 \end{tikzpicture}\caption{Notation for the branching (signal splitting) operation. The $b$ node allows splitting of the signal into two---equal---branches where $x$ is routed.}\label{tikz:branchingOperation}
@@ -373,7 +373,7 @@ The operation of alterating the sample rate $F_S$ is much important. Generally, 
 	R_S = \frac{F'_S}{F_S}.
 \end{equation}
 
-The ratio in equation \ref{eqn:SamplingRateAlterationRatio} can either be greater or lower than $1$, and determines the nature of the sample rate alteration. In particolar, in the case of $R_S > 1$ one performs the \textbf{interpolation} operation, while in the opposite case of $R_S < 1$ one gets the \textbf{decimation} operation. 
+The ratio in equation \ref{eqn:SamplingRateAlterationRatio} can either be greater or lower than $1$, and determines the nature of the sample rate alteration. In particolar, in the case of $R_S > 1$ one performs the \textbf{interpolation} operation, while in the opposite case of $R_S < 1$ one gets the \textbf{decimation} operation.
 
 Two operations are necessary for, respectively, interpolation and decimation: the \emph{up-sampling} and the \emph{down-sam\-pling} operations. To be specific, in order to perform interpolation a \emph{further} operation is needed other than up-sampling.
 
@@ -393,14 +393,14 @@ original signal:
 	\right.
 \end{equation}
 
-Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tikz:upsamplingOperation}. Upsampling is usually followed by \emph{interpolation}. 
+Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tikz:upsamplingOperation}. Upsampling is usually followed by \emph{interpolation}.
 
 \begin{figure}[ht]
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw,rectangle,thick](B) at (1.5,0){$\uparrow L$}; 
-    \node [](C) at(3,0){$x_u[n]$}; 
+    \node [draw,rectangle,thick](B) at (1.5,0){$\uparrow L$};
+    \node [](C) at(3,0){$x_u[n]$};
     \draw[->] (A) -- (B) -- (C);
 \end{tikzpicture}\caption{Notation for the up-sampling operation by a factor $L$.}\label{tikz:upsamplingOperation}
 \end{center}
@@ -420,8 +420,8 @@ Down-sampling operation is denoted by a $\downarrow M$ block, as in Figure~\ref{
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw,rectangle,thick](B) at (1.5,0){$\downarrow M$}; 
-    \node [](C) at(3,0){$x_u[n]$}; 
+    \node [draw,rectangle,thick](B) at (1.5,0){$\downarrow M$};
+    \node [](C) at(3,0){$x_u[n]$};
     \draw[->] (A) -- (B) -- (C);
 \end{tikzpicture}\caption{Notation for the down-sampling operation by a factor $M$.}\label{tikz:downsamplingOperation}
 \end{center}
@@ -443,7 +443,7 @@ The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce
 
 Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---respectively---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{GCD}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{GCD}$ is the ``greatest common divisor'' operation;
 
-One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity 
+One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity
 \begin{equation}\label{eqn:totalEnergy}
     \mathcal E_x = \sum_{n=-\infty}^{\infty} | x[n] |^2.
 \end{equation}
@@ -451,7 +451,7 @@ A finite-length se\-quen\-ce will possess finite energy, but an infinite-length 
 \begin{equation}\label{eqn:averagePower}
     P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2.
 \end{equation}
-The average power formula may depend on the nature of the signal. In particular, 
+The average power formula may depend on the nature of the signal. In particular,
 \begin{itemize}
     \item regarding \emph{aperiodic} signals, the average power is
         \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2, \]
@@ -462,10 +462,10 @@ The average power formula may depend on the nature of the signal. In particular,
 \end{itemize}
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce since \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
 
-A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}  An absolutely summable sequence is a sequence such that 
+A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}  An absolutely summable sequence is a sequence such that
 \begin{equation}\label{eqn:absolutelySummableSequence}
     \sum_{n=-\infty}^{\infty}|x[n]| < \infty.
-\end{equation} 
+\end{equation}
 As we will see later, absolute summability implies that the Fourier transform converges uniformly, so this means that the unit circle is contained in the region of convergence (ROC).
 
 At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. se\-quen\-ces can be absolutely summable but not squa\-re-sum\-ma\-ble, and the contrary can occur as well. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
@@ -531,8 +531,8 @@ A \textbf{real sinusoidal se\-quen\-ce} is a se\-quen\-ce defined as \[x[n] = A\
 
 An indeed important family of se\-quen\-ces are the \textbf{exponential se\-quen\-ces}, all of them having form \[x[n] = A\alpha^n, -\infty < n < \infty,\] where $A, \alpha \in \C$ can be either real or complex numbers. The various kinds of exponentials arise from peculiar choices of coefficient and basis, as the behavior will dramatically change depending on the nature of both.
 
-In general, an exponential se\-quen\-ce can be expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n} = x_{re}[n] + jx_{im}[n]\] a partitioning into real and imaginary part of the se\-quen\-ce. In particular, one has 
-\begin{align} 
+In general, an exponential se\-quen\-ce can be expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n} = x_{re}[n] + jx_{im}[n]\] a partitioning into real and imaginary part of the se\-quen\-ce. In particular, one has
+\begin{align}
     x_{re}[n] & = |A|e^{\sigma_0n}\cos{(\omega_0 n + \varphi)},\\
     x_{im}[n] & = |A|e^{\sigma_0n}\sin{(\omega_0 n + \varphi)}.
 \end{align}
@@ -545,7 +545,7 @@ Let now $A,\alpha \in \R$. Real exponential se\-quen\-ces are the ``classic'' ex
     \item for values $\alpha > 1$, the exponential will grow over time.
 \end{itemize}
 
-Both sinusoidal se\-quen\-ces and complex exponential se\-quen\-ces are periodic se\-quen\-ces of period $N$ if 
+Both sinusoidal se\-quen\-ces and complex exponential se\-quen\-ces are periodic se\-quen\-ces of period $N$ if
 \begin{equation}\label{eqn:sinusoidExponentialPeriod}
 \omega_0 N = 2\pi r
 \end{equation}
@@ -642,7 +642,7 @@ Let's now consider the con\-ti\-nuo\-us-time sinusoidal signal
 \[
     x_a(t) = A\cos{(2\pi f_0 t + \varphi)} = A\cos{(\Omega_0 t + \varphi)}
 \]
-and perform a sampling process with sampling period $T$. The resulting se\-quen\-ce will be 
+and perform a sampling process with sampling period $T$. The resulting se\-quen\-ce will be
 \begin{align}
     x[n] &= A\cos{(\Omega_0 n T + \varphi)} = A\cos{(\underbrace{\frac{2\pi \Omega_0}{\Omega_T}}_{\omega_0} n + \varphi)}, \\
          &= A\cos{(\omega_0 n + \varphi)},
@@ -676,7 +676,7 @@ of frequencies---respectively---of $3$Hz, $7$Hz and $13$Hz. Sampling the three s
 
 as $f_0 \cdot T = \frac{1}{10}f_0$.
 
-Now, since 
+Now, since
 \begin{align*}
     g_1[n] &= \cos{(0.6\pi n)} =\\
            &= \cos{((2\pi - 0.6\pi)n)} = \cos{(1.4\pi n)} = g_2[n], \\
@@ -688,7 +688,7 @@ all three se\-quen\-ces result to be identical. Therefore, it is rather difficul
 
 The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation.
 
-Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain the following discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape 
+Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain the following discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
 \begin{align*}
 v_a(t) &=6\cos{60\pi t} + 3\sin{300\pi t} + 2\cos{340\pi t} \\ & + 4\cos{500\pi t} + 10\sin{660\pi t}
 \end{align*}
@@ -715,7 +715,7 @@ However, that's not the only signal possible that is capable of generating that 
 \end{align*}
 will produce the very same sequence $v[n]$.
 
-To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular freqyency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur.  
+To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular freqyency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur. 
 
 In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall in the range $-\pi < \omega < \pi$, then it will fold over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
 
@@ -739,30 +739,30 @@ A \textbf{discrete-time system} is a system that processes a given \emph{input s
     \draw[->] (operation.east) -- (output.west);
 \end{tikzpicture}
 \end{center}
-Sure thing, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$ that transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and depend on the requirements. 
+Sure thing, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$ that transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and depend on the requirements.
 
 We have already seen some examples of discrete-time systems. For instance, two of these were the \emph{modulator} and the \emph{adder} discrete-time systems, both $2$-input, $1$-output systems.
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
-    \node [draw, fill=black!15,circle,cross, thick,minimum width=0.5 cm](B) at (1,0){}; 
-    \node [](C) at(2,0){$z[n]$}; 
-    \node [](D) at(1,-1){$y[n]$}; 
+    \node [draw, fill=black!15,circle,cross, thick,minimum width=0.5 cm](B) at (1,0){};
+    \node [](C) at(2,0){$z[n]$};
+    \node [](D) at(1,-1){$y[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
     \draw[->] (D) -- (B);
 \end{tikzpicture}
 \begin{tikzpicture}
     \node [](A) at (0,0){$x[n]$};
-    \node [draw, fill=black!15,circle,plus,thick,minimum width=.5 cm](B) at (1,0){}; 
-    \node [](C) at(2,0){$z[n]$}; 
+    \node [draw, fill=black!15,circle,plus,thick,minimum width=.5 cm](B) at (1,0){};
+    \node [](C) at(2,0){$z[n]$};
     \node [](D) at(1,-1){$y[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
     \draw[->] (D) -- (B);
 \end{tikzpicture}
 \end{center}
-Other $1$-input, $1$-output discrete-time systems were the \emph{multiplier}, the \emph{unit delay} and the \emph{unit advance} we previously encountered in Section~\ref{sec:operationsOnSequences}. 
+Other $1$-input, $1$-output discrete-time systems were the \emph{multiplier}, the \emph{unit delay} and the \emph{unit advance} we previously encountered in Section~\ref{sec:operationsOnSequences}.
 
 In addition, multiple elementary operators may be combined together to form a much-more-complex discrete-time system. As an example, consider the one-input one-output discrete-time system in Figure~\ref{tikz:moreComplexDiscreteTimeSystem}.
 \begin{figure*}
@@ -882,7 +882,7 @@ Median filters are very good at removing both \emph{shot noise} (impulse-like no
 
 \section{Linear interpolation}
 
-The \textbf{linear interpolation} is a technique that is adopted to estimate sample values between pairs of adjacent sample values of a discrete-time sequence. To perform that, additional samples are added in-between two adjacent values (upsampling), and then a further interpolation technique is adopted by means of \emph{linearly connecting the values}. 
+The \textbf{linear interpolation} is a technique that is adopted to estimate sample values between pairs of adjacent sample values of a discrete-time sequence. To perform that, additional samples are added in-between two adjacent values (upsampling), and then a further interpolation technique is adopted by means of \emph{linearly connecting the values}.
 
 The linear interpolation can be expressed as in Figure~\ref{tikz:linearInterpolationFactorFour}
 
@@ -1039,7 +1039,7 @@ A \textbf{Nonlinear Discrete-time System} is any system that does not comply wit
     \{x_2[n]\} = \{2,-1,-1\}, 0 \leq n \leq 2 &\longrightarrow \{y_2[n]\}=\{0,-1,-1\}, 0 \leq n \leq 2,\\
     \{x[n]\} = \{x_1[n] + x_2[n]\} &\longrightarrow \{y[n]\}=\{3,4,3\}
 \end{align*}
-but 
+but
 \[\{y_1[n] + y_2[n]\} = \{3, 3, 3\}\]
 which is different from $\{y[n]\}$; hence, the median filter is a nonlinear discrete-time system, for which the superposition principle doesn't apply.
 
@@ -1051,7 +1051,7 @@ Any \textbf{Shift-Invariant System} is a system for which if the response to an 
 
 The above relationship must hold for any arbitrary input and its corresponding input. This means that by simply shifting the input sequence one obtains an output sequence which is shifted as well, by the same quantity as the shift of the input sequence.
 
-Time-invariance property ensures that---for a specified input---the output is independent of the time the input is being applied. 
+Time-invariance property ensures that---for a specified input---the output is independent of the time the input is being applied.
 
 As an example of a \textbf{non}-complying system, consider an up-sampler with an input-output relationship given by
 \[
@@ -1398,7 +1398,7 @@ with $h_1[n]$ and $h_2[n]$ impulse responses of, respectively, the first and the
 
 \subsection{Streamlining the Interconnection Sche-mes}
 
-Rules for cascade and parallel configurations can be chained together to simplify an interconnection scheme composed of multiple cascade and parallel systems. Indeed, consider as an example the discrete-time system 
+Rules for cascade and parallel configurations can be chained together to simplify an interconnection scheme composed of multiple cascade and parallel systems. Indeed, consider as an example the discrete-time system
 \begin{align*}
     h_1[n] &= \delta[n] + 0.5\delta[n-1]\\
     h_2[n] &= 0.5\delta[n] - 0.25\delta[n-1]\\
@@ -1513,7 +1513,7 @@ An LTI discrete-time system is BIBO stable \emph{if and only if} its impulse res
 \end{thm}
 
 \begin{proof}
-    Let the impulse response $h[n]$ being a real sequence. Since the input sequence $x[n]$ is bounded, one has that $|x[n]| \leq B_x < \infty$. Therefore, magnitude of the output will be 
+    Let the impulse response $h[n]$ being a real sequence. Since the input sequence $x[n]$ is bounded, one has that $|x[n]| \leq B_x < \infty$. Therefore, magnitude of the output will be
     \begin{align}
         |y[n]| &= \left| \sum_{k=-\infty}^\infty h[k]x[n-k]\right| \\
                &\leq \sum_{k=-\infty}^\infty |h[k]||x[n-k]| \\
@@ -1522,13 +1522,13 @@ An LTI discrete-time system is BIBO stable \emph{if and only if} its impulse res
     \end{align}
     two quantities that are indeed bounded.
 
-    To prove the inverse relation, the most straightforward way is to simply consider a bounded output $y[n]$, so that \[|y[n]| \leq B_y.\] Let the input signal be 
+    To prove the inverse relation, the most straightforward way is to simply consider a bounded output $y[n]$, so that \[|y[n]| \leq B_y.\] Let the input signal be
 \[
     x[n] = \left\{ \begin{array}{lc} \mbox{sgn} (h[-n]), & \mbox{ if } h[-n] \neq 0 \\ K, & \mbox{ if } h[-n] = 0\end{array}\right.,
 \]
 where the function $\mbox{sgn}(c) = +1$ if $c > 0$ and $\mbox{sgn}(c) = -1$ in the opposite case of $c<0$, and $|K| \leq 1$. The sequence $x[n]$ is bounded, since for each and every of its samples its value is limited.
 
-For this peculiar input, the output $y[n]$ at $n=0$ will be 
+For this peculiar input, the output $y[n]$ at $n=0$ will be
 \[
     y[0] = \sum_{k=-\infty}^\infty \mbox{sgn}(h[k])h[k] = \mathcal S \leq B_y < \infty,
 \]
@@ -1658,7 +1658,7 @@ The output $y[n]$ of a FIR LTI discrete-time system can be computed directly fro
 If the impulse response is of infinite length, the corresponding system is known as an \textbf{infinite impulse response (IIR)}, a concept that it is opposed to the FIR one. The class of the IIR systems are characterized by a linear constant coefficient difference equations, and for this reason it cannot be computed by means of a convolution sum. Examples of IIR systems are the accumulator, which as we already know, is defined by
 \[
     y[n] = y[n-1] + x[n]
-\] 
+\]
 which is clearly a linear constant coefficient difference equation yielding a recursion system.
 
 \subsubsection{Classification based on output calculation process}
@@ -1677,7 +1677,7 @@ Even coefficients nature plays a role into sequences classification. As coeffici
 
 \section{Correlation of signals}
 
-In general, the \textbf{correlation of two signals} or waveforms is defined as the measure of \emph{similarity} between those signals. There are many applications in which it might be necessary to \emph{compare} one reference signal with one or more signals to determine the similarity between the pair, and ultimately to determine additional information based off the similarity. 
+In general, the \textbf{correlation of two signals} or waveforms is defined as the measure of \emph{similarity} between those signals. There are many applications in which it might be necessary to \emph{compare} one reference signal with one or more signals to determine the similarity between the pair, and ultimately to determine additional information based off the similarity.
 
 To name one, in digital communications a set of data symbols in a predetermined alphabet are represented by a set of unique discrete-time sequences that codify them. If one of these sequences has been transmitted, the receiver has to determined \emph{which particular sequence has been received}, and it does so by \emph{comparing the received signal with every member of possible sequences from the set}. In such an application, the correlation of two sequences comes in handy, as it is a measure of similarity---the more the similar two sequences are, the more probable a received sequence codifies a certain symbol in the alphabet.
 
@@ -1723,7 +1723,7 @@ What happens now if one performs a cross-correlation between two signals that ar
 A peculiar remark of the autocorrelation is that its value at time instant $0$ is equal to the total energy of the signal $x[n]$. That is,
 
 \begin{predicate}[Equivalence between autocorrelation and energy]
-    Let $x[n]$ be an energy signal and $r_{xx}[l]$ be the autocorrelation function of $x$. Then, 
+    Let $x[n]$ be an energy signal and $r_{xx}[l]$ be the autocorrelation function of $x$. Then,
     \begin{equation}\label{eqn:equivalenceAutocorrelationEnergy}
         r_{xx}[0] = \mathcal E_x.
     \end{equation}
@@ -1745,7 +1745,7 @@ Let $x[n]$ and $y[n]$ be two energy sequences. The energy of the combined sequen
     \sum_{n=-\infty}^\infty (\alpha x[n] + y[n-l])^2 &= \underbrace{\alpha^2 \sum_{n=-\infty}^\infty x^2[n]}_{\mathcal E_x} + \underbrace{2\alpha \sum_{n=-\infty}^\infty x[n] y[n-l]}_{cross-correlation}\\ &+ \underbrace{\sum_{n=-\infty}^\infty y^2[n-l]}_{\mathcal E_y} \geq 0.
 \end{align*}
 
-This means that 
+This means that
 \[
     \alpha^2 r_{xx}[0] + 2\alpha r_{xy}[l] + r_{yy}[0] \geq 0,
 \]
@@ -1836,7 +1836,7 @@ The correlation sequences have a distinct formula for periodic signals as well. 
     \end{equation}
 \end{defin}
 
-Both quantities, as expected, are evaluated in a single period of the involved sequences. They will produce periodic signals, therefore both cross-correlation $r_{xy}[l]$ and $r_{xx}[l]$ are \emph{periodic signals of period $N$}. The periodicity property of the autocorrelation sequence can be exploited to determine the period of any periodic signal that might be affected by an additive random noise. Periodic signals affected by random noise will lose their periodicity, as the impredictable and random nature of the noise will inevitably lead to a non-periodic signal. 
+Both quantities, as expected, are evaluated in a single period of the involved sequences. They will produce periodic signals, therefore both cross-correlation $r_{xy}[l]$ and $r_{xx}[l]$ are \emph{periodic signals of period $N$}. The periodicity property of the autocorrelation sequence can be exploited to determine the period of any periodic signal that might be affected by an additive random noise. Periodic signals affected by random noise will lose their periodicity, as the impredictable and random nature of the noise will inevitably lead to a non-periodic signal.
 
 Indeed, it is sufficient to evaluate the autocorrelation for a disturbed signal $w[n] = x[n] + d[n]$, with $x$ original signal and $d$ additive noise, and evaluate the autocorrelation for signal $w[n]$. If $w$ is composed of $M-1$ samples (that is, we collected $M$ samples of $w$, from $0 \leq n \leq M-1$) and $M \ll N$, it is possible to capture the period of $x$ by computing the autocorrelation of $w[n]$. In fact,
 \begin{align*}
@@ -1901,7 +1901,7 @@ Variable $\omega$ is real, and denotes the continuous-time angular frequency in 
 \begin{equation}\label{eqn:continuousTimeFourierTransformPolar}
     X_a(j\omega) = \left|X_a(j\omega)\right|e^{j\theta_a(\omega)},
 \end{equation}
-where the function 
+where the function
 \begin{equation}\label{eqn:continuousTimeFourierTransformPolarTheta}
     \theta_a(\omega)=\arg\{X_a(j\omega)\}
 \end{equation}
@@ -1978,7 +1978,7 @@ which leads to the thesis,
 \]
 \end{proof}
 
-The quantity $\left|X(j\omega)\right|^2$ is called \textbf{energy density spectrum} of the signal $x(t)$ and it is often denoted as 
+The quantity $\left|X(j\omega)\right|^2$ is called \textbf{energy density spectrum} of the signal $x(t)$ and it is often denoted as
 \begin{equation}\label{eqn:energyDensitySpectrum}
     \mathcal S_{xx}(\omega)=\left|X(j\omega)\right|^2.
 \end{equation}
@@ -2214,7 +2214,7 @@ From $X_K$ follows the concept of \emph{uniform convergence} of $X(e^{j\omega})$
 
 A sufficient condition for the existence of a discrete-time Fourier Transform is given by the following Theorem,
 \begin{thm}[Existence of discrete-time Fourier Transform]
-    Let $x[n]$ be an \emph{absolutely summable} sequence such that 
+    Let $x[n]$ be an \emph{absolutely summable} sequence such that
     \[
         \sum_{n=-\infty}^{\infty}|x[n]| < \infty
     \]
@@ -2237,7 +2237,7 @@ Let $x[n] = \alpha^n \mu[n]$ for $|\alpha| < 1$. The sequence is absolutely summ
 \]
 and its discrete-time Fourier Transform will converge uniformly to $\frac{1}{1-\alpha e^{-j\omega}}$ as a consequence. We have already met this scenario in Section~\ref{sec:someExamplesDTFT}.
 
-Absolutely summable sequences will always possess finite energy. Indeed, this is because 
+Absolutely summable sequences will always possess finite energy. Indeed, this is because
 \[
     \sum_{n=-\infty}^\infty |x[n]|^2 \leq \left(\sum_{n=-\infty}^\infty |x[n]|\right)^2,
 \]
@@ -2881,7 +2881,7 @@ Along with the DFT, the \textbf{Inverse Discrete Fourier Transform} should be de
     x[k] = \sum_{k=0}^{N-1} X[k] W_N^{-kn}, 0 \leq n \leq N-1,
 \end{equation}
 expressed under the new notation\footnote{
-    The original Discrete Fourier Transform---without employing the new notation---would be 
+    The original Discrete Fourier Transform---without employing the new notation---would be
     \[
         x[k] = \sum_{k=0}^{N-1} X[k] e^{2j\pi\frac{kn}{N}}, 0 \leq n \leq N-1,
     \]
@@ -2907,7 +2907,7 @@ due to the exponentiation properties. In order to verify that, just substitute w
 
 The first example in exam is a DFT of the following sequence of length $N$,
 \[
-    x[n] = \left\{\begin{array}{ll} 
+    x[n] = \left\{\begin{array}{ll}
             1 & n=0\\
             0 & 1 \leq n \leq N-1
         \end{array}\right.
@@ -2919,7 +2919,7 @@ that is quite similar to the delta impulse. Its $N$-point Discrete Fourier Trans
 
 The second example is of a sequence
 \[
-    y[n] = \left\{\begin{array}{ll} 
+    y[n] = \left\{\begin{array}{ll}
             1 & n=m\\
             0 & 0\leq n \leq m-1, m+1 \leq n \leq N-1
         \end{array}\right.
@@ -3003,27 +3003,27 @@ r = 3; n = 0:N-1;  u = cos(2*pi*r*n/N);
 U = fft(u,M);
 figure(1);
 subplot(2,3,1);   n = 0:1:N-1;   stem(n,u);
-title('Original time-domain sequence'); 
+title('Original time-domain sequence');
 xlabel('Time index n'); ylabel('Amplitude')
 subplot(2,3,2);   k = 0:1:M-1;   stem(k,abs(U));
-title('Magnitude, r = 3'); 
+title('Magnitude, r = 3');
 xlabel('Frequency index k'); ylabel('Magnitude')
 subplot(2,3,3);   stem(k,angle(U));
-title('Phase, r = 3'); 
+title('Phase, r = 3');
 xlabel('Frequency index k'); ylabel('Phase')
 \end{verbatim}
 
 \begin{verbatim}
-r = 3.3; n = 0:N-1;  u = cos(2*pi*r*n/N); 
+r = 3.3; n = 0:N-1;  u = cos(2*pi*r*n/N);
 U = fft(u,M);
 subplot(2,3,4);   n = 0:1:N-1;   stem(n,u);
-title('Original time-domain sequence'); 
+title('Original time-domain sequence');
 xlabel('Time index n'); ylabel('Amplitude')
 subplot(2,3,5);   k = 0:1:M-1;   stem(k,abs(U));
-title('Magnitude, r = 3.3'); 
+title('Magnitude, r = 3.3');
 xlabel('Frequency index k'); ylabel('Magnitude')
 subplot(2,3,6);   stem(k,angle(U));
-title('Phase, r = 3.3'); 
+title('Phase, r = 3.3');
 xlabel('Frequency index k'); ylabel('Phase')
 \end{verbatim}
 
@@ -3045,27 +3045,27 @@ u = [1 zeros(1,N-1)];
 U = fft(u,M);
 figure(1);
 subplot(2,3,1);   n = 0:1:N-1;   stem(n,u);
-title('Impulse in zero'); 
+title('Impulse in zero');
 xlabel('Time index n'); ylabel('Amplitude')
 subplot(2,3,2);   k = 0:1:M-1;   stem(k,abs(U));
-title('Magnitude'); 
+title('Magnitude');
 xlabel('Frequency index k'); ylabel('Magnitude')
 subplot(2,3,3);   stem(k,angle(U));
-title('Phase'); 
+title('Phase');
 xlabel('Frequency index k'); ylabel('Phase')
 \end{verbatim}
 
 \begin{verbatim}
-u = [zeros(1,4) 1 zeros(1,N-5)]; 
+u = [zeros(1,4) 1 zeros(1,N-5)];
 U = fft(u,M);
 subplot(2,3,4);   n = 0:1:N-1;   stem(n,u);
-title('Delayed impulse'); 
+title('Delayed impulse');
 xlabel('Time index n'); ylabel('Amplitude')
 subplot(2,3,5);   k = 0:1:M-1;   stem(k,abs(U));
-title('Magnitude'); 
+title('Magnitude');
 xlabel('Frequency index k'); ylabel('Magnitude')
 subplot(2,3,6);   stem(k,angle(U));
-title('Phase'); 
+title('Phase');
 xlabel('Frequency index k'); ylabel('Phase')
 \end{verbatim}
 
@@ -3116,7 +3116,7 @@ The concept of infinite replicas is related to the fact that, in order to comput
 
 When applying Equation~\ref{eqn:dftInfiniteReplicas} to finite-length sequences, one assumes that the samples outside the specified range are all zeros (like in zero-padding). Hence, if $x[n]$ is a sequence of length $M$ with $M \leq N$, then the sequence $y[n] = x[n]$ for all values $0 \leq n \leq N-1$. This behavior results from the fact that $N$ samples are more than what is needed ($M$ samples are needed to describe the original sequence $x[n]$). On contrary, in the opposite case of $M > N$ there is a so called \emph{time-domain aliasing} of samples of the sequence $x[n]$ in generating $y[n]$, with the end result that $x[n]$ cannot be recovered anymore from $y[n]$.
 
-Suppose one has the sequence 
+Suppose one has the sequence
 \[\{x[n]\} = \begin{Bmatrix} \underset{\uparrow}{0} & 1 & 2 & 3 & 4 & 5\end{Bmatrix}\]
 of length $M=6$. By sampling its Discrete-time Fourier Transform $X(e^{j\omega})$ at samples $\omega_k = \frac{2\pi k}{4}, 0 \leq k \leq 3$ and then applying a $4$-point Discrete Fourier Transform to these samples, one gets the sequence $y[n]$
 \[
@@ -3129,7 +3129,7 @@ that is
 
 It is clear that from this sequence it is impossible to recover the original sequence $x[n]$---this behavior is induced by the choice of $N=4$, less than what would be required $N\leq M = 6$ in order to recover the original sequence.
 
-Let now 
+Let now
 \[
     \{x[n]\} = \begin{Bmatrix} 3 & 4&  5&  6&  7\end{Bmatrix},
 \]
@@ -3158,14 +3158,14 @@ Let $X(e^{j\omega})$ be the DTFT of a sequence $x[n]$ of length $N$---one wants 
 The dense grid of frequencies is one of the ways in which a computation of a continuous-domain function can occur with calculators. Since it is impossible to compute all the infinite points in a real number interval, it is often enough to compute a great number of them so that the computed function appears almost continuous.
 } $\omega_k = 2\pi \frac k M, 0 \leq k \leq M-1$ where the quantity $M \gg N$. In formulas,
 \begin{align*}
-    X(e^{j\omega}) 
+    X(e^{j\omega})
     &= \sum_{n=0}^{N-1} x[n] e^{-j\omega_k n}\\
     &= \sum_{n=0}^{N-1} x[n] e^{-j2\pi \frac{kn}{M}}.
 \end{align*}
 
 Now, the original sequence of length $N$; since $M\gg N$, in order to avoid aliasing phenomena, one has to define a new \emph{extended sequence} $x_e[n]$ whose length is $M$ and it is extended by zero-padding from sample $N$ to sample $M-1$:
 \[
-    x_e[n] = 
+    x_e[n] =
 \left\{
     \begin{array}{ll}
         x[n] & 0 \leq n \leq N-1\\
@@ -3195,7 +3195,7 @@ Due to the periodic nature of the complex exponential, both the Discrete Fourier
 \end{align*}
 and the inverse holds
 \begin{align*}
-    x[n+N] 
+    x[n+N]
     &= \frac 1 N \sum_{k=0}^{N-1}X[k] e^{j2\pi \frac{k(n+N)}{N}}\\
     &= \frac 1 N \sum_{k=0}^{N-1}X[k] e^{j2\pi \frac{kn}{N}}\underbrace{e^{j2\pi k}}_{=1}\\
     &= \frac 1 N \sum_{k=0}^{N-1}X[k] e^{j2\pi \frac{kn}{N}}\\
@@ -3351,7 +3351,7 @@ The time-reversal operation on a finite-length sequence is obtained by means of 
     r = \langle m \rangle_N = m \mod N
 \end{equation}
 is called the \textbf{residue}. The residue $r$ is an integer whose value is between $0$ and $N-1$ (as the modulo operation yields). We will denote the modulo operation with the notation \[ \langle m \rangle_N = m \mod N. \] Due to modulo properties, if $r = \langle m \rangle_N$ then $r = m + lN$, where $l \in \Z$ such that $0 \leq m + lN \leq N-1$.
-As an example, let $N=7$ and $m = 25$: one has 
+As an example, let $N=7$ and $m = 25$: one has
 \[
     r = 25 + 7l = 25 - 7 \times 3 = 4
 \]
@@ -3380,7 +3380,7 @@ As an example, consider the sequence in Figure~\ref{tikz:circularTimeReversal}, 
     \end{center}\caption{The \emph{circular time-reversal} technique. The output sequence is a reversed original copy, except for the sample at the origin which remains in place.}\label{tikz:circularTimeReversal}
 \end{figure}
 
-Basically, the circular time-reversal is a special kind of time-reversal in which the ``position'' from $0$ to $N-1$ of the original sequence is preserved, whilst its samples are almost totally reversed, with the sole exception of the sample at the origin. A sequence like 
+Basically, the circular time-reversal is a special kind of time-reversal in which the ``position'' from $0$ to $N-1$ of the original sequence is preserved, whilst its samples are almost totally reversed, with the sole exception of the sample at the origin. A sequence like
 \[
     \begin{matrix} -1 & 7 & 5 & 9 & 4 & -12\end{matrix}
 \]
@@ -3398,7 +3398,7 @@ Let $x[n]$ be a sequence possessing length $N$, defined for $0 \leq n \leq N-1$-
 \end{equation}
 with $x_c[n]$ also being a length-$N$ sequence defined for the same time instants $0\leq n \leq N-1$ as the original sequence. For $n_0 > 0$ one performs a \emph{right circular shift}---the above equation implies that the new sequence is defined as such
 \[
-    x_c[n] = 
+    x_c[n] =
     \left\{
         \begin{array}{ll}
             x[n-n_0] & n_0 \leq n \leq N-1\\
@@ -3417,7 +3417,7 @@ Figuring out the implications of the above system can be tricky---Figure~\ref{ti
 
         \foreach \x in {0,1,...,5}
             \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
-        
+       
         \draw[-stealth] (-.25,1.6) .. controls (-.25,1.6) and (1.5,1.6) .. (1.5,1.6);
         \draw[-Circle] (0*0.25,0) -- (0*0.25,1*0.25);
         \draw[-Circle] (1*0.25,0) -- (1*0.25,2*0.25);
@@ -3434,7 +3434,7 @@ Figuring out the implications of the above system can be tricky---Figure~\ref{ti
 
         \foreach \x in {0,1,...,5}
             \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
-        
+       
         \draw[-stealth] (5*.25,1.6) .. controls (+1.25,1.6) and (1,1.9) .. (0,1.6);
         \draw[-stealth] (+.25,1.5) .. controls (+.25,1.5) and (1,1.5) .. (1,1.5);
         \draw[-Circle] (0*0.25,0) -- (0*0.25,6*0.25);
@@ -3452,7 +3452,7 @@ Figuring out the implications of the above system can be tricky---Figure~\ref{ti
 
         \foreach \x in {0,1,...,5}
             \draw (\x*0.25 cm,1pt) -- (\x*0.25 cm,-1pt) node[anchor=north] {$\x$};
-        
+       
         \draw[-stealth] (1,1.5) .. controls (1,1.5) and (1.25,1.5) .. (1.25,1.5);
         \draw[-stealth] (5*.25,1.6) .. controls (+1.25,1.6) and (1,1.9) .. (0,1.6);
         \draw[-stealth] (0,1.5) .. controls (0,1.5) and (.65,1.5) .. (.65,1.5);
@@ -3530,7 +3530,7 @@ Just like the linear convolution sum, the circular convolution is commutative, w
     g[n] \encircle{N} h[n] = h[n] \encircle{N} g[n].
 \]
 
-As an example, consider the following 
+As an example, consider the following
 \begin{align*}
     \{g[n]\} &= \begin{Bmatrix} \underset{\uparrow}{1} & 2 & 0 & 1\end{Bmatrix}\\
     \{h[n]\} &= \begin{Bmatrix} \underset{\uparrow}{2} & 2 & 1 & 1\end{Bmatrix}
@@ -3615,12 +3615,234 @@ obtaining the output sequence
         \node at (3*0.5+.15, 5*0.5+.15) {$5$};
     \end{tikzpicture},
 \end{center}
-a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
+a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it, with the number of sums that is related to the length of both original sequences; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
 
 Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c).
 
+Of course, performing the circular convolution straightforwardly is not the only available way to gauge the problem---another method is to jump into the frequency domain and then performing a product between DFTs, as the convenient rule expressed in Table~\ref{tab:discreteFourierTransformPropertiesAndTheorems3} declares. Let $g[n]$ and $h[n]$ be the same sequences as in the ealier example. The $4$-point DFT $G[k]$ of $g[n]$ is soon obtained by
+\begin{align*}
+    G[k] &= g[0] + g[1] e^{-j2\pi \frac k 4} \\
+         &+ g[2]e^{-j4\pi \frac k 4} + g[3] e^{-j6\pi \frac k 4}\\
+         &= 1 + 2e^{-j\pi \frac k 2} + e^{-j3\pi \frac k 2},
+\end{align*}
+for values $0 \leq k \leq 3$. Hence,
+\begin{align*}
+    G[0] &= 1 + 2 + 1 = 4\\
+    G[1] &= 1 - j2 + j = 1 - j\\
+    G[2] &= 1 - 2 - 1 = -2\\
+    G[3] &= 1 + j2 - j = 1 + j\\
+\end{align*}
 
+Correspondingly,
+\begin{align*}
+    H[k] &= h[0] + h[1] e^{-j2\pi \frac k 4} \\
+         &+ h[2]e^{-j4\pi \frac k 4} + h[3] e^{-j6\pi \frac k 4}\\
+         &= 2 + 2e^{-j\pi \frac k 2} + e^{-j\pi k} + e^{-j3\pi \frac k 2},
+\end{align*}
+again for values $0 \leq k \leq 3$. Thus,
+\begin{align*}
+    H[0] &= 2 + 2 + 1 + 1 = 6\\
+    H[1] &= 2 - j2 - 1 + j = 1 - j\\
+    H[2] &= 2 - 2 + 1 - 1 = 0\\
+    H[3] &= 2 + j2 - 1 - j = 1 + j\\
+\end{align*}
 
+Another way to obtain the very outcome would have been by employing the \emph{DFT matrices}, that is
+\begin{equation*}
+    \begin{bmatrix} G[0] \\ G[1] \\ G[2] \\ G[3] \end{bmatrix}
+        =
+        \bm{D}_4
+        \begin{bmatrix} g[0] \\ g[1] \\ g[2] \\ g[3] \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 & 1 & 1 \\
+            1 & -j & -1 & j \\
+            1 & -1 & 1 & -1 \\
+            1 & j & -1 & -j
+        \end{bmatrix}
+        \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \end{bmatrix}
+        =
+        \begin{bmatrix}
+            4 \\
+            1 - j \\
+            -2 \\
+            1 + j
+        \end{bmatrix}
+\end{equation*}
+
+and
+
+\begin{equation*}
+    \begin{bmatrix} H[0] \\ H[1] \\ H[2] \\ H[3] \end{bmatrix}
+        =
+        \bm{D}_4
+        \begin{bmatrix} h[0] \\ h[1] \\ h[2] \\ h[3] \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 & 1 & 1 \\
+            1 & -j & -1 & j \\
+            1 & -1 & 1 & -1 \\
+            1 & j & -1 & -j
+        \end{bmatrix}
+        \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \end{bmatrix}
+        =
+        \begin{bmatrix}
+            4 \\
+            1 - j \\
+            -2 \\
+            1 + j
+        \end{bmatrix}
+\end{equation*}
+
+Let $Y_C[k]$ denote the $4$-point DFT of sequence $y_C[n]$; from Table~\ref{tab:discreteFourierTransformPropertiesAndTheorems3} one has that the circular convolution is simply the product between the two transforms, that is
+\[
+    Y_C[k] = G[k]H[k], 0 \leq k \leq 3.
+\]
+
+Then, it's quick to perform
+\begin{equation*}
+    \begin{bmatrix}
+        Y_C[0] \\
+        Y_C[1] \\
+        Y_C[2] \\
+        Y_C[3]
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        G[0]H[0] \\
+        G[1]H[1] \\
+        G[2]H[2] \\
+        G[3]H[3]
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        24 \\
+        -j2 \\
+        0 \\
+        j2
+    \end{bmatrix}
+\end{equation*}
+
+Now, to finish off the procedure it only remains to invert the Fourier Transform and to obtain the final sequence $y_C[n]$:
+\begin{equation*}
+    \begin{bmatrix}
+        y_C[0] \\
+        y_C[1] \\
+        y_C[2] \\
+        y_C[3]
+    \end{bmatrix}
+    =
+    \frac 1 4 \bm{D}^*_4
+    \begin{bmatrix}
+        Y_C[0] \\
+        Y_C[1] \\
+        Y_C[2] \\
+        Y_C[3]
+    \end{bmatrix}
+    =
+    \frac 1 4
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 \\
+        1 & -j & -1 & j \\
+        1 & -1 & 1 & -1 \\
+        1 & j & -1 & -j
+    \end{bmatrix}
+    \begin{bmatrix}
+        24 \\
+        -j2 \\
+        0 \\
+        j2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        6 \\
+        7 \\
+        6 \\
+        5,
+    \end{bmatrix}
+\end{equation*}
+that is the following sequence
+\begin{center}
+    \begin{tikzpicture}
+        \node[] at (2,3.2) {$y_C[n]$};
+        \draw[-stealth] (-.2,0) -- (2.2,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,3}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {$\x$};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,6*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,7*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,6*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,5*0.5);
+        \node at (0*0.5+.15, 6*0.5+.15) {$6$};
+        \node at (1*0.5+.15, 7*0.5+.15) {$7$};
+        \node at (2*0.5+.15, 6*0.5+.15) {$6$};
+        \node at (3*0.5+.15, 5*0.5+.15) {$5$};
+    \end{tikzpicture},
+\end{center}
+which is equal to the one obtained by performing the circular convolution through the time domain.
+
+\subsection{Mimicking the linear operations}
+All circular operations we met are very similar to the original linear ones, save they have been designed with the modulo operation. Modulo operation modifies the nature of all operations, inducing a circular behavior that is repeated in the domain.
+
+Although the modulo operation drastically changes the nature of the above operations, they all can be used to ``emulate'' the linear operations.
+
+To do so, it is enough to apply a zero-padding with many zeros, enough to render all circular effects irrelevant. At heart, one can add zeroes to the left and the right of the original sequence to induce a behavior that is essentially a linear one, because the modulo operation will barely act since the length of the new zero-padded signal is drastically increased. This is in behalf of the fact that when performing modulo-based operation with zero-padded sequences zeros will enter, rather than circular values of the original sequence.
+
+A practical example would be to perform a pseudo-linear convolution out of a circular convolution by extending with zero-padding the two length-$4$ sequences to length $7$:
+\[
+    g_e[n] = 
+    \left\{\begin{array}{ll}
+    g[n] & 0 \leq n \leq 3\\
+    0 & 4 \leq n \leq 6
+    \end{array}
+    \right.,
+\]
+
+When performing the $7$-point circular convolution of the two, extended, sequences,
+\[
+    y[n] = \sum_{l=0}^6 g_e[l] h_e[\langle n - l \rangle_7], 0 \leq n \leq 6,
+\]
+one gets
+\begin{align*}
+    y[0] 
+    &= g_e[0]h_e[0] + g_e[1]h_e[6] + g_e[2]h_e[5]\\
+    &+ g_e[3]h_e[4] + g_e[4]h_e[3] + g_e[5]h_e[2]\\
+    &+ g_e[6]h_e[1] = g[0]h[0] = 1 \times 2 = 2
+\end{align*}
+
+If one keeps on doing the process for all samples he gets
+\begin{align*}
+    y[1] &= g_e[0]h_e[1] + g_e[1]h_e[0] = 1 \times 2 + 2 \times 2 = 6\\
+    y[2] &= g_e[0]h_e[2] + g_e[1]h_e[1] + g_e[2] h_e[0] = 1 \times 1 + 2 \times 2 + 0 \times 2 = 5\\
+    y[3] &= g_e[0]h_e[3] + g_e[1]h_e[2] + g_e[2] h_e[1] g_e[3]h_3[0] = 1 \times 1 + 2 \times 1 + 0 \times 2 + 1 \times 2 = 5\\
+    y[4] &= g_e[1]h_e[3] + g_e[2]h_e[2] + g_e[3] h_e[1] = 2 \times 1 + 0 \times 2 + 1 \times 2 = 4\\
+    y[5] &= g_e[2]h_e[3] + g_e[3]h_e[2] = 0 \times 1 + 1 \times 1 = 1\\
+    y[6] &= g_e[3]h_e[3] = 1 \times 1 = 1
+\end{align*}
+which has the following stem plot
+\begin{center}
+    \begin{tikzpicture}
+        \node[] at (3.7,3.2) {$y_L[n]$};
+        \draw[-stealth] (-.2,0) -- (4.2,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,6}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {$\x$};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,2*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,6*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,5*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,5*0.5);
+        \draw[-{Circle[open]}] (4*0.5,0) -- (4*0.5,4*0.5);
+        \draw[-{Circle[open]}] (5*0.5,0) -- (5*0.5,1*0.5);
+        \draw[-{Circle[open]}] (6*0.5,0) -- (6*0.5,1*0.5);
+        \node at (0*0.5+.15, 2*0.5+.15) {$2$};
+        \node at (1*0.5+.15, 6*0.5+.15) {$6$};
+        \node at (2*0.5+.15, 5*0.5+.15) {$5$};
+        \node at (3*0.5+.15, 5*0.5+.15) {$5$};
+        \node at (4*0.5+.15, 4*0.5+.15) {$4$};
+        \node at (5*0.5+.15, 1*0.5+.15) {$1$};
+        \node at (6*0.5+.15, 1*0.5+.15) {$1$};
+    \end{tikzpicture}
+\end{center}
+
+Emulation of linear sequences is beneficial when one explicitly wants to perform linear operations adopting the DFT, especially in the Fast Fourier Transform algorithm form.
 
 
 \include{references}
