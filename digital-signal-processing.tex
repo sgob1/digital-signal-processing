@@ -2769,7 +2769,7 @@ which are enough to produce a plot of the desired unwrapped phase function of \t
 \end{figure}
 Undeniably, the unwrapped representation remains imperative when plotting phase spectra.
 
-\subsection{The Convolution Theorem}
+\subsection{The Convolution Theorem}\label{sec:convolutionTheorem}
 
 The discrete-time Fourier transform (DTFT) is a form of Fourier analysis that is applicable to a sequence of values.
 
@@ -3780,7 +3780,7 @@ that is the following sequence
 \end{center}
 which is equal to the one obtained by performing the circular convolution through the time domain.
 
-\subsection{Mimicking the linear operations}
+\subsection{Mimicking the linear operations}\label{sec:mimickingLinearOperations}
 All circular operations we met are very similar to the original linear ones, save they have been designed with the modulo operation. Modulo operation modifies the nature of all operations, inducing a circular behavior that is repeated in the domain.
 
 Although the modulo operation drastically changes the nature of the above operations, they all can be used to ``emulate'' the linear operations.
@@ -3788,14 +3788,20 @@ Although the modulo operation drastically changes the nature of the above operat
 To do so, it is enough to apply a zero-padding with many zeros, enough to render all circular effects irrelevant. At heart, one can add zeroes to the left and the right of the original sequence to induce a behavior that is essentially a linear one, because the modulo operation will barely act since the length of the new zero-padded signal is drastically increased. This is in behalf of the fact that when performing modulo-based operation with zero-padded sequences zeros will enter, rather than circular values of the original sequence.
 
 A practical example would be to perform a pseudo-linear convolution out of a circular convolution by extending with zero-padding the two length-$4$ sequences to length $7$:
-\[
-    g_e[n] = 
+\begin{align*}
+    g_e[n] &= 
     \left\{\begin{array}{ll}
     g[n] & 0 \leq n \leq 3\\
     0 & 4 \leq n \leq 6
     \end{array}
+    \right.,\\
+    h_e[n] &= 
+    \left\{\begin{array}{ll}
+    h[n] & 0 \leq n \leq 3\\
+    0 & 4 \leq n \leq 6
+    \end{array}
     \right.,
-\]
+\end{align*}
 
 When performing the $7$-point circular convolution of the two, extended, sequences,
 \[
@@ -3812,9 +3818,12 @@ one gets
 If one keeps on doing the process for all samples he gets
 \begin{align*}
     y[1] &= g_e[0]h_e[1] + g_e[1]h_e[0] = 1 \times 2 + 2 \times 2 = 6\\
-    y[2] &= g_e[0]h_e[2] + g_e[1]h_e[1] + g_e[2] h_e[0] = 1 \times 1 + 2 \times 2 + 0 \times 2 = 5\\
-    y[3] &= g_e[0]h_e[3] + g_e[1]h_e[2] + g_e[2] h_e[1] g_e[3]h_3[0] = 1 \times 1 + 2 \times 1 + 0 \times 2 + 1 \times 2 = 5\\
-    y[4] &= g_e[1]h_e[3] + g_e[2]h_e[2] + g_e[3] h_e[1] = 2 \times 1 + 0 \times 2 + 1 \times 2 = 4\\
+    y[2] &= g_e[0]h_e[2] + g_e[1]h_e[1] + g_e[2] h_e[0]\\ 
+         &= 1 \times 1 + 2 \times 2 + 0 \times 2 = 5\\
+    y[3] &= g_e[0]h_e[3] + g_e[1]h_e[2] + g_e[2] h_e[1] g_e[3]h_3[0]\\ 
+         &= 1 \times 1 + 2 \times 1 + 0 \times 2 + 1 \times 2 = 5\\
+    y[4] &= g_e[1]h_e[3] + g_e[2]h_e[2] + g_e[3] h_e[1]\\ 
+         &= 2 \times 1 + 0 \times 2 + 1 \times 2 = 4\\
     y[5] &= g_e[2]h_e[3] + g_e[3]h_e[2] = 0 \times 1 + 1 \times 1 = 1\\
     y[6] &= g_e[3]h_e[3] = 1 \times 1 = 1
 \end{align*}
@@ -3844,6 +3853,66 @@ which has the following stem plot
 
 Emulation of linear sequences is beneficial when one explicitly wants to perform linear operations adopting the DFT, especially in the Fast Fourier Transform algorithm form.
 
+\subsection{Linear convolution using Discrete Fourier Transform}
+As previously depicted in Section~\ref{sec:mimickingLinearOperations}, it is possible to emulate the behavior of linear operators by modifying signals so that they are surrounded by a number of zeros and using the circular operators. The end resoult will be roughly equivalent to the linear operators since the modulo operation is irrelevant in the case of long zero-padded signals.
+
+Following this logic, one can find helpful to perform many linear operation by means of their circular counterparts, especially the \emph{linear convolution}. This pragmatic move is truly effective, as the linear convolution can be performed as seen in Section~\ref{sec:mimickingLinearOperations} with the help of the DFT in frequency domain. Since Discrete Fourier Transforms can exploit the \emph{Fast Fourier Transform} algorithm, it is of profound interest to develop methods for the implementation of the linear convolution using already working and efficient solutions for DFTs.
+
+Let $g[n]$ and $h[n]$ be two finite-length sequences of different length---respectively---of $N$ and $M$. The length of a linear convolution sum would be $L = N + M - 1$. Considering that the circular convolution outputs a sequence whose lenght is \emph{the same} of the input sequences, to imitate the behavior of the linear convolution sum it is imperative to extend the original sequences to match the length $L$. For sure, two extended length-$L$ sequences should be defined,
+\begin{align*}
+    g_e[n] &= 
+    \left\{\begin{array}{ll}
+    g[n] & 0 \leq n \leq N-1\\
+    0 & N \leq n \leq L-1
+    \end{array}
+    \right.,\\
+    h_e[n] &= 
+    \left\{\begin{array}{ll}
+    h[n] & 0 \leq n \leq N-1\\
+    0 & N \leq n \leq L-1
+    \end{array}
+    \right.,
+\end{align*}
+and the convolution will be given by
+\[
+    y_L[n] = g[n] \circledast h[n] = y_C[n] = g_e[n] \encircle{L} h_e[n].
+\]
+
+Fundamentally, the linear convolution sum is equal to the circular convolution in the case of the extended sequences so that they are long exactly as the linear convolution sum outcome. The corresponding implementation scheme is illustrated in Figure~\ref{tikz:convolutionWithDFT}.
+
+\begin{figure*}[ht]
+    \begin{center}
+        \begin{tikzpicture}
+            \node[label=south:{length-$N$}](h) at (0,0) {$h[n]$};
+            \node[label=south:{length-$M$}](g) at (0,3) {$g[n]$};
+            \node[draw, boxfilter](A1) at (2.5,0) {\makecell{Zero-padding\\ with $N-1$ zeros}};
+            \node[draw, boxfilter](B1) at (2.5,3) {\makecell{Zero-padding\\ with $M-1$ zeros}};
+            \node[label=north:{$g_e[n]$}](ge) at (4.75,0) {};
+            \node[label=north:{$h_e[n]$}](he) at (4.75,3) {};
+            \node[draw, boxfilter](A2) at (6,0) {\makecell{$N+M-1$\\ point DFT}};
+            \node[draw, boxfilter](B2) at (6,3) {\makecell{$N+M-1$\\ point DFT}};
+            \node[draw, circle, cross](cross) at (7.5, 1.5) {};
+            \node[draw, boxfilter](C) at (9,1.5) {\makecell{$N+M-1$\\ point IDFT}};
+            \node[label=south:{\makecell{length\\ $N + M - 1$}}](yl) at (11,1.5) {$y_L[n]$};
+
+            \draw[-stealth] (h) -- (A1);
+            \draw[-stealth] (g) -- (B1);
+            \draw[-stealth] (A1) -- (A2);
+            \draw[-stealth] (B1) -- (B2);
+            \draw[-stealth] (A2) -| (cross);
+            \draw[-stealth] (B2) -| (cross);
+            \draw[-stealth] (cross) -- (C);
+            \draw[-stealth] (C) -- (yl);
+
+            \node[](GeHe) at (9, 4) {$G_e[k] \cdot H_e[k]$};
+            \draw[-stealth, dashed] (cross) .. controls (7.9,3) and (9.1,2) .. (9,3.8);
+        \end{tikzpicture}
+    \end{center}\caption{Implementation scheme of the linear convolution sum by virtue of Discrete Fourier Transforms. The magic occurs during the signal modulation operation, when the single operation required is a multiplication between signals, in this procedure the multiplication between Discrete Fourier Transforms obtained from extended sequences $G_e[k] \cdot H_e[k]$.}\label{tikz:convolutionWithDFT}
+\end{figure*}
+
+The procedure as in Figure~\ref{tikz:convolutionWithDFT} is rather convenient, as pre\-vious\-ly---when we dealt with Discrete-time Fourier Trans\-forms---the modulation passage required to work with \emph{continuous} DTFTs in place of convienent \emph{Discrete} Fourier Transforms. By all means this represents a paramount improvement over the case as in Figure~\ref{tikz:linearConvolutionFrequencyDomain} and described in Section~\ref{sec:convolutionTheorem}.
+
+A special attention is required by the linear convolution of a finite-length sequence with an \emph{infinite-length sequence}. Since now one of the two sequences is an infinite-length sequence, we cannot use the previous technique anymore, since that explicitly demands finite-length inputs so that the outcome will be a finite-length signal as well, with a predetermined length.
 
 \include{references}
 
