@@ -375,7 +375,7 @@ The operation of alterating the sample rate $F_S$ is much important. Generally, 
 
 The ratio in equation \ref{eqn:SamplingRateAlterationRatio} can either be greater or lower than $1$, and determines the nature of the sample rate alteration. In particolar, in the case of $R_S > 1$ one performs the \textbf{interpolation} operation, while in the opposite case of $R_S < 1$ one gets the \textbf{decimation} operation.
 
-Two operations are necessary for, respectively, interpolation and decimation: the \emph{up-sampling} and the \emph{down-sam\-pling} operations. To be specific, in order to perform interpolation a \emph{further} operation is needed other than up-sampling.
+Two operations are imperative for, respectively, interpolation and decimation: the \emph{up-sampling} and the \emph{down-sam\-pling} operations. To be specific, in order to perform interpolation a \emph{further} operation is needed other than up-sampling.
 
 \subsubsection{Up-Sampling}
 
@@ -705,7 +705,7 @@ To do so, one should perform the following algebraic transformations,
     v[n] &= 8 \cos{0.3 \pi n} + 5 \cos{(0.5 \pi n + 0.6435)} - 10 \sin{0.7\pi n}.
 \end{align*}
 
-In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequences $0.3\pi$, $0.5\pi$ and $0.7\pi$.
+In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequencies $0.3\pi$, $0.5\pi$ and $0.7\pi$.
 
 However, that's not the only signal possible that is capable of generating that very same sequence. Veritably, also the two following signals $w_a(t)$ and $g_a(t)$
 \begin{align*}
@@ -3854,11 +3854,11 @@ which has the following stem plot
 Emulation of linear sequences is beneficial when one explicitly wants to perform linear operations adopting the DFT, especially in the Fast Fourier Transform algorithm form.
 
 \subsection{Linear convolution using Discrete Fourier Transform}
-As previously depicted in Section~\ref{sec:mimickingLinearOperations}, it is possible to emulate the behavior of linear operators by modifying signals so that they are surrounded by a number of zeros and using the circular operators. The end resoult will be roughly equivalent to the linear operators since the modulo operation is irrelevant in the case of long zero-padded signals.
+As previously depicted in Section~\ref{sec:mimickingLinearOperations}, it is possible to emulate the behavior of linear operators by modifying signals so that they are surrounded by a number of zeros and subsequently using the circular operators. The end result will be roughly equivalent to the linear operators, since the modulo operation becomes irrelevant in the case of long zero-padded signals.
 
 Following this logic, one can find helpful to perform many linear operation by means of their circular counterparts, especially the \emph{linear convolution}. This pragmatic move is truly effective, as the linear convolution can be performed as seen in Section~\ref{sec:mimickingLinearOperations} with the help of the DFT in frequency domain. Since Discrete Fourier Transforms can exploit the \emph{Fast Fourier Transform} algorithm, it is of profound interest to develop methods for the implementation of the linear convolution using already working and efficient solutions for DFTs.
 
-Let $g[n]$ and $h[n]$ be two finite-length sequences of different length---respectively---of $N$ and $M$. The length of a linear convolution sum would be $L = N + M - 1$. Considering that the circular convolution outputs a sequence whose lenght is \emph{the same} of the input sequences, to imitate the behavior of the linear convolution sum it is imperative to extend the original sequences to match the length $L$. For sure, two extended length-$L$ sequences should be defined,
+Let $g[n]$ and $h[n]$ be two finite-length sequences of different length---respectively---of $N$ and $M$. The length of a linear convolution sum would be $L = N + M - 1$. Considering that the circular convolution outputs a sequence whose length is \emph{the same} of the input sequences, to imitate the behavior of the linear convolution sum it is imperative to extend the original sequences to match the length $L$. For sure, two extended length-$L$ sequences should be defined,
 \begin{align*}
     g_e[n] &= 
     \left\{\begin{array}{ll}
@@ -3910,9 +3910,306 @@ Fundamentally, the linear convolution sum is equal to the circular convolution i
     \end{center}\caption{Implementation scheme of the linear convolution sum by virtue of Discrete Fourier Transforms. The magic occurs during the signal modulation operation, when the single operation required is a multiplication between signals, in this procedure the multiplication between Discrete Fourier Transforms obtained from extended sequences $G_e[k] \cdot H_e[k]$.}\label{tikz:convolutionWithDFT}
 \end{figure*}
 
-The procedure as in Figure~\ref{tikz:convolutionWithDFT} is rather convenient, as pre\-vious\-ly---when we dealt with Discrete-time Fourier Trans\-forms---the modulation passage required to work with \emph{continuous} DTFTs in place of convienent \emph{Discrete} Fourier Transforms. By all means this represents a paramount improvement over the case as in Figure~\ref{tikz:linearConvolutionFrequencyDomain} and described in Section~\ref{sec:convolutionTheorem}.
+The procedure as in Figure~\ref{tikz:convolutionWithDFT} is rather convenient, as pre\-vious\-ly---when we dealt with Discrete-time Fourier Trans\-forms---the modulation passage required to work with \emph{continuous} DTFTs in place of convenient \emph{Discrete} Fourier Transforms. By all means this represents a paramount improvement over the case as in Figure~\ref{tikz:linearConvolutionFrequencyDomain} and described in Section~\ref{sec:convolutionTheorem}.
 
-A special attention is required by the linear convolution of a finite-length sequence with an \emph{infinite-length sequence}. Since now one of the two sequences is an infinite-length sequence, we cannot use the previous technique anymore, since that explicitly demands finite-length inputs so that the outcome will be a finite-length signal as well, with a predetermined length.
+\subsection{The Overlap--Add Method}
+
+A special attention is required by the linear convolution of a finite-length sequence with an \emph{infinite-length sequence}. Since now one of the two sequences is an infinite-length sequence, we cannot use the previous technique again, since that explicitly demands to have two finite-length inputs so that the outcome will be a finite-length signal as well, with a predetermined length.
+
+The trick to perform said operation is to \emph{partition the infinite-length sequence in finite-length blocks}. Consider the DFT-based implementation of the circular convolution as in~\ref{eqn:circularConvolution}, with input sequence $x[n]$ being an infinite-length sequence, or at least a sequence whose length is much greater than $M$. Let the circular convolution be implemented by means of the convenient trick of going into the frequency-domain and perform a multiplication of DFTs.
+
+To do so, one first has to segment the dragging sequence $x[n]$ into smaller sequences: without loss of generality, it is legitimate to assume that $x[n]$ is a causal sequence---this is feasible, since the input signal can be always be shifted and adjusted to make it causal. Thereafter, many contiguous $N$-length sequences $x_m[n]$ shall be produced
+\[
+    x[n] = \sum_{m=0}^{\infty} x_m[n - mN]
+\]
+with each sequence called \textbf{partition}, detailed as such
+\[
+    x_m[n] =
+    \left\{
+        \begin{array}{ll}
+            x[n + mN], & 0 \leq n \leq N-1\\
+            0, & \mbox{otherwise}
+        \end{array}
+    \right.
+\]
+
+This sum is constructed so that a new collection of sequences $x_m[n]$ is obtained by segmenting the original sequence $x[n]$, each one carrying a small portion of the far-reaching sequence $x$, and so that each value of $m \in \N$ will yield a new block of the original signal. The sequence of sequences $x_m$ will ultimately generate the original sequence $x$. While this looks at least labyrinthine, there are many reasons to do so. Partitioning the original sequence in many smaller ones having the same length grants us to compute the total convolution by means of \emph{partial} convolutions. Thus, the output is the \emph{sum of the results from partial convolutions} (i.e. convolutions made with partitions $x_m[n]$):
+\begin{equation}\label{eqn:overlapAddMethod}
+    y[n] = h[n] \circledast x[n] = \sum_{m=0}^\infty y_m[n - mN],
+\end{equation}
+where \[y_m[n] = h[n] \circledast x_m[n]\] is the linear con\-vo\-lu\-tion---ob\-tai\-ned with a DFT-based pro\-ce\-du\-re---of the impulse response $h[n]$ with the partition $x_m[n]$ of the sequence $x[n]$. Since $h[n]$ is of length $M$ and $x_m[n]$ is of length $N$, the linear convolution will possess length $N + M - 1$.
+
+There is an elegant correspondence between the sequences $y[n], x[n]$ and $y_m[n], x_m[n]$, condensing in the fact that the first ones are obtained by the second ones by summing up all $m$ partitioned sequences, each one right-shifted by the quantity $mN$.
+
+As a result, the desired linear convolution $y[n]$ is broken up into a sum of infinite short-length linear convolutions $y_m[n]$, each of length $N + M - 1$. Without exception, each one can be implemented through the DFT technique we encountered before and considering a basis of $N + M - 1$ points.
+
+The implementation of~\ref{eqn:overlapAddMethod} requires a further attention: the first convolution $y_0[n]$ in the sum is of length $N + M - 1$ like the other ones and is defined for values of $0 \leq n \leq N + M - 2$; the second one $y_1[n]$ is defined for $N \leq n \leq 2N + M - 2$, the third one for $2N \leq n \leq 3N + M - 2$. Following the sum strictly results in an \emph{overlap} of $M - 1$ samples between any two short linear convolutions $x_{r-1}[n]$ and its successor $x_r[n]$ for $(r-1)N \leq n \leq rN + M - 2$. The output sequence $y[n]$ can be gathered by not only the concatenation of all partial convolutions, but by also \emph{summing up all the overlapping parts}. This method is in fact called the \textbf{Overlap--Add Method} since the result of the short linear convolutions overlap in some samples and the overlapped portions are then added altogether to achieve the final outcome. Depending on the value of $M$, $M-1$ values for each partial convolution should always be merged into a sum considering the proper position of them.
+
+As an exemplification, let $N = 7$ and $M = 5$. Global outcome $y[n]$ can be obtained by performing a number of overlaps and sums, such that
+\[
+    y[n] =
+    \left\{
+        \begin{array}{ll}
+            y_0[n] & 0 \leq n \leq 6\\
+            y_0[n] + y_1[n - 7] & 7 \leq n \leq 10\\
+            y_1[n - 7] & 11 \leq n \leq 13\\
+            y_1[n - 7] + y_2[n - 14] & 14 \leq n \leq 17\\
+            y_2[n - 14] & 18 \leq n \leq 20\\
+            \vdots & \vdots
+        \end{array}
+    \right.
+\]
+
+Figures~\ref{tikz:overlapAddPartitioning}~and~\ref{tikz:overlapAddMethod} illustrate succinctly this process.
+
+In \textsc{Matlab}, function \texttt{fftfilt} can be invoked to implement the above method, with Fast Fourier Transform and by applying the Convolution Theorem.
+
+\begin{figure*}
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.2,0) -- (13,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,25}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (0,0){};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,2*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,2.5*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,3*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,2.5*0.5);
+        \draw[-{Circle[open]}] (4*0.5,0) -- (4*0.5,-1*0.5);
+        \draw[-{Circle[open]}] (5*0.5,0) -- (5*0.5,-1.85*0.5);
+        \draw[-{Circle[open]}] (6*0.5,0) -- (6*0.5,1.8*0.5);
+        \draw[-{Circle[open]}] (7*0.5,0) -- (7*0.5,2*0.5);
+        \draw[-{Circle[open]}] (8*0.5,0) -- (8*0.5,2*0.5);
+        \draw[-{Circle[open]}] (9*0.5,0) -- (9*0.5,.5*0.5);
+        \draw[-{Circle[open]}] (10*0.5,0) -- (10*0.5,-.4*0.5);
+        \draw[-{Circle[open]}] (11*0.5,0) -- (11*0.5,-2*0.5);
+        \draw[-{Circle[open]}] (12*0.5,0) -- (12*0.5,-3*0.5);
+        \draw[-{Circle[open]}] (13*0.5,0) -- (13*0.5,-4*0.5);
+        \draw[-{Circle[open]}] (14*0.5,0) -- (14*0.5,-3.8*0.5);
+        \draw[-{Circle[open]}] (15*0.5,0) -- (15*0.5,-2*0.5);
+        \draw[-{Circle[open]}] (16*0.5,0) -- (16*0.5,-1*0.5);
+        \draw[-{Circle[open]}] (17*0.5,0) -- (17*0.5,1*0.5);
+        \draw[-{Circle[open]}] (18*0.5,0) -- (18*0.5,1.2*0.5);
+        \draw[-{Circle[open]}] (19*0.5,0) -- (19*0.5,1*0.5);
+        \draw[-{Circle[open]}] (20*0.5,0) -- (20*0.5,2*0.5);
+        \draw[-{Circle[open]}] (21*0.5,0) -- (21*0.5,3*0.5);
+        \draw[-{Circle[open]}] (22*0.5,0) -- (22*0.5,2*0.5);
+        \draw[-{Circle[open]}] (23*0.5,0) -- (23*0.5,-1*0.5);
+        \draw[-{Circle[open]}] (24*0.5,0) -- (24*0.5,-2*0.5);
+        \draw[-{Circle[open]}] (25*0.5,0) -- (25*0.5,-1.3*0.5);
+        \node at (0.5*23, 1.8) {$x[n]$};
+
+        \draw[-stealth] (-.2,-3) -- (13,-3) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,17}
+            \draw (\x*0.5 cm, -3cm + 1pt) -- (\x*0.5 cm, -3cm - 1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (0,-3){};
+        \draw[-{Circle[open]}] (0*0.5,-3) -- (0*0.5,-3+2*0.5);
+        \draw[-{Circle[open]}] (1*0.5,-3) -- (1*0.5,-3+2.5*0.5);
+        \draw[-{Circle[open]}] (2*0.5,-3) -- (2*0.5,-3+3*0.5);
+        \draw[-{Circle[open]}] (3*0.5,-3) -- (3*0.5,-3+2.5*0.5);
+        \draw[-{Circle[open]}] (4*0.5,-3) -- (4*0.5,-3+-1*0.5);
+        \draw[-{Circle[open]}] (5*0.5,-3) -- (5*0.5,-3+-1.85*0.5);
+        \draw[-{Circle[open]}] (6*0.5,-3) -- (6*0.5,-3+1.8*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (7*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (8*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (9*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (10*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (11*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (12*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (13*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (14*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (15*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (16*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (17*0.5,-3) {};
+        \node at (0.5*23, -3 + 1.8) {$x_0[n]$};
+
+        \draw[-stealth] (-.2,-6) -- (13,-6) node[anchor=north west] {$n$};
+        \foreach \x in {7,8,...,22}
+            \draw (\x*0.5 cm, -6cm + 1pt) -- (\x*0.5 cm, -6cm - 1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (0.5*7,-6){};
+        \draw[-{Circle[open]}] (7*0.5,-6) -- (7*0.5,-6+2*0.5);
+        \draw[-{Circle[open]}] (8*0.5,-6) -- (8*0.5,-6+2*0.5);
+        \draw[-{Circle[open]}] (9*0.5,-6) -- (9*0.5,-6+.5*0.5);
+        \draw[-{Circle[open]}] (10*0.5,-6) -- (10*0.5,-6+-.4*0.5);
+        \draw[-{Circle[open]}] (11*0.5,-6) -- (11*0.5,-6+-2*0.5);
+        \draw[-{Circle[open]}] (12*0.5,-6) -- (12*0.5,-6+-3*0.5);
+        \draw[-{Circle[open]}] (13*0.5,-6) -- (13*0.5,-6+-4*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (13*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (14*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (15*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (16*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (17*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (18*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (19*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (20*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (21*0.5,-6) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (22*0.5,-6) {};
+        \node at (0.5*23, -6 + 1.8) {$x_1[n]$};
+
+        \draw[-stealth] (-.2,-9) -- (13,-9) node[anchor=north west] {$n$};
+        \foreach \x in {14,15,...,25}
+            \draw (\x*0.5 cm, -9cm + 1pt) -- (\x*0.5 cm, -9cm - 1pt) node[anchor=north] {};
+        \node[label=north:{$0$}] at (0.5*14,-9){};
+        \draw[-{Circle[open]}] (14*0.5,-9+0) -- (14*0.5,-9+-3.8*0.5);
+        \draw[-{Circle[open]}] (15*0.5,-9+0) -- (15*0.5,-9+-2*0.5);
+        \draw[-{Circle[open]}] (16*0.5,-9+0) -- (16*0.5,-9+-1*0.5);
+        \draw[-{Circle[open]}] (17*0.5,-9+0) -- (17*0.5,-9+1*0.5);
+        \draw[-{Circle[open]}] (18*0.5,-9+0) -- (18*0.5,-9+1.2*0.5);
+        \draw[-{Circle[open]}] (19*0.5,-9+0) -- (19*0.5,-9+1*0.5);
+        \draw[-{Circle[open]}] (20*0.5,-9+0) -- (20*0.5,-9+2*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (21*0.5,-9) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (22*0.5,-9) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (23*0.5,-9) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (24*0.5,-9) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (25*0.5,-9) {};
+        \node at (0.5*23, -9 + 1.8) {$x_2[n]$};
+
+        \draw[dashed] (0.5*6.5, 2) -- (0.5*6.5, -11);
+        \draw[dashed] (0.5*13.5, 2) -- (0.5*13.5, -11);
+        \draw[dashed] (0.5*20.5, 2) -- (0.5*20.5, -11);
+    \end{tikzpicture}
+\end{center}\caption{Partitioning of the sequence $x[n]$. Partitioning occurs with $N=7$, so that each partition $x_m[n]$ counts for exactly $7$ samples. Ideally, each segment is zero-padded with a protracted series of zeros as needed. Notice that all sequences are \emph{causal} and are shifted only for illustration purpose.}\label{tikz:overlapAddPartitioning}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.2,0) -- (13,0) node[anchor=north west] {$n$};
+        \foreach \x in {0,1,...,25}
+            \draw (\x*0.5 cm,1pt) -- (\x*0.5 cm,-1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (0,0){};
+        \node[label=south:{$7$}] at (7*0.5,0){};
+        \node[label=south:{$11$}] at (11*0.5,0){};
+        \draw[-{Circle[open]}] (0*0.5,0) -- (0*0.5,1*0.5);
+        \draw[-{Circle[open]}] (1*0.5,0) -- (1*0.5,1.5*0.5);
+        \draw[-{Circle[open]}] (2*0.5,0) -- (2*0.5,-3*0.5);
+        \draw[-{Circle[open]}] (3*0.5,0) -- (3*0.5,-2.5*0.5);
+        \draw[-{Circle[open]}] (4*0.5,0) -- (4*0.5,-1*0.5);
+        \draw[-{Circle[open]}] (5*0.5,0) -- (5*0.5,1.85*0.5);
+        \draw[-{Circle[open]}] (6*0.5,0) -- (6*0.5,2*0.5);
+        \draw[-{Circle[open]}] (7*0.5,0) -- (7*0.5,1*0.5);
+        \draw[-{Circle[open]}] (8*0.5,0) -- (8*0.5,1.5*0.5);
+        \draw[-{Circle[open]}] (9*0.5,0) -- (9*0.5,2.5*0.5);
+        \draw[-{Circle[open]}] (10*0.5,0) -- (10*0.5,-2*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (11*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (12*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (13*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (14*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (15*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (16*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (17*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (18*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (19*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (20*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (21*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (22*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (23*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (24*0.5,0) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (25*0.5,0) {};
+        \node at (0.5*2, 1) {$y_0[n]$};
+
+        \draw[-stealth] (-.2,-3+0) -- (13,-3+0) node[anchor=north west] {$n$};
+        \foreach \x in {7,8,...,25}
+            \draw (\x*0.5 cm,-3cm + 1pt) -- (\x*0.5 cm,-3cm + -1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (7*0.5,-3){};
+        \node[label=south:{$7$}] at (14*0.5,-3){};
+        \node[label=south:{$11$}] at (18*0.5,-3){};
+        \draw[-{Circle[open]}] (7*0.5,-3+0) -- (7*0.5,-3+1*0.5);
+        \draw[-{Circle[open]}] (8*0.5,-3+0) -- (8*0.5,-3+4*0.5);
+        \draw[-{Circle[open]}] (9*0.5,-3+0) -- (9*0.5,-3+-1*0.5);
+        \draw[-{Circle[open]}] (10*0.5,-3+0) -- (10*0.5,-3+-1.5*0.5);
+        \draw[-{Circle[open]}] (11*0.5,-3+0) -- (11*0.5,-3+-.5*0.5);
+        \draw[-{Circle[open]}] (12*0.5,-3+0) -- (12*0.5,-3+2.85*0.5);
+        \draw[-{Circle[open]}] (13*0.5,-3+0) -- (13*0.5,-3+1*0.5);
+        \draw[-{Circle[open]}] (14*0.5,-3+0) -- (14*0.5,-3+2*0.5);
+        \draw[-{Circle[open]}] (15*0.5,-3+0) -- (15*0.5,-3+-3*0.5);
+        \draw[-{Circle[open]}] (16*0.5,-3+0) -- (16*0.5,-3+1.4*0.5);
+        \draw[-{Circle[open]}] (17*0.5,-3+0) -- (17*0.5,-3+-1*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (18*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (19*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (20*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (21*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (22*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (23*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (24*0.5,-3) {};
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (25*0.5,-3) {};
+        \node at (0.5*2, -3 + 1) {$y_1[n]$};
+
+        \draw[-stealth] (-.2,-6+0) -- (13,-6+0) node[anchor=north west] {$n$};
+        \foreach \x in {14,15,...,25}
+            \draw (\x*0.5 cm,-6cm + 1pt) -- (\x*0.5 cm,-6cm + -1pt) node[anchor=north] {};
+        \node[label=south:{$0$}] at (14*0.5,-6){};
+        \node[label=south:{$7$}] at (21*0.5,-6){};
+        \node[label=south:{$11$}] at (25*0.5,-6){};
+        \draw[-{Circle[open]}] (14*0.5,-6+0) -- (14*0.5,-6+1*0.5);
+        \draw[-{Circle[open]}] (15*0.5,-6+0) -- (15*0.5,-6-1*0.5);
+        \draw[-{Circle[open]}] (16*0.5,-6+0) -- (16*0.5,-6+1*0.5);
+        \draw[-{Circle[open]}] (17*0.5,-6+0) -- (17*0.5,-6+-1.5*0.5);
+        \draw[-{Circle[open]}] (18*0.5,-6+0) -- (18*0.5,-6+-.5*0.5);
+        \draw[-{Circle[open]}] (19*0.5,-6+0) -- (19*0.5,-6+1.42*0.5);
+        \draw[-{Circle[open]}] (20*0.5,-6+0) -- (20*0.5,-6+3*0.5);
+        \draw[-{Circle[open]}] (21*0.5,-6+0) -- (21*0.5,-6+2*0.5);
+        \draw[-{Circle[open]}] (22*0.5,-6+0) -- (22*0.5,-6+-2*0.5);
+        \draw[-{Circle[open]}] (23*0.5,-6+0) -- (23*0.5,-6+1*0.5);
+        \draw[-{Circle[open]}] (24*0.5,-6+0) -- (24*0.5,-6+2*0.5);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (25*0.5,-6) {};
+        \node at (0.5*2, -6 + 1) {$y_2[n]$};
+
+        \draw[dashed] (0.5*6.5, 1.5) -- (0.5*6.5, -4);
+        \draw[dashed] (0.5*10.5, 1.5) -- (0.5*10.5, -4);
+        \node at (8.5*0.5, 1.9) {Add};
+        \node at (8.5*0.5, -3 - 1.3) {$M - 1 = 4$};
+        \draw [thick, decorate, decoration = {calligraphic brace}] (0.5*6.6,1.6) --  (0.5*10.4,1.6);
+        \draw [thick, decorate, decoration = {calligraphic brace,mirror}] (0.5*6.6,-3 - 1) --  (0.5*10.4,-3 - 1);
+
+        \draw[dashed] (0.5*13.5, 1.5) -- (0.5*13.5, -6.9);
+        \draw[dashed] (0.5*17.5, 1.5) -- (0.5*17.5, -6.9);
+        \draw [thick, decorate, decoration = {calligraphic brace}] (0.5*13.6,1.6) --  (0.5*17.4,1.6);
+        \draw [thick, decorate, decoration = {calligraphic brace,mirror}] (0.5*13.6,-6 - 0.9) --  (0.5*17.4,-6 - 0.9);
+        \node at (15.5*0.5, 1.9) {Add};
+        \node at (15.5*0.5, -6 - 1.2) {$M - 1 = 4$};
+
+        \draw[dashed] (0.5*20.5, 1.5) -- (0.5*20.5, -7.5);
+        \draw[dashed] (0.5*24.5, 1.5) -- (0.5*24.5, -7.5);
+        \draw [thick, decorate, decoration = {calligraphic brace}] (0.5*20.6,1.6) --  (0.5*24.4,1.6);
+        \node at (22.5*0.5, 1.9) {Add};
+        \node at (22.5*0.5, -7.3) {$\bm{\vdots}$};
+
+    \end{tikzpicture}
+\end{center}\caption{Overlap--Add of the partial output sequences, with increasing $m$. Merging the sequences involves overlapping and summing over $M - 1$ samples, in this case $M=5$, so over $M - 1 = 4$ samples. A remarkable attribute is that all sequences are \emph{causal} since the corresponding $x_m[n]$ are causal as well. The random sequences are purely illustrative and are not generated by a computation process from sequences in Figure~\ref{tikz:overlapAddPartitioning}.}\label{tikz:overlapAddMerging}
+\end{figure*}
+
+\clearpage
+
+\chapter{Short Time Fourier Transform}
+
+The \textbf{short-time Fourier transform (STFT)}, is a Fourier-related
+transform used to determine the sinusoidal frequency and phase content of local
+sections of a signal as it changes over time.[1] In practice, the procedure for
+computing STFTs is to divide a longer time signal into shorter segments of
+equal length and then compute the Fourier transform separately on each shorter
+segment. This reveals the Fourier spectrum on each shorter segment. One then
+usually plots the changing spectra as a function of time, known as a
+spectrogram or waterfall plot, such as commonly used in software defined radio
+(SDR) based spectrum displays. Full bandwidth displays covering the whole range
+of an SDR commonly use fast Fourier transforms (FFTs) with $2^{24}$ points on
+desktop computers\cite{bib:shortTimeFourierTransform}.
+
+Any Fourier Transform reveals which frequency components are present in a
+function, hence it can be regarded as a \emph{frequency description} of the
+signal. Indeed, an exemplary case is the case of pure sinusoidal signals
+composed of a single sinusoid, whose Fourier Transform is generally a pair of
+delta-impulses located at the exact frequency at which the sinusoid oscillates,
+with one of the two impulses placed at negative frequencies. In some
+cases---when the frequency domain is periodic and can be described by the
+principal value, as in~\ref{eqn:phasePrincipalValue}---the negative impulse of
+the pair is omitted since it can be described by the positive one. Sinusoids
+composed of the sum of multiple pure sinusoids will yield a frequency
+description that is the superposition of frequency descriptions of the single
+sinusoids. As each sinusoid yields a delta impulse, the sum is clearly visible
+from plots.
+
+§TODO ADD PLOT
 
 \include{references}
 
