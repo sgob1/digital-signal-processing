@@ -226,7 +226,7 @@ The numerator of such quantity can be considered as the error between se\-quen\-
 
 \subsection{Operations on se\-quen\-ces}\label{sec:operationsOnSequences}
 
-se\-quen\-ces may be subjected to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be more than one inputs or outputs.
+se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be more than one inputs or outputs.
 
     \begin{figure}[ht]
 \begin{center}
@@ -343,7 +343,7 @@ Yet another common `operation' is the \emph{branching} operation, in which a sig
 
 In order to apply most of the above operations, two signals should possess the same length---in those cases where this does not occur, a \emph{zero-padding} is required. For instance, to perform addition on two signals, the two signals must share the same length, therefore it is mandatory to at least perform a zero-padding on the shortest of the signals. Infinitely long signals can always be summed together.
 
-Multiple elementary operations can be combined as well, by building a directed graph in which the signals are subjected to multiple eventual operations, in the order determined by the particular graph. Usually, multiple operations should be necessary and are therefore applied in special manners to obtain the desired result.
+Multiple elementary operations can be combined as well, by building a directed graph in which the signals are subject to multiple eventual operations, in the order determined by the particular graph. Usually, multiple operations should be necessary and are therefore applied in special manners to obtain the desired result.
 
 \section{Ensemble Averaging}
 
@@ -410,7 +410,7 @@ Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tik
 
 The down-sampling operation by an integer factor $M > 1$ means that from the
 original signal only one sample every $M$ is preserved. This way, $M-1$ consecutive
-in-between samples are removed from the signal, while a single one every $M$ samples is preserved,
+in between samples are removed from the signal, while a single one every $M$ samples is preserved,
 \begin{equation}\label{eqn:DownSampling}
 	x_d[n] = x[nM]
 \end{equation}
@@ -882,7 +882,7 @@ Median filters are very good at removing both \emph{shot noise} (impulse-like no
 
 \section{Linear interpolation}
 
-The \textbf{linear interpolation} is a technique that is adopted to estimate sample values between pairs of adjacent sample values of a discrete-time sequence. To perform that, additional samples are added in-between two adjacent values (upsampling), and then a further interpolation technique is adopted by means of \emph{linearly connecting the values}.
+The \textbf{linear interpolation} is a technique that is adopted to estimate sample values between pairs of adjacent sample values of a discrete-time sequence. To perform that, additional samples are added in between two adjacent values (upsampling), and then a further interpolation technique is adopted by means of \emph{linearly connecting the values}.
 
 The linear interpolation can be expressed as in Figure~\ref{tikz:linearInterpolationFactorFour}
 
@@ -1222,7 +1222,7 @@ which yields the finite-length sequence having length $3$
 
 \subsection{The Convolution Sum}
 
-LTI discrete-time system possess peculiar characteristic for their input--output relationship. A consequence of the linear time-invariance property combination is that any LTI discrete-time system is completely characterized by its own impulse response $h[n]$. Since the impulse response is subjected to both superposition principle and it is invariant to shifts of any entity, it suffices to know the impulse response to compute the output of the system for any arbitrary input sequence $x[n]$.
+LTI discrete-time system possess peculiar characteristic for their input--output relationship. A consequence of the linear time-invariance property combination is that any LTI discrete-time system is completely characterized by its own impulse response $h[n]$. Since the impulse response is subject to both superposition principle and it is invariant to shifts of any entity, it suffices to know the impulse response to compute the output of the system for any arbitrary input sequence $x[n]$.
 
 In fact, let $h[n]$ denote the impulse response of an LTI discrete-time system. For instance, let an input be
 \[
@@ -2213,7 +2213,7 @@ From $X_K$ follows the concept of \emph{uniform convergence} of $X(e^{j\omega})$
 \end{equation}
 
 A sufficient condition for the existence of a discrete-time Fourier Transform is given by the following Theorem,
-\begin{thm}[Existence of discrete-time Fourier Transform]
+\begin{thm}[Existence of discrete-time Fourier Transform]\label{thm:existenceDTFT}
     Let $x[n]$ be an \emph{absolutely summable} sequence such that
     \[
         \sum_{n=-\infty}^{\infty}|x[n]| < \infty
@@ -3110,7 +3110,7 @@ which is analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired rela
     y[n] = \sum_{m=-\infty}^{\infty} x[n + mN], 0 \leq n \leq N-1.
 \end{equation}
 
-This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by rearranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subjected to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
+This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by rearranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
 
 The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed.
 
@@ -3939,7 +3939,7 @@ This sum is constructed so that a new collection of sequences $x_m[n]$ is obtain
 \end{equation}
 where \[y_m[n] = h[n] \circledast x_m[n]\] is the linear con\-vo\-lu\-tion---ob\-tai\-ned with a DFT-based pro\-ce\-du\-re---of the impulse response $h[n]$ with the partition $x_m[n]$ of the sequence $x[n]$. Since $h[n]$ is of length $M$ and $x_m[n]$ is of length $N$, the linear convolution will possess length $N + M - 1$.
 
-There is an elegant correspondence between the sequences $y[n], x[n]$ and $y_m[n], x_m[n]$, condensing in the fact that the first ones are obtained by the second ones by summing up all $m$ partitioned sequences, each one right-shifted by the quantity $mN$.
+There is an elegant correspondence between the sequences $y[n], x[n]$ and $y_m[n], x_m[n]$: the first ones are obtained by the second ones by summing up all $m$ partitioned sequences, each one right-shifted by the quantity $mN$.
 
 As a result, the desired linear convolution $y[n]$ is broken up into a sum of infinite short-length linear convolutions $y_m[n]$, each of length $N + M - 1$. Without exception, each one can be implemented through the DFT technique we encountered before and considering a basis of $N + M - 1$ points.
 
@@ -4181,7 +4181,7 @@ In \textsc{Matlab}, function \texttt{fftfilt} can be invoked to implement the ab
 
 \clearpage
 
-\chapter{Short Time Fourier Transform}
+\chapter{Short Time Fourier Transform and the Uncertainty Principle}
 
 The \textbf{short-time Fourier transform (STFT)}, is a Fourier-related
 transform used to determine the sinusoidal frequency and phase content of local
@@ -4209,7 +4209,292 @@ description that is the superposition of frequency descriptions of the single
 sinusoids. As each sinusoid yields a delta impulse, the sum is clearly visible
 from plots.
 
-§TODO ADD PLOT
+Plots in Figure~\ref{oct:cosineSumFT} are generated by code 
+
+\begin{verbatim}
+clear;
+pkg load signal;
+
+brief = [0:0.01:1];
+f = cos(2*pi*5*brief);
+g = cos(2*pi*25*brief);
+h = cos(2*pi*50*brief);
+c_brief = f + g + h;
+figure(1);
+subplot(2,1,1); plot(brief, c_brief);
+title("Sum of cosines");
+long = [0:0.01:10];
+f = cos(2*pi*5*long);
+g = cos(2*pi*25*long);
+h = cos(2*pi*50*long);
+c_long = f + g + h;
+FT = fft(c_long);
+u = [0:0.001:1];
+subplot(2,1,2); plot(u, abs(FT)); 
+title("Fourier Transform");
+pause;
+%print -depslatex -mono "-S800,600" "cosineSumFT.tex";
+\end{verbatim}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.5}{
+\input{octaves/cosineFT.tex}
+    }\caption{Plot of the Fourier Transform of \texttt{cos(2*pi*x)}. The two
+    impulses are located very close to $0$ and $1$.}\label{oct:cosineFT}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.5}{
+\input{octaves/cosineSumFT.tex}
+    }\caption{Signal $c(x) = \cos{2\pi 5 x} + \cos{2\pi 25 x} + \cos{2\pi 50x}$
+    and its Fourier Transform. The resulting Fourier Transform, obtained with
+    function \texttt{fft()}, is the superposition of three distinct
+    frequencies, each related to one of the three sinusoids forming signal
+    $c(x)$.}\label{oct:cosineSumFT}
+\end{center}
+\end{figure*}
+
+Classic Fourier Transforms suffer from crucial limitations. Undeniably, due to
+the uncertainty principle they cannot provide \emph{simultaneous} time and
+frequency localization. This means that, for instance, delta impulses in the
+frequency domain are likely generated by very long, if not infinite, sinusoids
+in the time domain---vice versa, brief signals in the time domain will yield a
+Fourier Transform with a very large band. In addition, they are not exactly
+useful for analyzing \emph{time-variant, non-stationary} signals\footnote{
+    Time-variant, non-stationary signals are the class of signals whose
+    spectrum changes overtime.}, as the frequency of such signals or sequences
+is subject to possible variations whilst the content of the signal alters
+across time, resulting in a confusing frequency description.
+
+Typically, noise in Fourier Transform is caused by abrupt changes in frequency
+of the signal---the more sudden the change in the speed of oscillation of the
+signal, the greater the noise will be produced. The result frequency
+description is still an faithful portrait of the signal's frequency content;
+still, added noise and multiple frequencies due to the non-stationary nature of
+the considered signal will yield a chaotic Fourier Transform which is hard to
+interpret.
+
+The answer to this issue is the \textbf{Short Time Fourier Transform},
+abbreviated in STFT. The key concept behind the short time Fourier Transform is
+to appropriately segment the time-variant signal into narrow time intervals,
+thin enough that the portion of the signal in it can be considered stationary.
+For each segment, perform a Fourier Transform of it: each Fourier Transform
+will provide the spectral information of a separate segment of the signal,
+yielding \emph{simultaneous} time and frequency information.
+
+This means that the STFT involves computing the frequency description of the
+time-domain segment \emph{and} keeping the information on which segment has
+been transformed. In other words, the steps can be summarized as:
+\begin{enumerate}
+    \item choose a window function $W(t)$ of finite length, in order to select a
+        narrow portion of the original signal;
+    \item start with the window at position $t = 0$;
+    \item truncate the signal with the window to obtain a segment of the
+        original signal;
+    \item compute the Fourier Transform of the segment, conveniently store the
+        result;
+    \item incrementally slide the window of $t'$ to the right, as needed, hence
+        obtain $W(t - t')$;
+    \item go to step $3$ until the window has covered the entire signal;
+\end{enumerate}
+
+Operating such procedure will yield results that can be collected in a data
+structure; each Fourier Transform can be mathematically described in the following manner,
+\begin{equation}\label{eqn:shortTimeFourierTransform}
+    \mathrm{STFT}^u_f(t', u) = \int_t \left[f(t) \cdot W(t - t')\right]e^{-j2\pi ut}dt,
+\end{equation}
+where $t'$ is the \emph{time parameter} that controls the amount of shifting
+the window is subject to, $u$ is the frequency parameter, $f$ is the original
+signal $f(t)$, $W(t)$ is the windowing function, centered at $t = t'$. In
+brief, the operation involved is the transform of the signal $f(t)W(t - t')$
+with the frequency variable $u$.
+
+The windowing function is free to choose as desired. The shape of it could be
+rectangular, Gaussian, triangular, and so on. The window should be narrow
+enough to ensure that the portion of the signal falling withing the window
+\emph{is stationary}, but at the same time very narrow windows offer \emph{poor
+localization} in the frequency domain. This is because the Short Time Fourier
+Transform, as with any other Fourier Transform, is heavily dependent on the
+uncertainty principle---as such, there is a trade--off between
+\emph{localization in the frequency domain} and \emph{localization in the time
+domain}.
+
+A choice of $W(t)\equiv 1$ would yield an infinitely long window: the STFT
+turns into a simple FT, providing exemplary frequency localization but
+nonexistent time localization. On contrary, a choice of $W(t) = \delta(t)$
+would yield an infinitesimally short window, resulting in the time signal
+itself\footnote{In fact, 
+\[
+    \mathrm{STFT}^u_f(t', u) = \int_t \left[f(t) \cdot \delta(t - t')\right]e^{-j2\pi ut}dt = f(t')e^{-jut'},
+\] with a single $f(t')$ transformed.}---but with a phase factor
+added---providing maximal time localization, but vacant frequency localization.
+Anything in between will yield a compromise between the two extremes, with wide
+windows assuring good frequency and poor time resolution, and narrow windows
+providing good time resolution at the expense of the frequency resolution.
+
+It is clear that, especially in the case of signals whose content changes
+\emph{a lot} during time, a single window choice cannot possibly fit the entire
+signal and describe it efficiently. A way to overcome this limitation is to use
+the \textbf{wavelets}. Wavelets technique makes use of \emph{multiple window
+sizes} in order to catch various facets of the signal to analyze, capable of
+adjusting to the time-varying frequency. In order to localize frequency, a
+decent amount of signal should be processed---but the larger the span, the
+fewer the time localization.
+
+The \textbf{uncertainty principle} was mathematically coded by scientist
+\emph{Werner Heisenberg} in 1927, and is any of a variety of mathematical
+inequalities asserting a fundamental limit to the accuracy with which the
+values for certain pairs of physical quantities of a particle, such as
+position, $x$, and momentum, $p$, can be predicted from initial
+conditions\cite{bib:wernerHeisemberg}.
+
+Such variable pairs are known as complementary variables or canonically
+conjugate variables; and, depending on interpretation, the uncertainty
+principle limits to what extent such conjugate properties maintain their
+approximate meaning, as the mathematical framework of quantum physics does not
+support the notion of simultaneously well-defined conjugate properties
+expressed by a single value. The uncertainty principle implies that it is in
+general not possible to predict the value of a quantity with arbitrary
+certainty, even if all initial conditions are
+specified\cite{bib:wernerHeisemberg}.
+
+Related to digital signal processing, the uncertainty principle gathers in the
+form of
+\begin{equation}\label{eqn:uncertaintyPrinciple}
+    \Delta t \cdot \Delta f \geq \frac 1 {4\pi},
+\end{equation}
+where $\Delta t$ is the \emph{time resolution}---how well two spikes in time
+can be separated from each other in the frequency domain---and $\Delta f$ is
+the \emph{frequency resolution}---how well two spectral components can be
+divided from each other in the time domain. The unquestionable fact is that
+\emph{both $\Delta t$ and $\Delta f$ cannot be made arbitrarily small}:
+shrinking one of the two will incontrovertibly grow the other, and vice versa!
+
+This fundamental law of nature can never be infringed, signifying that one
+cannot know the \emph{exact} time-frequency representation of a signal, since
+it must abide to the uncertainty principle and will be subject to a trade--of
+between time resolution and frequency resolution: one can only know what
+inverval of frequencies belongs to a given time interval. Wavelets are windows
+whose value take in account the product $\Delta t \Delta f$, and can be
+represented by rectangles having base $\Delta f$ and height $\Delta t$. The
+area of the wavelets cannot go below the value $\Delta t \cdot \Delta f$.
+
+\chapter{$z$-Transform}
+
+In mathematics and signal processing, the Z-transform converts a discrete-time
+signal, which is a sequence of real or complex numbers, into a complex
+frequency-domain (z-domain or z-plane) representation.
+
+It can be considered as a discrete-time equivalent of the Laplace transform
+(s-domain).
+
+Whereas the continuous-time Fourier transform is evaluated on the Laplace
+s-domain's imaginary line, the discrete-time Fourier transform is evaluated
+over the unit circle of the z-domain. What is roughly the s-domain's left
+half-plane, is now the inside of the complex unit circle; what is the
+z-domain's outside of the unit circle, roughly corresponds to the right
+half-plane of the s-domain.
+
+One of the means of designing digital filters is to take analog designs,
+subject them to a bilinear transform which maps them from the s-domain to the
+z-domain, and then produce the digital filter by inspection, manipulation, or
+numerical approximation. Such methods tend not to be accurate except in the
+vicinity of the complex unity, i.e. at low fre\-quen\-cies\cite{bib:zTransform}.
+
+The Discrete-time Fourier Transform provides a frequency-domain representation
+of discrete-time signals and LTI dis\-cre\-te-time systems. Because of the
+convergence condition as in Equation~\ref{thm:existenceDTFT}, in many cases the
+DTFT of a sequence might not exist. As a consequence, it is not possible to
+make use of such frequency characterization in all cases where the transform
+does not converge.
+
+A generalization of the Discrete-time Fourier Transform is the
+\textbf{$z$-Transform}, defined by
+\begin{equation}\label{eqn:zTransform}
+    G(z) = \sum_{n=-\infty}^\infty g[n] z^{-n},
+\end{equation}
+where the \emph{$z$-frequency} $z := \Re{(z)} + j \Im{(z)}$ is a complex
+variable.
+
+If one lets $z = re^{j\omega}$, it is straightforward to notice that the
+$z$-transform reduces to
+\begin{equation}\label{eqn:zTransformInterpretation}
+    G(re^{j\omega}) = \sum_{n=-\infty}^\infty g[n] r^{-n} e^{-j\omega n},
+\end{equation}
+and given that the formula for the Discrete-time Fourier Transform is
+\[
+    X(e^{j\omega}) = \sum_{n=-\infty}^\infty x[n]e^{-j\omega n}
+\]
+one concludes that $G(re^{j\omega})$ can be interpreted as the DTFT of the
+modified sequence $\{g[n]r^{-n}\}$. For $r = 1$ one has $|z| = 1$, and the
+$z$-transform reduces to its DTFT, provided the latter exists. For sure, the
+$z$-transform is decisive in all case where a DTFT of a sequence does not
+exist, hence when the sequece is not suitable to be transformed into Fourier
+domain.
+
+Since a $z$-transform of a sequence $g[n]$ with $r = 1$ is completely
+equivalent to a DTFT of the same input sequence, the DTFT reduces to compute
+the $z$-transform and evaluating it at $z$-frequencies such that $|z| = 1$;
+this practically means that amid all possible complex frequencies, the DTFT is
+like evaluating the $z$-transform in the \textbf{unit circle} of radius $1$,
+that is the countour $|z| = 1$. The complex variable $z = re^{j\omega}$ can be
+split into two components, $r$ and a complex exponential $e^{j\omega}$. The
+first term is the \emph{distance between the point and the origin} in the
+z-plane (the radius), the second one determines the \emph{angle} at which the
+complex number is located. When $r=1$, we are basically lying in the contour of
+the unit circle as $z$ will possess module $|z|=1$. At last, the $z$-transform
+is an extension of the Discrete-time Fourier Transform, from the circle of
+radius $1$ to all complex domain.
+
+\section{Properties of $z$-Transform}
+
+\subsection{Region of Convergence}
+
+Like the DTFT, there are conditions on the convergence of the infinite series
+in the definition~\ref{eqn:zTransform}; for a given sequence the set $\mathcal
+R$ of the values of $z$ among which the $z$-transform converges is said to be
+the \textbf{region of convergence (ROC)} of the $z$-transform.
+
+In particular due to Theorem~\ref{thm:existenceDTFT}, the series
+\[
+    G(re^{j\omega}) = \sum_{n=-\infty}^\infty g[n] r^{-n} e^{-j\omega n}
+\]
+converges if the sequence $\{g[n]r^{-n}\}$ is absolutely summable, that is when
+\[
+    \sum_{n=-\infty}^\infty \left|g[n] r^{-n}\right| < \infty.
+\]
+
+The $z$-transform may converge only in a specific region of the z-plane,
+precisely the ROC. Let $r_-=\mathcal R_{g-}$ and $r_+ = \mathcal R_{g+}$ be the
+values of $r$ among which the $z$-transform converges; then, the sequence
+$g[n]r^{-n}$ is \emph{absolutely summable} for all such values of $r$, that is
+\[
+    \sum_{n=-\infty}^\infty \left|g[n] r^{-n}\right| < \infty
+\]
+in the range \[ 0 \leq r_- \leq r \leq r_+ \leq \infty.\] The annular region
+defined by the previous inequalities is called the \emph{region of convergence
+(ROC)} of $G(re^{j\omega}) = G(z)$.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\Im z$};
+        \foreach \x in {-2,-1,0,1,2}
+            \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {};
+        \foreach \y in {-2,-1,0,1,2}
+            \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {};
+        \node[draw, circle, minimum size=4cm] at (0,0){};
+        \node[draw, circle, minimum size=3cm] at (0,0){};
+        \draw[-stealth,] (0,0) -- (2*0.7071, 2*0.7071);
+        \draw[-stealth,] (0,0) -- (-1.5000*0.7071, 1.5000*0.7071);
+    \end{tikzpicture}
+\end{center}
+
+TODO finish figure
+
 
 \include{references}
 

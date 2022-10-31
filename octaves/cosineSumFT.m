@@ -1,0 +1,20 @@
+clear;
+pkg load signal;
+
+brief = [0:0.01:1];
+f = cos(2*pi*5*brief);
+g = cos(2*pi*25*brief);
+h = cos(2*pi*50*brief);
+c_brief = f + g + h;
+figure(1);
+subplot(2,1,1); plot(brief, c_brief); title("Sum of cosines");
+long = [0:0.01:10];
+f = cos(2*pi*5*long);
+g = cos(2*pi*25*long);
+h = cos(2*pi*50*long);
+c_long = f + g + h;
+FT = fft(c_long);
+u = [0:0.001:1];
+subplot(2,1,2); plot(u, abs(FT)); title("Fourier Transform");
+pause;
+%print -depslatex -mono "-S800,600" "cosineSumFT.tex";
