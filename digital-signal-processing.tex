@@ -853,7 +853,7 @@ The $M$-point moving average system can be rewritten as follows,
 
 We have just witnessed how the computation of the modified $M$-point moving average system---rearranging the \emph{recursive equation}---requires \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly rearranging the equation of the system involved. Later on, we will see other cases in which this is true and very desirable.
 
-An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common §FIXME
+An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases.§ADDPLOT
 
 \subsection{Exponentially Weighted Running Average Filter}
 
@@ -1818,7 +1818,7 @@ Power signals are all those that, despite being of infinite-length, possess a fi
 Similarly, one can define the autocorrelation for a power signal as in the following definition,
 \begin{defin}[Autocorrelation for power signals]
     Let $x[n]$ be a \emph{power signal}. Then the \emph{autocorrelation} $r_{xx}$ is given by
-    \begin{equation}\label{eqn:crossCorrelationPowerSignals}
+    \begin{equation}\label{eqn:autoCorrelationPowerSignals}
         r_{xx}[l] = \lim_{K\rightarrow \infty} \frac 1 {2K+1} \sum_{n=-K}^K x[n]x[n-l],
     \end{equation}
     with $\frac 1 {2K+1}$ normalization factor.
@@ -1835,7 +1835,7 @@ The correlation sequences have a distinct formula for periodic signals as well. 
 
 \begin{defin}[Autocorrelation for periodic signals]
     Let $x[n]$ be a periodic signal of period $N$. Then the \emph{autocorrelation} $r_{xx}$ is defined as
-    \begin{equation}\label{eqn:crossCorrelationPeriodicSignals}
+    \begin{equation}\label{eqn:autoCorrelationPeriodicSignals}
         r_{xx}[l] = \frac 1 N \sum_{n=0}^{N-1} x[n]x[n-l].
     \end{equation}
 \end{defin}
@@ -4843,7 +4843,114 @@ The region of convergence of a rational $z$-transform can be soon determined usi
 \begin{verbatim}
 [z, p, k] = tf2zp(num, den);
 \end{verbatim}
-which determines the zeros, poles and the gain constant of a rational $z$-transform expressed by the vectors \texttt{num} and \texttt{den}, two vectors carrying---respectively---the numerator and the denominator of the rational $z$-transform.
+which determines the zeros, poles and the gain constant of a rational $z$-transform expressed by the vectors \texttt{num} and \texttt{den}, two vectors carrying---respectively---the numerator and the denominator of the rational $z$-transform. Reverse process can be obtained by simply calling the inverse function
+\begin{verbatim}
+[num, den] = zp2tf(z, p, k);
+\end{verbatim}
+whose return values will represent a rational $z$-transform expressed by numerator and denominator vectors \texttt{num} and \texttt{den}.
+
+The factored form of the $z$-transform, as in~\ref{eqn:rationalzTransformFactored}, can be collected by means of
+\begin{verbatim}
+sos = zp2sos(z, p, k);
+\end{verbatim}
+computing the coefficients of each second-order factor given as an $L \times 6$ matrix \texttt{sos}, where
+\[
+    sos =
+    \begin{bmatrix}
+        b_{01} & b_{11} & b_{21} & a_{01} & a_{11} & a_{21} \\
+        b_{02} & b_{12} & b_{22} & a_{02} & a_{12} & a_{22} \\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        b_{0L} & b_{1L} & b_{2L} & a_{0L} & a_{1L} & a_{1L}
+    \end{bmatrix}
+\]
+where factors are of the $2$nd order and are expressed as follows,
+\begin{equation}\label{eqn:rationalzTransformFactoredSecondOrder}
+    G(z) = \prod_{k=1}^L\frac{
+        b_{0k} + b_{1k}z^{-1} + b_{2k}z^{-2}
+    } {
+        a_{0k} + a_{1k}z^{-1} + a_{2k}z^{-2}
+    }.
+\end{equation}
+
+To determine the zero-pole plane, use the function \texttt{zplane}, either by providing \texttt{zplane(zeros, poles)} or by calling it with numerator and denominator vectors \texttt{zplane(num, den)}. Vectors \texttt{zeros}, \texttt{poles} are both column vectors, while on contrary vectors \texttt{num} and \texttt{den} are row vectors.
+
+For instance, let a rational $z$-transform function be defined as such,
+\[
+    J(z) = \frac{
+        2z^4 + 16z^3 + 44z^2 + 56z + 32
+    } {
+        3z^4 + 3z^3 - 15z^2 + 18z - 12
+    };
+\]
+to describe it in terms of numerator and denominator vectors, one can run
+\begin{verbatim}
+pkg load signal;
+num = [2 16 44 56 32];
+den = [3 3 -15 18 -12];
+zplane(num, den);
+\end{verbatim}
+which will generate a z-plane plot with zeros and poles drawn at their location in the plane, as in Figure~\ref{oct:poleZeroPlotExample}.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.3}{
+\input{octaves/poleZeroPlotExample.tex}
+}\caption{Plot of z-plane zeros and poles of function
+$J(z) = \frac{
+        2z^4 + 16z^3 + 44z^2 + 56z + 32
+    } {
+        3z^4 + 3z^3 - 15z^2 + 18z - 12
+    }$.
+}\label{oct:poleZeroPlotExample}
+\end{center}
+\end{figure*}
+
+\clearpage
+
+\section{Inverse $z$-Transform}
+
+Now that we had dealt with $z$-transform properties, region of convergence, notable transforms and rational $z$-transforms alternative forms, it is the time to finally introduce the \textbf{Inverse $z$-Transform}.
+
+A $z$-transform is generally given by the formula
+\[
+    G(z) = \sum_{n=-\infty}^\infty g[n]z^{-n} = \sum_{n=-\infty}^\infty g[n]r^{-n}e^{-j\omega n}
+\]
+with $z=re^{j\omega}$, is solely the Discrete-time Fourier Transform of the modified sequence $g[n]r^{-n}$. Subsequently, the inverse DTFT is given by
+\[
+    g[n]r^{-n} = \frac 1 {2\pi} \int_{-\pi}^\pi G(re^{j\omega}) e^{j\omega n} d\omega.
+\]
+
+Following the same idea as above, by making a variable change $z=re^{j\omega}$ the previous equation should yield the formula for the inverse $z$-transform. In point of fact, the above grows into a contour integral, giben by the following
+\begin{equation}\label{eqn:inversezTransform}
+    g[n] = \frac{1}{2j\pi}\oint_\gamma G(z) z^{n-1}dz
+\end{equation}
+where $\gamma$ is a \emph{counterclockwise contour of integration} defined by $|z| = r$. The integral value remains unchanged when $\gamma$ is replaced with any contour $\zeta$ surrounding point $z = 0$ and going through the region of convergence of $G(z)$, so
+\[
+    g[n] = \frac{1}{2j\pi}\oint_\zeta G(z) z^{n-1}dz.
+\]
+This means that the contour integral can be soon evaluated by means of the \emph{Cauchy's residue theorem} resulting in a sum of \emph{residues}
+\[
+    g[n] = \sum\left[ \makecell{ \mbox{ residues of } G(z)z^{n-1} \\ \mbox{ at the poles inside } \zeta} \right].
+\]
+
+In reality, the above integration is merely a conceptual step, rather than an actual method for inversion that should be adopted. In fact, inversion is usually performed through the \textbf{Partial-Fraction Expansion}. This method draws its core idea from the fact that any rational $z$-transform $G(z)$ with a causal inverse transform $g[n]$ has a RoC that is exterior to a circle: it is more convenient to express $G(z)$ in a \emph{partial-fraction expansion} form and then determine $g[n]$ by summing the inverse transform of the individual simpler terms in the expansion. The trick here is to somehow make the rational form \emph{simpler} by splitting it into smaller terms, each one with their own simpler inverse transform, and summing up all together in the end.
+
+As we have already seen, rational $G(z)$ functions can be expressed as follows,
+\[
+    G(z) = \frac{P(z)}{D(z)} =
+    \frac {
+        \sum_{i=0}^M p_i z^{-i}
+    } {
+        \sum_{i=0}^N d_i z^{-i}
+    }.
+\]
+
+However, if $M\leq N$, then $G(z)$ can be rewritten as
+\begin{equation}\label{eqn:partialFractionExpansion}
+    G(z) = \sum_{l=0}^{M-N} \eta_l z^{-l} + \frac{P'(z)}{D(z)},
+\end{equation}
+where the degree of $P'(z)$ is \emph{less} than the original degree $N$.
+
 
 
 \include{references}
