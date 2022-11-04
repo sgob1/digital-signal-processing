@@ -19,23 +19,8 @@
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
 \usepackage{pgfplots}
 %\usepackage{fontspec}
-%\usepackage{mlmodern}
 \usepackage[default,regular,black]{sourceserifpro}
 \usepackage[stickstoo]{newtxmath}
-%\usepackage[p]{scholax}
-%\usepackage[scaled=1.075,ncf]{newtxmath}
-%\usepackage[nomath,variablett]{lmodern}
-%\usepackage[usefilenames,DefaultFeatures={Ligatures=Common}]{plex-otf} %
-%\usepackage{stickstootext}
-%\usepackage[libertine]{newtxmath}
-%\usepackage{erewhon}
-%\usepackage{times}
-%\usepackage[scaled=0.92]{CharisSIL}
-%\usepackage[charter]{mathdesign}
-%\usepackage{tgschola}
-%\usepackage[scaled=1.000,ncf,vvarbb]{newtxmath}
-%\usepackage{mathpazo}
-%\usepackage[libertine]{newtxmath}
 \usepackage[all]{nowidow}
 \usepackage{graphicx}
 \usepackage{svg}
@@ -47,14 +32,9 @@
 \usepackage[a4paper, inner=\innermargin, outer=\outermargin]{geometry}
 
 \setlength{\columnsep}{42pt}
-%\font \monofontfs = "IBM Plex Mono"
 
 \begin{document}
-%\setmonofont[Scale=0.9]{IBM Plex Mono}
 \include{\titlepagename}
-%\title{\Huge \textsc{Digital Signal Processing}}
-%\author{\large \emph{Marco Sgobino}}
-%\maketitle
 \setstretch{\spacingvalue}
 \setlength{\emergencystretch}{0pt}
 %\overfullrule=2cm
@@ -853,7 +833,7 @@ The $M$-point moving average system can be rewritten as follows,
 
 We have just witnessed how the computation of the modified $M$-point moving average system---rearranging the \emph{recursive equation}---requires \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly rearranging the equation of the system involved. Later on, we will see other cases in which this is true and very desirable.
 
-An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases.§ADDPLOT
+An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal.
 
 \subsection{Exponentially Weighted Running Average Filter}
 
@@ -1206,7 +1186,7 @@ by substituting with the impulse sequence one gets
     h[n] = \sum_{i=-\infty}^{n} \delta[l] = \mu[n].
 \]
 
-Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected. Undoubtedly, this sounds like performing an ``integration'' operation, although there are some substantial differences involved.§FIXME
+Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected.
 
 The impulse response $h[n]$ of the factor-of-two interpolator
 \[
@@ -1266,7 +1246,7 @@ Equations~\ref{eqn:impulseResponseLTIArbitrary}~and~\ref{eqn:impulseResponseLTIA
     y[n] = x[n] \circledast h[n].
 \end{equation}
 
-The properties of the convolution sum are the following ones\footnote{An important remark on this is that the following properties hold only for \emph{infinite-precision} and \emph{infinite-range} representations, as truncated ones might suffer from §FIXME}:
+The properties of the convolution sum are the following ones\footnote{An important remark on this is that the following properties hold only for \emph{infinite-precision} and \emph{infinite-range} representations, as truncated ones might suffer from side-effects which can compromise this properties so that their application would not lead to exact results.}:
 \begin{itemize}
     \item the convolution is \emph{commutative},\[ g[n] \circledast h[n] = h[n] \circledast g[n];\]
     \item the convolution is \emph{associative},\[ (g[n] \circledast h[n]) \circledast k[n] = g[n] \circledast (h[n] \circledast k[n]);\]
@@ -1303,7 +1283,7 @@ If the two sequences are finite-length, there will be a time instant, let's say,
 
 The convolution sum will be able to produce a fine output (in finite time) in the case of \emph{finite length} signals, because the total length of the output will indeed be a finite length signal, although longer than the two input operands. Vice-versa, for any system characterized by an \emph{infinite} impulse response sequence, the convolution sum cannot be adopted to compute the output, since an infinite length output will result from a convolution having at least one of the two operands of infinite length. In those fringe cases a different operator will be considered in place of the convolution sum.
 
-\section{Simple Interconnection Sche-mes}
+\section{Simple Interconnection Sche\-mes}
 
 The simplest interconnection schemas are the \textbf{cascade connection} and the \textbf{parallel connection}. The first ones are related to the concept of ``series'', while the latter are linked to the concept of ``parallel''.
 
@@ -1399,7 +1379,7 @@ which shows that the output of a parallel connection of two LTI discrete-time sy
 \end{equation}
 with $h_1[n]$ and $h_2[n]$ impulse responses of, respectively, the first and the second LTI system.
 
-\subsection{Streamlining the Interconnection Sche-mes}
+\subsection{Streamlining the Interconnection Sche\-mes}
 
 Rules for cascade and parallel configurations can be chained together to simplify an interconnection scheme composed of multiple cascade and parallel systems. Indeed, consider as an example the discrete-time system
 \begin{align*}
@@ -1685,7 +1665,7 @@ In general, the \textbf{correlation of two signals} or waveforms is defined as t
 
 To name one, in digital communications a set of data symbols in a predetermined alphabet are represented by a set of unique discrete-time sequences that codify them. If one of these sequences has been transmitted, the receiver has to determined \emph{which particular sequence has been received}, and it does so by \emph{comparing the received signal with every member of possible sequences from the set}. In such an application, the correlation of two sequences comes in handy, as it is a measure of similarity---the more the similar two sequences are, the more probable a received sequence codifies a certain symbol in the alphabet.
 
-Another application in which correlation proves useful is in the radar and sonar applications; the received signal refected from the target is a delayed version of the transmitted signal, and by \emph{measuring the delay} one can soon determine the location of the target. Correlation helps on this as measuring the delay might be brought back as the problem of finding the greatest similarity (correlation) between two sequences, the received sequence and a delayed step sequence $A\mu[n-\theta]$, with $A$ amplitude and $\theta$ delay.§FIXME[prove this claim] The detection problem gets much more complicated in practice---as often the received signal is corrupted by additive, random noise.
+Another application in which correlation proves useful is in the radar and sonar applications; the received signal refected from the target is a delayed version of the transmitted signal, and by \emph{measuring the delay} one can soon determine the location of the target. Correlation helps on this as measuring the delay might be brought back as the problem of finding the greatest similarity (correlation) between two sequences, the received sequence and a delayed step sequence $A\mu[n-\theta]$, with $A$ amplitude and $\theta$ delay, or between the received sequence and a delayed pattern to identify. The detection problem gets much more complicated in practice---as often the received signal is corrupted by additive, random noise.
 
 The correlation of signals idea leads to the following definition of \textbf{cross-correlation},
 \begin{defin}[Cross-correlation]
@@ -4188,7 +4168,7 @@ In \textsc{Matlab}, function \texttt{fftfilt} can be invoked to implement the ab
 \clearpage
 
 
-\chapter{Short Time Fourier Transform and the Uncertainty Principle}
+\section{Short Time Fourier Transform and the Uncertainty Principle}
 
 The \textbf{short-time Fourier transform (STFT)}, is a Fourier-related
 transform used to determine the sinusoidal frequency and phase content of local
