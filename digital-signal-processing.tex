@@ -1246,7 +1246,7 @@ Equations~\ref{eqn:impulseResponseLTIArbitrary}~and~\ref{eqn:impulseResponseLTIA
     y[n] = x[n] \circledast h[n].
 \end{equation}
 
-The properties of the convolution sum are the following ones\footnote{An important remark on this is that the following properties hold only for \emph{infinite-precision} and \emph{infinite-range} representations, as truncated ones might suffer from side-effects which can compromise this properties so that their application would not lead to exact results.}:
+The properties of the convolution sum are the following ones\footnote{An important remark on this is that the following properties hold only for \emph{infinite-precision} and \emph{infinite-range} representations, as truncated ones might suffer from side-effects which can compromise this properties so that their application would not lead to exact results. As wrote in \cite{bib:floatingPointPrecisionIssues}, accuracy problems in floating-point representation can lead to undesired side-effects such as non associative or non distributive sums or products, or improperly represented results.}:
 \begin{itemize}
     \item the convolution is \emph{commutative},\[ g[n] \circledast h[n] = h[n] \circledast g[n];\]
     \item the convolution is \emph{associative},\[ (g[n] \circledast h[n]) \circledast k[n] = g[n] \circledast (h[n] \circledast k[n]);\]
@@ -4927,10 +4927,93 @@ As we have already seen, rational $G(z)$ functions can be expressed as follows,
 
 However, if $M\leq N$, then $G(z)$ can be rewritten as
 \begin{equation}\label{eqn:partialFractionExpansion}
-    G(z) = \sum_{l=0}^{M-N} \eta_l z^{-l} + \frac{P'(z)}{D(z)},
+    G(z) = \sum_{l=0}^{M-N} \eta_l z^{-l} + \underbrace{\frac{P'(z)}{D(z)}}_{\Upsilon(z)},
 \end{equation}
 where the degree of $P'(z)$ is \emph{less} than the original degree $N$.
+The rational function $\Upsilon(z) := \frac{P'(z)}{D(z)}$ is called \emph{proper fraction}. The proper fraction part $\Upsilon(z)$ can be developed from $G(z)$ by performing a long division between $P(z)$ and $D(z)$ in a reverse order until the remainder polynomial $P'(z)$is of a lower degree than that of the denominator---a technique called \textbf{method of residues}.
 
+Indeed, one can employ \textsc{Octave}'s command \texttt{residuez} to compute the partial-fraction expansion of a rational $z$-transform with numerator and denominator coefficients given by vectors \texttt{num} and \texttt{den},
+\begin{verbatim}
+[r, p, k] = residuez(num, den)
+\end{verbatim}
+For example,
+\begin{verbatim}
+pkg load signal;
+num = [2 16 44 56 32];
+den = [3 3 -15 18 -12];
+[r, p, k] = residuez(num, den)
+\end{verbatim}
+yields
+\begin{verbatim}
+r =
+
+  -3.070175 - 2.339788i
+  -3.070175 + 2.339788i
+   9.491429 - 0.000000i
+  -0.017745 + 0.000000i
+
+p =
+
+   0.5000 - 0.8660i
+   0.5000 + 0.8660i
+   1.2361 +      0i
+  -3.2361 -      0i
+
+k = -2.6667
+\end{verbatim}
+
+Vector \texttt{r} contains the residues, vector \texttt{p} contains the poles, while vector \texttt{k} encloses the constants $\eta_l$. The inverse process is performed by the same function invocation, with converse arguments:
+\begin{verbatim}
+[num, den] = residuez(r, p, k)
+\end{verbatim}
+which converts a $z$-transform expressed in partial-fraction expansion form to its rational form.
+
+\subsection{Inverse $z$-Transform using Long Division}
+
+\textbf{Long division} can be employed to actually compute the $z$-transform. Verily, the $z$-transform $G(z)$ of $\{g[n]\}$ can be expanded in a power series $z^{-1}$, and in such series expansion the coefficient multiplying term $z^{-n}$ is the $n$-th sample $g[n]$. For rational $z$-transforms expressed as ratio of polynomials in $z^{-1}$ the power series expansion can be obtained by long division in the following manner.
+
+Let
+\[
+    H(z) = \frac {
+        1 + 2z^{-1}
+    } {
+        1 + 0.4z^{-1} - 0.12z^{-2}
+    };
+\]
+long division of the numerator by the denominator yields the rewriting of $H(z)$ into its \emph{FIR approximation}
+\[
+    H(z) = 1 + 1.6z^{-1} - 0.52z^{-2} + 0.4z^{-3} - 0.2224z^{-4} + \cdots
+\]
+where the $\dots$ signify that among the infinite sum only values up to term $z^{-4}$ were collected. The resulting causal sequence will be
+\[
+    \{h[n]\} =
+    \begin{Bmatrix} 
+        1 & 1.6z^{-1} - 0.52z^{-2} & 0.4z^{-3} - 0.2224z^{-4} & \cdots
+    \end{Bmatrix}
+\]
+
+The function \texttt{impz} can be used to find the inverse of a rational $z$-transform $G(z)$: it computes the coefficients of the power series expansion of $G(z)$, only gathering a specified or automatically-determined amount of coefficients.
+
+The following Table~\ref{tab:zTransformTheorems} summarizes the most crucial theorems and results.
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{l|ccc}
+    \textbf{Theorem} & \textbf{Sequence} & \textbf{$z$-Transform} & \textbf{RoC} \\
+    \hline
+    Conjugation & $g^*[n]$ & $G^*(z^*)$ & $\mathcal R_g$\\
+    Time-reversal & $g[-n]$ & $G(\frac{1}{z})$ & $\frac{1}{\mathcal R_g}$\\
+    Linearity & $\alpha g[n] + \beta h[n]$ & $\alpha G(z) + \beta H(z)$ & \makecell{Includes\\ $\mathcal R_g \cup \mathcal R_h$}\\
+    Time-shifting & $g[n - n_0]$ & $z^{-n_0}G(z)$ & \makecell{$\mathcal R_g$ except possibly\\ point $z=0$ or $z = \infty$}\\
+    Multiplication by exponential sequence & $\alpha^n g[n]$ & $G(\frac z \alpha)$ & $|\alpha|\mathcal R_g$\\
+    Differentiation of $G(z)$ & $n g[n]$ & $-z\frac{dG(z)}{dz}$ & \makecell{$\mathcal R_g$, except\\ possibly $z=0$ or $z=\infty$}\\
+    Convolution & $g[n] \circledast h[n]$ & $G(z)\cdot H(z)$ & \makecell{Includes\\ $\mathcal R_g \cup \mathcal R_h$}\\
+    Modulation & $g[n] \cdot h[n]$ & $\frac{1}{2\pi j} \oint_\gamma G(\upsilon)\cdot H(\frac{z}{\upsilon})\upsilon^{-1} d\upsilon$ & \makecell{Includes\\ $\mathcal R_g \mathcal R_h$}\\
+    \hline
+    Parseval's relation & \makecell{$\sum_{n=-\infty}^\infty g[n]h^*[n] =$ \\ $= \frac{1}{2\pi j} \oint_\gamma G(\upsilon)\cdot H(\frac{z}{\upsilon})\upsilon^{-1} d\upsilon$} & &
+\end{tabular}
+    \caption{If $\mathcal R_g$ denotes the region of convergence $\mathcal R_{g-} < |z| < \mathcal R_{g+}$ and $\mathcal R_h$ denotes the region of convergence $\mathcal R_{h-} < |z| < \mathcal R_{h+}$, then $\frac{1}{\mathcal R_{g+}}$ denotes the region $\frac{1}{\mathcal R_{g-}} < |z| < \frac{1}{\mathcal R_{g+}}$ and the region $\mathcal R_g \mathcal R_h$ denotes the region $\mathcal R_{g-}\mathcal R_{h-} < |z| < \mathcal R_{g+}\mathcal R_{h+}$.}\label{tab:zTransformTheorems}
+\end{table*}
 
 
 \include{references}
