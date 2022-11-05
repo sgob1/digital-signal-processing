@@ -4479,15 +4479,118 @@ Now, confront this with the pattern induced by the Discrete Cosine Transform, wh
         \node[] at (+2.8, .55) {$\cdots$};
     \end{tikzpicture}
 \end{center}
-so that no sudden jumps or whatsoever occur.
+so that no sudden jumps or whatsoever occur. The Discrete Cosine Transform ``mirrors'' the sequence when periodicizing it, doubling the period and modifying it slightly, but making less room for periodicity artifacts. Discrete Cosine Transforms are employed in \texttt{mp3} coding (MCDT) and in \texttt{JPEG} coding (2--D DCT).
 
-Discrete Cosine Transforms are employed in \emph{mp3} coding (MCDT) and in \emph{JPEG} coding (2--D DCT).
+\section{Walsh--Hadamard Transform}\label{sec:walshHadamardTransform}
 
-\section{Walsh-Hadamard Transform}\label{sec:walshHadamardTransform}
+Another extremely simple and \emph{real} orthogonal transform is the \textbf{Walsh--Hadamard Transform}. The Walsh--Hadamard transform has the following form,
+\begin{equation}\label{eqn:walshHadamardTransform}
+    \left\{
+        \begin{array}{lll}
+            X[0] & = & \frac{x[0] + x[1]}{\sqrt 2}\\
+            X[1] & = & \frac{x[0] - x[1]}{\sqrt 2}\\
+        \end{array}
+    \right.
+\end{equation}
+with its \emph{inverse transform}
+\begin{equation}\label{eqn:walshHadamardTransformInverse}
+    \left\{
+        \begin{array}{lll}
+            x[0] & = & \frac{X[0] + X[1]}{\sqrt 2}\\
+            x[1] & = & \frac{X[0] - X[1]}{\sqrt 2}\\
+        \end{array}
+    \right..
+\end{equation}
+The factor $\sqrt 2$ at the denominator is indeed a scaling factor, and at convenience it can be applied squared in either the direct or the inverse form. The matrix form is as follows
+\begin{equation}\label{eqn:walshHadamardTransformMatrixForm}
+    \bm F = \frac {1}{\sqrt 2}\begin{Vmatrix} 1 & 1 \\ 1 & -1 \end{Vmatrix}, \bm F_{inv} = \frac{1}{\sqrt 2}\begin{Vmatrix} 1 & 1 \\ 1 & -1 \end{Vmatrix} = \bm F^{-1} = \bm F^\top \equiv \bm F,
+\end{equation}
+with its inverse equal to the direct form.
 
+A generalization of the Walsh--Hadamard Transforms makes use of \emph{higher-order matrices}, for which a parameter $N$ is the number of columns and rows of the matrix form $\bm H$. In the case $N=2$, one obtains \[\bm H_1 = \bm F = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix},\] hence for $N=2$ one has the Walsh--Hadamard transform.
+
+Matrices for the higher-oder transforms can be derived using recursion in the following manner,
+\[
+    \bm H_2 = \bm H_1 \otimes \bm H_1 = \frac {1} {\sqrt 2}
+    \begin{bmatrix}
+    \bm H_1 & \bm H_1 \\
+    \bm H_1 & - \bm H_1
+    \end{bmatrix}
+    = \frac {1} {\sqrt 4}
+    \begin{bmatrix}
+        1 & 1 & 1 & 1\\
+        1 & -1 & 1 & -1\\
+        1 & 1 & -1 & -1\\
+        1 & -1 & -1 & 1
+    \end{bmatrix}
+\]
+
+\begin{align*}
+    \bm H_3 &= \bm H_2 \otimes \bm H_2 = \frac {1} {\sqrt 2}
+    \begin{bmatrix}
+    \bm H_2 & \bm H_2 \\
+    \bm H_2 & - \bm H_2
+    \end{bmatrix}\\
+    &= \frac {1} {\sqrt 8}
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+        1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 \\
+        1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 \\
+        1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\
+        1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 \\
+        1 & -1 & 1 & -1 & -1 & 1 & -1 & 1 \\
+        1 & 1 & -1 & -1 & -1 & -1 & 1 & 1 \\
+        1 & -1 & -1 & 1 & -1 & 1 & 1 & -1
+    \end{bmatrix}
+\end{align*}
+Any matrix $\bm H$ is real, symmetric and orthogonal; accordingly, one has
+\[
+    \bm H = \bm H^* = \bm H^\top = \bm H^{-1}
+\]
+with the forward and inverse transforms
+\begin{align*}
+    \bm X &= \bm {Hx}\\
+    \bm x &= \bm {HX}
+\end{align*}
+that are identical.
+
+§ADDPLOT
 
 \section{Haar Transform}\label{sec:haarTransform}
 
+A different recursion definition leads to \textbf{Haar Transforms}. For instance, for $N=8$ one obtains
+\begin{equation}\label{eqn:haarTransformExample}
+    \bm H_8 = \frac {1}{\sqrt 8}
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+        1 & 1 & 1 & 1 & -1 & -1 & -1 & -1\\
+        \sqrt 2 & \sqrt 2 & \sqrt 2 & \sqrt 2 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & \sqrt 2 & \sqrt 2 & \sqrt 2 & \sqrt 2\\
+        2 & -2 & 0 & 0 & 0 & 0 & 0 & 0\\
+        0 & 0 & 2 & -2 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & 2 & -2 & 0 & 0\\
+        0 & 0 & 0 & 0 & 0 & 0 & 2 & -2\\
+    \end{bmatrix}
+    \begin{matrix}
+        \varphi_0(t)\\
+        \varphi_1(t)\\
+        \psi_{1,0}(t)\\
+        \psi_{1,1}(t)\\
+        \psi_{2,0}(t)\\
+        \psi_{2,1}(t)\\
+        \psi_{2,2}(t)\\
+        \psi_{2,3}(t)\\
+    \end{matrix}
+\end{equation}
+
+
+Haar transforms are described by \emph{wavelets}, that are small squared pulses that can be shifted in location. ``Row'' functions describe those wavelets. Functions $\varphi_0(t)$ and $\varphi_1(t)$ are similar to the row of the Walsh--Hadamard matrix; lines described by functions $\psi_{i,j}(t)$ are instead different, with $i$ signifying the \emph{scale} with which the wavelet occurs---one starts from $1$ being of scale $\sqrt 2$ and then doubles as the order increases---and $j$ controlling the \emph{shift} of the wavelet described by that line. Those functions are said to be the \textbf{Haar functions}. Haar functions contain a single prototype shape: a square wave. The parameters specify the width--scale of the shape along with its shift. In this way one is able to represent not only the details in the signal, but also their locations in time.
+
+Any transform that adopts wavelet is said to be a \emph{wavelet transform}; among them, the Haar is the simplest of all. Techniques such as \emph{Fast Haar Transform} have been designed\cite{bib:fastHaarTransform}.
+
+
+
+§ADDPLOT
 
 \chapter{$z$-Transform}
 
