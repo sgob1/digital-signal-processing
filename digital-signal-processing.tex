@@ -2812,26 +2812,26 @@ The DFT is the most important discrete transform, used to perform Fourier analys
 
 Since it deals with a \textbf{finite} amount of data, it can be implemented in computers by numerical algorithms or even dedicated hardware. These implementations usually employ efficient fast Fourier transform (FFT) algorithms; so much so that the terms ``FFT'' and ``DFT'' are often used interchangeably. Prior to its current usage, the ``FFT'' initialism may have also been used for the ambiguous term ``finite Fourier transform''~\cite{bib:discreteFourierTransform}.
 
-\section{Orthogonal Transforms}
+\section{Orthogonal Transforms}\label{sec:orthogonalTransforms}
 
 Let $x[n]$ be a sequence of length $N$. We define $\mathcal X[k], 0 \leq k \leq N-1$ the $N$-point \textbf{orthogonal transform} of $x[n]$. An orthogonal transforms is a \emph{generalized} version of Transforms that takes the form
 \begin{eqnarray}
-    \mathcal X[k] = \sum_{n=0}^{N-1} x[n] \psi^*[k,n], & 0 \leq k \leq N-1, \\\label{eqn:analysisEquation}
-    x[k] = \sum_{k=0}^{N-1} \mathcal X[n] \psi[k,n], & 0 \leq n \leq N-1. \label{eqn:synthesisEquation}
+    \mathcal X[k] = \sum_{n=0}^{N-1} x[n] \psi^*[k,n], & 0 \leq k \leq N-1, \\\label{eqn:analysisEquationDTFT}
+    x[k] = \sum_{k=0}^{N-1} \mathcal X[n] \psi[k,n], & 0 \leq n \leq N-1. \label{eqn:synthesisEquationDTFT}
 \end{eqnarray}
-The first Equation~\ref{eqn:analysisEquation} is called \emph{Analysis equation}, while the second Equation~\ref{eqn:synthesisEquation} is said to be the \emph{Synthesis equation}. Both analysis and synthesis equations concur in the definition of the orthogonal transform. Indeed, the analysis equation allows to perform the orthogonal transformation, while implicitly the synthesis equation serves as a ``inverse'' orthogonal transform. Still, the $\psi$ are said to be \emph{basis sequences} and are of length $N$ as well as the original sequence and the orthogonal transform sequence. Basis sequences can have complex values, so generally $\psi[k, n] \in \C$. In the class of transforms to be considered in this notes of digital signal processing, all the basis sequences will satisfy the following condition,
+The first Equation~\ref{eqn:analysisEquationDTFT} is called \emph{Analysis equation}, while the second Equation~\ref{eqn:synthesisEquationDTFT} is said to be the \emph{Synthesis equation}. Both analysis and synthesis equations concur in the definition of the orthogonal transform. Indeed, the analysis equation allows to perform the orthogonal transformation, while implicitly the synthesis equation serves as a ``inverse'' orthogonal transform. Still, the $\psi$ are said to be \emph{basis sequences} and are of length $N$ as well as the original sequence and the orthogonal transform sequence. Basis sequences can have complex values, so generally $\psi[k, n] \in \C$. In the class of transforms to be considered in this notes of digital signal processing, all the basis sequences will satisfy the following condition,
 \begin{equation}\label{eqn:orthogonalTransformsOrthogonalityCondition}
     \frac 1 N \sum_{n=0}^{N-1} \psi[k,n]\psi^*[l,n] = \left\{\begin{array}{ll}1, & l = k\\ 0, & l \neq k\end{array}\right.,
 \end{equation}
 a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] is equal to $1$ if and only if indexes $l = k$, a property that if satisfied then the basis sequences are said to be \emph{orthogonal to each other}.
 
-Really, in order for $\psi^*$ to be the inverse orthogonal transform, $\psi$ and $\psi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquation} into the analysis equation~\ref{eqn:analysisEquation},
+Really, in order for $\psi^*$ to be the inverse orthogonal transform, $\psi$ and $\psi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquationDTFT} into the analysis equation~\ref{eqn:analysisEquationDTFT},
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] \psi^*[k,n] &= \sum_{n=0}^{N-1}\left( \frac 1 N \sum_{k=0}^{N-1} \mathcal X[k] \psi[n,k]\right)\psi^*[l,n] \\
                                       &= \sum_{k=0}^{N-1} \mathcal X[k] \left( \frac 1 N \sum_{n=0}^{N-1}\psi[n,k]\psi^*[l,n]\right) \\
                                       &= \mathcal X[l],
 \end{align*}
-which yields an identity. Of course, the other way around works exactly the same, hence the inverse orthogonal transform is expressed as in Equation~\ref{eqn:synthesisEquation}.
+which yields an identity. Of course, the other way around works exactly the same, hence the inverse orthogonal transform is expressed as in Equation~\ref{eqn:synthesisEquationDTFT}.
 
 An important consequence of the orthogonality condition for orthogonal transforms is the \textbf{Energy Preservation Property}, which states that
 \begin{equation}\label{eqn:energyPreservationProperty}
@@ -2890,6 +2890,54 @@ due to the exponentiation properties. In order to verify that, just substitute w
     &= \frac 1 N \sum_{k=0}^{K-1} X[k] \left(\sum_{n=0}^{N-1}W_N^{-(k-l)n}\right).\\
     &= \frac 1 N X[l] N = X[l].
 \end{align*}
+
+\subsection{Basis functions}\label{sec:basisFunctions}
+
+In the end, the Discrete Fourier Transform involves choosing two \textbf{basis functions} $\psi^*$ and $\psi$ with which to carry out the transformation: one \emph{direct},
+\[
+    \psi^*(n, k) = e^{-j 2\pi \frac{nk}{N}},
+\]
+and the other \emph{inverse},
+\[
+    \psi(n, k) = e^{+j 2\pi \frac{nk}{N}},
+\]
+which are basically the two terms appearing in the sum required to transform a sequence. The notion of two basis functions to produce a transform will become useful later, when other kinds of transformations will be examined. In point of fact, the two basis functions will vary in relation to the specific transform to adopt. As we have seen in Section~\ref{sec:orthogonalTransforms}, \emph{any orthogonal transform can be expressed with their analysis and synthesis equations}, that is
+\begin{equation}\label{eqn:analysisEquation}
+    X(k) = \sum_{n=0}^{N-1} x(n)\psi^*(n, k),
+\end{equation}
+known as the \textbf{synthesis equation}; the above leads to the matrix form
+\begin{equation}\label{eqn:analysisEquationMatrixForm}
+    \bm{X} = \bm{Fx}.
+\end{equation}
+
+The matrix $\bm{F}$ must be \emph{unitary}, which means it must satisfy
+\begin{equation}\label{eqn:unitaryMatrix}
+    \bm{F}^{-1} = \bm{F}^{*\top}.
+\end{equation}
+
+Any orthogonal transform also possesses a \textbf{synthesis equation}, which stands for theinverse operation, that can be expressed as
+\begin{equation}\label{eqn:synthesisEquation}
+    x(n) = \sum_{k=0}^{N-1} X(k)\psi(n, k),
+\end{equation}
+that leads to
+\begin{equation}\label{eqn:synthesisEquationMatrixForm}
+    \bm{x} = \bm{F}^{*\top}\bm{x}.
+\end{equation}
+
+The presence of the conjugation in the analysis equation is not casual: $\psi$ and $\psi^*$ are, in reality, conjugated versions of each other.
+
+For Parseval's theorem~(\ref{eqn:parsevalTheorem}), when computing $\bm X$ $\bm x$ preserves its length, and the energy is preserved as well,
+\[
+    \|\bm X\|^2 = \bm X^{*\top} \bm X = \bm x^{*\top}\bm F^{*\top} \bm {Fx} = \bm x^{*\top} \bm x = \|\bm x\|^2.
+\]
+
+Matrix $\bm X$ is a rotated version of $\bm x$ in an $N$-dimensional space, as the transform is a rotation of the coordinates where the terms in $\bm X$ are \emph{the projections of $\bm x$ in the new space}. A suitable choice of the basis functions permits to exploit the \emph{energy compaction property} of an orthogonal transform: most of the contents of $\bm x$ can be represented by \emph{a subset} of the coefficients $\bm X$ instead of all of them, leading to much more efficient algorithms and representations.
+
+For instance, let $\bm x$ be a random signal possessing autocorrelation $\bm{R_x}$---the most efficient transform for random signals is the \textbf{Karhunen--Loeve Transform (KLT)}, also called \textbf{Hotelling Transform}. The KLT is a transform that takes as basis functions the eigenvectors of the autocorrelation matrix $\bm {R_x}$. 
+
+It is now clear that the DFT is not the only possible tranform, and depending on the scenario other orthogonal transforms can (and should) be used. Sections~\ref{sec:discreteCosineTransform}, \ref{sec:walshHadamardTransform}~and~\ref{sec:haarTransform} will cover some other instrumental orthogonal transforms one can employ in digital signal processing.
+
+\subsection{Example of DTFs}
 
 The first example in exam is a DFT of the following sequence of length $N$,
 \[
@@ -4294,6 +4342,149 @@ form of
 where $\Delta t$ is the \emph{time resolution}---how well two spikes in time can be separated from each other in the frequency domain---and $\Delta f$ is the \emph{frequency resolution}---how well two spectral components can be divided from each other in the time domain. The unquestionable fact is that \emph{both $\Delta t$ and $\Delta f$ cannot be made arbitrarily small}: shrinking one of the two will incontrovertibly grow the other, and vice versa!
 
 This fundamental law of nature can never be infringed, signifying that one cannot know the \emph{exact} time-frequency representation of a signal, since it must abide to the uncertainty principle and will be subject to a trade--of between time resolution and frequency resolution: one can only know what inverval of frequencies belongs to a given time interval. Wavelets are windows whose value take in account the product $\Delta t \Delta f$, and can be represented by rectangles having base $\Delta f$ and height $\Delta t$. The area of the wavelets cannot go below the value $\Delta t \cdot \Delta f$.
+
+\section{Discrete Cosine Transform}\label{sec:discreteCosineTransform}
+
+In Section~\ref{sec:basisFunctions} we explored the definition and some properties of basis functions regarding orthogonal transforms. The last ones were useful in particular, since they allow to exploit their energy compaction property, efficiently representing the transformed sequence with less coefficients than otherwise required.
+
+Now, it is about time to introduce new transforms: let's begin with the \textbf{Discrete Cosine Transform (DFT)}, a transform with good compaction properties, generally exhibiting satisfactory performance for signals having strong autocorrelation.
+
+\begin{defin}[Discrete Cosine Transform]
+    Let $x[n]$ be a sequence with (possibly) strong autocorrelation. Then, its \emph{Discrete Cosine Transform (DCT)} is
+    \begin{equation}\label{eqn:discreteCosineTransform}
+        X[k] = \alpha(k) \sum_{n=0}^{N-1} x[n] \cos{\left(\frac{\pi(2n + 1)k}{2N}\right)};
+    \end{equation}
+    with $\alpha(0) = \sqrt{\frac 1 N}$ and $\alpha(k) = \sqrt{ \frac 2 N }$. Its \emph{inverse transform} is given by
+    \begin{equation}\label{eqn:discreteCosineTransformInverse}
+        x[n] = \sum_{k=0}^{N-1}\alpha(k)  X[k] \cos{\left(\frac{\pi(2n + 1)k}{2N}\right)},
+    \end{equation}
+    resulting from the choice of \emph{basis functions} \[\psi^*(n, k) = \cos{\left(\frac{\pi(2n + 1)k}{2N}\right)}\] and \[\psi(n, k) = \cos{\left(\frac{\pi(2n + 1)k}{2N}\right)}.\]
+    In matrix form, one has
+    \begin{equation}\label{eqn:discreteCosineTransformMatrixForm}
+        \begin{array}{cc}
+            \bm X = \bm{Cx} & \bm x = \bm C^{*\top} \bm X = \bm C^\top \bm X.
+        \end{array}
+    \end{equation}
+\end{defin}
+
+To begin with, consider that in this case $\psi^*(n, k) = \psi(n, k)$ as $\cos^*{(x)} = \cos{(x)}$ for any argument. Furthermore, the Discrete Cosine Transform of a real sequence \emph{is real}, as no complex unit is involved in its computation. Third, unlike the DFT, the Discrete Cosine Transform is \emph{not} symmetrical around $\pi$.
+
+A discrete cosine transform (DCT) expresses a finite sequence of data points in terms of a sum of cosine functions oscillating at different frequencies. The DCT, first proposed by Nasir Ahmed in 1972, is a widely used transformation technique in signal processing and data compression. It is used in most digital media, including digital images (such as JPEG and HEIF, where small high-frequency components can be discarded), digital video (such as MPEG and H.26x), digital audio (such as Dolby Digital, MP3 and AAC), digital television (such as SDTV, HDTV and VOD), digital radio (such as AAC+ and DAB+), and speech coding (such as AAC-LD, Siren and Opus). DCTs are also important to numerous other applications in science and engineering, such as digital signal processing, telecommunication devices, reducing network bandwidth usage, and spectral methods for the numerical solution of partial differential equations.
+
+The use of cosine rather than sine functions is critical for compression, since it turns out (as described below) that fewer cosine functions are needed to approximate a typical signal, whereas for differential equations the cosines express a particular choice of boundary conditions. In particular, a DCT is a Fourier-related transform similar to the discrete Fourier transform (DFT), but using only real numbers. The DCTs are generally related to Fourier Series coefficients of a periodically and symmetrically extended sequence whereas DFTs are related to Fourier Series coefficients of only periodically extended sequences. DCTs are equivalent to DFTs of roughly twice the length, operating on real data with even symmetry (since the Fourier transform of a real and even function is real and even), whereas in some variants the input and/or output data are shifted by half a sample. There are eight standard DCT variants, of which four are common\cite{bib:discreteCosineTransform}.
+
+The Discrete Cosine Transform can be related to the Discrete Fourier Transform. Let us defined the \emph{half-sample, symmetric, right periodic extension} of $x$ as
+\[
+    x_s[n] =
+    \left\{
+        \begin{array}{ll}
+            x[n] & 0 \leq n \leq N-1\\
+            x[2N - 1 - n] & N \leq n \leq 2N-1
+        \end{array}
+    \right.
+\]
+that yields a sequence of the form
+\begin{align*}
+    x_s[n] = \{ &\dots, x[0], x[1],\dots,x[N-2], x[N-1],\\ 
+                &x[N-1], x[N-2],\dots,x[1],x[0],\dots\}.
+\end{align*}
+According to the type of chosen periodic extension, up to $8$ different versions of the DCT can be obtained. The DFT of $x_s$ will thus be
+\begin{align*}
+    X_s[k] 
+    &= \sum_{n=0}^{2N-1} x_s[n] e^{-j\frac{2\pi}{2N}kn}\\
+    &= \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}kn} + \sum_{n=N}^{2N-1} x[2N - 1 - n] e^{-j\frac{2\pi}{2N}kn},
+\end{align*}
+and by substituting $m = 2N-1-n$ one soon obtains that
+\begin{align*}
+    n &= N  \rightarrow  m = N - 1 \\
+    n &= 2N - 1  \rightarrow  m = 0 \\
+    m &= 2N - 1 - n\\
+    n &= 2N - 1 - m.
+\end{align*}
+Ultimately, the DCT will be
+\begin{align*}
+    X_s[k] 
+    &= \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}kn} + \sum_{n=N}^{2N-1} x[\underbrace{2N - 1 - n}_{m}] e^{-j\frac{2\pi}{2N}kn}\\
+    &= \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}kn} + \sum_{m=0}^{N-1} x[m] e^{-j\frac{2\pi}{2N}k(2N-1-m)}\\
+    &= \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}kn} + \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}k(-1-n)}\\
+    &= \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}kn} + e^{-j\frac{2\pi}{2N}k(-1-n)}\right) \\
+    &= \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}kn} + e^{-j\frac{2\pi}{2N}k(-1-n)}\right) \cdot e^{j\frac{2\pi}{2N}\frac{k}{2}} e^{-j\frac{2\pi}{2N}\frac{k}{2}}\\
+    &= e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}k(n + \frac 1 2)} + e^{+j\frac{2\pi}{2N}k(n + \frac 1 2)}\right)\\
+    &= 2e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\left(\cos{(\frac{2\pi}{2N}k(n + \frac 1 2))}\right),
+\end{align*}
+which is equal to the DCT of $\bm x$, apart from scaling factors. Thus, it is possible to calculate the Discrete Cosine Transform by means of the Fast Fourier Transform, by first producing two \emph{half-sample, symmetric, right periodic extensions} of $x$, then summing up the Discrete Fourier Transform of these two sequences to obtain the Discrete Cosine Transform.
+
+The periodicity artifacts are smaller in the DCT than in the DFT. Let an input sequence be of the following type,
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-1.5,0) -- (1.5,0) node[anchor=north west] {$n$};
+        \draw[-{Circle[open]}] (-2*0.2,0) -- (-2*0.2,0.5);
+        \draw[-{Circle[open]}] (-1*0.2,0) -- (-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (0*0.2,0) -- (0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (1*0.2,0) -- (1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (2*0.2,0) -- (2*0.2,2.6*0.5);
+    \end{tikzpicture}
+\end{center}
+the periodicity artifacts induced by the periodic extensions are sudden jumps located ad the ``discontinuity'' on a new repetition:
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$n$};
+        \draw[-{Circle[open]}] (-1+-2*0.2,0) -- (-1+-2*0.2,0.5);
+        \draw[-{Circle[open]}] (-1+-1*0.2,0) -- (-1+-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (-1+0*0.2,0) --  (-1+0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (-1+1*0.2,0) --  (-1+1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (-1+2*0.2,0) --  (-1+2*0.2,2.6*0.5);
+        \draw[-{Circle[open]}] (-2*0.2,0) -- (-2*0.2,0.5);
+        \draw[-{Circle[open]}] (-1*0.2,0) -- (-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (0*0.2,0) -- (0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (1*0.2,0) -- (1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (2*0.2,0) -- (2*0.2,2.6*0.5);
+        \draw[-{Circle[open]}] (+1+-2*0.2,0) -- (+1+-2*0.2,0.5);
+        \draw[-{Circle[open]}] (+1+-1*0.2,0) -- (+1+-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (+1+0*0.2,0) --  (+1+0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (+1+1*0.2,0) --  (+1+1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (+1+2*0.2,0) --  (+1+2*0.2,2.6*0.5);
+        \node[] at (-1.8, .55) {$\cdots$};
+        \node[] at (+1.8, .55) {$\cdots$};
+    \end{tikzpicture}
+\end{center}
+
+Now, confront this with the pattern induced by the Discrete Cosine Transform, which involves ``mirroring'' the sequence as well as periodicizing it:
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (3.5,0) node[anchor=north west] {$n$};
+        \draw[-{Circle[open]}] (-1+2*0.2,0) -- (-1+2*0.2,0.5);
+        \draw[-{Circle[open]}] (-1+1*0.2,0) -- (-1+1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (-1+0*0.2,0) --  (-1+0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (-1+-1*0.2,0) --  (-1+-1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (-1+-2*0.2,0) --  (-1+-2*0.2,2.6*0.5);
+        \draw[-{Circle[open]}] (-2*0.2,0) -- (-2*0.2,0.5);
+        \draw[-{Circle[open]}] (-1*0.2,0) -- (-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (0*0.2,0) -- (0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (1*0.2,0) -- (1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (2*0.2,0) -- (2*0.2,2.6*0.5);
+        \draw[-{Circle[open]}] (2+-1+2*0.2,0) --   (2+-1+2*0.2,0.5);
+        \draw[-{Circle[open]}] (2+-1+1*0.2,0) --   (2+-1+1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (2+-1+0*0.2,0) --   (2+-1+0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (2+-1+-1*0.2,0) --  (2+-1+-1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (2+-1+-2*0.2,0) --  (2+-1+-2*0.2,2.6*0.5);
+        \draw[-{Circle[open]}] (2+-2*0.2,0) --     (2+-2*0.2,0.5);
+        \draw[-{Circle[open]}] (2+-1*0.2,0) --     (2+-1*0.2,1.4*0.5);
+        \draw[-{Circle[open]}] (2+0*0.2,0) --      (2+0*0.2,1.8*0.5);
+        \draw[-{Circle[open]}] (2+1*0.2,0) --      (2+1*0.2,2.2*0.5);
+        \draw[-{Circle[open]}] (2+2*0.2,0) --      (2+2*0.2,2.6*0.5);
+        \node[] at (-1.8, .55) {$\cdots$};
+        \node[] at (+2.8, .55) {$\cdots$};
+    \end{tikzpicture}
+\end{center}
+so that no sudden jumps or whatsoever occur.
+
+Discrete Cosine Transforms are employed in \emph{mp3} coding (MCDT) and in \emph{JPEG} coding (2--D DCT).
+
+\section{Walsh-Hadamard Transform}\label{sec:walshHadamardTransform}
+
+
+\section{Haar Transform}\label{sec:haarTransform}
 
 
 \chapter{$z$-Transform}
