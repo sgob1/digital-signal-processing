@@ -2003,7 +2003,7 @@ Band-limited signals can be classified accordingly to their frequency range, tha
     \item[Bandpass] signals are any signal whose spectrum is located in the frequency range $[\omega_L, \omega_H]$, that is $0 < \omega_L \leq |\omega| \leq \omega_H < \infty$, where the bandwidth is given by $\mathrm{BW} = \omega_H - \omega_L$.
 \end{description}
 
-\section{Discrete-time Fourier Transform}
+\section{Discrete-time Fourier Transform}\label{sec:discreteTimeFourierTransform}
 The frequency-domain representation of a discrete-time sequence is the \textbf{discrete-time Fourier Transform (DTFT)}. The Fourier transform maps a time-domain sequence into a continuous function of the frequency variable $\omega$.
 
 Indeed, the DTFT represents a different view on the sequences and systems, that is:
@@ -4554,7 +4554,131 @@ with the forward and inverse transforms
 \end{align*}
 that are identical.
 
-§ADDPLOT
+\begin{figure*}[ht]
+    \begin{center}
+        \begin{tikzpicture}
+            \draw (-4,0) -- (4,0) node[anchor=north west] {};
+            \draw (-4,-1) -- (4,-1) node[anchor=north west] {};
+            \draw (-4,-2) -- (4,-2) node[anchor=north west] {};
+            \draw (-4,-3) -- (4,-3) node[anchor=north west] {};
+            \draw (-4,-4) -- (4,-4) node[anchor=north west] {};
+            \draw (-4,-5) -- (4,-5) node[anchor=north west] {};
+            \draw (-4,-6) -- (4,-6) node[anchor=north west] {};
+            \draw (-4,-7) -- (4,-7) node[anchor=north west] {};
+
+            \node at (-5, 1) {Hadamard ordering};
+            \node at (+5, 1) {Walsh ordering};
+            \node at (-5, 0) {$0$};
+            \node at (+5, 0) {$0$};
+            \draw[thick, blue] (-4, 0) -- (-4, 0.3) -- (4, 0.3) -- (4, 0);
+            \node at (-5, -1) {$1$};
+            \node at (+5, -1) {$7$};
+            \draw[thick, blue]
+                (-4, -1) --
+                (-4, -1+0.3) --
+                (-3, -1+0.3) --
+                (-3, -1-0.3) --
+                (-2, -1-0.3) --
+                (-2, -1+0.3) --
+                (-1, -1+0.3) --
+                (-1, -1-0.3) --
+                (0, -1-0.3) --
+                (0, -1+0.3) --
+                (1, -1+0.3) --
+                (1, -1-0.3) --
+                (2, -1-0.3) --
+                (2, -1+0.3) --
+                (3, -1+0.3) --
+                (3, -1-0.3) --
+                (4, -1-0.3) --
+                (4, -1);
+            \node at (-5, -2) {$2$};
+            \node at (+5, -2) {$3$};
+            \draw[thick, blue]
+                (-4, -2) --
+                (-4, -2+0.3) --
+                (-2, -2+0.3) --
+                (-2, -2-0.3) --
+                (0, -2-0.3) --
+                (0, -2+0.3) --
+                (2, -2+0.3) --
+                (2, -2-0.3) --
+                (4, -2-0.3) --
+                (4, -2);
+            \node at (-5, -3) {$3$};
+            \node at (+5, -3) {$4$};
+            \draw[thick, blue]
+                (-4, -3) --
+                (-4, -3+0.3) --
+                (-3, -3+0.3) --
+                (-3, -3-0.3) --
+                (-1, -3-0.3) --
+                (-1, -3+0.3) --
+                (1, -3+0.3) --
+                (1, -3-0.3) --
+                (3, -3-0.3) --
+                (3, -3+0.3) --
+                (4, -3+0.3) --
+                (4, -3);
+            \node at (-5, -4) {$4$};
+            \node at (+5, -4) {$1$};
+            \draw[thick, blue]
+                (-4, -4) --
+                (-4, -4+0.3) --
+                (0, -4+0.3) --
+                (0, -4-0.3) --
+                (4, -4-0.3) --
+                (4, -4);
+            \node at (-5, -5) {$5$};
+            \node at (+5, -5) {$6$};
+            \draw[thick, blue]
+                (-4, -5) --
+                (-4, -5+0.3) --
+                (-3, -5+0.3) --
+                (-3, -5-0.3) --
+                (-2, -5-0.3) --
+                (-2, -5+0.3) --
+                (-1, -5+0.3) --
+                (-1, -5-0.3) --
+                (1, -5-0.3) --
+                (1, -5+0.3) --
+                (2, -5+0.3) --
+                (2, -5-0.3) --
+                (3, -5-0.3) --
+                (3, -5+0.3) --
+                (4, -5+0.3) --
+                (4, -5);
+            \node at (-5, -6) {$6$};
+            \node at (+5, -6) {$2$};
+            \draw[thick, blue]
+                (-4, -6) --
+                (-4, -6+0.3) --
+                (-2, -6+0.3) --
+                (-2, -6-0.3) --
+                (2, -6-0.3) --
+                (2, -6+0.3) --
+                (4, -6+0.3) --
+                (4, -6);
+            \node at (-5, -7) {$7$};
+            \node at (+5, -7) {$5$};
+            \draw[thick, blue]
+                (-4, -7) --
+                (-4, -7+0.3) --
+                (-3, -7+0.3) --
+                (-3, -7-0.3) --
+                (-1, -7-0.3) --
+                (-1, -7+0.3) --
+                (0, -7+0.3) --
+                (0, -7-0.3) --
+                (1, -7-0.3) --
+                (1, -7+0.3) --
+                (3, -7+0.3) --
+                (3, -7-0.3) --
+                (4, -7-0.3) --
+                (4, -7);
+        \end{tikzpicture}
+    \end{center}\caption{Wavelets corresponding to Walsh--Hadamard transforms orders. Ordering is denoted on the side.}\label{tikz:walshHadamardTransformWavelets}
+\end{figure*}
 
 \section{Haar Transform}\label{sec:haarTransform}
 
@@ -4589,8 +4713,51 @@ Haar transforms are described by \emph{wavelets}, that are small squared pulses 
 Any transform that adopts wavelet is said to be a \emph{wavelet transform}; among them, the Haar is the simplest of all. Techniques such as \emph{Fast Haar Transform} have been designed\cite{bib:fastHaarTransform}.
 
 
-
-§ADDPLOT
+\begin{figure*}[ht]
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (0,.2) -- (1.8,.2);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (0,.2) -- (.9,.2) -- (+.9, -.2) -- (1.8,-.2);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (0,.2) -- (.45,.2) -- (+.45, -.2) -- (.9,-.2) -- (.9, 0);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (.9,0) -- (.9,.2) -- (.9+.45,.2) -- (.9++.45, -.2) -- (.9+.9,-.2) -- (.9+.9, 0);
+        \end{tikzpicture}
+        \\
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (0,.2) -- (0+.225,.2) -- (0+.225, -.2) -- (0+.45,-.2) -- (.45, 0);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (.45, 0) -- (.45,.2) -- (.45+.225,.2) -- (.45+.225, -.2) -- (.45+.45,-.2) -- (.45+.45, 0);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (.9, 0) -- (.9,.2) -- (.9+.225,.2) -- (.9+.225, -.2) -- (.9+.45,-.2) -- (.9+.45, 0);
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \draw[-stealth] (0,0) -- (2,0) node[anchor=north west] {};
+            \draw[-stealth] (0,-1) -- (0,+1) node[anchor=north west] {};
+            \draw[thick, blue] (1.35, 0) -- (1.35,.2) -- (1.35+.225,.2) -- (1.35+.225, -.2) -- (1.35+.45,-.2) -- (1.35+.45, 0);
+        \end{tikzpicture}
+    \end{center}\caption{Square wavelets associated with \emph{Haar Transform}. The parameters of the Haar transform specify the width and the location of the wavelet.}\label{tikz:haarTransformWavelets}
+\end{figure*}
 
 \chapter{$z$-Transform}
 
@@ -4915,7 +5082,7 @@ If the RoC of a $z$-transform includes the unit circle, the Discrete-time Fourie
 
 Consider again the sequence $x[n] = \mu[n]$, whose plot is in Figure~\ref{tikz:zTransformCausalUnitStep}---the RoC is the region of the z-plane just outside the circle centered at the origin and going through the pole located at $z=1$.
 
-Likewise, the $z$-transform $K(z)$ of the sequence $\varkappa[n] = (-0.6)^n\mu[n]$ is given by the formula
+Likewise, the $z$-transform $K(z)$ of the sequence $\upvarkappa[n] = (-0.6)^n\upmu[n]$ is given by the formula
 \[
     K(z) = \frac{1}{1 + 0.6z^{-1}}, |z| > 0.6,
 \]
@@ -4941,7 +5108,7 @@ which yields the following region of convergence,
     \end{tikzpicture}
 \end{center}
 
-Again, this region of convergence is fenced by the pole at $z=-0.6$ which essentially determines the location of the circle which is the border of the region of convergence. The DTFT for sequence $\varkappa[n]$ exists, since the unit circle (dashed, in figure) lies in the region of convergence of the $z$-transform, as Theorem~\ref{thm:convergenceDTFTz} declares.
+Again, this region of convergence is fenced by the pole at $z=-0.6$ which essentially determines the location of the circle, the border of the region of convergence. The DTFT for sequence $\varkappa[n]$ exists, since the unit circle (dashed, in figure) lies in the region of convergence of the $z$-transform, as Theorem~\ref{thm:convergenceDTFTz} declares.
 
 The Region of Convergence of a rational $z$-transform predominantly depends on the type of the sequence of interest---be it \emph{finite-length}, \emph{right-sided}, \emph{left-sided} or ultimately \emph{two-sided}.
 
@@ -5312,6 +5479,96 @@ The following Table~\ref{tab:zTransformTheorems} summarizes the most crucial the
 \end{table*}
 
 \part{Systems in the Frequency Domain}
+
+\chapter{The Frequency Response}
+\section{Eigenfunctions}
+
+Discrete-time signals encountered in practice can be represented as linear combination of enormous---even infinite---number of sinusoidal discrete-time signals having different angular frequencies. Therefore, knowing the response of the Linear-Time-Invariant system to a single of these sinusoidal allows to determine the response to the more complicated signals, by superposition principle. An important property of any LTI system is that for certain types of input signals, called \textbf{eigenfunctions}, the output signal is the input signal multiplied by a complex constant.
+
+In mathematics, an eigenfunction of a linear operator $D$ defined on some function space is any non-zero function $f$ in that space that, when acted upon by $D$, is only multiplied by some scaling factor, called \emph{eigenvalue}. As an equation, this condition can be written as
+\begin{equation}\label{eqn:eigenFunction}
+    Df = \lambda f.
+\end{equation}
+for some scalar eigenvalue $\lambda$\cite{bib:eigenFunctions}.
+
+Let now $x[n]$ be an eigenfunction of the LTI system with an impulse response $\{h[n]\}$. Its input--output relationship in the time-domain is soon given by the following convolution sum
+\[
+    y[n] = \sum_{k=-\infty}^\infty h[k]x[n-k].
+\]
+In the case of $x[n] = e^{j\omega_0 n}, -\infty < n < \infty$, it immediately follows that the output is given by
+\[
+    y[n] = \sum_{k=-\infty}^\infty h[k]e^{j\omega_0 (n - k)} = \underbrace{\left(\sum_{k=-\infty}^\infty h[k] e^{-j\omega_0 k} \right)}_{H(e^{j\omega_0})} e^{j\omega_0 n},
+\]
+and if we name
+\[
+    H(e^{j\omega_0}) = \sum_{k=-\infty}^\infty h[k]e^{-j\omega_0 k}
+\]
+then we can obtain the output as
+\[
+    y[n] = H(e^{j\omega_0})e^{j\omega_0 n} = H(e^{j\omega_0})x[n].
+\]
+
+Hence, for a complex exponential input signal $e^{j\omega_0 n}$ the output of an LTI system is also a complex exponential signal, of the same frequency, multiplied by a complex constant $H(e^{j\omega_0})$: the exponential input signal $e^{j\omega_0 n}$ is an \emph{eigenfunction of the system.}
+
+Suppose to collect now every value of $H(e^{j\omega_0})$ for any possible choice of $\omega_0$ and put it into a function $H(e^{j\omega})$---for a generic frequency $\omega$, the function $H(e^{j\omega})$ is called the \textbf{frequency response} of the LTI discrete-time system. The frequency response provides a frequency-domain description of the system, and is precisely the Discrete-time Fourier Transform of the impulse response $\{h[n]\}$ of the system. Like the DTFT, the frequency response is---generally speaking---a complex function of period $2\pi$, and can be expressed either in terms of its real and imaginary parts, or in terms of its magnitude and phase, that is
+\[
+    H(e^{j\omega}) = H_{re}(e^{j\omega}) + jH_{im}(e^{j\omega})
+\]
+or
+\[
+    H(e^{j\omega}) = \left|H(e^{j\omega})\right| e^{j\theta(\omega)},
+\]
+where
+\[
+    \theta(\omega) = \arg{H(e^{j\omega})}
+\]
+results that were already highlighted in Section~\ref{sec:discreteTimeFourierTransform}, a part related to the DTFT. Especially the polar representation comes in handy, with two distinct components that should be put under the spotlight: the \textbf{magnitude response} $\left|H(e^{j\omega})\right|$, and the \textbf{phase response} $\theta(\omega)$ of the LTI discrete-time systems. Those two functions are both real functions, and together totally describe the complex-valued function that is the frequency response: for this reason, in many applications the two functions are those that are provided in order to describe the frequency response or the DTFT of a LTI system. In some cases a scaling is appropriate, with the magnitude function specified in \emph{decibels} as
+\[
+    \mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
+\]
+where $\mathcal G(\omega)$ is said to be the \textbf{gain function}. The negative of the gain function,
+\[
+    \mathcal A(\omega) = -\mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
+\]
+is called the \textbf{attenuation} or the \textbf{loss function}.
+
+The frequency response share some properties with the DTFT. For instance, if the impulse response $h[n]$ is a real sequence, then it comes after that the magnitude function is an even function as well,
+\[
+    \left|H(e^{j\omega})\right| = \left|H(e^{-j\omega})\right|
+\]
+and the phase function is an odd function, conversely,
+\[
+    \theta(\omega) = - \theta(-\omega).
+\]
+Similarly, a real $h[n]$ yields an even $H_{re}(e^{j\omega})$ and an odd $H_{im}(e^{j\omega})$.
+
+As an examplification, let $h[n]$ be the impulse response of an $M$-point moving average filter as~in~\ref{eqn:mPointMovingAverageEquation},
+\[
+    h[n] =
+    \left\{
+        \begin{array}{ll}
+            \frac 1 M & 0 \leq n \leq M-1\\
+            0, & \mbox{ otherwise }
+        \end{array}
+    \right..
+\]
+Its frequency response is simply given by the following formula,
+\begin{align*}
+    H(e^{j\omega})
+    &= \frac 1 M \sum_{n=0}^{M-1} e^{-j\omega n}\\
+    &= \frac 1 M \frac{
+        1 - e^{-jM\omega}
+    } {
+        1 - e^{-j\omega}
+    }\\
+    &= \frac 1 M \frac{
+        \sin{M\omega/2}
+    } {
+        \sin{\omega/2}
+    } e^{-j(M-1)\omega/2}.
+\end{align*}
+
+
 
 \include{references}
 
