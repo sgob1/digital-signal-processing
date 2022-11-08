@@ -697,7 +697,7 @@ However, that's not the only signal possible that is capable of generating that 
 \end{align*}
 will produce the very same sequence $v[n]$.
 
-To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular freqyency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur. 
+To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular frequency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur. 
 
 In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall in the range $-\pi < \omega < \pi$, then it will fold over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
 
@@ -5561,6 +5561,7 @@ Its frequency response is simply given by the following formula,
     } {
         1 - e^{-j\omega}
     }\\
+    H(e^{j\omega})
     &= \frac 1 M \frac{
         \sin{M\omega/2}
     } {
@@ -5568,7 +5569,114 @@ Its frequency response is simply given by the following formula,
     } e^{-j(M-1)\omega/2}.
 \end{align*}
 
+Thence, the \emph{magnitude response} of the $M$-point moving average filter will be
+\begin{equation}\label{eqn:mPointMovingAverageFilterMagnitudeReponse}
+    \left|H(e^{j\omega})\right|
+    = \left|\frac 1 M \frac{
+        \sin{M\omega/2}
+    } {
+        \sin{\omega/2}
+    }\right|
+\end{equation}
+while the \emph{phase response} will be
+\begin{equation}\label{eqn:mPointMovingAverageFilterPhaseReponse}
+    \theta(\omega) =
+    -\frac{
+        (M-1)\omega
+    } {
+        2
+    }
+    + \pi \sum_{k=0}^{\frac M 2} \mu\left(\omega - \frac{2\pi k}{M}\right),
+\end{equation}
+with the phase response composed of two components, a \emph{linear} component and a component that describes the \emph{regularly spaced jumps by $\pi$} in the phase; they are, respectively, the first and the second terms.
 
+In \textsc{Octave} the function \texttt{freqz(h, 1, w)} can be employed to assess the values of the frequency response vector $h$, as a set of given frequency points $w$. Through that function, it is possible to comput the real and imaginary parts using the two functions \texttt{real} and \texttt{imag}, and the magnitude and phase functions using functions \texttt{abs} and \texttt{angle}.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/mPointMovingAverageFilterPlot.tex}
+}\caption{Magnitude response and phase response of an $M$-point moving average filter, with $M=5$ (blue) and $M=14$ (red).}\label{oct:mPointMovingAverageFilterPlot}
+\end{center}
+\end{figure*}
+
+For instance, suppose two $M$-point moving average filters with $M=5$ and $M=14$---with the following commands
+\begin{verbatim}
+pkg load signal;
+clear all;
+
+h5 = [1 1 1 1 1];
+h14 = [1 1 1 1 1 1 1 1 1 1 1 1 1 1];
+w = [0:0.01:3.14];
+[H5, W5] = freqz(h5, 1, w);
+[H14, W14] = freqz(h14, 1, w);
+figure(1);
+subplot(2,1,1);
+plot(w/3.14, abs(H5), w/3.14, abs(H14));
+legend('M=5', 'M=14');
+title('Magnitude response');
+subplot(2,1,2);
+plot(w/3.14, angle(H5), w/3.14, angle(H14));
+legend('M=5', 'M=14');
+title('Phase response');
+\end{verbatim}
+the plot in Figure~\ref{oct:mPointMovingAverageFilterPlot} is produced.
+
+The phase response of a discrete-time system, when determined by a calculator, it might exhibit sudden jumps by an amount of $2\pi$ that are caused by the way the \texttt{arctan} function is computed by only taking in account the principal value of the phase~(\ref{eqn:phasePrincipalValue}. The phase response can be accordingly ``unwrapped'', making it a continuous function of $\omega$. An example of this had been illustrated in Figure~\ref{oct:octaveExampleFreqzUnwrap}. To this end, the function \texttt{unwrap} should be employed with the phase in radians. Be careful, though: the jumps of $2\pi$ must not be confused with the jumps induced by the zeros of the frequency response, as indicated in the phase response of the moving average filter.
+
+\section{Steady-State Response}
+The frequency response also determines the \emph{steady-state response} of an LTI discrete-time system to a sinusoidal input.
+Let $y[n]$ be the output of a real coefficient LTI discrete-time system, with a frequency response $H(e^{j\omega})$ for a sinusoidal input of the form
+\[
+    x[n] = A\cos{(\omega_0 n + \varphi)}, -\infty < n < \infty;
+\]
+we can express the input $x[n]$ in polar representation as
+\begin{align*}
+    x[n] &= \frac 1 2 Ae^{j\varphi}e^{j\omega_0 n} + \frac 1 2 e^{-j\varphi}e^{-j\omega_0 n}\\
+         &= g[n] + g^*[n]
+\end{align*}
+with $g[n] = e^{j\varphi}e^{j\omega_0n}$. Since the output of the system for an eigenfunction $e^{j\omega_0n}$ is the frequency response multiplied by the eigenfunction, one has that the output $v[n]$ of $g[n]$ is
+\[
+    v[n] = \frac 1 2 H(e^{j\omega_0})Ae^{j\varphi}e^{j\omega_0n}
+\]
+and the output $v^*[n]$ of $g^*[n]$ is
+\[
+    v^*[n] = \frac 1 2 H(e^{-j\omega_0})Ae^{-j\varphi}e^{-j\omega_0n}.
+\]
+
+The complete output will be the sum of the two outputs taken alone (superposition principle),
+\begin{align*}
+    y[n]
+    &= v[n] + v^*[n]\\
+    &= \frac 1 2 H(e^{j\omega_0})Ae^{j\varphi}e^{j\omega_0n} + \frac 1 2 H(e^{-j\omega_0})Ae^{-j\varphi}e^{-j\omega_0n}\\
+    &= \frac 1 2 A\left|H(e^{j\omega_0})\right|\left(e^{j\theta(\omega)}e^{j\varphi}e^{j\omega_0n} + e^{-j\theta(\omega)}e^{-j\varphi}e^{-j\omega_0n}\right)\\
+    &= \frac 1 2 A\left|H(e^{j\omega_0})\right|\cos{(\omega_0n + \theta(\omega_0) + \varphi)},
+\end{align*}
+as 
+\[
+    H(e^{\pm j\omega}) = \left|H(e^{+ j\omega})\right|e^{\pm j\theta(\omega)}.
+\]
+
+The output $y[n]$ has the very same sinusoidal waveform that the input has, with two substantial differences: the first being that \emph{the amplitude is multiplied by a coefficient $\left|H(e^{j\omega_0})\right|$} that is the value of the magnitude function at $\omega = \omega_0$, the oscillation frequency of the sinusoid; second, the output has a \emph{phase lag} induced by the filter by an amount $\theta(\omega_0)$, the value of the phase function at $\omega = \omega_0$.
+
+\section{Response to a Causal Exponential Sequence}
+The above expression for the steady-state assumes that the system is \emph{initially relaxed} before application of the input sinusoid, which means that the system is under no stress right before the application of $x[n]$. This culminates in the fact that, in practical applications, exerciting a solicitation $x[n]$ to a causal LTI system usually means applying an input sequence that is \emph{right-sided}, at some starting sample index $n = n_0$; for such a generic input, an output will be soon derived.
+
+Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$, with no loss of generality with the implied causality. By looking at the input--output relationship for an LTI discrete-time system
+\[
+    y[n] = \sum_{k=-\infty}^\infty h[k]x[n-k]
+\]
+one soon observes that the output is given by the following
+\begin{align*}
+    y[n] &= \left(\sum_{k=0}^n h[k] e^{j\omega(n - k)}\right) \mu[n]\\
+         &=\left(\sum_{k=0}^n h[k] e^{-j\omega k}\right)e^{j\omega n} \mu[n].
+\end{align*}
+Let's now determine the output. For $n<0$ is, trivially, $y[n]=0$. For $n \geq 0$ one must assess the above sum,
+\begin{align*}
+    y[n] &= \left(\sum_{k=0}^n h[k] e^{-j\omega k}\right)e^{j\omega n} \mu[n]\\
+    &= \left(\sum_{k=0}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} \\
+    &= H(e^{j\omega_0})e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n}.
+\end{align*}
 
 \include{references}
 
