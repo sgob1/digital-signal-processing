@@ -1627,15 +1627,15 @@ Linear-Time-Invariant discrete-time systems can be classified by some of their p
 
 \subsubsection{Classification based on impulse response length}
 \emph{Impulse response length} is a crucial aspect to know when dealing with LTI systems. Like we have already seen, if the impulse response $h[n]$ is of finite length then the convolution with a finite-length input sequence $x[n]$ \emph{will} yield a finite-length output as well. All systems that possess a finite-length impulse response are said to be \textbf{finite impulse response (FIR)} discrete-time systems. FIR systems are those for which
-\[
+\begin{equation}\label{eqn:finiteImpulseResponse}
     h[n] = 0 \mbox{ for } n < N_1, \mbox{ and } n > N_2,
-\]
+\end{equation}
 with $N_1 < N_2$.
 
 The convolution sum of a FIR system can simply be written as
-\[
+\begin{equation}\label{eqn:finiteImpulseResponseEquation}
     y[n]=\sum_{k=N_1}^{N_2} h[k]x[n-k].
-\]
+\end{equation}
 
 The output $y[n]$ of a FIR LTI discrete-time system can be computed directly from the convolution sum, as it is a finite sum of products (and thus we can use the convolution sum). Examples of FIR LTI systems are the $M$-moving average system and the linear interpolators, both of which have a finite-length impulse response.
 
@@ -5478,6 +5478,130 @@ The following Table~\ref{tab:zTransformTheorems} summarizes the most crucial the
     \caption{If $\mathcal R_g$ denotes the region of convergence $\mathcal R_{g-} < |z| < \mathcal R_{g+}$ and $\mathcal R_h$ denotes the region of convergence $\mathcal R_{h-} < |z| < \mathcal R_{h+}$, then $\frac{1}{\mathcal R_{g+}}$ denotes the region $\frac{1}{\mathcal R_{g-}} < |z| < \frac{1}{\mathcal R_{g+}}$ and the region $\mathcal R_g \mathcal R_h$ denotes the region $\mathcal R_{g-}\mathcal R_{h-} < |z| < \mathcal R_{g+}\mathcal R_{h+}$.}\label{tab:zTransformTheorems}
 \end{table*}
 
+\section{Examples of $z$-Transform calculus}
+Let $x_1[n]$ be a causal sequence such as\cite{bib:zTransformExamples}
+\[
+    x_1[n] = \left(\frac 1 2\right)^n \mu[n] + \left(-\frac 1 4\right)^n \mu[n] = a[n] + b[n].
+\]
+The $z$-transform of $\left(\frac 1 2\right)^n \mu[n]$ is
+\[
+    A(z) = \frac{z}{z-\frac 1 2},
+\]
+which yields a RoC of $|z| > \frac 1 2$. Similarly, the $z$-transform of the other addendum $\left(-\frac 1 4\right)^n \mu[n]$ is
+\[
+    B(z) = \frac{z}{z+\frac 1 4}
+\]
+possessing a RoC of $|z| > - \frac 1 4$. The two regions of convergence, then, will be like in the following plot,
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, minimum size=3cm] at (0,0){};
+        \node[draw, circle, minimum size=1.5cm] at (0,0){};
+        \node[draw, polez, thick] at (1.5, 0) {};
+        \node[draw, polez, thick] at (-.75, 0) {};
+        \node[label=south east:{$0.5$}, minimum size=0pt] at (1.5, 0) {};
+        \node[label=south west:{$0.25$}, minimum size=0pt] at (-.75, 0) {};
+        \path[pattern=north west lines, pattern color=red, opacity=.5, even odd rule]
+            (-3, -3) rectangle (3,3)
+            (0,0) circle[radius=1.5];
+        \path[pattern=north east lines, pattern color=green, opacity=.3, even odd rule]
+            (-3, -3) rectangle (3,3)
+            (0,0) circle[radius=.75];
+    \end{tikzpicture}
+\end{center}
+with red area denoting the RoC of $A(z)$, and the green area denoting the RoC of $B(z)$. Note that the green area and the red area overlaps outside of the circle of radius $|z| = 0.5$. In virtue of the superposition principle, the two $z$-transform can be added together to form $X_1(z) = A(z) + B(z)$. That is,
+\begin{align*}
+    X_1(z)  &= \frac{z}{z - \frac 1 2} + \frac{z}{z + \frac 1 4} \\
+            &= \frac {
+                2z \left(z - \frac 1 8\right)
+            } {
+                \left(z - \frac 1 2\right) \left(z + \frac 1 4\right)
+            }.
+\end{align*}
+
+By observing at the above result, it is clear that there are two poles, one located at $z=\frac 1 2$ and the other one located at $z = - \frac 1 4$; similarly, there are two zeros, one at the origin and the other one at $z = \frac 1 8$.
+
+Since---for right-sided sequences---the pole that determines the region of convergence is the one with the greatest modulus, it immediately follows that the region of convergence is the area $|z| > \frac 1 2$, as depicted in the following illustration (RoC is in blue). From there it is also evident that the DTFT exists, as the region of convergence includes the unit circle.
+
+This was an example of determining the $z$-transform and the RoC of a sequence composed of two right-sided sequences---let's now focus on the case of a sequence embodying a left-sided sequence and a right-sided sequence.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-3.5,0) -- (3.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.5) -- (0,3.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, dashed, minimum size=6cm] at (0,0){};
+        \node[draw, circle, thick, minimum size=3cm] at (0,0){};
+        \node[draw, polez, thick, label=south east:{$\frac 1 2$}] at (1.5, 0) {};
+        \node[draw, polez, thick, label=south east:{$\frac 1 4$}] at (-.75, 0) {};
+        \node[draw, zeroz, thick, label=south east:{$0$}] at (0, 0) {};
+        \node[draw, zeroz, thick, label=south east:{$\frac 1 8$}] at (.375, 0) {};
+        \node at (3.1, -0.2) {$1$};
+        \path[pattern=north west lines, pattern color=blue, opacity=.5, even odd rule]
+            (-3.2, -3.2) rectangle (3.2,3.2)
+            (0,0) circle[radius=1.5];
+    \end{tikzpicture}
+\end{center}
+
+Let then the sequence in exam be
+\[
+    x_2[n] = \underbrace{\left(-\frac 1 4\right)^n \mu[n]}_{causal} - \underbrace{\left(\frac 1 2\right)^n \mu[-n-1]}_{anticausal} = c[n] + d[n];
+\]
+first, let's find out the $z$-transforms of the two addenda,
+\[
+    C(z) = \frac{z}{z + \frac 1 4}, |z| > - \frac 1 4
+\]
+which means that $C(z) \equiv B(z)$ from the previous example. Regarding the transform of $d[n] = - (\frac 1 2)^n \mu[-n-1]$, one has
+\[
+    D(z) = \frac{z}{z-\frac 1 2}, |z| < \frac 1 2
+\]
+because it is a left-sided sequence. Therefore, the RoC of such term will be, plotted as
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, minimum size=3cm] at (0,0){};
+        \node[draw, polez, thick, label=south east:{$\frac 1 2$}] at (1.5, 0) {};
+        \path[pattern=north west lines, pattern color=red, opacity=.5, even odd rule]
+            (0,0) circle[radius=1.5];
+            (-3, -3) rectangle (3,3)
+    \end{tikzpicture}
+\end{center}
+
+By superposition principle, once again we are able to merge together the above results,
+\begin{align*}
+    X_2(z)  &= \frac{z}{z + \frac 1 4} + \frac{z}{z - \frac 1 2} \\
+            &= \frac {
+                z\left(2z - \frac 1 8\right)
+            } {
+                \left(z + \frac 1 4\right)\left(z - \frac 1 2\right)
+            }
+\end{align*}
+
+Again by observation one can conclude that there are two poles and two zeros; hence, $z_{p1} = -\frac 1 4$, $z_{p2} = \frac 1 2$, $z_{z1} = \frac 1 8$ and finally the zero at the origin $z_{z2} = 0$. The plot will then be as follows, with the region of converge the annular region in between the two poles.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-3.5,0) -- (3.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.5) -- (0,3.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, dashed, minimum size=6cm] at (0,0){};
+        \node[draw, circle, thick, minimum size=3cm] at (0,0){};
+        \node[draw, circle, thick, minimum size=1.5cm] at (0,0){};
+        \node[draw, polez, thick, label=south east:{$\frac 1 2$}] at (+1.5, 0) {};
+        \node[draw, polez, thick, label=south east:{$\frac 1 4$}] at (-.75, 0) {};
+        \node[draw, zeroz, thick, label=south east:{$\frac 1 8$}] at (.375, 0) {};
+        \node[draw, zeroz, thick, label=south east:{$0$}] at (0, 0) {};
+        \node at (3.1, -0.2) {$1$};
+        \path[pattern=north west lines, pattern color=blue, opacity=.5, even odd rule]
+            (-3.2, -3.2) rectangle (3.2,3.2)
+            (-3.2, -3.2) rectangle (3.2,3.2)
+            (0,0) circle[radius=0.75]
+            (0,0) circle[radius=1.5];
+    \end{tikzpicture}
+\end{center}
+
+Clearly, in order to craft a system that is actually useful by virtue of being causal and BIBO stable, we must ensure that it is within the Region of Convergence, which can be ascertained by looking at the pole zero plot. The Region of Convergence is the area in the pole/zero plot of the transfer function in which the function exists. For purposes of useful filter design, we prefer to work with rational functions, which can be described by two polynomials, one each for determining the poles and the zeros, respectively.
+
 \part{Systems in the Frequency Domain}
 
 \chapter{The Frequency Response}
@@ -5624,8 +5748,8 @@ the plot in Figure~\ref{oct:mPointMovingAverageFilterPlot} is produced.
 
 The phase response of a discrete-time system, when determined by a calculator, it might exhibit sudden jumps by an amount of $2\pi$ that are caused by the way the \texttt{arctan} function is computed by only taking in account the principal value of the phase~(\ref{eqn:phasePrincipalValue}. The phase response can be accordingly ``unwrapped'', making it a continuous function of $\omega$. An example of this had been illustrated in Figure~\ref{oct:octaveExampleFreqzUnwrap}. To this end, the function \texttt{unwrap} should be employed with the phase in radians. Be careful, though: the jumps of $2\pi$ must not be confused with the jumps induced by the zeros of the frequency response, as indicated in the phase response of the moving average filter.
 
-\section{Steady-State Response}
-The frequency response also determines the \emph{steady-state response} of an LTI discrete-time system to a sinusoidal input.
+\section{Steady-State Response and Transient Response}
+From the frequency response we are also able to determine the \emph{steady-state response} of an LTI discrete-time system to a sinusoidal input.
 Let $y[n]$ be the output of a real coefficient LTI discrete-time system, with a frequency response $H(e^{j\omega})$ for a sinusoidal input of the form
 \[
     x[n] = A\cos{(\omega_0 n + \varphi)}, -\infty < n < \infty;
@@ -5677,6 +5801,149 @@ Let's now determine the output. For $n<0$ is, trivially, $y[n]=0$. For $n \geq 0
     &= \left(\sum_{k=0}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} \\
     &= H(e^{j\omega_0})e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n}.
 \end{align*}
+
+The first term on the right-hand side is the same as that obtained when the input is applied at $n=0$, to an \emph{initially relaxed system} and is called the \textbf{steady-state response}
+\begin{equation}\label{eqn:steadyStateResponse}
+    y_{sr}[n] = H(e^{j\omega})e^{j\omega n}.
+\end{equation}
+Steady state occurs after the system becomes settled and at the steady system starts working normally. Steady state response of control system is a function of input signal and it is also called as forced response.
+
+Separately, the second term on the right-hand side is said to be the \textbf{transient response}, that is the component of the response that exists until the output settles on the steady-state response,
+\begin{equation}\label{eqn:transientResponse}
+    y_{tr}[n] = -\left(\sum_{k=n+1}^\infty h[k] e^{-j\omega j}\right) e^{j\omega n}
+\end{equation}
+
+In order to determine the effect of the transient response, one notices that
+\begin{align*}
+    |y_{tr}[n]| &= \left|\sum_{k=n+1}^\infty h[k] e^{-j\omega(k-n)}\right| \\
+                &\leq \sum_{k=n+1}^\infty |h[k]| \leq \sum_{k=0}^\infty |h[k]|;
+\end{align*}
+this means that, for a causal stable LTI system $h[n]$ will be \emph{absolutely summable}, and the previous inequality dictates that the transient response $y_{tr}[n]$ is a bounded sequence as well, inferior in module than the absolute sum of $h[k]$. In addition, transient response contribution to the output will decay over $n$; surely, as $n \rightarrow \infty$, one has that the magnitude of the transient response collapses to zero,
+\[
+    |y_{tr}[n]| \leq \sum_{k=n+1}^\infty |h[k]| \rightarrow 0
+\]
+as $n$ becomes large enough.
+
+Finite Impulse Response LTI systems as in~\ref{eqn:finiteImpulseResponse} with an impulse response of length $N+1$, will be such that $h[n] = 0, \forall n > N$, and will as a consequence yield a \emph{null transient response} for any time sample $n > N - 1$. The output reaches the steady-state value $y_{sr}[n] = H(e^{j\omega})e^{j\omega n}$ at exactly the time sample $n = N$.
+
+Summing up, the response to a causal exponential sequence will be the superposition of two distinct, components: a first one, being the \emph{steady-state response}, that measures the behavior of the system after a long time, when steady conditions have been reached after an external excitation, and a second one being the \emph{transient response} that takes in account the response against a temporary change in the way that the system behaves due to an external excitation, that will disappear over time. The first one will be persistent, the second will see its effect decay as $n$ increases. Both terms constitute the response of a system to a certain solicitation.
+
+\section{The concept of Filtering}
+
+In signal processing, a filter is a device or process that removes some unwanted components or features from a signal. Filtering is a class of signal processing, the defining feature of filters being the complete or partial suppression of some aspect of the signal. Most often, this means removing some frequencies or frequency bands. However, filters do not exclusively act in the frequency domain; especially in the field of image processing many other targets for filtering exist. Correlations can be removed for certain frequency components and not for others without having to act in the frequency domain. Filters are widely used in electronics and telecommunication, in radio, television, audio recording, radar, control systems, music synthesis, image processing, and computer graphics\cite{bib:filtering}.
+
+One application of an LTI discrete-time system is to \emph{pass} certain frequency components in an input sequence without any distortion---if possible---and to \emph{block} unwanted frequency components. Such systems are called \textbf{digital filters}.
+
+The key to the filtering process is represented by the following integral,
+\begin{equation}\label{eqn:filteringProcess}
+    x[n] = \frac 1 {2\pi} \int_{-\pi}^\pi X(e^{j\omega})e^{j\omega n}d\omega,
+\end{equation}
+which expresses an arbitrary input as a linear weighted sum of an infinite number of exponential sequences---or equivalently as a \emph{linear weighted sum of sinusoidal sequences}, whose weights are the values of the Discrete-time Fourier Transform $X(e^{j\omega})$. The filtering process occurs by carefully choosing the function $X$ (that will be the frequency response $H(e^{j\omega})$ of an LTI digital filter) so that its magnitude $\left|H(e^{j\omega})\right|$ is greater or lower at some frequencies depending on the needs. Since any input sinusoid will be multiplied by the magnitude of the frequency response of the filter, then one can \emph{amplify} or \emph{attenuate} some frequency at will by designing a suitable frequency response.
+
+\subsection{Core concepts behind filters}
+
+To better understand the inner workings behind the design of filters that are actually able to filter specific frequencies, consider a real-coefficient LTI discrete-time system characterized by
+\begin{equation}\label{exa:idealFilter1}
+    \left|H(e^{j\omega})\right| \cong
+    \left\{
+        \begin{array}{ll}
+            1 & |\omega| \leq \omega_c\\
+            0 & \omega_c < |\omega| \leq \pi
+        \end{array}
+    \right..
+\end{equation}
+
+We then apply to the above system an input composed of sinusoids
+\[
+    x[n] = A\cos{\omega_1 n} + B\cos{\omega_2 n}
+\]
+at two, distinct, frequencies $\omega_1$ and $\omega_2$, so that $0 < \omega_1 < \omega_c < \omega_2 < \pi$.
+
+Due to linearity, the outputs of this system will be the superposition of the two responses to the single sinusoids of distinct frequencies:
+\begin{align*}
+    y[n] &=
+        A\left|H(e^{j\omega_1})\right|\cos{(\omega_1 n + \theta(\omega_1))} \\
+        &+ B\left|H(e^{j\omega_2})\right|\cos{(\omega_2 n + \theta(\omega_2))},
+\end{align*}
+and please notice that, in this case, initial phases $\varphi_1 = 0$ and $\varphi_2=0$.
+
+Now, from the definition~\ref{exa:idealFilter1} of the filter it results that
+\begin{align*}
+    \left|H(e^{j\omega_1})\right| \simeq 1 &  & \left|H(e^{j\omega_2})\right| \simeq 0,
+\end{align*}
+the output will reduce to
+\begin{align*}
+    y[n] &=
+        A\left|H(e^{j\omega_1})\right|\cos{(\omega_1 n + \theta(\omega_1))} \\
+        &+ B\left|H(e^{j\omega_2})\right|\cos{(\omega_2 n + \theta(\omega_2))},\\
+    y[n] &\simeq
+        A\left|H(e^{j\omega_1})\right|\cos{(\omega_1 n + \theta(\omega_1))}
+\end{align*}
+as the term corresponding to frequency $\omega_2$ \emph{has been filtered} since $\left|H(e^{j\omega_2})\right| \simeq 0$. Term corresponding to frequency $\omega_1$, instead, is allowed to simply pass---the value of the frequency response at frequency $\omega_1$ is close to $1$. A simple illustration of the filter is depicted just below,
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth, thick] (-1, 0) -- (3.5, 0) node[anchor=west] {$\left|H(e^{j\omega})\right|$};
+        \draw[-stealth, thick] (0, -.5) -- (0, 2) node[anchor=south west] {$\omega$};
+        \draw[thick] (0, 1) node[anchor=east] {$1$} -- (1.7, 1) -- (1.7, 0) node[anchor=north] {$\omega_c$};
+        \draw (2.8, +1mm) -- (2.8, -1mm) node[anchor=north west] {$\pi$};
+        \draw [-stealth, green, thick] (.85, 0) -- (.85, 1.2) node[anchor=south] {$\omega_1$};
+        \draw [-stealth, red, thick] (2.15, 0) -- (2.15, 1.2) node[anchor=south] {$\omega_2$};
+    \end{tikzpicture}
+\end{center}
+where the green sinusoid is allowed to pass, the red sinusoid is instead filtered out (multiplied by a value that is very close to---if not exactly---zero).
+
+In virtue of the fact that only frequencies lower than a certain frequency $\omega_c$ are allowed to pass, the system is called a \textbf{lowpass filter}. Conversely, filters that allow to pass frequencies higher than a certain frequency $\omega_c$ are called \textbf{highpass filters}. Furthermore, we say that a filter is a \textbf{bandpass filter} when the range of frequencies allowed to pass is between two values $\omega_h$ and $\omega_l$, that is a digital filter that favors the passage of frequencies $\omega_l < \omega < \omega_h$.
+
+Suppose the input $x[n]$ of a digital filter we have to design consists of a sum of two distinct sinusoidal sequences of angular frequencies $0.1 \mbox{rad/sample}$ and $0.4 \mbox{rad/sample}$, and the goal is to design a highpass filter to block the low-frequency component spinning at $0.1$ radians for sample. For simplicity, let's assume the filter to be a FIR filter of length $3$, with an impulse response of 
+\[
+    \{h[n]\} = \{\alpha, \beta, \alpha\}
+\]
+that is $h[0] = h[2] = \alpha$ and $h[1] = \beta$. In order to determine the output $y[n]$ a convolution sum has to be performed:
+\begin{align*}
+    y[n] 
+    &= h[0]x[n] + h[1]x[n-1] + h[2]x[n-2]\\
+    &= \alpha x[n] + \beta x[n-1] + \alpha x[n-2].
+\end{align*}
+
+It is clear that adequate values of $\alpha$ and $\beta$ should be chosen for only the higher sinusoid to pass. To do so, one has to look at the frequency response of the FIR filter:
+\begin{align*}
+    H(e^{j\omega})
+        &= h[0] + h[1]e^{-j\omega} + h[2]e^{-j2\omega}\\
+        &= \alpha + \alpha e^{-j2\omega} + \beta e^{-j\omega}\\
+        &= \alpha (1 + e^{-j2\omega}) + \beta e^{-j\omega}\\
+        &= 2\alpha \left(\frac{e^{j\omega} + e^{-j\omega}}{2}\right)e^{-j\omega} + \beta e^{-j\omega}\\
+        &= (2\alpha \cos{\omega} + \beta) e^{-j\omega},
+\end{align*}
+whose magnitude and phase functions are 
+\begin{align*}
+    \left|H(e^{j\omega})\right| &= 2 \alpha \cos\omega + \beta,\\
+    \theta(\omega) &= -\omega.
+\end{align*}
+
+For the magnitude function to block the low-frequency component it has to be equal or very close to $0$ in $\omega=0.1$; on contrary, for $\omega=0.4$ to successfully pass the magnitude function should be equal---or very close to---one. But this is equivalent to solve the following systems of equations
+\[
+\left\{
+    \begin{array}{ll}
+        \left|H(e^{j0.1})\right| =& 2\alpha \cos{(0.1)} + \beta = 0\\
+        \left|H(e^{j0.4})\right| =& 2\alpha \cos{(0.4)} + \beta = 0
+    \end{array}
+\right.,
+\]
+that can be solved by a computer; it yields
+\begin{align*}
+    \alpha &= -6.76195\\
+    \beta  &= 13.456335,
+\end{align*}
+and in the end the input--output relationship of the FIR filter in exam is
+\[
+    y[n] = -6.76195(x[n] + x[n-2]) + 13.456335x[n-2]
+\]
+for an input of $x[n] = \{\cos{(0.1n)} + \cos{(0.4n)}\}\mu[n]$.
+
+ADDPLOT
+
+
+
 
 \include{references}
 
