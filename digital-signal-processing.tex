@@ -5894,7 +5894,7 @@ where the green sinusoid is allowed to pass, the red sinusoid is instead filtere
 
 In virtue of the fact that only frequencies lower than a certain frequency $\omega_c$ are allowed to pass, the system is called a \textbf{lowpass filter}. Conversely, filters that allow to pass frequencies higher than a certain frequency $\omega_c$ are called \textbf{highpass filters}. Furthermore, we say that a filter is a \textbf{bandpass filter} when the range of frequencies allowed to pass is between two values $\omega_h$ and $\omega_l$, that is a digital filter that favors the passage of frequencies $\omega_l < \omega < \omega_h$.
 
-Suppose the input $x[n]$ of a digital filter we have to design consists of a sum of two distinct sinusoidal sequences of angular frequencies $0.1 \mbox{rad/sample}$ and $0.4 \mbox{rad/sample}$, and the goal is to design a highpass filter to block the low-frequency component spinning at $0.1$ radians for sample. For simplicity, let's assume the filter to be a FIR filter of length $3$, with an impulse response of 
+Suppose the input $x[n]$ of a digital filter we have to design consists of a sum of two distinct sinusoidal sequences $a[n]$ and $b[n]$ of angular frequencies $0.1 \mbox{rad/sample}$ and $0.4 \mbox{rad/sample}$, and the goal is to design a highpass filter to block the low-frequency component spinning at $0.1$ radians for sample. For simplicity, let's assume the filter to be a FIR filter of length $3$, with an impulse response of 
 \[
     \{h[n]\} = \{\alpha, \beta, \alpha\}
 \]
@@ -5940,8 +5940,137 @@ and in the end the input--output relationship of the FIR filter in exam is
 \]
 for an input of $x[n] = \{\cos{(0.1n)} + \cos{(0.4n)}\}\mu[n]$.
 
-ADDPLOT
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/highpassFilterExample1.tex}
+}\caption{Response to the highpass filter in the previous example. As one can see, the sinusoid with the lowest frequency is successfully discarded. The output presents a huge peak at the beginning and a persistent phase delay after, though, that is due to the nature of the filtering technique.}\label{oct:highpassFilterExample1}
+\end{center}
+\end{figure*}
 
+As it can be witnessed by Figure~\ref{oct:highpassFilterExample1}, there is a huge peak at the very beginning of the output sequence---the sudden bounce in values is given by the fact that the first starts from $0$ and has to first be \emph{charged} by obtaining proper values for $x[n]$, $x[n-1]$ and $x[n-2]$. Only after collecting all required input values for the formula
+\[
+    y[n] = -6.76195(x[n] + x[n-2]) + 13.456335x[n-2]
+\]
+one can properly compute the output value and obtain a proper filtering action. The first two samples of $y[n]$ are, in fact, the result of a filter that assumed $x[n-1]$ and $x[n-2]$ to be $0$. For this reason, the first two output samples constituite the \emph{transient} part of the output, while the \emph{steady-state} is reached at $n = N = 2$, as the impulse response has length $N + 1 = 3$. The output is a delayed version of one sample period of the high-frequency component $b[n] = \cos{(0.4n)}$ of the input.
+
+\subsection{Phase delay}
+
+If an input $x[n]$ to an LTI system $H(e^{j\omega})$ is a sinusoidal signal of frequency $\omega_0$, such as
+\[
+    x[n] = A\cos{(\omega_0 n + \varphi)}, -\infty < n < \infty,
+\]
+then the output $y[n]$ will be also a sinusoidal sequence of the very same frequency $\omega_0$, but lagging in phase of quantity $\theta(\omega_0)$ radians, the \emph{phase response}, since we have seen that the output sequence formula is determined by
+\[
+    y[n] = A\left|H(e^{j\omega_0})\right| \cos{(\omega_0 n +\theta(\omega_0) + \varphi)}, -\infty < n < \infty.
+\]
+Indeed, the phase delay manifests as an additive term in the argument of the sinusoidal output function, and is characterized by the frequency response of the filter $H(e^{j\omega})$, in particular it coincides to the phase response of the frequency response.
+
+The output expression can be soon rewritten as
+\begin{equation}\label{eqn:phaseDelayResponse}
+    y[n] = A\left|H(e^{j\omega_0})\right|\cos{\left(\omega_0\left(n - \tau_p(\omega_0)\right) + \varphi\right)}
+\end{equation}
+where the term
+\begin{equation}\label{eqn:phaseDelay}
+    \tau_p(\omega_0) :=
+    -\frac {
+        \theta(\omega_0)
+    } {
+        \omega_0
+    }
+\end{equation}
+is called the \textbf{phase delay} of the filter whose frequency response is $H(e^{j\omega})$. The phase delay is the phase response of the filter $H$ \emph{normalized} by the frequency at which it applies $\omega_0$. The two minus signs in the two equations may confuse at first; however, it is clear that if we define the lag as a time delay $n - \tau_p(\omega_0)$ one has to define the phase delay with a minus sign as well, in order for the argument of the cosine to be subject to an actual delay. Substituting the phase delay equation~\ref{eqn:phaseDelay} in the above equation~\ref{eqn:phaseDelayResponse} one obtains the output response as already known.
+
+Therefore, the output $y[n]$ is a time-delayed version of the input $x[n]$ of frequency $\omega_0$, with delay $\tau_p(\omega_0) =
+    -\frac {
+        \theta(\omega_0)
+    } {
+        \omega_0
+    }$.
+Generally speaking, the output sequence will not be a delayed replica of the input sequence, unless the phase delay $\tau_p(\omega_0)$ is actually an integer---phase delay has a physical meaning only with respect to the underlying continuous-time functions associated with $y[n]$ and $x[n]$---if the phase delay is not an integer then the output will be \emph{different} from the input, not being an exact \emph{delayed replica} of the input signal, but will instead be different, while still preserving the same shape. In nearly all cases $\tau_p(\omega_0) \in \mathbb{Q}$ is not an integer: this means that practically the output function will be the same function, but computed at non-integer samples.
+
+\subsection{Group delay}
+
+When the input is composed of many sinusoidal components, each one with different frequencies that are not harmonically related, each component will go through different phase delays as their phase delay term $-\frac{\theta(\omega_0)}{\omega_0}$ will have a different value. In this case, the signal delay is determined by the \textbf{group delay} quantity
+\begin{equation}\label{eqn:groupDelay}
+    \tau_g(\omega) = - \frac{
+        d\theta(\omega)
+    } {
+        d\omega
+    }.
+\end{equation}
+
+In defining group delay, it is assumed that the phase function is unwrapped so that its derivatives exist---otherwise, computation woul be impossible. Group delay also possesses a physical meaning only with respect to the underlying continuous time functions associated with $y[n]$ and $x[n]$: if the phase delay function $\tau_p(\omega)$ is a function of the ratio between $\theta(\omega)$ and $\omega$ that varies across $\omega$ space, the group delay is the negative derivative of $\theta(\omega)$, hence it is the tangent of the phase delay function $\tau_p(\omega)$.
+
+Usually, we are interested in both phase delay and group delay, but the latter specially can help us determine how the \emph{delay of the waveform} behaves from the input to the output.
+
+For instance, let's consider the phase function of the FIR filter
+\[
+    y[n] = \alpha x[n] + \beta x[n-1] + \alpha x[n-2]
+\]
+as the previous example, which is $\theta(\omega) = -\omega$. Hence, its group delay is given by
+\[
+    \tau_g(\omega) = +1,
+\]
+verifying the result of Figure~\ref{oct:highpassFilterExample1}. In this specific, case the phase delay and the group delay coincide, except for the sign.
+
+Let now 
+\[
+    h[n] = 
+    \left\{
+        \begin{array}{ll}
+            \frac 1 M & 0 \leq n \leq M-1\\
+            0 & \mbox{ otherwise}
+        \end{array}
+    \right.
+\]
+be an $M$-point moving average FIR filter. Its phase function is
+\begin{equation}\label{eqn:mPointMovingAverageFilterPhaseFunction}
+    \theta(\omega) = -\frac{(M-1)\omega}{2} + \pi\sum_{k=0}^{\frac M 2} \mu\left(\omega - \frac {2 \pi k}{M}\right),
+\end{equation}
+a linear phase system. Its group delay is the negative derivative of the above (divided by $\omega$),
+\begin{equation}\label{eqn:mPointMovingAverageFilterGroupDelay}
+    \tau_g(\omega) = \frac {M-1}{2}.
+\end{equation}
+
+The term in the sum of~\ref{eqn:mPointMovingAverageFilterPhaseFunction} should vanish as it only represents the sudden jumps every $2\pi$ the phase is subject to; although considering them would provide a more accurate mathematical representation, they can be discarded as they add little meaning and effect to the group delay representation. Even in this case, the phase delay and the group delay coincide, except for the sign.
+
+The physical significance of the phase and group delay are better understood by examining the continuous-time case.
+
+Consider, in fact, an LTI continuous-time system with a frequency response of 
+\[
+    H_a(j\omega) = \left|H_a(j\omega)\right|e^{j\theta_a(\omega)}
+\]
+excited by a narrow-band amplitude modulated continuous-time signal
+\[
+    x_a(t) = a(t) \cos{(\omega_c t)},
+\]
+with $a(t)$ being a lowpass modulating signal with a band-limited Continuous-time Fourier Transform given by the following
+\begin{align*}
+    \left|A(j\omega)\right| = 0 & &|\omega| > \omega_0
+\end{align*}
+with $\cos{(\omega_c t)}$ being the \emph{high-frequency carrier signal}.
+
+We assume that in the frequency range $\omega_c - \omega_0 < |\omega| < \omega_c + \omega_0$ the frequency response of the continuous-time system has a constant magnitude and a linear phase, that is
+\begin{align*}
+    \left|H_a(j\omega)\right| &= \left|H_a(j\omega_c)\right|\\
+    \theta_a(\omega) &= \theta_a(\omega_c) - (\omega - \omega_c)\frac{d\theta_a(\omega)}{d\omega}\Bigr\rvert_{\omega=\omega_c}\\
+                     &= -\omega_c \tau_p(\omega_c) + (\omega - \omega_c)\tau_g(\omega_c).
+\end{align*}
+
+The Continuous-time Fourier Transform of $x_a(t)$ is given by
+\[
+    X_a(j\omega) = \frac 1 2\left(A(j(\omega + \omega_c)) + A(j(\omega - \omega_c))\right);
+\]
+because of the band-limiting constraint $X_a(j\omega) = 0$ outside of the above specified frequency range $\omega_c - \omega_0 < |\omega| < \omega_c + \omega_0$. Resulting output response $y_a(t)$ of the LTI continuous-time system is given by
+\[
+    y_a(t) = a(t - \tau_g(\omega_c))\cos{\left(\omega_c(t - \tau_p(\omega_c))\right)},
+\]
+assuming $\left|H_a(j\omega_c)\right| = 1$.
+
+What happens is that in the continuous-time case the \emph{group delay} $\tau_g(\omega_c)$ is exactly the \emph{delay of the envelope} $a(t)$ of the input signal $x_a(t)$, whilst the \emph{phase delay} $\tau_p(\omega_c)$ is the \emph{delay of the carrier}.
+
+%§ADDPLOT phase and group delay representation 59 use gnuplot
 
 
 
