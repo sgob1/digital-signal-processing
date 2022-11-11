@@ -5948,6 +5948,14 @@ for an input of $x[n] = \{\cos{(0.1n)} + \cos{(0.4n)}\}\mu[n]$.
 \end{center}
 \end{figure*}
 
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/highpassFilterExample2.tex}
+}\caption{Response to the highpass filter in the previous example, but with a zero phase delay filter. This is achieved by means of function \texttt{filtfilt}, which grants a filter whose output does not suffer a phase delay at all. The price to pay is a small artifact at the end of the filtering phase; moreover, this has a different frequency response that the one that one had at the beginning, and is possible only with a relatively short sequence so that we can pass it twice through the system, before and after flipping it: this is only feasible if one is not operating in real-time applications. Formally, this will be tackled later on in the book.}\label{oct:highpassFilterExample1}
+\end{center}
+\end{figure*}
+
 As it can be witnessed by Figure~\ref{oct:highpassFilterExample1}, there is a huge peak at the very beginning of the output sequence---the sudden bounce in values is given by the fact that the first starts from $0$ and has to first be \emph{charged} by obtaining proper values for $x[n]$, $x[n-1]$ and $x[n-2]$. Only after collecting all required input values for the formula
 \[
     y[n] = -6.76195(x[n] + x[n-2]) + 13.456335x[n-2]
@@ -6068,9 +6076,98 @@ because of the band-limiting constraint $X_a(j\omega) = 0$ outside of the above 
 \]
 assuming $\left|H_a(j\omega_c)\right| = 1$.
 
-What happens is that in the continuous-time case the \emph{group delay} $\tau_g(\omega_c)$ is exactly the \emph{delay of the envelope} $a(t)$ of the input signal $x_a(t)$, whilst the \emph{phase delay} $\tau_p(\omega_c)$ is the \emph{delay of the carrier}.
+What happens is that in the continuous-time case the \emph{group delay} $\tau_g(\omega_c)$ is exactly the \emph{delay that characterizes the envelope} $a(t)$ of the input signal $x_a(t)$, whilst the \emph{phase delay} $\tau_p(\omega_c)$ is the \emph{delay of the carrier}. Therefore, group delay modifies the envelope signal, while phase delay alters the carrier. This can be seen in Figure~\ref{tikz:groupDelayPlot}, where a function has been plotted in both its original form and delayed version.
 
-%§ADDPLOT phase and group delay representation 59 use gnuplot
+\begin{figure*}[ht]
+\begin{center}
+    \begin{tikzpicture}[
+        ]
+            \begin{axis}[
+                at={(0,0)},
+                %xlabel = $\frac \omega \pi$,
+                % ytick = {0,0.2,0.4,0.6,0.8,1},
+                %yticklabels = {$0.2$,$0.4$,$0.6$,$0.8$,$1$},
+                %xtick = {0,0.2,0.4,0.6,0.8,1},
+                %xticklabels = {$0$,$0.2$,$0.4$,$0.6$,$0.8$,$1$},
+                %ytick = {1},
+                %yticklabels = {1},
+                domain = 0:1,
+                samples = 200,
+                legend style = {%
+                at = {(0.5,1.02)},
+                anchor = south},
+                ]
+                \addlegendentry{Non delayed signal}
+                        \addplot[mark = none, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            c(x) = cos(2*pi*x);
+                            y(x) = a(x)*c(x);
+                            plot[+0:6] y(x);
+                    };
+                        \addplot+[mark = none, draw=black, dashed, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            plot[+0:6] a(x);
+                    };
+                        \addplot+[mark = none, draw=black, dashed, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            plot[+0:6] -a(x);
+                    };
+            \end{axis};
+    \end{tikzpicture}
+    \begin{tikzpicture}[
+        ]
+            \begin{axis}[
+                at={(0,0)},
+                %xlabel = $\frac \omega \pi$,
+                % ytick = {0,0.2,0.4,0.6,0.8,1},
+                %yticklabels = {$0.2$,$0.4$,$0.6$,$0.8$,$1$},
+                %xtick = {0,0.2,0.4,0.6,0.8,1},
+                %xticklabels = {$0$,$0.2$,$0.4$,$0.6$,$0.8$,$1$},
+                %ytick = {1},
+                %yticklabels = {1},
+                domain = 0:1,
+                samples = 200,
+                legend style = {%
+                at = {(0.5,1.02)},
+                anchor = south},
+                ]
+                \addlegendentry{Group delayed signal}
+                        \addplot[mark = none, draw=black, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            c(x) = cos(2*pi*x);
+                            y(x) = a(x)*c(x);
+                            z(x) = 0;
+                            plot[+0:1] z(x);
+                            plot[+1:6] y(x-1);
+                    };
+                        \addplot+[mark = none, draw=black, dashed, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            plot[+1:6] a(x-1);
+                    };
+                        \addplot+[mark = none, draw=black, dashed, thick] gnuplot[raw gnuplot] {
+                            a(x) = 5*x*exp(-1.5*x);
+                            plot[+1:6] -a(x-1);
+                    };
+            \end{axis};
+            \node at (1,2.4) {$\tau_g$};
+            \draw [stealth-stealth] (.6, 2.6) -- (1.4, 2.6);
+    \end{tikzpicture}
+\end{center}\caption{Plots of original signal $a(t)\cos{2\pi t}$, with $a(t) = 5te^{-1.5t}$, and group delayed signals $a(t-\tau_g)\cos{2\pi (t-\tau_p)}$. The envelope is affected by the group delay, while the carrier is insterested by the phase delay. The \emph{overall profile} will be delayed by group delay $\tau_g$, while the carrier only will be delayed by the phase delay $\tau_p$. This is especially visible for continuous-time signals, but can also be applied for discrete-time signals.}\label{tikz:groupDelayPlot}
+\end{figure*}
+
+%In \textsc{Octave}, the phase delay can be computed by means of function \texttt{phasedelay}. For instance, suppose one has to compute the phase delay of the following
+%\[
+    %H(e^{j\omega}) = \frac{
+        %0.1367(1 - e^{-j2\omega})
+    %} {
+        %1 - 0.5335 e^{-j\omega} + 0.7265 e^{-j2\omega}
+    %};
+%\]
+%to do so, one has to first construct a proper filter,
+
+The waveform of the underlying continuous-time output shows \emph{distortion} when the group delay is not constant over the bandwidth---this is because a signal usually has a lot of frequency components, and when each one gets filtered by an LTI system then different group delays will be applied to each frequency component. Indeed, the group delay is a function of $\omega$, generally speaking. In some circumstances, the distortion is unacceptable; an \emph{allpass delay equalizer} is usually cascaded with the LTI system, so that the overall group delay is \emph{approximately linear} over the frequency range of interest. This, of course, should be done while keeping the magnitude response of the original LTI system unmodified.
+
+
 
 
 

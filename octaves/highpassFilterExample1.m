@@ -12,4 +12,4 @@ y = filter(h, 1, a + b, zi);
 figure(1);
 plot(n, y, n, a, n, b);
 legend('y[n]', 'a[n]', 'b[n]');
-print -depslatex "-S800,600" "highpassFilterExample1.tex"
+%print -depslatex -mono "-S800,600" "highpassFilterExample1.tex"
