@@ -4902,7 +4902,7 @@ which converges in the mean-square sense. However, $h_{LP}[n]$ does not possess 
 \caption{Some most commonly used $z$-transforms.}\label{tab:zTransforms}
 \end{table}
 
-\section{Rational $z$-Transforms}
+\section{Rational $z$-Transforms}\label{sec:rationalzTransforms}
 
 A special class of $z$-transforms is the class of \textbf{Rational $z$-Transforms}. In this class, all $z$-transforms are \emph{ratios of two polynomials in $z^{-1}$.} In the case of LTI discrete-time systems we are concerned with in this book, all pertinent $z$-transforms are \emph{rational functions of $z^{-1}$}. The general form of a rational $z$-transform is the following one,
 \begin{equation}\label{eqn:rationalzTransform}
@@ -5082,7 +5082,7 @@ If the RoC of a $z$-transform includes the unit circle, the Discrete-time Fourie
 
 Consider again the sequence $x[n] = \mu[n]$, whose plot is in Figure~\ref{tikz:zTransformCausalUnitStep}---the RoC is the region of the z-plane just outside the circle centered at the origin and going through the pole located at $z=1$.
 
-Likewise, the $z$-transform $K(z)$ of the sequence $\upvarkappa[n] = (-0.6)^n\upmu[n]$ is given by the formula
+Likewise, the $z$-transform $K(z)$ of the sequence $\varkappa[n] = (-0.6)^n\mu[n]$ is given by the formula
 \[
     K(z) = \frac{1}{1 + 0.6z^{-1}}, |z| > 0.6,
 \]
@@ -5952,7 +5952,7 @@ for an input of $x[n] = \{\cos{(0.1n)} + \cos{(0.4n)}\}\mu[n]$.
 \begin{center}
 \scalebox{0.6}{
     \input{octaves/highpassFilterExample2.tex}
-}\caption{Response to the highpass filter in the previous example, but with a zero phase delay filter. This is achieved by means of function \texttt{filtfilt}, which grants a filter whose output does not suffer a phase delay at all. The price to pay is a small artifact at the end of the filtering phase; moreover, this has a different frequency response that the one that one had at the beginning, and is possible only with a relatively short sequence so that we can pass it twice through the system, before and after flipping it: this is only feasible if one is not operating in real-time applications. Formally, this will be tackled later on in the book.}\label{oct:highpassFilterExample1}
+}\caption{Response to the highpass filter in the previous example, but with a zero phase delay filter. This is achieved by means of function \texttt{filtfilt}, which grants a filter whose output does not suffer a phase delay at all. The price to pay is a small artifact at the end of the filtering phase; moreover, this has a different frequency response that the one that one had at the beginning, and is possible only with a relatively short sequence so that we can pass it twice through the system, before and after flipping it: this is only feasible if one is not operating in real-time applications. Formally, this will be tackled later on in the book.}\label{oct:highpassFilterExample2}
 \end{center}
 \end{figure*}
 
@@ -6167,8 +6167,245 @@ What happens is that in the continuous-time case the \emph{group delay} $\tau_g(
 
 The waveform of the underlying continuous-time output shows \emph{distortion} when the group delay is not constant over the bandwidth---this is because a signal usually has a lot of frequency components, and when each one gets filtered by an LTI system then different group delays will be applied to each frequency component. Indeed, the group delay is a function of $\omega$, generally speaking. In some circumstances, the distortion is unacceptable; an \emph{allpass delay equalizer} is usually cascaded with the LTI system, so that the overall group delay is \emph{approximately linear} over the frequency range of interest. This, of course, should be done while keeping the magnitude response of the original LTI system unmodified.
 
+\chapter{Analysis of LTI Discrete-Time Systems in the Transform Domain}
 
+In the \textbf{transform domain} it is trivial to deal with the analysis and with the characterization of an LTI system. Any LTI system is completely characterized by its impulse response sequence $\{h[n]\}$; as such, the transform of that sequence would grant us some additional insights into the behavior of such systems, by looking at the \emph{frequency response}. In fact, it is much easier to design filters by manipulating the frequency response instead of their impulse response. We now consider the use of the Discrete-time Fourier Transform and the $z$-transform to migrate from a time-domain representation to a frequency-domain representation and mitigate the difficulty of dealing with the former.
 
+In this book we shall be concerned with LTI discrete-time systems (filters) that are characterized by linear constant coefficients difference equations, having form
+\begin{equation}\label{eqn:ltiDiscreteTimeLinearConstantCoefficientsDifference}
+    \sum_{k=0}^N d_k y[n-k] = \sum_{k=0}^M p_k x[n-k].
+\end{equation}
+Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$.
+
+Applying $z$-transform on both sides of the difference equation, along with properties of linearity and time-invariance, quickly yields
+\begin{equation}\label{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifference}
+    \sum_{k=0}^N d_k z^{-k} Y(z) = \sum_{k=0}^M p_k z^{-k} X(z),
+\end{equation}
+with $X(z)$ and $Y(z)$ being the $z$-transforms of---respectively---$x[n]$ and $y[n]$ with corresponding associated RoCs that shall not be forgotten. Terms $z^{-k}$ appear due to $z$-transform properties related to time-shifting. Each of the components $y[n]$ can be transformed in $z^{-k}Y(z)$ and multiplied by the very same factor $d_k$---the same goes for $x[n]$ components.
+
+A way more convenient representation is given by the following formula, in which some parentheses highlights the fact that the $z$-transforms have been collected,
+\[
+    \left(\sum_{k=0}^N d_k z^{-k}\right) Y(z) = \left(\sum_{k=0}^M p_k z^{-k}\right) X(z),
+\]
+which suddenly leads to
+\begin{equation}\label{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifferenceAlternate}
+    Y(z) = \frac {
+        \left(\sum_{k=0}^M p_k z^{-k}\right)
+    } {
+        \left(\sum_{k=0}^N d_k z^{-k}\right)
+    } X(z),
+\end{equation}
+in which it is clear that the output $z$-transform is given by the input $z$-transform, multiplied by a ratio of polynomials $H(z) = \frac{D(z)}{P(z)}$ that, certainly, is the \emph{transfer function} of the system.
+
+To prove it, let's consider the output as given by the convolution sum
+\[
+    y[n] = \sum_{k=-\infty}^\infty h[k] x[n-k]
+\]
+and move it into the frequency-domain by applying the $z$-transform to it. Applying $z$-transform rules,
+\begin{align*}
+    Y(z) 
+    &= \sum_{n=-\infty}^\infty y[n]z^{-n} \\
+    &= \sum_{n=-\infty}^\infty \left(\sum_{k=-\infty}^\infty h[k] x[n-k]\right)z^{-n}\\
+    &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{n=-\infty}^\infty x[n-k]z^{-n}\right)\\
+    &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{l=-\infty}^\infty x[l]z^{-(l+k)}\right)\\
+    &= \sum_{k=-\infty}^\infty h[k] \underbrace{\left(\sum_{l=-\infty}^\infty x[l]z^{-)}\right)}_{X(z)}z^{-k}\\
+    &= \underbrace{\left(\sum_{k=-\infty}^\infty h[k]z^{-k}\right)}_{H(z)} X(z)\\
+    &= H(z)X(z)
+\end{align*}
+which shows that the convolution sum in the time-domain corresponds to a product in the frequency-domain. 
+
+As a remark, $H(z)$ is the transfer function for \emph{non-recursive systems}, because we adopted the convolution sum with no recursive component. For recursive systems one has to use a different form. Doubtlessly, if the form is as in Equation~\ref{eqn:ltiDiscreteTimeLinearConstantCoefficientsDifference}, then the transfer function is obtained by taking the $z$-transform of both sides---as shown in Equation~\ref{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifferenceAlternate} the end result will be
+\begin{equation}\label{eqn:transferFunctionRecursiveSystems}
+    H(z) = \frac {
+        \left(\sum_{k=0}^M p_k z^{-k}\right)
+    } {
+        \left(\sum_{k=0}^N d_k z^{-k}\right)
+    }.
+\end{equation}
+
+Equivalently, the above can be rewritten into
+\begin{equation}\label{eqn:transferFunctionRecursiveSystemsAlternate}
+    H(z) = z^{-(M-N)} \frac {
+        \left(\sum_{k=0}^M p_k z^{M-k}\right)
+    } {
+        \left(\sum_{k=0}^N d_k z^{N-k}\right)
+    }.
+\end{equation}
+The difference between the two is that the second representation changes from negative to positive powers of $z$. By the way, one can also employ a \emph{factorized} alternate form as follows,
+\begin{equation}\label{eqn:transferFunctionRecursiveSystemsFactorized}
+    H(z) = \frac{p_0}{d_0} \frac {
+        \prod_{k=1}^M (1 - \xi_k z^{-1})
+    } {
+        \prod_{k=1}^N (1 - \lambda_k z^{-1})
+    },
+\end{equation}
+and same as before;
+\begin{equation}\label{eqn:transferFunctionRecursiveSystemsFactorizedAlternate}
+    H(z) = z^{-(M-N)} \frac{p_0}{d_0} \frac {
+        \prod_{k=1}^M (1 - \xi_k)
+    } {
+        \prod_{k=1}^N (1 - \lambda_k)
+    }.
+\end{equation}
+
+Quantities $\xi_1, \xi_2, \dots, \xi_M$ are the finite \textbf{zeros}, while $\lambda_1, \lambda_2, \dots, \lambda_N$ are the finite \textbf{poles} of the transfer function $H(z)$. If $N > M$, there are additional $(N-M)$ zeros located at the origin $z=0$. Conversely, if $N < M$, there are additional $(M - N)$ poles located at the origin $z=0$.
+
+The \emph{region of convergence} of a causal transfer function will be \emph{exterior to a circle} going through the pole that is \emph{the farthest} from the origin---vice versa, the region of convergence of an anti-causal tranfser function will be \emph{interior to a circle} that goes through the pole that is \emph{the closest} to the origin. For causal ones, the RoC is $|z| > \max_{k}|\lambda_k|$, while for anti-causal ones it is $|z| < \min_k |\lambda_k|$. If nothing is said, transfer functions are assumed to be causal.
+
+All of this should not be completely novel to us---Section~\ref{sec:rationalzTransforms} already highlighted some of these concepts, especially the various forms and the presence of poles and zeros. The difference now is that our focus is on the analysis of transfer functions, a narrower kind of $z$-transforms than the generic ones.
+
+As an example, let the impulse response be that of an $M$-point moving average filter as in~\ref{eqn:mPointMovingAverageEquation}. Its transfer function is therefore given by
+\begin{align*}
+    H(z) 
+    &= \frac 1 M \sum_{n=0}^{M-1} z^{-n}\\
+    &= \frac {1 - z^{-M}}{M(1 - z^{-1}}\\
+    &= \frac {z^{M} - 1}{M[z^{M-1}(z - 1)]}.
+\end{align*}
+
+The above expression is that of a transfer function that is expressed as a ratio of polynomials in $z$, having $M$ zeros all located in $z = 1$ and $M$ poles, all located at $z=0$ with the exception of the pole in $z=1$. All zeros have their phase moving of a quantity $\frac 1 M$. There are $M$ zeros on the unit circle at $z=e^{j2\pi \frac k M}$, for $0 \leq k \leq M-1$. The pole at $z=1$ exactly cancels the zero at $z=1$. The resulting RoC is the entire z-plane, with the exception of the origin $z=0$ where there are $M-1$ poles.
+
+\begin{center}
+    \begin{tikzpicture}
+        \node[draw, thick] at (+3.6, +3.6) {$M=8$};
+        \draw[thick,-stealth] (-3.5,0) -- (3.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.5) -- (0,3.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, thick, dotted, minimum size=6cm] at (0,0){};
+        \node[draw, zeroz, thick] at (+3, +0){};
+        \node[draw, zeroz, thick] at (+0, +3){};
+        \node[draw, zeroz, thick] at (-3, +0){};
+        \node[draw, zeroz, thick] at (+0, -3){};
+        \node[draw, zeroz, thick] at (+2.1213, +2.1213){};
+        \node[draw, zeroz, thick] at (-2.1213, +2.1213){};
+        \node[draw, zeroz, thick] at (-2.1213, -2.1213){};
+        \node[draw, zeroz, thick] at (+2.1213, -2.1213){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick] at (+0, +0){};
+        \node[draw, polez, thick, label=north east:{$7$ poles}] at (+0, +0){};
+        \node[draw, polez, thick] at (+3, +0){};
+        \node at (3.1, -0.2) {$1$};
+    \end{tikzpicture}
+\end{center}
+
+The region of convergence of this system is not outside the circle of radius $1$, but outside of the circle of radius $0$ (everything except the origin), since the outside pole with the largest magnitude has been cancelled by the zero, nullifying its influence over the RoC. 
+
+The transfer function of an $M$-point moving average system belongs to the recursive type, but has a finite impulse response, thanks to the fact that the DTFT only has zeros, as the notable points of the $z$-transform located in the unit radius circle are all zeros.
+
+Let now $y[n]$ be a causal LTI IIR digital filter as described below
+\begin{align*}
+    y[n] &= x[n-1] - 1.2x[n-2] + x[n-3]\\
+    &+ 1.3y[n-1] - 1.04y[n-2] + 0.222y[n-3].
+\end{align*}
+This corresponds to a transfer function of
+\[
+    H(z) = \frac {
+        z^{-1} - 1.2z^{-2} + z^{-3}
+    } {
+        1 - 1.3z^{-1} + 1.04z^{-2} - 0.222z^{-3}
+    },
+\]
+whose coefficients at the denominator have their sign inverted. Alternate forms are the two following,
+\[
+    H(z) = \frac {
+        z^{2} - 1.2z + 1
+    } {
+        z^3 - 1.3z^{2} + 1.04z - 0.222
+    },
+\]
+and
+\[
+    H(z) = \frac {
+        (z - 0.6 + j0.8)(z - 0.6 - j0.8)
+    } {
+        (z-0.3)(z-0.5+j0.7)(z-0.5-j0.7)
+    }.
+\]
+Two zeros and two poles form pairs of complex conjugates, while another pole lies on $z=0.3$---this translates to the following plot for poles and zeros, RoC in blue,
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-3.5,0) -- (3.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.5) -- (0,3.5) node[anchor=south east] {$\Im z$};
+        \node[draw, circle, thick, dashed, minimum size=6cm] at (0,0){};
+        \node[draw, zeroz, thick] at (3*0.6, 3*0.8){};
+        \node[draw, zeroz, thick] at (3*0.6, -3*0.8){};
+        \node[draw, polez, thick] at (3*0.5, 3*0.7){};
+        \node[draw, polez, thick] at (3*0.5, -3*0.7){};
+        \node[draw, polez, thick] at (+3*0.3, +0){};
+        \node at (3.1, -0.2) {$1$};
+        \path[pattern=north east lines, pattern color=blue, opacity=.5, even odd rule]
+            (-4.2, -4.2) rectangle (4.2,4.2)
+            (0,0) circle[radius=2.5807];
+    \end{tikzpicture}
+\end{center}
+with poles farthes from the origin have magnitude $\sqrt{0.74}$.
+
+\section{From Transfer Function to Frequency Response}
+
+Naturally, if the region of convergence of the transfer function includes the unit circle, then the frequency response exists---and can be obtained from a transfer function $H(z)$ in the simple following way,
+\[
+    H(e^{j\omega}) = H(z)\Bigr\rvert_{z=e^{j\omega}}.
+\]
+
+For a stable rational transfer function as in~\ref{eqn:rationalzTransformFactoredAlternate}, that is
+\[
+    H(z) = \frac{p_0}{d_0}
+    z^{(N-m)}\frac {
+        \prod_{l=1}^M\left(z - \xi_l\right)
+    } {
+        \prod_{l=1}^N\left(z - \lambda_l\right)
+    },
+\]
+the frequency response can be obtained in a factored form as well,
+\begin{equation}\label{eqn:frequencyResponseFactoredAlternate}
+    H(e^{j\omega}) = \frac{p_0}{d_0}
+    e^{j\omega(N-m)}\frac {
+        \prod_{l=1}^M\left(e^{j\omega} - \xi_l\right)
+    } {
+        \prod_{l=1}^N\left(e^{j\omega} - \lambda_l\right)
+    }.
+\end{equation}
+This form allows for a clearer understanding of the contribute of each and every pole and zero. From the above one can soon obtain the \textbf{magnitude function}
+\begin{equation}\label{eqn:magnitudeRationalTransferFunction}
+    \left|H(e^{j\omega})\right| =
+    \left|\frac{p_0}{d_0}\right|\left|e^{j\omega(N-m)}\right|\frac {
+        \prod_{l=1}^M\left|e^{j\omega} - \xi_l\right|
+    } {
+        \prod_{l=1}^N\left|e^{j\omega} - \lambda_l\right|
+    }.
+\end{equation}
+
+Similarly, one can obtain the \textbf{phase function} for a rational transfer function as follows,
+\begin{equation}\label{eqn:phaseRationalTransferFunction}
+    \arg{H(e^{j\omega})} = \arg{\frac {p_0}{d_0}} + \omega(N-M) + \sum_{k=1}^M \arg{(e^{j\omega} - \xi_k)} - \sum_{k=1}^N \arg{(e^{j\omega} - \lambda_k)}.
+\end{equation}
+
+In order,
+\begin{enumerate}
+    \item the first term corresponds to the phase of the known terms;
+    \item the second term is the phase of $z^{N-M}$;
+    \item the third term is the phase of all zeros at the numerator;
+    \item the fourth term is the phase of all poles at the denominator.
+\end{enumerate}
+
+For a real coefficient transfer function it can be shown that the squared norm
+\begin{align*}
+    \left|H(e^{j\omega})\right|^2 
+    &= H(e^{j\omega}) H^*(e^{j\omega})\\
+    &= H(e^{j\omega}) H(e^{-j\omega})\\
+    &= H(z) H(z^{-1})\Bigr\rvert_{z=e^{j\omega}}.
+\end{align*}
+It follows that the magnitude-squared function of a real-coefficient transfer function can be quickly computed by means of
+\[
+    \left|H(e^{j\omega})\right|^2 = \left|\frac{p_0}{d_0}\right|^2
+    \frac {
+        \prod_{l=1}^M\left(e^{j\omega} - \xi_l\right)\left(e^{-j\omega} - \xi^*_l\right)
+    } {
+        \prod_{l=1}^N\left(e^{j\omega} - \lambda_l\right)\left(e^{-j\omega} - \lambda^*_l\right)
+    }.
+\]
 
 
 \include{references}
