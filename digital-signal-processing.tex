@@ -2297,7 +2297,11 @@ The inverse discrete-time Fourier Transform is soon obtained by
               &= \frac {\sin {\omega_c n}}{\pi n}\\
               &= \sinc {\omega_c n}
 \end{align*}
-for all values $-\infty < n < \infty$.
+for all values $-\infty < n < \infty$. Hence, one obtains the inverse Discrete-time Fourier Transform for a rectangle $h_{LP}[n]$,
+\begin{equation}\label{eqn:inverseDiscreteTimeFourierTransformRectangle}
+    h_{LP} = \sinc {\omega_c n}, -\infty < n < \infty.
+\end{equation}
+
 
 For Parseval's Theorem, the energy of $h_{LP}[n]$ is given by $\frac {\omega_c}{\pi}$. Thus, $h_{LP}[n]$ is a finite-energy sequence, despite being \emph{not absolutely summable}. As a result, the quantity
 \[
@@ -6476,6 +6480,318 @@ Note that in all examples, plotting the magnitude of each $W(z)$ means going thr
 \end{figure*}
 
 \clearpage
+
+\section{Types of Transfer Functions}
+
+There are two possible classifications when it comes to transfer functions:
+\begin{itemize}
+    \item based on \emph{magnitude} $|H(e^{j\omega})|$ of frequency response, by looking at the shape of the \emph{magnitude function};
+    \item based on \emph{phase} $|\theta(\omega)|$ of frequency response, by considering the \emph{phase function};
+\end{itemize}
+
+A rather common approach is considering the \textbf{ideal} magnitude response---an ideal magnitude response is a magnitude response of a digital filter that is equal to $1$ at the frequencies that should pass, and equal to $0$ for all frequencies that should be filtered out. This means that the filter is actually a perfect rectangle, and the filtering will be practically perfect. Of course, this is unachievable in practice.
+
+The range of frequencies that are allowed to pass in an ideal filter are said to be \textbf{passband}, while the range of frequencies that are filtered out for the same ideal filter are called \textbf{stopband}. Although it is possible to design a filter which is either a complete passband or a complete stopband, any decent filter would filter out and let pass at least some frequencies to be really useful.
+
+\begin{center}
+    \begin{tikzpicture}
+        \node[blue] at (0, -.7) {Lowpass};
+        \draw[-stealth] (-1.5, 0) -- (1.5, 0) node[anchor=north west] {$\omega$};
+        \draw[-stealth] (0, 0) -- (0, 1.2) node[anchor=south west] {$H_{LP}(e^{j\omega})$};
+        \draw[thick] node[anchor=north east] {$-\omega_c$} (-0.4, -0) -- (-0.4, 0.8) -- (0.4, 0.8) -- (0.4, -0) node[anchor=north] {$\omega_c$};
+        \node[label=north east:{$1$}] at (0, .7){};
+        \node[label=south:{$\pi$}] at (1.2, 0){};
+        \node[label=south:{$-\pi$}] at (-1.2, 0){};
+        \draw (1.2, -0.03) -- (1.2, +0.03);
+        \draw (-1.2, -0.03) -- (-1.2, +0.03);
+        \draw (-0.03, 0.8) -- (0.03, 0.8);
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \node[blue] at (0, -.7) {Highpass};
+        \draw[-stealth] (-1.5, 0) -- (1.5, 0) node[anchor=north west] {$\omega$};
+        \draw[-stealth] (0, 0) -- (0, 1.2) node[anchor=south west] {$H_{HP}(e^{j\omega})$};
+        \draw[thick] (-1.2, 0.8) -| (-0.4, -0) node[anchor=north] {$-\omega_c$} ;
+        \draw[thick] (0.4, -0) node[anchor=north] {$\omega_c$} |- (1.2, 0.8);
+        \draw (-0.03, 0.8) -- (0.03, 0.8);
+        \node[label=north east:{$1$}] at (0, .7){};
+        \node[label=south:{$\pi$}] at (1.2, 0){};
+        \node[label=south:{$-\pi$}] at (-1.2, 0){};
+        \draw (1.2, -0.03) -- (1.2, +0.03);
+        \draw (-1.2, -0.03) -- (-1.2, +0.03);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \node[blue] at (0, -.7) {Bandpass};
+        \draw[-stealth] (-1.5, 0) -- (1.5, 0) node[anchor=north west] {$\omega$};
+        \draw[-stealth] (0, 0) -- (0, 1.2) node[anchor=south west] {$H_{BP}(e^{j\omega})$};
+        \draw[thick] (-0.8, -0) -- (-0.8, 0.8) -- (-0.4, 0.8) -- (-0.4, -0);
+        \draw[thick] (+0.8, -0) -- (+0.8, 0.8) -- (+0.4, 0.8) -- (+0.4, -0);
+        \node[label=north east:{$1$}] at (0, .7){};
+        \node[label=south:{$\pi$}] at (1.2, 0){};
+        \node[label=south:{$-\pi$}] at (-1.2, 0){};
+        \draw (1.2, -0.03) -- (1.2, +0.03);
+        \draw (-1.2, -0.03) -- (-1.2, +0.03);
+        \draw (-0.03, 0.8) -- (0.03, 0.8);
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \node[blue] at (0, -.7) {Bandstop};
+        \draw[-stealth] (-1.5, 0) -- (1.5, 0) node[anchor=north west] {$\omega$};
+        \draw[-stealth] (0, 0) -- (0, 1.2) node[anchor=south west] {$H_{BS}(e^{j\omega})$};
+        \draw[thick] (-1.2, 0.8) -| (-0.8, 0);
+        \draw[thick] (+1.2, 0.8) -| (+0.8, 0);
+        \draw[thick] (-0.4, -0) -- (-0.4, 0.8) -- (0.4, 0.8) -- (0.4, -0);
+        \node[label=north east:{$1$}] at (0, .7){};
+        \node[label=south:{$\pi$}] at (1.2, 0){};
+        \node[label=south:{$-\pi$}] at (-1.2, 0){};
+        \draw (1.2, -0.03) -- (1.2, +0.03);
+        \draw (-1.2, -0.03) -- (-1.2, +0.03);
+        \draw (-0.03, 0.8) -- (0.03, 0.8);
+    \end{tikzpicture}
+\end{center}
+
+Therefore, there are $4$ kinds of ideal filters, that act like in the following descriptions:
+\begin{description}
+    \item[Lowpass ideal filter] A lowpass ideal filter is a \emph{passband} in frequencies $0 \leq \omega \leq \omega_c$ and a \emph{stopband} in range $\omega_c \leq \omega \leq \pi$.
+    \item[Highpass ideal filter] A highpass ideal filter is a \emph{passband} in frequencies $\omega_c \leq \omega \leq \pi$ and a \emph{stopband} in range $0 \leq \omega \leq \omega_c$.
+    \item[Bandpass ideal filter] A bandpass ideal filter is a \emph{passband} in frequencies $\omega_{c1} \leq \omega \leq \omega_{c2}$ and a \emph{stopband} in frequencies $0 \leq \omega \leq \omega_{c1}$ and $\omega_{c2} \leq \omega \leq \pi$.
+    \item[Bandstop ideal filter] A bandstop ideal filter is a \emph{passband} in frequencies $0 \leq \omega \leq \omega_{c1}$ and $\omega_{c2} \leq \omega \leq \pi$ and a \emph{stopband} in range $\omega_{c1} \leq \omega \leq \omega_{c2}$.
+\end{description}
+Frequencies for which the filter goes from $1$ to $0$ and vice versa are said to be \textbf{cutoff frequencies}.
+
+
+As we have previously seen in Equation~\ref{eqn:inverseDiscreteTimeFourierTransformRectangle}, the inverse DTFT for an ideal lowpass filter---that is, a rectangle---is a \emph{sinc} function
+\[
+    h_{LP} = \frac {\sin {\omega_c n}}{\pi n} = \sinc {\omega_c n}, -\infty < n < \infty;
+\]
+moreover, it has been shown that the above impulse response is not absolutely summable. Hence, the corresponding transfer function is not BIBO stable, as the Theorem~\ref{thm:ltiBiboStability} dictates. The sequence $h_{LP}[n]$ is neither causal nor finite (they are doubly-infinite), and for this reason the ideal filters are not feasible in practice. Even the remaining $3$ types of filters also possess doubly infinite length, noncausal impusle responses and are ultimately not absolutely summable. The conclusion is that no ideal filter with immediate cutoff (rectangle frequency response) can be possibly realized, not withouth employing an infinite dimensional LTI filter---which of course is not feasible in practice.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (0,0) -- (7.5, 0) node[anchor=west] {$\omega$};
+        \draw[-stealth] (0,0) -- (0, 4.5) node[anchor=south] {$\left|G(e^{j\omega})\right|$};
+        \draw[ultra thick] plot[samples=200,domain=0:7] function {4 / (1 + sqrt((0.70*x)**10))};
+
+        \draw (0.05, 4) -- (-0.05, 4) node[anchor=east] {$1 + \delta_p$};
+        \draw[dashed] (0, 4) -- (1, 4);
+        \draw (0.05, 3.5) -- (-0.05, 3.5) node[anchor=east] {$1 - \delta_p$};
+        \draw[dashed] (0, 3.5) -- (1, 3.5);
+        \draw (0.05, 0.5) -- (-0.05, 0.5) node[anchor=east] {$\delta_s$};
+        \draw[dashed] (0, 0.5) -- (7, 0.5);
+        \draw (1, 0.05) -- (1, -0.05) node[anchor=north] {$\omega_p$};
+        \draw[dashed] (1, 0) -- (1, 4);
+        \draw (2.1, 0.05) -- (2.1, -0.05) node[anchor=north] {$\omega_s$};
+        \draw[dashed] (2.1, 0) -- (2.1, 4);
+        \draw (7, 0.05) -- (7, -0.05) node[anchor=north] {$\pi$};
+        \node[rotate=90] at (0.5, 2) {Passband};
+        \node[rotate=90] at (1.55, 3.5) {Transition band};
+        \node at (4, 1) {Stopband};
+    \end{tikzpicture}
+\end{center}
+
+The above figure shows a lowpass filter design, with its constraints. A lowpass filter must respect the \emph{passbands constraints} to be in margin between $1 \pm \delta_p$, and the \emph{stopband constraints} to stay in the margin from $0$ to $\delta_s$. Deciding about and imposing those constraints are indeed what it takes to start designing a lowpass filter, as the constraints $\delta_p$, $\delta_s$, $\omega_p$ and $\omega_s$ will force the filter to respect a specific behavior.
+
+Passband constraints force the filter magnitude to stay in a specific range of values---namely, $1 \pm \delta_p$---so that the filter an effectively \emph{allow to pass} frequencies up to frequency $\omega_p$. Stopband constraints force---instead---the filter to \emph{block} all frequencies from $\omega_s$ to $\pi$. In stopband, the filter shall not exceed values of $\delta_s$. Since no real filter is an ideal filter, a \textbf{transition band} must be endorsed in order for the filter to transition from the passband to the stopband. A specific range of frequencies---from $\omega_p$ to $\omega_s$---cannot be properly handled by the filter, as its magnitude in such range will exhibit an undefined behavior.
+
+\section{Bounded Real Transfer Functions}
+
+\textbf{Bounded Real Transfer Functions} are a class of functions that is bounded to the unity for all of its frequency range. That is,
+\begin{defin}[Bounded Real Transfer Function]
+    A causal stable real-coefficient transfer function $H(z)$ is said to be a \emph{bounded real (BR) transfer function} if
+    \begin{equation}\label{eqn:boundedRealTransferFunctionCondition}
+        \left|H(e^{j\omega})\right| \leq 1
+    \end{equation}
+    for all values of $\omega$.
+\end{defin}
+
+Let now $x[n]$ and $y[n]$ be the input and the output of a digital filter that is characterized by a BR transfer function $H(z)$ such as above. Let also $X(e^{j\omega})$ and $Y(e^{j\omega})$ denote their DTFTs. The condition as in~\ref{eqn:boundedRealTransferFunctionCondition} implies that 
+\[
+    \left|Y(e^{j\omega})\right|^2 \leq \left|X(e^{j\omega})\right|^2.
+\]
+By integrating from $-\pi$ to $\pi$ and applying Parseval's Theorem, one soon obtains that
+\begin{equation}\label{eqn:boundedRealTransferFunctionPassiveStructure}
+    \sum_{n=-\infty}^\infty\left|y[n]\right|^2 \leq \sum_{n=-\infty}^\infty\left|x[n]\right|^2.
+\end{equation}
+
+Equation~\ref{eqn:boundedRealTransferFunctionPassiveStructure} entails that for all finite-energy inputs, the energy of the output is \emph{less than or at most equal} to the input energy. Any digital filter characterized by a BR transfer function can be viewed as a \textbf{passive structure}. Only in the specific case in which
+\[
+    \left|H(e^{j\omega})\right| = 1
+\]
+one has that the output energy is equal to the input energy---such a digital filter is a \textbf{lossless system}. The latter is so important that is deserves its own special definition.
+
+\begin{defin}[Lossless Bounded Real Transfer Function]
+    A causal stable real-coefficient transfer function $H(z)$ is said to be a \emph{lossless bounded real (LBR) transfer function} if
+    \begin{equation}\label{eqn:losslessBoundedRealTransferFunctionCondition}
+        \left|H(e^{j\omega})\right| = 1
+    \end{equation}
+    for all values of $\omega$.
+\end{defin}
+
+Both BR and LBR transfer functions are the keys to the realization of digital filters with \emph{low coefficient sensitivity}.
+
+\subsubsection{Example}
+As an example, consider a causal IIR transfer function
+\[
+    H(z) = \frac{
+        K
+    } {
+        1 - \alpha z^{-1}
+    },
+    0 < |\alpha| < 1
+\]
+where $K$ and $\alpha$ are real constants. Its square-magnitude function is given by the following
+\[
+    \left|H(e^{j\omega})\right|^2 = H(z)H(z^{-1})\Bigr\rvert_{z=e^{j\omega}} =
+        \frac {
+            K^2
+        } { 
+            (1 + \alpha^2) - 2\alpha\cos{\omega}
+        }.
+\]
+
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/boundedRealTransferFunctionsExample.tex}
+}\caption{Plot of magnitude functions and phase functions of $H(z) = \frac{K}{(1 - \alpha z^{-1})}$, for values of $K=0.5$ and $\alpha=\pm 0.5$. The first of the two filters acts as a lowpass filter, while the other one behaves like a highpass filter.}\label{oct:boundedRealTransferFunctionsExample}
+\end{center}
+\end{figure*}
+
+The function depends on $\omega$ only in the argument of the cosine at the denominator. Hence, maximum value of $\left|H(e^{j\omega})\right|$ is obtained when $2\alpha \cos{\omega}$ in the denominator is a maximum and the minimum value is obtained when the latter is a minimum. For a positive $\alpha > 0$, maximum value of $2\alpha\cos{\omega}$ is precisely equal to $2\alpha$ at $\omega=0$, while its minimum value is the negative $-2\alpha$ at $\omega=\pi$.
+Thus, for $\alpha > 0$ the maximum value of the square-magnitude of the transfer function is equal to
+\[
+    \max{\left|H(e^{j\omega})\right|^2} = \frac {
+        K^2
+    } {
+        (1 - \alpha)^2
+    }
+\]
+at $\omega=0$, and the minimum value is 
+\[
+    \min{\left|H(e^{j\omega})\right|^2} = \frac {
+        K^2
+    } {
+        (1 + \alpha)^2
+    }
+\]
+at $\omega=\pi$.
+
+It is clear now that the properties of the transfer function all depend on the particular choice of $\alpha$ and $K$. For instance, in order to obtained a maximum value equal to $1$ one can choose $K = \pm(1 - \alpha)$, and in that case the minimum value will become
+\[
+    \min{\left|H(e^{j\omega})\right|^2} = \frac {
+        (1 - \alpha)^2
+    } {
+        (1 + \alpha)^2
+    }.
+\]
+
+Therefore, transfer function
+\[
+    H(z) = \frac{
+        K
+    } {
+        1 - \alpha z^{-1}
+    },
+    0 < |\alpha| < 1
+\]
+becomes a \emph{BR transfer function} with the choice $K = \pm(1 - \alpha)$. Figure~\ref{oct:boundedRealTransferFunctionsExample} plots the transfer function magnitude and phase functions.
+
+The output sequence $y[n]$ will be a weighted average $K > 0$ or a `weighted difference' $K < 0$ of $x[n]$ and $y[n-1]$.
+
+\section{Allpass transfer functions}
+Some transfer functions are completely flat---such systems are said to be \emph{allpass filters} and related transfer functions are \emph{allpass transfer functions}.
+
+\begin{defin}[Allpass Transfer Functions]
+    An IIR transfer function $\mathcal A(z)$ with unity magnitude response for all frequencies
+    \begin{equation}\label{eqn:allpassTransferFunction}
+        \left|\mathcal A(e^{j\omega})\right| = 1
+    \end{equation}
+    for all $\omega$
+    is called an \emph{allpass transfer function}. An $M$-th order causal real-coefficient allpass transfer function has the form
+    \begin{equation}\label{eqn:allpassTransferFunctionM}
+        \mathcal A_M(z) = \pm\frac {
+            d_M + d_{M-1}z^{-1} + \cdots + d_1z^{-M+1} + z^{-M}
+        } {
+            1 + d_1z^{-1} + \cdots + d_{M-1}z^{-M+1} + d_Mz^{-M}
+        }.
+    \end{equation}
+\end{defin}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.45}{
+    \input{octaves/allpassTransferFunctionMirrorExample.tex}
+}\caption{Plot of magnitude functions and phase functions of $H(z) = \frac{K}{(1 - \alpha z^{-1})}$, for values of $K=0.5$ and $\alpha=\pm 0.5$. The first of the two filters acts as a lowpass filter, while the other one behaves like a highpass filter.}\label{oct:allpassTransferFunctionMirrorExample}
+\end{center}
+\end{figure*}
+
+An allpass filter, basically, is a filter which simply \emph{passess all frequences}; Equation~\ref{eqn:allpassTransferFunctionM} gives the form of such filter. By calling the denominator of $\mathcal A_M(z)$ as $D_M(z)$
+\[
+    D_M(z) = 1 + d_1z^{-1} + \cdots + d_{M-1}z^{-M+1} + d_Mz^{-M},
+\]
+it follows that one can rewrite $\mathcal A_M(z)$ in the following manner,
+\begin{equation}\label{eqn:allpassTransferFunctionMCompact}
+    \mathcal A_M(z) = \pm \frac {
+        z^{-M} D_M(z^{-1})
+    } {
+        D_M(z)
+    }
+\end{equation}
+Notice how the above equation has a zero at $z=\frac 1 r e^{j\varphi}$ if there is a pole at $z = re^{j\varphi}$, because of Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$: the reciprocal of the pole. For this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} of the denominator, and vice versa. One can then employ a different notation altogether to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, that is
+\begin{equation}\label{eqn:mirrorImagePolynomial}
+    \tilde{D}_M(z) = z^{-M}D_M(z^{-1}).
+\end{equation}
+
+From the mirror-image property, a fundamental property can be inferred: all poles and zeros of a real-coefficient allpass transfer function must exhibit a \emph{mirror-image symmetry} in the z-plane. For instance, let's plot the following
+\[
+    \mathcal A_3(z) = \frac {
+        -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
+    } {
+        1 + 0.4 z^{-1} + 0.18z^{-2} - 0.2z^{-3}
+    }
+\]
+into Figure~\ref{oct:allpassTransferFunctionMirrorExample}.
+
+To show off that $\left| \mathcal A_M(e^{j\omega}) \right| = 1$ it suffices to observe that
+\[
+    \mathcal A_M(z^{-1}) = \pm \frac {
+        z^{M} D_M(z)
+    } {
+        D_M(z^{-1})
+    }.
+\]
+
+Hence,
+\[
+    \mathcal A_M(z) \mathcal A_M(z^{-1}) = \frac {
+        z^{-M} D_M(z^{-1})
+    } {
+        D_M(z)
+    } \cdot \frac {
+        z^{M} D_M(z)
+    } {
+        D_M(z^{-1})
+    }
+\]
+which immediately leads to
+\[
+    \left|\mathcal A_M(e^{j\omega})\right|^2 \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
+\]
+that is
+\[
+    \left|\mathcal A_M(e^{j\omega})\right| = 1.
+\]
+
+In order for a transfer function to be causal, it must lie inside the unit circle in the z-plane---otherwise, the region of convergence would not comprise the unit circle, and the corresponding transfer function would not be stable. Hence, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle, in order to reflect the mirror-image symmetry property. Indeed, this is what happened in Figure~\ref{oct:allpassTransferFunctionMirrorExample}, and what happens in all allpass filters.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.45}{
+    \input{octaves/allpassTransferFunctionMirrorExamplePhase.tex}
+}\caption{Caption}\label{oct:allpassTransferFunctionMirrorExamplePhase}
+\end{center}
+\end{figure*}
+
 
 
 \include{references}
