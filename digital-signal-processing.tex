@@ -21,6 +21,8 @@
 %\usepackage{fontspec}
 \usepackage[default,regular,black]{sourceserifpro}
 \usepackage[stickstoo]{newtxmath}
+%\usepackage{libertine}
+%\usepackage{libertinust1math}
 \usepackage[all]{nowidow}
 \usepackage{graphicx}
 \usepackage{svg}
@@ -30,6 +32,8 @@
 \usepackage{parskip}
 \setcounter{MaxMatrixCols}{20}
 \usepackage[a4paper, inner=\innermargin, outer=\outermargin]{geometry}
+\usepackage[normalem]{ulem} 
+
 
 \setlength{\columnsep}{42pt}
 
@@ -208,7 +212,7 @@ The numerator of such quantity can be considered as the error between se\-quen\-
 
 \subsection{Operations on se\-quen\-ces}\label{sec:operationsOnSequences}
 
-se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be more than one inputs or outputs.
+Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be more than one inputs or outputs.
 
     \begin{figure}[ht]
 \begin{center}
@@ -6207,6 +6211,8 @@ and move it into the frequency-domain by applying the $z$-transform to it. Apply
     &= \sum_{n=-\infty}^\infty y[n]z^{-n} \\
     &= \sum_{n=-\infty}^\infty \left(\sum_{k=-\infty}^\infty h[k] x[n-k]\right)z^{-n}\\
     &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{n=-\infty}^\infty x[n-k]z^{-n}\right)\\
+\end{align*}
+\begin{align*}
     &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{l=-\infty}^\infty x[l]z^{-(l+k)}\right)\\
     &= \sum_{k=-\infty}^\infty h[k] \underbrace{\left(\sum_{l=-\infty}^\infty x[l]z^{-)}\right)}_{X(z)}z^{-k}\\
     &= \underbrace{\left(\sum_{k=-\infty}^\infty h[k]z^{-k}\right)}_{H(z)} X(z)\\
@@ -6269,7 +6275,7 @@ The above expression is that of a transfer function that is expressed as a ratio
         \node[draw, thick] at (+3.6, +3.6) {$M=8$};
         \draw[thick,-stealth] (-3.5,0) -- (3.5,0) node[anchor=north west] {$\Re z$};
         \draw[thick,-stealth] (0,-3.5) -- (0,3.5) node[anchor=south east] {$\Im z$};
-        \node[draw, circle, thick, dotted, minimum size=6cm] at (0,0){};
+        \node[draw, circle, thick, dashed, minimum size=6cm] at (0,0){};
         \node[draw, zeroz, thick] at (+3, +0){};
         \node[draw, zeroz, thick] at (+0, +3){};
         \node[draw, zeroz, thick] at (-3, +0){};
@@ -6406,6 +6412,70 @@ It follows that the magnitude-squared function of a real-coefficient transfer fu
         \prod_{l=1}^N\left(e^{j\omega} - \lambda_l\right)\left(e^{-j\omega} - \lambda^*_l\right)
     }.
 \]
+
+\section{Plots with Octave}
+
+This section will present some plots related to $z$-transforms. In particular, the following $z$-transforms will be plotted:
+\begin{itemize}
+    \item $W_1(z) = \frac{ 1 } {z - 0.8}$ in Figure~\ref{oct:zTransformExample1};
+    \item $W_2(z) = \frac{ 1 } {z + 0.8}$ in Figure~\ref{oct:zTransformExample2};
+    \item $W_3(z) = \frac{ 1 } {(z - 0.6 - j*0.5)(z - 0.6 + j*0.5)}$ in Figure~\ref{oct:zTransformExample3};
+    \item $W_{3b}(z) = \frac{ (z + 0.9) } {(z - 0.6 - j*0.5)(z - 0.6 + j*0.5)}$ in Figure~\ref{oct:zTransformExample3b};
+    \item $W_4(z) = \frac{ (z - 0.6 + j*0.8)(z - 0.6 - j*0.8) } {(z - 0.5 - j*0.7)(z - 0.5 + j*0.7)(z - 0.3)}$ in Figure~\ref{oct:zTransformExample4}.
+    \item $W_{4b}(z) = \frac{ (z - 0.6 + j*0.8)(z - 0.6 - j*0.8) } {(z - 0.6 - j*0.8)(z - 0.6 + j*0.8)(z - 0.3)} = \frac { 1 } {(z - 0.3)}$ in Figure~\ref{oct:zTransformExample4b}.
+\end{itemize}
+
+Note that in all examples, plotting the magnitude of each $W(z)$ means going through the red circle of unit radius and measuring the magnitude of the function as in the top-left mesh plot. Plots follow in the next few pages.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample1.tex}
+    }\caption{Plot of $z$-Transform $W_1(z) = \frac{ 1 } {z - 0.8}$. In this sets of plots, it is visible how the pole determines a peak to infinity in the proximity of the point $(1,0)$, which is the starting point of our trip from $0$ to $2\pi$ following the unit circle in red. What happens is that our magnitude is first largely influenced by the pole---soon after, the magnitude goes quickly towards $0$ as we are going farther from the pole. Indeed, at $\pi$ we have the least magnitude, which is zero. Going from $\pi$ to $2\pi$ and approaching again the point $(1,0)$ in the z-plane, we have the exact opposite behavior: the magnitude now increases up to the original value.}\label{oct:zTransformExample1}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample2.tex}
+}\caption{Plot of $z$-Transform $W_2(z) = \frac{ 1 } {z + 0.8}$. This set of plots shows a pole at the opposite location than in the previous example. Indeed, what happens is that now the magnitude peak---caused by the existence of the pole---is at frequency $\pi$ as the pole is nearby point $(-1,0)$.}\label{oct:zTransformExample2}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample3.tex}
+}\caption{Plot of $z$-Transform $W_3(z) = \frac{ 1 } {(z - 0.6 - j*0.5)(z - 0.6 + j*0.5)}$. A version with two (complex--conjugates) poles of the previous examples: the peaks are now two instead of a single one, and are located in correspondence of the peaks to infinity produced by the two poles.}\label{oct:zTransformExample3}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample3b.tex}
+}\caption{Plot of $z$-Transform $W_{3b}(z) = \frac{ (z + 0.9) } {(z - 0.6 - j*0.5)(z - 0.6 + j*0.5)}$. This version of plots in Figure~\ref{oct:zTransformExample3} adds an additional zero in location $\xi = -0.9$. The zero influences the overall magnitude, and forces an even stricter valley nearby point $(-1,0)$ of z-plane.}\label{oct:zTransformExample3b}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample4.tex}
+}\caption{Plot of $z$-Transform $W_4(z) = \frac{ (z - 0.6 + j*0.8)(z - 0.6 - j*0.8) } {(z - 0.5 - j*0.7)(z - 0.5 + j*0.7)(z - 0.3)}$. This elaborated example illustrates a plot of $2$ zeros---both located in the unit circle---and $3$ poles, two of which compose a complex--conjugate pair. Absolutely, the zeros will force the magnitude to collapse to $0$ at the frequency corresponding to their locations; on contrary, the three poles will influence the magnitude on the other way around. What happens is that, in practice, the zero will prevail (after all, it's located closer to the unit circle we are evaluating the magnitude on), but still its effects are counterbalanced by the presence of two nearby poles.}\label{oct:zTransformExample4}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/zTransformExample4b.tex}
+}\caption{Plot of $z$-Transform $W_{4b}(z) = \frac{ (z - 0.6 + j*0.8)(z - 0.6 - j*0.8) } {(z - 0.6 - j*0.8)(z - 0.6 + j*0.8)(z - 0.3)} = \frac { 1 } {(z - 0.3)}$. In fact, following the previous example, moving the two poles to the zeros produces a \emph{zero--pole cancellation}. Due to the cancellation, the effect of both poles and zeros is completely nullified, and the system behaves exactly like there was only a pole at $\lambda = 0.3$ in the first place.}\label{oct:zTransformExample4b}
+\end{center}
+\end{figure*}
+
+\clearpage
 
 
 \include{references}
