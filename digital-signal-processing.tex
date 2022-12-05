@@ -5655,10 +5655,6 @@ By looking at the above relations, one can soon infer that the Fourier Transform
 
 Since the \emph{Nyquist Sampling Theorem} tells us that in order to reconstruct the original signal faithfully it is necessary for the sampling frequency to be greater than the double of the signal's band---the so-called \textbf{Nyquist rate}---that is
 \begin{equation}\label{eqn:nyquistRate}
-    \Delta T_N = \frac{1}{\Delta f} \geq \frac{1}{2B},
-\end{equation}
-along with the \textbf{Nyquist frequency}
-\begin{equation}\label{eqn:nyquistFrequency}
     \Delta f = \frac{1}{\Delta T_N} \geq 2B,
 \end{equation}
 one would otherwise encounter superposition of the periodic repetitions in the frequency domain. So long as there is no superposition between repetitions, one can reconstruct the original signal perfectly from its sampled sequence. On contrary, if the Nyquist rate is not guaranteed during the sampling phase, one would expect superposition between frequency repetitions, leading to an unwanted sum between repetitions lateral tails, as in the following Figure,
