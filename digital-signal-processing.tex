@@ -5626,7 +5626,7 @@ by \emph{Fourier transforming} the sequence $x[n]$, one obtains
 \begin{align*}
     X(f) &= \frac 1 {\Delta T} \int_{-\infty}^\infty F(\tau) \sum_{n=-\infty}^\infty \delta(f - \tau - \frac n {\Delta T})d\tau = \\
          &= \frac 1 {\Delta T} \sum_{n=-\infty}^\infty \int_{-\infty}^\infty F(\tau)  \delta(f - \frac n {\Delta T} - \tau)d\tau = \\
-         &= \frac 1 {\Delta T} \int_{-\infty}^\infty F\left(f - \frac{n}{\Delta T}\right) \\
+         &= \frac 1 {\Delta T} \sum_{n=-\infty}^\infty F\left(f - \frac{n}{\Delta T}\right) \\
          &= F(f) \circledast S_\delta (f),
 \end{align*}
 where
@@ -5748,8 +5748,8 @@ However, the transform can be computed in the old way as well,
 \begin{align*}
     X(f) &= \int_{-\infty}^\infty f_s(n\Delta T) e^{-j2\pi f t} dt\\
          &= \int_{-\infty}^\infty \sum_{n=-\infty}^\infty f(n\Delta T) \delta (t-n\Delta T) e^{-j2\pi f t} dt\\
-         &= \sum{n=-\infty}^\infty f(n\Delta T)\int{-\infty}^\infty  \delta (t-n\Delta T) e^{-j2\pi f t} dt\\
-         &= \sum{n=-\infty}^\infty f(n\Delta T)e^{-j2\pi f n \Delta T} dt,
+         &= \sum_{n=-\infty}^\infty f(n\Delta T)\int_{-\infty}^\infty  \delta (t-n\Delta T) e^{-j2\pi f t} dt\\
+         &= \sum_{n=-\infty}^\infty f(n\Delta T)e^{-j2\pi f n \Delta T} dt,
 \end{align*}
 known as the \textbf{Poisson's summation formula}
 \begin{equation}\label{eqn:poissonSummationFormula}
