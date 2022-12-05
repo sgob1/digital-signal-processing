@@ -705,7 +705,8 @@ To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textb
 
 In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall in the range $-\pi < \omega < \pi$, then it will fold over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
 
-\subsubsection{Generalization}
+
+\subsection{Generalization}
 
 Let's consider an arbitrary continuous-time signal $x_a(t)$, composed of a weighted sum of an arbitrary, finite number of sinusoidal signals. The signal might be uniquely represented---completely avoiding the aliasing effect---by a sequence $\{x[n]\}$, a sampled version of the original signal $x_a(t)$ with sampling frequency $\Omega_T$ that should be \emph{greater than the double of} the highest frequency in the signal $x_a(t)$. For instance, suppose $x_a$ contains a sinusoid whose frequency $f_h$ is the highest of all sinusoids in $x_a$; in order to avoid the aliasing effect, a correct choice for the angular sampling frequency would be $\Omega_T > 2\pi f_h$.
 
@@ -1860,7 +1861,7 @@ An example of a field in which frequency-domain analysis gives a better understa
 This chapter will be devoted in the introduction to the analysis of discrete-time signals in the frequency domain, by means of the \emph{discrete-time Fourier Transform}.
 
 
-\section{Continuous-time Fourier Transform}
+\section{Continuous-time Fourier Transform}\label{sec:continuousTimeFourierTransform}
 
 A \textbf{Fourier transform (FT)} is a mathematical transform that decomposes functions depending on space or time into functions depending on spatial frequency or temporal frequency. That process is also called analysis. An example application would be decomposing the waveform of a musical chord into terms of the intensity of its constituent pitches. The term Fourier transform refers to both the frequency domain representation and the mathematical operation that associates the frequency domain representation to a function of space or time.
 
@@ -2880,7 +2881,7 @@ expressed under the new notation\footnote{
         x[k] = \sum_{k=0}^{N-1} X[k] e^{2j\pi\frac{kn}{N}}, 0 \leq n \leq N-1,
     \]
     showing a positive sign at the exponentiation.
-}.
+}. The inverse Discrete Fourier Transform is \emph{periodic} as well.
 Verifying the above inverse transform is straightforward, as it is enough to substitute the original transform into the inverse, then multiply both sides of the equation by $W_N^{ln}$ and sum the result from $n=0$ to $n=N-1$. Of course,
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] W_N^{ln}
@@ -5609,6 +5610,206 @@ Again by observation one can conclude that there are two poles and two zeros; he
 \end{center}
 
 Clearly, in order to craft a system that is actually useful by virtue of being causal and BIBO stable, we must ensure that it is within the Region of Convergence, which can be ascertained by looking at the pole zero plot. The Region of Convergence is the area in the pole/zero plot of the transfer function in which the function exists. For purposes of useful filter design, we prefer to work with rational functions, which can be described by two polynomials, one each for determining the poles and the zeros, respectively.
+
+\chapter{Sampling, interpolation, and reconstruction of signals}
+
+In general, only \emph{infinite-length} signals can have \emph{finite band}---since in reality one can only generate a finite-length signal, all signals will, in practice, possess an infinite band. Infinite band signals will see its Fourier Transform (Section~\ref{sec:continuousTimeFourierTransform}) spanning through the entire frequency domain, hence $B \rightarrow \infty$. This is why, in order to sample a finite-length signal it is paramount to first \emph{lowpass filter it}.
+
+\section{Sampling}
+
+Suppose an infinite-length continuous-time signal $f(t)$ is sampled with sampling step $\Delta T$, to obtain a sequence $x[n]$ from it,
+\begin{align*}
+    x[n] &= f(t) \sum_{n=-\infty}^\infty \delta(t - n\Delta T)\\
+         &= \sum_{n=-\infty}^\infty f(t)\delta(t - n \Delta T);
+\end{align*}
+by \emph{Fourier transforming} the sequence $x[n]$, one obtains
+\begin{align*}
+    X(f) &= \frac 1 {\Delta T} \int_{-\infty}^\infty F(\tau) \sum_{n=-\infty}^\infty \delta(f - \tau - \frac n {\Delta T})d\tau = \\
+         &= \frac 1 {\Delta T} \sum_{n=-\infty}^\infty \int_{-\infty}^\infty F(\tau)  \delta(f - \frac n {\Delta T} - \tau)d\tau = \\
+         &= \frac 1 {\Delta T} \int_{-\infty}^\infty F\left(f - \frac{n}{\Delta T}\right) \\
+         &= F(f) \circledast S_\delta (f),
+\end{align*}
+where
+\[
+    S_\delta(f) = \mathcal F\left\{\sum_{n} \delta(t - n\Delta T)\right\} = \sum_{n=-\infty}^\infty \frac {1}{\Delta T} \delta(f - \frac n {\Delta T}).
+\]
+
+By looking at the above relations, one can soon infer that the Fourier Transform $X(f)$ of the sampled sequence $x[n]$ is a \emph{periodic repetition of the spectrum of the original signal $f(t)$}, as to obtain the actual Fourier Transform $X(f)$ the Fourier Transform $F(f)$ of signal $f(t)$ is convoluted by the periodic train of impulses $S_\delta(f)$, producing a periodic transform as the end result. Hence, the transform of $x[n]$ obtained by sampling $f(t)$ with sampling step $\Delta T$ is a periodic repetition of the spectrum of the original signal $f(t)$ with period $\Delta f = \frac {1}{\Delta T}$.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-2, 0) -- (5, 0);
+        \draw[-stealth] (0, -0.5) -- (0, 1.5) node[anchor=south west] {$X(f)$};
+        \draw[] (-1.4, -0.05) -- (-1.4, .05);
+        \draw[] (+1.4, -0.05) -- (+1.4, .05) node[anchor=north west] {$B$};
+        \draw[] (+4.2, -0.05) -- (+4.2, .05) node[anchor=north west] {$2B$};
+        \draw[] (+2.8, -0.05) -- (+2.8, .05) node[anchor=north west] {$\frac{1}{\Delta T}$};
+        \draw[dashed] (+2.8, -0.5) -- (+2.8, 1.5);
+        \draw[thick] (0,.8) .. controls (.6,1.2) and (.8,1.6) .. (1,0);
+        \draw[thick] (0,.8) .. controls (-.6,1.2) and (-.8,1.6) .. (-1,0);
+        \draw[] (2.8+0,.8) .. controls (2.8+.6,1.2) and (2.8+.8,1.6) .. (2.8+1,0);
+        \draw[] (2.8+0,.8) .. controls (2.8+-.6,1.2) and (2.8+-.8,1.6) .. (2.8+-1,0);
+        \node[] at (4.8, .7) {$\cdots$};
+    \end{tikzpicture}
+\end{center}
+
+Since the \emph{Nyquist Sampling Theorem} tells us that in order to reconstruct the original signal faithfully it is necessary for the sampling frequency to be greater than the double of the signal's band---the so-called \textbf{Nyquist rate}---that is
+\begin{equation}\label{eqn:nyquistRate}
+    \Delta T_N = \frac{1}{\Delta f} \geq \frac{1}{2B},
+\end{equation}
+along with the \textbf{Nyquist frequency}
+\begin{equation}\label{eqn:nyquistFrequency}
+    \Delta f = \frac{1}{\Delta T_N} \geq 2B,
+\end{equation}
+one would otherwise encounter superposition of the periodic repetitions in the frequency domain. So long as there is no superposition between repetitions, one can reconstruct the original signal perfectly from its sampled sequence. On contrary, if the Nyquist rate is not guaranteed during the sampling phase, one would expect superposition between frequency repetitions, leading to an unwanted sum between repetitions lateral tails, as in the following Figure,
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-2, 0) -- (5, 0);
+        \draw[-stealth] (0, -0.5) -- (0, 1.5) node[anchor=south west] {$X(f)$};
+        \draw[] (-1.4, -0.05) -- (-1.4, .05);
+        \draw[] (+1.4, -0.05) -- (+1.4, .05) node[anchor=north west] {$B$};
+        \draw[] (+4.2, -0.05) -- (+4.2, .05) node[anchor=north west] {$2B$};
+        \draw[] (+2.8, -0.05) -- (+2.8, .05) node[anchor=north west] {$\frac{1}{\Delta T}$};
+        \draw[dashed] (+2.8, -0.5) -- (+2.8, 1.5);
+        \draw[thick] (0,.8) .. controls (.6,1.2) and (.8,1.6) .. (1.6,0);
+        \draw[thick] (0,.8) .. controls (-.6,1.2) and (-.8,1.6) .. (-1.6,0);
+        \draw[] (2.8+0,.8) .. controls (2.8+.6,1.2) and (2.8+.8,1.6) .. (2.8+1.6,0);
+        \draw[] (2.8+0,.8) .. controls (2.8+-.6,1.2) and (2.8+-.8,1.6) .. (2.8+-1.6,0);
+        \node[] at (4.8, .7) {$\cdots$};
+        \node[] at (2.3, -.7) {Aliasing};
+        \draw[-stealth] (1.8,-.6) .. controls (1.3,-.5) and (1.45, -.4) .. (1.4,+0.09);
+    \end{tikzpicture}
+\end{center}
+
+Due to the \emph{aliasing} phenomenon, the superposed frequencies are undistinguishable in the resulting signal, as their information is lost due to a sum.
+
+This problem is easily solvable on paper. If a signal's spectrum band is limited---and that means if a signal has finite-length---one can easily determine a proper Nyquist rate $\Delta T = \frac {1}{2B}$ so that no aliasing would ever occur. However, as we already pointed out, \emph{no signal in practice is of finite-lenght} and this ultimately means that \emph{no signal spectrum is possibly limited in band}. If $f(t)$ is limited, then its band is, by definition, unlimited\footnote{A notable exception for this rule is that of an infinite-length signal $f(t)$, \emph{but periodic}---transforming such signal would lead to an infinite-length and \emph{periodic} transform as well, but one can only consider a small portion of $f(t)$, corresponding to exactly a single period of it, leading to a finite-length transform}.
+
+Let $f(t)$ be an infinite-length signal, and let $\hat f(t)$ be its windowed version, obtained by multiplying $f(t)$ with a rectangular window of width\footnote{Note that this is completely equivalent to pick a \emph{finite}-length signal $f(t)$ of length $\frac 1 T$.} $\frac 1 T$; one has
+\[
+    \hat f(t) = f(t) \rect{\left(\frac t T\right)},
+\]
+and by performing its Fourier Transform one gets
+\[
+    \hat F(f) = F(f) \circledast T\sinc{\left(t T\right)},
+\]
+but the $\sinc$ signal is of infinite-length, so the convolution between the latter and any $F(f)$ will result in an unlimited signal as well. Undeniably, for these reasons any signal will inevitably present some aliasing.
+
+\subsection{Filtering the signal to prevent aliasing}
+
+By lowpass filtering the signal before sampling one can make the Fourier Transform $\hat F(f)$ \emph{limited}. No aliasing would then occur if the sampling frequency is tailored to fit the resulting cut frequency, so that no superposition can show up.
+
+As a general rule, if the end goal is to sample with rate $\Delta T_1$, it is required to design a lowpass filter whose cut frequency is $f_1 = \frac 1 {\Delta T_1}$---ideally by using a rectangle shape filter. Hence, if $g(t)$ is a finite-length signal and $G(f)$ is an infinite-length transform (infinite band) one can obtain a finite band signal $\hat G(f)$ by performing
+\[
+    \hat G(f) = G(f)\cdot \rect{\left(\frac f f_1\right)}.
+\]
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-3, 0) -- (3, 0);
+        \draw[-stealth] (0, -0.5) -- (0, 1.5) node[anchor=south west] {$X(f)$};
+        \draw[] (+1.5, -0.05) -- (+1.5, .05) node[anchor=north west] {$\frac{f_1}{2}$};
+        \draw[] (-1.5, -0.05) -- (-1.5, .05) node[anchor=north west] {-$\frac{f_1}{2}$};
+        \draw[thick] (0,.8) .. controls (.6,1.2) and (.8,-.1) .. (3,0);
+        \draw[thick] (0,.8) .. controls (-.6,1.2) and (-.8,-.1) .. (-3,0);
+        \draw[dashed] (-1.5,0) |- (1.5, 1) -- (1.5, 0);
+    \end{tikzpicture}
+\end{center}
+
+This approach guarantees that no aliasing is generated by sampling, at the expense of a loss due to the lowpass filtering, since some frequencies must inevitably be cutted out.
+
+\subsection{Reconstructing the original signal}
+
+After lowpassing the signal with a cut frequency equal to the Nyquist rate in order to avoid any aliasing phenomenon, and adopting a sampling rate which is equal to the Nyquist rate, to reconstruct the signal it is sufficient to extract a single of the periodicly repeating spectra (for instance, the one centered at the origin). To do so, one can use a window of width $\Delta f$---or, equivalently, the same lowpass filter just used to ensure compliance with the Nyquist Sampling Theorem.
+
+\section{Interpolation}
+
+Verily, the lowpass reconstructing filter is totally equivalent to a $\sinc$ in the time domain; this leads to
+\[
+    \begin{array}{rcl}
+        X(f)\Delta T \rect{\left(\frac f {\Delta f}\right)} & \longleftrightarrow & x[n] \circledast \sinc{\left(\frac t {\Delta T}\right)},
+    \end{array}
+\]
+where the multiplying factor $\Delta T$ compensates the multiplying factor $\frac{1}{\Delta T}$ that appears during the transform process. Moreover,
+\[
+    x[n] \circledast \sinc{\left(\frac t {\Delta T}\right)} = \sum_{n=-\infty}^\infty x[n] \sinc{\left(\frac{t - n\Delta T}{\Delta T}\right)}.
+\]
+
+Notably, the above is exaxctly what we call \emph{interpolation}. In fact, when we perform upsampling we are by a matter of fact first interpolating to reconstruct the original signal, then sampling it at a greater frequency. This is equivalent to add enough zeros between samples and performing the convolution between the signal whose zeros were added and the $\sinc$ function, preserving only the samples corresponding to the actual sampling process. All samples---even the zeros that have been added---are computed by means of a convolution sum between the original sequence and a $\sinc$ function.
+
+\section{Discrete-Time Fourier Transform and sampling}
+
+Since any continuous-time function $f(t)$ can be sampled with step $\Delta T$ in the following manner
+\[
+    x[n] = f_s(n\cdot \Delta T) = \sum_{n=-\infty}^\infty f(t)\delta(t - n \Delta T) = \sum_{n=-\infty}^\infty f(n\Delta T)\delta (t - n\Delta T),
+\]
+where $f_s(\cdot)$ is the signal $f(t)$ after the sampling process, $x[n]$ is the sequence resulting from the sampling process, and the last passage is legit since only values of $f(t)$ computed in $n\Delta T$ will contribute to the sum due to the impulses $\delta(t - n \Delta T)$. By transforming with the convolution product one rapidly obtains
+\[
+    X(f) =  \frac{1}{\Delta T} \sum_{n=-\infty}^\infty F\left(f - \frac n {\Delta T}\right).
+\]
+
+However, the transform can be computed in the old way as well,
+\begin{align*}
+    X(f) &= \int_{-\infty}^\infty f_s(n\Delta T) e^{-j2\pi f t} dt\\
+         &= \int_{-\infty}^\infty \sum_{n=-\infty}^\infty f(n\Delta T) \delta (t-n\Delta T) e^{-j2\pi f t} dt\\
+         &= \sum{n=-\infty}^\infty f(n\Delta T)\int{-\infty}^\infty  \delta (t-n\Delta T) e^{-j2\pi f t} dt\\
+         &= \sum{n=-\infty}^\infty f(n\Delta T)e^{-j2\pi f n \Delta T} dt,
+\end{align*}
+known as the \textbf{Poisson's summation formula}
+\begin{equation}\label{eqn:poissonSummationFormula}
+    \frac{1}{\Delta T} \sum_{n=-\infty}^\infty F\left(f - \frac n {\Delta T}\right) = \sum_{n=-\infty}^\infty f(n\Delta T) e^{-j2\pi f}.
+\end{equation}
+
+Now, $f$ is a generic frequency, irrespective to the actual domain of the signals. In order to obtain the Discrete-Time Fourier Transform one has to perform the next variable change, that is
+\[
+    \omega = 2\pi f \Delta T = 2 \pi \frac {f}{\Delta f},
+\]
+that leads to
+\begin{align*}
+    X(\omega) &= \sum_{n-\infty}^\infty f(n\Delta T) e^{-j2\pi f\Delta T n} \\
+              &= \sum_{n-\infty}^\infty x[n] e^{-j\omega n}
+\end{align*}
+which is the DTFT of sequence $x[n]$ as in Equation~\ref{eqn:discreteTimeFourierTransform}. Mathematically, quantities $f(n\Delta T)$ and $x[n]$ are exactly the same, and can then be freely interchanged. By means of Poisson's Summation Formula as in~\ref{eqn:poissonSummationFormula}, it quickly becomes
+\[
+    \frac{1}{\Delta T} \sum_{n=-\infty}^\infty F\left(\frac {\omega - 2\pi n}{2\pi\Delta T}\right) = \sum_{n=-\infty}^\infty f(n\Delta T) e^{-j2\pi f}
+\]
+which is, again, the DTFT of sequence\footnote{$x[n]$ is supposedly an infinite-length sequence---alternatively, $x[n]$ is a sequence subject to lowpass filtering in order to avoid any aliasing effect.} $x[n]$. As we have encountered in previous chapters, the Discrete-Time Fourier Transform is periodical of period $2\pi$---indeed, if we think of $x[n]$ as a discrete sequence that is the result of a sampling process, then the Poisson's formula holds, and thus the DTFT can be simply considered as the \emph{periodic repetition of a continuous transform of the sampled signal $f(t)$}. Therefore, by means of the Poisson's Summation Formula, the Discrete-Time Fourier Transform can be conceived as the periodic result of a sampling process. The DTFT has period $2\pi$: this can be highlighted by looking at the definition of frequency $\omega$, that is
+\[
+    \omega = 2\pi \frac {f} {\Delta f};
+\]
+clearly, for $0 < f < \Delta f$ one has $\omega < 2\pi$ and for exactly $\Delta f$ one gets $\omega = 2\pi$, the Nyquist frequency.
+
+\section{Discrete Fourier Transform and sampling}
+
+A Discrete Fourier Transform is a sampling of the DTFT---therefore, by abnalogy, it follows that it can also be thought as the result of a sampling process \emph{plus} another sampling.
+
+In order to evaluate the DFT, one has to first know how many samples the original sequence $x[n]$ possesses, where $x[n]$ is the finite portion of an infinite-length sequence $f(n\Delta T) = f_s(n \Delta T)$. If $x[n]$ has length $N$, then the number of samples in the frequency domain will be $N$ as well. To prove this, consider again the definition of $\omega$
+\[
+    \omega = 2\pi \frac f {\Delta f} = 2\pi f \Delta T;
+\]
+sampling the frequency spectrum in the interval $[0, 2\pi]$ means split out that interval in $N$ equal parts and locating a sample in correspondence of each of them. For $\omega = 2\pi$, one has the $N$-th sample (the last). Each sample, in frequency, can be determined as follows,
+\[
+    \omega_k = \frac {2\pi}{N} k, k = 0,1,2,\dots,N-1
+\]
+as the sample $\omega_N \equiv \omega_0$ in the repetition. Every $\omega_k$ will correspond to a physical frequency $f_k$ that can be obtained by equaling the two definitions,
+\[
+    2\pi f_k \Delta T = \frac{2\pi}{N}k
+\]
+which ultimately leads to
+\[
+    f_k = \frac{1}{N\Delta T}k, k = 0,1,2,\dots,N-1.
+\]
+
+The greater the number of samples $N$ that are considered from the original sequence $f_s(n\Delta T)$, the greater the \emph{frequency resolution} of the Discrete Fourier Transform will be.
+
+From the above reasonings it follows that the Discrete Fourier Transform can be conceived as the natural consequence of having to deal with finite-length sequences, while the Discrete-Time Fourier Transform will simply be confined as a purely abstract concept that involves infinite-length sequences.
+
+In conclusion, given a \emph{finite-length} sequence $x[n]$ of length $N$, its DFT will be
+\[
+    \mbox{DFT}(x[n]) = X(\omega)\Bigr\rvert_{\omega = \frac{2\pi}{N}k} = \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{N}kn}.
+\]
+
+
 
 \part{Systems in the Frequency Domain}
 
