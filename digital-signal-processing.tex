@@ -77,32 +77,11 @@ frequencies, as a substitute for the more precise term spatial domain~\cite{bib:
 
 \section{Signal definition}
 
-In signal processing, a \textbf{signal} is a function that conveys information
-about a phenomenon. Signals are functions of independent variables, such as
-\emph{time}, \emph{distance}, \emph{position}, and so on. They are represented
-as se\-quen\-ces of numbers, called \emph{samples}. Signals are composed of
-samples---the single values of the signal at a certain, discrete time quantum $n
-\in \Z$. Signals will be denoted with $\{x[n]\}$ while samples will be denoted
-as $x[n]$. The variable $n$ may or may not be an integer, since the quantum of
-time may not be constant in some applications.
+In signal processing, a \textbf{signal} is a function that conveys information about a phenomenon. Signals are functions of independent variables, such as \emph{time}, \emph{distance}, \emph{position}, and so on. They are represented as se\-quen\-ces of numbers, called \emph{samples}. Signals are composed of samples---the single values of the signal at a certain, discrete time quantum $n \in \Z$. Signals will be denoted with $\{x[n]\}$ while samples will be denoted as $x[n]$. The variable $n$ may or may not be an integer, since the quantum of time may not be constant in some applications.
 
-Typically a discrete signal can be either a \emph{sampled-data signal} or a
-\emph{digital} signal. Both types of signals only exist in specific time quanta
-and they are likely the result of a sampling, but only digital signals have
-\emph{quantized} value---common sampled-data signals will possess continuous
-values. Values of digital signals are usually obtained from sample values
-either by \emph{rounding} or \emph{truncation} techniques---in both cases an
-error occurs.
+Typically a discrete signal can be either a \emph{sampled-data signal} or a \emph{digital} signal. Both types of signals only exist in specific time quanta and they are likely the result of a sampling, but only digital signals have \emph{quantized} value---common sampled-data signals will possess continuous values. Values of digital signals are usually obtained from sample values either by \emph{rounding} or \emph{truncation} techniques---in both cases an error occurs and some information is inevitably lost.
 
-Since signals can have multiple time domains, one has to clarify when
-equivalences between amplitudes may apply. In particular, the following
-relationship \[ x[n] = \left.x_a(t)\right|_{t=nT} = x_a(nT), n \in \Z\]
-yields only as long as we do not take in account any \emph{quantization error},
-since---by definition---digital signals are the result of both a sampling process
-and a quantization process. The spacing between two samples is said to be
-\emph{sampling interval} or \emph{sampling period} and measures in seconds,
-and the reciprocal of such quantity is called \emph{sampling frequency} $F_T$
-or $F_S$ and measures in Hertz.
+Since signals can have multiple time domains, one has to clarify when equivalences between amplitudes may apply. In particular, the following relationship \[ x[n] = \left.x_a(t)\right|_{t=nT} = x_a(nT), n \in \Z\] yields only as long as we do not take in account any \emph{quantization error}, since---by definition---digital signals are the result of both a sampling process and a quantization process. The spacing between two samples is said to be \emph{sampling interval} or \emph{sampling period} and measures in seconds, and the reciprocal of such quantity is called \emph{sampling frequency} $F_T$ or $F_S$ and measures in Hertz.
 
 \section{Basic signal properties}
 
@@ -135,7 +114,7 @@ sample-to-sample, between one of the two signals in its original form and a
 A signal can be also represented as a se\-quen\-ce of values inside brackets. To
 denote where the time instant $0$ is, an arrow is placed below the sample of the
 se\-quen\-ce corresponding to $n=0$. As an example, the following notation can express a signal:
-\[ \{x[n]\} = \{\dots, -0.2,1,\underset{\uparrow}{3},-6.7,-5.4,0.1,3.6,1.2,\dots\}\] and, with this notation, $x[0]=3$.
+\[ \{x[n]\} = \{\dots, -0.2,1,\underset{\uparrow}{3},-6.7,-5.4,0.1,3.6,1.2,\dots\}\] and, with this notation, $x[0]=3$, $x[1] = -6.7$, $x[2] = -5.4$ and so on.
 
 To represent signals, a \emph{stem plot} is usually adopted. There are two
 different forms of stem plot: a first one in which only samples are
@@ -178,13 +157,13 @@ cosine addenda.
 
 \subsubsection{Length of a signal}
 
-A signal can either be of \emph{finite} or \emph{infinite}-length. In the first case defined values for the se\-quen\-ce lay only in an interval $N_1 \leq n \leq N_2$, with $N_1 \leq N_2$ and both $-\infty < |N_1| \leq |N_2| < \infty$. The overall \emph{length} or \emph{duration} of the se\-quen\-ce will be $N = N_2 - N_1 + 1$. In the second case a se\-quen\-ce is defined for every value of $n \in \Z$, after a certain $n_0$. For instance, $\{\cos{f_0 n}\}$ is an infinite-length se\-quen\-ce, because the signal ``never ends'', as there is no $n_1$ after which or before which the signal is null. Other infinite-length signals are any signal defined for all values after an $n_0 \in \Z$.
+A signal can either be of \emph{finite} or \emph{infinite}-length. In the first case defined values for the se\-quen\-ce lay only in an interval $N_1 \leq n \leq N_2$, with $N_1 \leq N_2$ and both $-\infty < |N_1| \leq |N_2| < \infty$. The overall \emph{length} or \emph{duration} of the se\-quen\-ce will be $N = N_2 - N_1 + 1$. In the second case a se\-quen\-ce is defined for every value of $n \in \Z$, or after a certain $n_0$. For instance, $\{\cos{f_0 n}\}$ is an infinite-length se\-quen\-ce, because the signal ``never ends'', as there is no $n_1$ after which or before which the signal is null. Other infinite-length signals are any signal defined for all values after an $n_0 \in \Z$.
 
 In practice, no signal really has infinite length, but it could be useful to still think of signals as such to make them more mathematically treatable.
 
 \subsubsection{Zero-padding}
 
-A signal may see its length varied by arbitrary operations. A very common operation in that regard, is to increase the length of a signal by appending or prepending $0$s to the signal, with a process called \textbf{zero-padding}. This usually involves a finite-length signal becoming an infinite-length signal by applying an infinitely long list of $0$s on both sides of the original signal; it is not uncommon, however, to apply the zero-padding technique to only one side of the signal. Another way to handle zero-padding is to simply add a finite---yet necessary---number of $0$s depending on the duty to perform.
+A signal may see its length varied by arbitrary operations. A very common operation in that regard is to increase the length of a signal by appending or prepending $0$s to the signal, in a process called \textbf{zero-padding}. This usually involves a finite-length signal becoming an infinite-length signal by applying an infinitely long list of $0$s on both sides of the original signal; it is not uncommon, however, to apply the zero-padding technique to only one side of the signal. Another way to handle zero-padding is to simply add a finite---yet necessary for specific needs---number of $0$s depending on the duty to perform.
 
 \subsubsection{Causality}
 
@@ -6979,15 +6958,51 @@ that is
     \left|\mathcal A_M(e^{j\omega})\right| = 1.
 \]
 
-In order for a transfer function to be causal, it must lie inside the unit circle in the z-plane---otherwise, the region of convergence would not comprise the unit circle, and the corresponding transfer function would not be stable. Hence, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle, in order to reflect the mirror-image symmetry property. Indeed, this is what happened in Figure~\ref{oct:allpassTransferFunctionMirrorExample}, and what happens in all allpass filters.
+In order for a transfer function to be causal, it must lie inside the unit circle in the z-plane---otherwise, the region of convergence would not comprise the unit circle, and the corresponding transfer function would not be stable. Hence, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle, in order to reflect the mirror-image symmetry property. Indeed, this is what happened in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for allpass filter
+\[
+    A_3(z) = \frac{
+        -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
+    } {
+        1 + 0.4z^{-1} + 0.18z^{-2} - 0.2z^{-3}
+    }, 
+\]
+and what generally happens in all allpass filters.
 
 \begin{figure*}[ht]
 \begin{center}
 \scalebox{0.45}{
     \input{octaves/allpassTransferFunctionMirrorExamplePhase.tex}
-}\caption{Caption}\label{oct:allpassTransferFunctionMirrorExamplePhase}
+}\caption{Principal value---wrapped and unwrapped---of $3$-rd order allpass function $A_3(z)$. Notice the discointinuity by the amount of $2\pi$ in the phase $\theta(\omega)$; the discontinuity is generally solved by unwrapping the phase as seen in previous chapters.}\label{oct:allpassTransferFunctionMirrorExamplePhase}
 \end{center}
 \end{figure*}
+
+Unwrapped phase function of any arbitrary causal stable allpass function is a continuous function in $\omega$---some of its properties will be highlighted just below here.
+
+\subsection{Properties of allpass transfer functions}
+The main properties of allpass transfer functions that distinguish them from a generic transfer functions are the following three.
+\begin{enumerate}
+    \item A causal, stable, real-coefficient allpass transfer function is a \emph{lossless bounded real} (LBR) function; or, equivalently, a causal stable allpass filter is a \emph{lossless structure};
+    \item the magnitude function of a stable allpass function $A(z)$ satisfies the following
+        \[
+            |A(z)| = 
+            \left\{
+                \begin{array}{ll}
+                    < 1, & |z| > 1\\
+                    = 1, & |z| = 1\\
+                    > 1, & |z| < 1
+                \end{array}
+            \right.;
+        \]
+    \item let $\tau(\omega)$ be the group delay function of an allpass filter $A(z)$, then
+        \[
+            \tau(\omega) = -\frac{d}{d\omega}[\theta_c(\omega)]
+        \]
+        is equal to the negative derivative of the \emph{unwrapped} phase function $\theta_c(\omega)$.
+\end{enumerate}
+The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following equation,
+\[
+    \int_0^\pi \tau(\omega)d\omega = M\pi.
+\]
 
 
 
