@@ -171,7 +171,7 @@ A se\-quen\-ce is said to be \emph{right-sided} if it has zero-valued samples fo
 
 Vice-versa, a se\-quen\-ce is said to be \emph{left-sided} if it has zero-valued samples for each $n > N_2$. The same way, when a left-sided se\-quen\-ce has $N_2 \leq 0$, we are in the case of an \textbf{anti-causal} signal.
 
-Basically, causal signals are all signals that ``are relevant only \emph{after} a certain time $N_1$'', and anti-causal signals are all signals that ``are relevant \emph{before} a given time $N_2$''.
+Basically, right-sided signals are all signals that ``are relevant only \emph{after} a certain time $N_1$'', and left-sided signals are all signals that ``are relevant \emph{before} a given time $N_2$''. A similar circumstance can be said concerning causal and anti-causal signals, but with $N_1=N_2=0$.
 
 \subsubsection{Strength of a signal and signal comparison}
 
@@ -179,19 +179,19 @@ An important concept is the \textbf{strength} of a signal, also called \emph{siz
 \[
 ||x||_p = \left(\sum_{i=N_1}^{N_2} |x[n]|^p\right)^{\frac{1}{p}},
 \]
-where $p \in \N \setminus \{0\}$ is a positive integer, which is different from zero. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---RMS is the square root of the \textbf{mean} of the squares, there's an additional $\frac{1}{\sqrt{n}}$ factor. The other two cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except from a constant factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal.
+where $p \in \N \setminus \{0\}$ is a positive integer, which is different from zero. In strength definition, one cannot ignore the specific value of the parameter $p$. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---in fact, RMS is the square root of the \textbf{mean} of the squares, but there's an additional $\frac{1}{\sqrt{n}}$ factor when it comes to the $2$-strength. The other two routine cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except for a constant factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal.
 
-From the concept of signal strength the concept of \emph{relative error} immediately follows. In particular, let $\{y[n]\}, 0 \leq n \leq N - 1$ be an approximation of the signal $\{x[n]\}, 0 \leq n \leq N - 1$. In this case, one calls relative error the quantity
+From the concept of signal strength, the concept of \emph{relative error} immediately arises. Let $\{y[n]\}, 0 \leq n \leq N - 1$ be an approximation of the signal $\{x[n]\}, 0 \leq n \leq N - 1$. In this case, one calls \textbf{relative error} the quantity
 \begin{equation}\label{eqn:RelativeError}
 	E_{rel} = \left(\frac{\sum_{n=0}^{N-1} |y[n] - x[n]|^2}{\sum_{n=0}^{N-1} |x[n]|^2}\right)^\frac{1}{2},
 \end{equation}
-which is the ratio of the $\mathcal L_2$-norm of the difference signal and the $\mathcal L_2$-norm of the signal $\{x[n]\}$. Everything is square-rooted.
+which is the ratio of the $\mathcal L_2$-norm of the signal which is the difference between $y[n]$ and $x[n]$, and the $\mathcal L_2$-norm of the signal $\{x[n]\}$ alone. Everything is then square-rooted, as each $2$-norm is actually square-rooted from its definition.
 
-The numerator of such quantity can be considered as the error between se\-quen\-ces $x$ and $y$, while the denominator is the $2$-strength of a non-approximated se\-quen\-ce.
+The numerator of such quantity can be considered as the error between se\-quen\-ces $x$ and $y$, while the denominator is the $2$-strength of a non-approximated se\-quen\-ce. We can interpret it as the ratio between a kind of `error' between sequences $y$ and $x$, measured through the $\mathcal L_2$-norm, and the overall $2$-strength of the sequence $x$.
 
 \subsection{Operations on se\-quen\-ces}\label{sec:operationsOnSequences}
 
-Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be more than one inputs or outputs.
+Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be well more than one input and one output.
 
     \begin{figure}[ht]
 \begin{center}
@@ -207,15 +207,7 @@ Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can
 \end{center}
 \end{figure}
 
-Basic signal operations are called \textbf{elementary operations}. The first
-elementary operation is the \emph{modulation}, an operation in which a signal
-$x$ is multiplied by another signal, say $w$, to produce an output signal $y$
-such that $$y[n] = x[n]\cdot w[n].$$ A common application of the modulation is
-the \emph{windowing} process, in which an infinite-length signal $x$ is
-``windowed'' by a finite-length signal $w$, whose non-zero values are limited
-to a finite interval and the non-zero values are all equal to $1$. In that
-case, it would be like ``selecting'' the values of $x$ that lay in the $w$
-window. Modulation is denoted with a cross inside a circle, as shown in Diagram~\ref{tikz:modulation-operation}.
+Basic signal operations are called \textbf{elementary operations}. The first elementary operation is the \emph{modulation}, an operation in which a signal $x$ is multiplied by another signal, say $w$, to produce an output signal $y$ such that $$y[n] = x[n]\cdot w[n].$$ A common application of the modulation is the \emph{windowing} process, in which an infinite-length signal $x$ is ``windowed'' by a finite-length signal $w$, whose non-zero values are limited to a finite interval and the non-zero values are all equal to $1$. In that case, it would be like ``selecting'' the values of $x$ that lay in the $w$ window, as any other value would be multiplied by $0$. Modulation is denoted with a cross inside a circle, as shown in Diagram~\ref{tikz:modulation-operation}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -231,7 +223,7 @@ window. Modulation is denoted with a cross inside a circle, as shown in Diagram~
 \end{center}
 \end{figure}
 
-Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---an opamp-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ The addition is performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$
+Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---an opamp-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ The addition is instead performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$
 
 \begin{figure}[ht]
 \begin{center}
@@ -264,7 +256,7 @@ Much relevant elementary operations are, indeed, the \emph{time delay} and
 of the original signal, but translated in time (delayed in this case).
 Vice-versa, in the case of time advance, the signal copy of the original will be
 anticipated. In the first case, the adopted symbol is $z^{-1}$, while for the
-anticipation it is $z$. Hence, $y[n] = x[n - 1]$ and $y[n] = x[x + 1]$.
+anticipation it is $z$. The reason why the anticipation and the delay symbols involve a $z$ letter will be clear in the following chapters. Hence, $y[n] = x[n - 1]$ and $y[n] = x[n + 1]$.
 
 \begin{figure}[ht]
 \begin{center}
@@ -290,9 +282,9 @@ anticipation it is $z$. Hence, $y[n] = x[n - 1]$ and $y[n] = x[x + 1]$.
 \end{center}
 \end{figure}
 
-An interesting operation is the \emph{time reversal} or \emph{folding}. The folding operation inverts the time axis of a signal, that means $y[n] = x[-n]$. Time reversal does not have any explicit symbol, since it requires a complete reflection of a signal from its origin point.
+An interesting operation is the \emph{time reversal} or \emph{folding}. The folding operation inverts the time axis of a signal, that means $y[n] = x[-n]$. Any sample that was located on the positive axis is now ``reflected'' on the negative axis, and vice-versa. Time reversal does not have any explicit symbol, since it is an operation that requires a complete reflection of a signal from its origin point and should be handled carefully.
 
-Yet another common `operation' is the \emph{branching} operation, in which a signal $w$ is simply the copy of the input signal, as well as the $y$ signal (a single input is copied into two outputs). Branching is shown in Diagram~\ref{tikz:branchingOperation}.
+Yet another common `operation' is the \emph{branching} operation, in which a signal $w$ is simply the copy of the input signal, as well as the $y$ signal (a single input is copied into two outputs). Branching allows signals to flow into multiple blocks by copying it. Branching is shown in Diagram~\ref{tikz:branchingOperation}.
 \begin{figure}[ht]
 \begin{center}
     \begin{tikzpicture}
@@ -306,13 +298,13 @@ Yet another common `operation' is the \emph{branching} operation, in which a sig
 \end{center}
 \end{figure}
 
-In order to apply most of the above operations, two signals should possess the same length---in those cases where this does not occur, a \emph{zero-padding} is required. For instance, to perform addition on two signals, the two signals must share the same length, therefore it is mandatory to at least perform a zero-padding on the shortest of the signals. Infinitely long signals can always be summed together.
+In order to apply most of the above operations, two signals should possess the same length---in those cases where this does not occur, a \emph{zero-padding} is required. For instance, to perform addition on two signals, the two signals must share the same length, therefore it is mandatory to at least perform a zero-padding on the shortest of the signals. Where a zero-padding was necessary, the sum will simply leave unalterated the longer sequence. Infinitely long signals can always be summed together.
 
 Multiple elementary operations can be combined as well, by building a directed graph in which the signals are subject to multiple eventual operations, in the order determined by the particular graph. Usually, multiple operations should be necessary and are therefore applied in special manners to obtain the desired result.
 
 \section{Ensemble Averaging}
 
-A very powerful operation to apply to a signal is the \textbf{ensemble averaging}. Ensemble averaging is the operation of performing an average of a signal when multiple, independent measures are available. The goal of the ensemble averaging is to enhance the quality of a signal with respect to a noise which affects it. In other words, the result is expected to suffer less from noise than the original signal.
+A very powerful---although non elementary---operation to apply to a signal is the \textbf{ensemble averaging}. Ensemble averaging is the operation of performing an average of a signal when multiple, independent measures are available. The goal of the ensemble averaging is to enhance the quality of a signal with respect to a noise which affects it. In other words, the result is expected to suffer less from noise than the original signal.
 
 Suppose $i$-th measured signal $x_i$ has two components $x_i = s + d_i$, the
 first one relative to an original signal $s$ and the noise component $d_i$, which
@@ -358,7 +350,7 @@ original signal:
 	\right.
 \end{equation}
 
-Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tikz:upsamplingOperation}. Upsampling is usually followed by \emph{interpolation}.
+Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tikz:upsamplingOperation}. Upsampling is usually followed by \emph{interpolation} to produce an actually meaningful signal.
 
 \begin{figure}[ht]
 \begin{center}
@@ -391,7 +383,7 @@ Down-sampling operation is denoted by a $\downarrow M$ block, as in Figure~\ref{
 \end{tikzpicture}\caption{Notation for the down-sampling operation by a factor $M$.}\label{tikz:downsamplingOperation}
 \end{center}
 \end{figure}
-The result of downsampling is a se\-quen\-ce in which some values are missing, those that are removed by the downsampling operation. A crucial risk of downsampling that we will tackle is the \textbf{aliasing} phenomenon.
+The result of downsampling is a se\-quen\-ce in which some values are missing, those that are removed by the downsampling operation. A crucial risk of downsampling that we will tackle later on is the \textbf{aliasing} phenomenon.
 \begin{figure*}[ht]
     \centering
     \scalebox{0.6}{
@@ -404,9 +396,9 @@ The result of downsampling is a se\-quen\-ce in which some values are missing, t
 
 There are several ways to classify a se\-quen\-ce.
 
-The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts\footnote{In fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$.}, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\]
+The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$. Summing up, one obtains $x[n]$.
 
-Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---respectively---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{GCD}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{GCD}$ is the ``greatest common divisor'' operation;
+Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{GCD}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{GCD}$ is the ``greatest common divisor'' operation;
 
 One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity
 \begin{equation}\label{eqn:totalEnergy}
@@ -423,17 +415,17 @@ The average power formula may depend on the nature of the signal. In particular,
     and---recalling the definition of total energy---can thus be rewritten as
     \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \mathcal E_{x,K}; \]
     \item regarding \emph{periodic} signals with period $N$, the average power is
-        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] se\-quen\-ce $x$ has infinite energy. The average power is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
+        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
 \end{itemize}
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce since \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
 
-A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}  An absolutely summable sequence is a sequence such that
+A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}. An absolutely summable sequence is a sequence such that
 \begin{equation}\label{eqn:absolutelySummableSequence}
     \sum_{n=-\infty}^{\infty}|x[n]| < \infty.
 \end{equation}
 As we will see later, absolute summability implies that the Fourier transform converges uniformly, so this means that the unit circle is contained in the region of convergence (RoC).
 
-At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. se\-quen\-ces can be absolutely summable but not squa\-re-sum\-ma\-ble, and the contrary can occur as well. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
+At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. Se\-quen\-ces can be absolutely summable but not squa\-re-sum\-ma\-ble, and the contrary can occur as well. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
 
 \section{Basic se\-quen\-ces}
 Basic se\-quen\-ces are the fundamental se\-quen\-ces that will be encountered throughout the study of signals.
@@ -466,7 +458,7 @@ In practice, the ``delta impulse'' can be used to show a lot of interesting prop
 
 Let's continue with the second basic se\-quen\-ce.
 
-Defined as \[\mu[n] = \left\{\begin{array}{ll}1, & n \geq 0 \\ 0, & n < 0\end{array}\right.,\] the \textbf{unit step se\-quen\-ce} is the integral of the impulse se\-quen\-ce. Indeed, when summing up all the values of the unit impulse se\-quen\-ce one has only $0$s until the only non-zero value occurs and the value of the integral collapses to the unit $1$.
+Defined as \[\mu[n] = \left\{\begin{array}{ll}1, & n \geq 0 \\ 0, & n < 0\end{array}\right.,\] the \textbf{unit step se\-quen\-ce} is the integral of the impulse se\-quen\-ce. Indeed, when summing up all the values of the unit impulse se\-quen\-ce one has only $0$s until the only non-zero value occurs and the value of the integral collapses to the unit $1$, resulting in the sequence depicted in the next figure.
 
 \begin{center}
 \begin{tikzpicture}
@@ -492,17 +484,17 @@ Defined as \[\mu[n] = \left\{\begin{array}{ll}1, & n \geq 0 \\ 0, & n < 0\end{ar
 \end{tikzpicture}
 \end{center}
 
-A \textbf{real sinusoidal se\-quen\-ce} is a se\-quen\-ce defined as \[x[n] = A\cos{(\omega_0 n + \varphi)},\] where $A$ is the \emph{amplitude} of the sinusoid, $\omega_0$ is the \emph{angular frequency} and $\varphi$ is the \emph{phase} of $x[n]$. A real sinusoid se\-quen\-ce therefore possesses amplitude, (angular) frequency and phase as intrinsic properties. Sinusoids fulfill an important role as they are signals whose amplitude and frequency stays the same throughout the time and are describable with sine and cosine ``elementary'' functions.
+A \textbf{real sinusoidal se\-quen\-ce} is a se\-quen\-ce defined as \[x[n] = A\cos{(\omega_0 n + \varphi)},\] where $A$ is the \emph{amplitude} of the sinusoid, $\omega_0$ is the \emph{angular frequency} and $\varphi$ is the \emph{phase} of $x[n]$. A real sinusoid se\-quen\-ce therefore possesses amplitude, (angular) frequency and phase as its intrinsic and fundamental properties. Sinusoids fulfill an important role as they are signals whose amplitude and frequency stays the same throughout the time and are describable with sine and cosine, both to be considered ``elementary'' functions.
 
 An indeed important family of se\-quen\-ces are the \textbf{exponential se\-quen\-ces}, all of them having form \[x[n] = A\alpha^n, -\infty < n < \infty,\] where $A, \alpha \in \C$ can be either real or complex numbers. The various kinds of exponentials arise from peculiar choices of coefficient and basis, as the behavior will dramatically change depending on the nature of both.
 
-In general, an exponential se\-quen\-ce can be expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n} = x_{re}[n] + jx_{im}[n]\] a partitioning into real and imaginary part of the se\-quen\-ce. In particular, one has
+In general, an exponential se\-quen\-ce can be either expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n},\] or by a partitioning into real and imaginary part of the se\-quen\-ce, that is \[x[n] = x_{re}[n] + jx_{im}[n].\] By joining the two, one has
 \begin{align}
     x_{re}[n] & = |A|e^{\sigma_0n}\cos{(\omega_0 n + \varphi)},\\
     x_{im}[n] & = |A|e^{\sigma_0n}\sin{(\omega_0 n + \varphi)}.
 \end{align}
 
-Following this idea, the analysis of both terms indicate two different behaviors depending on the nature of $A$ and $\alpha$. Suppose $A \in \C$ and $\alpha \in \C$. The first and second terms---related to the real and imaginary parts of the exponential se\-quen\-ce---are two real, sinusoidal se\-quen\-ces with constant ($\sigma_0 = 0$), growing ($\sigma_0 > 0$) or decaying ($\sigma_0 < 0$) amplitudes for samples $n > 0$. In practice, they are sinusoids whose angular frequency and phase are determined, respectively, by terms $\omega_0$ and $\varphi$, and whose amplitude varies according to the term $e^{\sigma_0n}$ with the exception of a multiplication constant $|A|$, the modulus of the complex number $A \in \C$. Still, their value at zero will be different as they are described by either sine or cosine, but the overall behavior will be the same: either decaying, or growing, or they are sinusoids of constant amplitude.
+Following this idea, the analysis of both terms indicate two different behaviors depending on the nature of $A$ and $\alpha$. Suppose $A \in \C$ and $\alpha \in \C$. The first and second terms---related to the real and imaginary parts of the exponential se\-quen\-ce---are two real, sinusoidal se\-quen\-ces with constant ($\sigma_0 = 0$), growing ($\sigma_0 > 0$) or decaying ($\sigma_0 < 0$) amplitudes for samples $n > 0$. In practice, they are sinusoids whose angular frequency and phase are determined, respectively, by terms $\omega_0$ and $\varphi$, and whose amplitude varies according to the term $e^{\sigma_0n}$ with the exception of a multiplication constant $|A|$, the modulus of the complex number $A \in \C$. The term $e^{j\varphi}$ vanishes, as its module is equal to $1$. Still, the value at zero of the real and imaginary terms will be different as they are described by either sine or cosine, but the overall behavior will be the same: either decaying, or growing, or they are sinusoids of constant amplitude.
 
 Let now $A,\alpha \in \R$. Real exponential se\-quen\-ces are the ``classic'' exponential se\-quen\-ces, described by \[x[n] = A\alpha^n\] and possibly constant within the special case $\alpha=1$. In practice,
 \begin{itemize}
@@ -510,13 +502,13 @@ Let now $A,\alpha \in \R$. Real exponential se\-quen\-ces are the ``classic'' ex
     \item for values $\alpha > 1$, the exponential will grow over time.
 \end{itemize}
 
-Both sinusoidal se\-quen\-ces and complex exponential se\-quen\-ces are periodic se\-quen\-ces of period $N$ if
+Both sinusoidal se\-quen\-ces and (constant in amplitude, having $\sigma_0 = 1$) complex exponential se\-quen\-ces are periodic se\-quen\-ces of period $N$ if
 \begin{equation}\label{eqn:sinusoidExponentialPeriod}
 \omega_0 N = 2\pi r
 \end{equation}
-holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \emph{fundamental period} of the se\-quen\-ce.
+holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \emph{fundamental period} of the se\-quen\-ce. A proof for this is soon given.
 \begin{proof}
-In order to verify this, two very similar se\-quen\-ces must be picked---the same se\-quen\-ce but original and shifted of $N$ samples:
+In order to verify this, two very similar se\-quen\-ces must be picked---the same original se\-quen\-ce and a shifted of $N$ samples copy:
 \begin{align}
     x_1[n] &= \cos{(\omega_0 n + \varphi)},\\
     x_2[n] &= \cos{(\omega_0 (n + N) + \varphi)}.
@@ -528,7 +520,7 @@ Now, the second se\-quen\-ce can be soon rewritten as
            &= \cos{(\omega_0 n + \varphi)}\cos{\omega_0 N} - \sin{(\omega_0 n + \varphi)}\sin{\omega_0 N}.\label{eqn:proofSinusoidPeriod}
 \end{align}
 
-The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied. Alternatively, the very same equation---but re\-ar\-ran\-ged---must be satisfied,
+The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $\pi$; that is equivalent to say that $N$ is the period of the sequence. Alternatively, the very same equation---but re\-ar\-ran\-ged---must be satisfied,
 \begin{equation}\label{eqn:sinusoidExponentialPeriodFraction}
     \frac{2\pi}{\omega_0} = \frac{N}{r}.
 \end{equation}
@@ -536,13 +528,13 @@ The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begi
 
 Along with this proof, one might say that $N$ is the \emph{true} period, while the quantity $\frac{N}{r}$ is the \emph{apparent} period---the one of the implied continuous function. In fact, if $\frac{2\pi}{\omega_0}$ is a noninteger rational number, then the period will be a multiple of $\frac{2\pi}{\omega_0}$, which basically means $r > 1$. Otherwise, in the case of an irrational $\frac{2\pi}{\omega_0}$ the discrete se\-quen\-ce will be aperiodic.
 
-For instance, if one considers \[x[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation. This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order to fulfill the condition of rationality.
+For instance, if one considers \[x[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order to fulfill the condition of rationality.
 
 \subsection{Frequency properties of basic sinusoidal se\-quen\-ces}
 
 Let's now focus on the peculiar properties of sinusoidal and exponential basis se\-quen\-ces.
 
-To begin with, consider se\-quen\-ces $x[n] = \exp{j \omega_1 n}$ and $y[n] = \exp{j \omega_2 n}$, with $0 \leq \omega_1 < \pi$ and $2 \pi k \leq \omega_2 < \pi(2k+1)$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ are \emph{indistinguishable} from each other. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$ leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will be exactly the same as the original one.
+To begin with, consider se\-quen\-ces $x[n] = \exp{j \omega_1 n}$ and $y[n] = \exp{j \omega_2 n}$, with $0 \leq \omega_1 < \pi$ and $2 \pi k \leq \omega_2 < \pi(2k+1)$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ are \emph{indistinguishable} from each other. The effect is induced by the peculiar choice of $\omega_2$, exactly $\omega_1$ plus a multiply of $2\pi$. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$ leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will be exactly the same as the original one.
 
 Another paramount property revolves around the oscillation frequency of a sinusoid $x[n]=\cos{(\omega_0 n)}$. In practice, the frequency of oscillation increases as $\omega_0$ goes from $0$ to $\pi$, while the contrary happens when moving from $\pi$ to $2\pi$. What does this mean?
 
@@ -552,7 +544,7 @@ For the first considered property, a sinusoidal se\-quen\-ce having frequency $\
 
 Actually, what happens is that the oscillation shows a \emph{periodic} behavior across the frequency---hence, it is possible to describe the entire frequency space with the sole range of values $[0, \pi]$, as the other half $[\pi, 2\pi]$ is completely symmetric to the first range.
 
-As previously said, frequencies in neighborhood of $\omega = 2 \pi k$ are the low frequencies, in contrast to those in the neighborhood of $\omega = \pi (2k + 1)$ that are the high frequencies\footnote{The se\-quen\-ce \[v_1[n] = \cos{(0.1 \pi n)} \equiv \cos{(1.9\pi n)}\] is a low frequency signal, while se\-quen\-ce \[v_2[n] = \cos{(0.8 \pi n)} \equiv \cos{(1.2\pi n)}\] is a high frequency one.}.
+As previously said, frequencies in neighborhood of $\omega = 2 \pi k$ are the low frequencies, in contrast to those in the neighborhood of $\omega = \pi (2k + 1)$ that are the high frequencies. As an example, the se\-quen\-ce \[v_1[n] = \cos{(0.1 \pi n)} \equiv \cos{(1.9\pi n)}\] is a low frequency signal, while se\-quen\-ce \[v_2[n] = \cos{(0.8 \pi n)} \equiv \cos{(1.2\pi n)}\] is a high frequency one.
 
 \subsection{Representation of a se\-quen\-ce with basic se\-quen\-ces}
 
@@ -595,13 +587,13 @@ The relationship between the original con\-ti\-nuo\-us-time signal and the discr
 \[
     x[n] = x_a(t)\Bigr\rvert_{t=nT} = x_a(nT), n = \dots,-2,-1,0,1,2,\dots
 \]
-The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ at \emph{some} samples $nT$. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period T$T$.
+The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ at \emph{some} samples $nT$. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period $T$.
 
 The time variable $t$ of the con\-ti\-nuo\-us-time signal $x_a(t)$ is related to the time variable $n$ of $x[n]$ only in some discrete-time instants $t_n$ that must abide to the following rule,
 \begin{equation}\label{eqn:timeSamplingRule}
-    t_n = nT = \frac n F_T = \frac {2\pi n} {\Omega_T},
+    t_n = nT = \frac n {F_T} = \frac {2\pi n} {\Omega_T},
 \end{equation}
-with $F_T = \frac 1 T$ denoting the sampling frequency, as expected. Indeed, $\Omega_T = 2\pi F_T$ is the \emph{sampling angular frequency}, in a constant multipliation-factor relationship between the sampling frequency.
+with $F_T = \frac 1 T$ denoting the sampling frequency, as expected. Indeed, $\Omega_T = 2\pi F_T = \frac{2\pi}{T}$ is the \emph{sampling angular frequency}, in a constant multiplication-factor relationship between the sampling frequency.
 
 Let's now consider the con\-ti\-nuo\-us-time sinusoidal signal
 \[
@@ -653,7 +645,7 @@ all three se\-quen\-ces result to be identical. Therefore, it is rather difficul
 
 The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation.
 
-Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain the following discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
+Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain a discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
 \begin{align*}
 v_a(t) &=6\cos{60\pi t} + 3\sin{300\pi t} + 2\cos{340\pi t} \\ & + 4\cos{500\pi t} + 10\sin{660\pi t}
 \end{align*}
@@ -7005,6 +6997,7 @@ The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass tran
 \]
 
 
+TODO complete all notes
 
 \include{references}
 
