@@ -22,9 +22,14 @@
 %\usepackage[default,regular,black]{sourceserifpro}
 %\usepackage{libertine}
 %\usepackage[stickstoo,scale=0.95]{newtxmath}
-\usepackage[p]{scholax}
-\usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
-%\usepackage{mlmodern}
+%\usepackage[p]{scholax}
+%\usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
+%\usepackage[T1]{fontenc}
+\usepackage{ETbb}
+\let\oldstylenums\textosf
+\usepackage[stickstoo,scale=0.95]{newtxmath}
+%\usepackage{stickstootext}
+%\usepackage[stickstoo,vvarbb]{newtxmath}
 %\usepackage{libertinust1math}
 %\usepackage{mlmodern}
 \usepackage[all]{nowidow}
@@ -524,7 +529,7 @@ Now, the second se\-quen\-ce can be soon rewritten as
            &= \cos{(\omega_0 n + \varphi)}\cos{\omega_0 N} - \sin{(\omega_0 n + \varphi)}\sin{\omega_0 N}.\label{eqn:proofSinusoidPeriod}
 \end{align}
 
-The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $\pi$; that is equivalent to say that $N$ is the period of the sequence. Alternatively, the very same equation---but re\-ar\-ran\-ged---must be satisfied,
+The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $\pi$; that is equivalent to say that $N$ is the period of the sequence. Alternatively, the very same equation---but re\-\"ar\-ran\-ged---must be satisfied,
 \begin{equation}\label{eqn:sinusoidExponentialPeriodFraction}
     \frac{2\pi}{\omega_0} = \frac{N}{r}.
 \end{equation}
@@ -811,7 +816,7 @@ The $M$-point moving average system can be rewritten as follows,
     y[n] &= y[n-1] + \frac 1 M \left(x[n] - x[n - M]\right).
 \end{align*}
 
-We have just witnessed how the computation of the modified $M$-point moving average system---rearranging the \emph{recursive equation}---requires \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly rearranging the equation of the system involved. Later on, we will see other cases in which this is true and very desirable.
+We have just witnessed how the computation of the modified $M$-point moving average system---re\"arranging the \emph{recursive equation}---requires \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly re\"arranging the equation of the system involved. Later on, we will see other cases in which this is true and very desirable.
 
 An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal.
 
@@ -1255,7 +1260,7 @@ A schematic representation of the convolution sum is the following one,
 \end{tikzpicture}
 \end{center}
 
-Computation of an output sample using the convolution sum is simply a sum of products between two sequences; it involves fairly simple operations, such as additions, multiplications and delays. Conceptually it is like time-reversing signal $h[k]$ and shifting it through the entire time-domain. For each and every time shift $n$, product between $x[k]$ and $h[n-k]$ is performed, all samples are summed together and $y[n]$ is determined. The final sequence $\{y[n]\}$ will be the union of all those computed outputs.
+Computation of an output sample using the convolution sum is simply a sum of products between two sequences; it involves fairly na\"ive operations, such as additions, multiplications and delays. Conceptually it is like time-reversing signal $h[k]$ and shifting it through the entire time-domain. For each and every time shift $n$, product between $x[k]$ and $h[n-k]$ is performed, all samples are summed together and $y[n]$ is determined. The final sequence $\{y[n]\}$ will be the union of all those computed outputs.
 
 Regarding LTI discrete-time systems, the convolution sum is performed between the input sequence $x[n]$ and the impulse response $h[n]$ of the LTI system. As it can be seen, since an impulse response $h$ is always causal, a shifted time-reversed version of the impulse will be---at most---anti-causal, and in general left-sided. For this reason, if $x[n]$ is a causal signal as well, the convolution sum will yield $0$ for all values up to $n$, because the $x$ sequence and the shift-inverted $h$ need to meet at the origin before some non-zero values could be produced from the product and then sum of the two sequences. This means that $y[n]=0$ for $n<0$ for causal $x[n]$ input sequences\footnote{The sum of the indices involved in products and sums is equal to the index of the sample being generated by the convolution sum operation. For instance, the computation of the output sample $y[3]$ will involve products of $x[0]h[3]$, $x[1]h[2]$, $x[2]h[1]$ and in the end $x[3]h[0]$. To grasp this, try to substitute inside the convolution sum, step-by-step.}
 
@@ -1594,7 +1599,7 @@ Finite-dimensional LTI systems possess an \emph{order}; the order of the system 
 \begin{equation}\label{eqn:finiteDimensionalLtiSystemsRecursive}
     y[n]= -\sum_{k=1}^N \frac {d_k}{d_0} y[n-k] + \sum_{k=0}^M \frac{p_k}{d_0} x[n-k],
 \end{equation}
-obtained by rearranging Equation~\ref{eqn:finiteDimensionalLtiSystems}. The output can be obtained this way for all $n \geq n_0$, by knowing both $x[n]$ and all the $N$ initial conditions $y[n_0-1], y[n_0-2],\dots,y[n_0-N]$.
+obtained by re\"arranging Equation~\ref{eqn:finiteDimensionalLtiSystems}. The output can be obtained this way for all $n \geq n_0$, by knowing both $x[n]$ and all the $N$ initial conditions $y[n_0-1], y[n_0-2],\dots,y[n_0-N]$.
 
 \section{Classification of LTI Discrete-time Systems}
 
@@ -2915,9 +2920,9 @@ For Parseval's theorem~(\ref{eqn:parsevalTheorem}), when computing $\bm X$ $\bm 
     \|\bm X\|^2 = \bm X^{*\top} \bm X = \bm x^{*\top}\bm F^{*\top} \bm {Fx} = \bm x^{*\top} \bm x = \|\bm x\|^2.
 \]
 
-Matrix $\bm X$ is a rotated version of $\bm x$ in an $N$-dimensional space, as the transform is a rotation of the coordinates where the terms in $\bm X$ are \emph{the projections of $\bm x$ in the new space}. A suitable choice of the basis functions permits to exploit the \emph{energy compaction property} of an orthogonal transform: most of the contents of $\bm x$ can be represented by \emph{a subset} of the coefficients $\bm X$ instead of all of them, leading to much more efficient algorithms and representations.
+Matrix $\bm X$ is a rotated version of $\bm x$ in an $N$-dimensional space, as the transform is a rotation of the co\"ordinates where the terms in $\bm X$ are \emph{the projections of $\bm x$ in the new space}. A suitable choice of the basis functions permits to exploit the \emph{energy compaction property} of an orthogonal transform: most of the contents of $\bm x$ can be represented by \emph{a subset} of the coefficients $\bm X$ instead of all of them, leading to much more efficient algorithms and representations.
 
-For instance, let $\bm x$ be a random signal possessing autocorrelation $\bm{R_x}$---the most efficient transform for random signals is the \textbf{Karhunen--Loeve Transform (KLT)}, also called \textbf{Hotelling Transform}. The KLT is a transform that takes as basis functions the eigenvectors of the autocorrelation matrix $\bm {R_x}$. 
+For instance, let $\bm x$ be a random signal possessing autocorrelation $\bm{R_x}$---the most efficient transform for random signals is the \textbf{Karhunen--Loève Transform (KLT)}, also called \textbf{Hotelling Transform}. The KLT is a transform that takes as basis functions the eigenvectors of the autocorrelation matrix $\bm {R_x}$. 
 
 It is now clear that the DFT is not the only possible tranform, and depending on the scenario other orthogonal transforms can (and should) be used. Sections~\ref{sec:discreteCosineTransform}, \ref{sec:walshHadamardTransform}~and~\ref{sec:haarTransform} will cover some other instrumental orthogonal transforms one can employ in digital signal processing.
 
@@ -3128,7 +3133,7 @@ which is analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired rela
     y[n] = \sum_{m=-\infty}^{\infty} x[n + mN], 0 \leq n \leq N-1.
 \end{equation}
 
-This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by rearranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
+This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by re\"arranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
 
 The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed.
 
@@ -3635,7 +3640,7 @@ obtaining the output sequence
         \node at (3*0.5+.15, 5*0.5+.15) {$5$};
     \end{tikzpicture},
 \end{center}
-a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The preeminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it, with the number of sums that is related to the length of both original sequences; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
+a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The pre\"eminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it, with the number of sums that is related to the length of both original sequences; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
 
 Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c).
 
@@ -5672,7 +5677,7 @@ By lowpass filtering the signal before sampling one can make the Fourier Transfo
 
 As a general rule, if the end goal is to sample with rate $\Delta T_1$, it is required to design a lowpass filter whose cut frequency is $f_1 = \frac 1 {\Delta T_1}$---ideally by using a rectangle shape filter. Hence, if $g(t)$ is a finite-length signal and $G(f)$ is an infinite-length transform (infinite band) one can obtain a finite band signal $\hat G(f)$ by performing
 \[
-    \hat G(f) = G(f)\cdot \rect{\left(\frac f f_1\right)}.
+    \hat G(f) = G(f)\cdot \rect{\left(\frac f {f_1}\right)}.
 \]
 
 \begin{center}
@@ -5926,7 +5931,7 @@ title('Phase response');
 \end{verbatim}
 the plot in Figure~\ref{oct:mPointMovingAverageFilterPlot} is produced.
 
-The phase response of a discrete-time system, when determined by a calculator, it might exhibit sudden jumps by an amount of $2\pi$ that are caused by the way the \texttt{arctan} function is computed by only taking in account the principal value of the phase~(\ref{eqn:phasePrincipalValue}. The phase response can be accordingly ``unwrapped'', making it a continuous function of $\omega$. An example of this had been illustrated in Figure~\ref{oct:octaveExampleFreqzUnwrap}. To this end, the function \texttt{unwrap} should be employed with the phase in radians. Be careful, though: the jumps of $2\pi$ must not be confused with the jumps induced by the zeros of the frequency response, as indicated in the phase response of the moving average filter.
+The phase response of a discrete-time system, when determined by a calculator, might exhibit sudden jumps by an amount of $2\pi$ that are caused by the way the \texttt{arctan} function is computed by only taking in account the principal value of the phase~(\ref{eqn:phasePrincipalValue}. The phase response can be accordingly ``unwrapped'', making it a continuous function of $\omega$. An example of this had been illustrated in Figure~\ref{oct:octaveExampleFreqzUnwrap}. To this end, the function \texttt{unwrap} should be employed with the phase in radians. Be careful, though: the jumps of $2\pi$ must not be confused with the jumps induced by the zeros of the frequency response, as indicated in the phase response of the moving average filter.
 
 \section{Steady-State Response and Transient Response}
 From the frequency response we are also able to determine the \emph{steady-state response} of an LTI discrete-time system to a sinusoidal input.
@@ -6062,8 +6067,8 @@ the output will reduce to
 as the term corresponding to frequency $\omega_2$ \emph{has been filtered} since $\left|H(e^{j\omega_2})\right| \simeq 0$. Term corresponding to frequency $\omega_1$, instead, is allowed to simply pass---the value of the frequency response at frequency $\omega_1$ is close to $1$. A simple illustration of the filter is depicted just below,
 \begin{center}
     \begin{tikzpicture}
-        \draw[-stealth, thick] (-1, 0) -- (3.5, 0) node[anchor=west] {$\left|H(e^{j\omega})\right|$};
-        \draw[-stealth, thick] (0, -.5) -- (0, 2) node[anchor=south west] {$\omega$};
+        \draw[-stealth, thick] (-1, 0) -- (3.5, 0) node[anchor=west] {$\omega$};
+        \draw[-stealth, thick] (0, -.5) -- (0, 2) node[anchor=south west] {$\left|H(e^{j\omega})\right|$};
         \draw[thick] (0, 1) node[anchor=east] {$1$} -- (1.7, 1) -- (1.7, 0) node[anchor=north] {$\omega_c$};
         \draw (2.8, +1mm) -- (2.8, -1mm) node[anchor=north west] {$\pi$};
         \draw [-stealth, green, thick] (.85, 0) -- (.85, 1.2) node[anchor=south] {$\omega_1$};
@@ -7000,17 +7005,17 @@ The main properties of allpass transfer functions that distinguish them from a g
         is equal to the negative derivative of the \emph{unwrapped} phase function $\theta_c(\omega)$.
 \end{enumerate}
 The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following integral equation,
-\[
+\begin{equation}\label{eqn:allpassIntegralPhaseEquation}
     \int_0^\pi \tau(\omega)d\omega = M\pi.
-\]
+\end{equation}
 
-Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will be proportional to the order of the filter. In particular, a single pole will induce a rotation of $\pi$, whilst pole pairs will induce rotations of $2\pi$. Zeros will not introduce any rotation---either single ones or a pair of them will generate $0$ radians rotation. Generally speaking, an allpass transfer function with an order of $k$ poles will induce a phase rotation of $k\pi$.
+Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will be proportional to the order of the filter. In particular, a single pole will induce a rotation of $\pi$, whilst pole pairs will induce rotations of $2\pi$. Zeros will not introduce any rotation---either single ones or a pair of them will generate $0$ radians rotation. Generally speaking, an allpass transfer function with an order of $M$ will induce a phase rotation of $M\pi$, as indeed expressed by Equation~\ref{eqn:allpassIntegralPhaseEquation}.
 
 \subsection{Delay equalizers}\label{sec:delayEqualizers}
 
 Allpass filters are not only an abstract concept; they can find their applications in many fields and techniques, for instance as happens for \textbf{delay equalizers}.
 
-Let $G(z)$ be the transfer function of a digital filter designed to meet a prescribed magnitude response. Broadly speaking, what usually happens is that such a filter will introduce a \emph{nonlinear phase response} due to its peculiar shape and properties. Such a phase distortion should be corrected, just like a pair of glasses should be prescribed to a visually impaired person. To correct the phase response it could be useful to employ an allpass filter with a proper phase response---such a filter will leave the magnitude response unscathered (because $|A(e^{j\omega})| = 1$, while modifying the phase response so that the overall cascade of filters will have a \emph{constant group delay} in the band of interest.
+Let $G(z)$ be the transfer function of a digital filter designed to meet a prescribed magnitude response. Broadly speaking, what usually happens is that such a filter will introduce a \emph{nonlinear phase response} due to its peculiar shape and properties. Such a phase distortion should be corrected, just like a pair of glasses should be prescribed to a visually impaired person. To correct the phase response it could be useful to employ an allpass filter with a proper phase response---such a filter will leave the magnitude response unscathered (because $|A(e^{j\omega})| = 1$) while modifying the phase response so that the overall cascade of filters will have a \emph{constant group delay} in the band of interest.
 
 \begin{center}
     \begin{tikzpicture}
@@ -7078,15 +7083,208 @@ has a \emph{unity magnitude} and a \textbf{linear phase characteristic} in the b
 
 In signal processing, linear phase is a property of a filter where the phase response of the filter is a linear function of frequency. The result is that all frequency components of the input signal are shifted in time (usually delayed) by the same constant amount (the slope of the linear function), which is referred to as the group delay. Consequently, there is no phase distortion due to the time delay of frequencies relative to one another. For discrete-time signals, perfect linear phase is easily achieved with a finite impulse response (FIR) filter by having coefficients which are symmetric or anti-symmetric. Approximations can be achieved with infinite impulse response (IIR) designs, which are more computationally efficient\cite{bib:linearPhase}.
 
-A full-band filter with a linear phase will possess a frequency response that is given by the following
+Practically, linear phase transfer functions are adopted in all cases where it is desired to pass input signal components \emph{in a certain specific frequency range}---that is, the band of interest---undistorted in both magnitude and phase; this purpose is easily attained by linear phase transfer functions, as their magnitude is equal to $1$ and their phase is linear in a peculiar frequency range.
+
+Let's now investigate on linear phase transfer functions. Let $H$ be a full-band filter with a linear phase, so that it will possess a frequency response that is given by the following formula
 \begin{equation}\label{eqn:linearPhaseTransferFunction}
     H(e^{j\omega}) = e^{-j\omega D},
 \end{equation}
-with $D$ being a real constant. Such filter will possess a linear phase from $\omega=0$ to $\omega=2\pi$; moreover, its magnitude will be equal to $1$, and its group delay will be exactly $D$,
-\[
+with $D$ being a real constant that can be either an integer or a real number. Such filter will possess a linear phase from $\omega=0$ to $\omega=2\pi$; moreover, its magnitude will be equal to $1$, and its group delay will be exactly $D$,
+\begin{equation}\label{eqn:linearPhaseTransferFunctionGroupDelay}
     \tau(\omega) = D
+\end{equation}
+resulting in a fully \emph{constant group delay}.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth, thick] (-3.5, 0) -- (3.5, 0) node[anchor=west] {$\omega$};
+        \draw[-stealth, thick] (0, -.5) -- (0, 2) node[anchor=south west] {$\left|H(e^{j\omega})\right|$};
+        \draw[thick] (-1.2, 0) node[anchor=north] {$-\omega_c$} -- (-1.2, 1.4) -- (0, 1.4) node[anchor=south east] {$1$} -- (1.2, 1.4) -- (1.2, 0) node[anchor=north] {$\omega_c$};
+        \draw (2.8, +1mm) -- (2.8, -1mm) node[anchor=north] {$\pi$};
+        \draw (-2.8, +1mm) -- (-2.8, -1mm) node[anchor=north] {$-\pi$};
+        \draw (-1.2, -0.05) -- (-1.2, 0.05);
+        \draw (+1.2, -0.05) -- (+1.2, 0.05);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \draw[-stealth, thick] (-3.5, 0) -- (3.5, 0) node[anchor=west] {$\omega$};
+        \draw[-stealth, thick] (0, -.5) -- (0, 2) node[anchor=south west] {$\left|H(e^{j\omega})\right|$};
+        \draw[thick] (-1.2, 0.9) -- (1.2, -0.9);
+        \draw (1.2, +1mm) -- (1.2, -1mm) node[anchor=north] {$\omega_c$};
+        \draw (-1.2, +1mm) -- (-1.2, -1mm) node[anchor=north] {$-\omega_c$};
+        \draw (2.8, +1mm) -- (2.8, -1mm) node[anchor=north] {$\pi$};
+        \draw (-2.8, +1mm) -- (-2.8, -1mm) node[anchor=north] {$-\pi$};
+        \draw (-1.2, -0.05) -- (-1.2, 0.05);
+        \draw (+1.2, -0.05) -- (+1.2, 0.05);
+        \draw[dashed] (-1.2, 0.9) -- (-1.2, 0);
+        \draw[dashed] (1.2, -0.9) -- (1.2, 0);
+    \end{tikzpicture}
+\end{center}
+
+The output $y[n]$ of such a filter to an input $x[n]=Ae^{j\omega n}$ is given by
+\begin{equation}\label{eqn:linearPhaseTransferFunctionOutput}
+    y[n] = Ae^{j\omega D} e^{j\omega n} = Ae^{j\omega(n - D)}.
+\end{equation}
+
+For continuous-time signals $x(t)$ and $y(t)$ whose sampled versions at $t = nT$ are $x[n]$ and $y[n]$ given above, then the delay between $x(t)$ and $y(t)$ is precisely the group delay of amount $D \in \R$---but since we are in the context of digital signal processing, the value of $D$ will produce differences depending whether it is an integer or not:
+\begin{itemize}
+    \item if $D$ is an \emph{integer} $D \in \Z$, then the resulting sequence $y[n]$ will be \emph{identical} to the input one $x[n]$, but simply delayed of an amount $D$ of samples;
+    \item otherwise, if $D \notin \Z$, the resulting sequence $y[n]$ will not be identical to $x[n]$ as it is delayed by a fractional amount of samples $D$ and not by an integer amount.
+\end{itemize}
+Despite the shape of the output sequence $y[n]$ will vary according to the nature of the group delay $D$, the underlying continuous-time output $y(t)$ will remain identical to the waveform of the underlying continuous-time input $x(t)$, delayed of $D$ units of time.
+
+As already mentioned, linear phase transfer functions act in a specific band of interest; outside that band---for instance, in \emph{stopband}---the phase response can be of any shape, since in that region of frequencies the resulting output, no matter its distortion, will be of no use for the filter designer.
+
+Suppose one wants to determine the impulse response of an ideal lowpass filter with a linear phase response of
+\[
+    H_{LP} (e^{j\omega}) = 
+    \left\{
+        \begin{array}{ll}
+            e^{-j\omega n_0}, & 0 < |\omega| < \omega_c\\
+            0, & \omega_c \leq |\omega| \leq \pi
+        \end{array}
+    \right.;
 \]
-resulting in a \emph{constant group delay}.
+by applying the frequency-shifting property of the DTFT to the impulse response of an ideal zero phase lowpass filter one gets
+\[
+    h_{LP}[n] = \frac{
+        \sin \omega_c(n - n_0)
+    } {
+        \pi (n - n_0)
+    }, -\infty < n < \infty.
+\]
+
+As before, the above filter is both non-causal and of doubly infinite length---a practically unfeasible filter. However, it is still possible to truncate the impulse response to a finite number of terms, to compose a feasible FIR approximation of the ideal lowpass filter. By choosing $n_0 = \frac N 2$ with $N\in\N$ the truncated and shifted version is
+\[
+    \hat{h}_{LP}[n] = \frac{
+        \sin \omega_c(n - \frac N 2)
+    } {
+        \pi (n - \frac N 2)
+    }, 0 \leq n \leq N,
+\]
+an impulse response of length $N+1$, which is both causal and of linear-phase, resulting in a FIR filter. Figure~\ref{oct:linearPhaseTransferFunctionSinc} shows the filter coefficients obtained with the above impulse response, for even and odd values of $N$.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.5}{
+    \input{octaves/linearPhaseTransferFunctionSinc.tex}
+}\caption{Stem plot of impulse response $\hat{h}_{LP}[n]$ for values $N = 12$ and $N = 13$. Notably, both are symmetric, and only the impulse response having an even $N$ value will possess a single, central peak.}\label{oct:linearPhaseTransferFunctionSinc}
+\end{center}
+\end{figure*}
+
+Because of the symmetry of the impulse response coefficients as indicated in Figure~\ref{oct:linearPhaseTransferFunctionSinc}, the frequency response of the truncated approximation can be expressed as follows,
+\[
+    \hat{H}_{LP}(e^{j\omega}) = \sum_{n=0}^N \hat{h}_{LP}[n] e^{-j\omega n} = e^{-j\omega \frac N 2}\tilde{H}_{LP}(\omega),
+\]
+where $\tilde{H}_{LP}(\omega)$ is the \textbf{amplitude response}, a real function of $\omega$.
+
+\subsection{Minimum phase and Maximum phase transfer functions}
+
+Let $H_1(z)$ and $H_2(z)$ be two first-order transfer functions
+\begin{align*}
+    H_1(z) &= \frac{z+b}{z+a},\\
+    H_2(z) &= \frac{bz+1}{z+a},
+\end{align*}
+for $|a|<1, |b| < 1$. Both transfer functions have a pole inside the unit circle (which is $z=-a$) and are thus \emph{stable}. However, they differ for their zeros: the zero of the first lies inside the unit circle $z=-b$, while the zero of the second is outside of the unit circle, $z=-\frac 1 b$, situated in a mirror image symmetry fashion. Figure~\ref{tikz:minimumMaximumPhaseTransferFunctionsPlot} shows a plot of zeros and poles of both functions.
+
+\begin{figure*}
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\Im z$};
+        \draw (1pt, 1.5) -- (-1pt, 1.5) node[anchor=south west] {$1$};
+        \node[draw, circle, thick, minimum size=3cm] at (0,0) {};
+        \node[draw, polez, thick, label=south:{$-a$}] at (-.8, 0) {};
+        \node[draw, zeroz, thick, label=south:{$-b$}] at (1.2, 0) {};
+        \node at (2,2) {$H_1(z)$};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\Im z$};
+        \draw (1pt, 1.5) -- (-1pt, 1.5) node[anchor=south west] {$1$};
+        \node[draw, circle, thick, minimum size=3cm] at (0,0) {};
+        \node[draw, polez, thick, label=south:{$-a$}] at (-.8, 0) {};
+        \node[draw, zeroz, thick, label=south:{$-\frac 1 b$}] at (1.8, 0) {};
+        \node at (2,2) {$H_2(z)$};
+    \end{tikzpicture}
+\end{center}\caption{Zero-poles plot of transfer functions $H_1(z)$ and $H_2(z)$. Zero at $z = -\frac 1 b$ is the mirror-image zero of $z=-b$.}\label{tikz:minimumMaximumPhaseTransferFunctionsPlot}
+\end{figure*}
+
+However, both transfer functions have an identical magnitude function, as the following equality holds,
+\[
+    H_1(z)H_1(z^{-1}) = H_2(z)H_2(z^{-1})
+\]
+with the phase functions
+\begin{align*}
+    \arg{H_1(e^{j\omega})} &= \tan^{-1}\frac{\sin \omega}{b + \cos \omega} - \tan^{-1} \frac{\sin \omega}{a + \cos \omega},\\
+    \arg{H_2(e^{j\omega})} &= \tan^{-1}\frac{b\sin \omega}{1 + b\cos \omega} - \tan^{-1} \frac{\sin \omega}{a + \cos \omega}.
+\end{align*}
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.45}{
+    \input{octaves/minimumPhaseMaximumPhaseExamplePhase.tex}
+}\caption{Unwrapped phase responses of transfer functions $H_1(z)$ and $H_2(z)$ for values of $a = 0.8$ and $b = -0.5$.}\label{oct:minimumPhaseMaximumPhaseExamplePhase}
+\end{center}
+\end{figure*}
+
+Figure~\ref{oct:minimumPhaseMaximumPhaseExamplePhase} shows off that $H_2(z)$ has an \emph{excess phase lag} with respect to $H_1(z)$---the excess phase lag of $H_2(z)$ is caused by its very nature, in fact
+\[
+    H_2(z) = \frac{bz + 1}{z + a} = \underbrace{\left(\frac{z + b}{z + a}\right)}_{H_1(z)}\underbrace{\left(\frac{bz + 1}{z + b}\right)}_{A(z)},
+\]
+where $A(z) = \frac{bz + 1}{z + b}$ is a \emph{stable allpass function} which basically introduces a phase group delay which is proportional to the order of the allpass filter. (In this peculiar case, the order of the allpass filter is $M=1$, so for Equation~\ref{eqn:allpassIntegralPhaseEquation} a phase delay of $M\pi = \pi$ will be introduced.) Indeed, the phase function of $H_2(z)$ will be the sum of the phase functions of both above terms,
+\[
+    \arg{H_2(e^{j\omega})} = \arg{H_1(e^{j\omega})} + \arg{A(e^{j\omega})};
+\]
+as the unwrapped phase function of a stable first-order allpass function is a negative function in $\omega$, it follows from the above that $H_2(z)$ has an \textbf{excess phase lag} with respect to its ``twin'' filter $H_1(z)$.
+
+To generalize, let $H_m(z)$ be a causal stable transfer function with all zeros inside the unit circle, and let $H(z)$ be any causal stable transfer function with the same magnitude
+\[
+    \left|H(e^{j\omega})\right| = \left|H_m(e^{j\omega})\right|.
+\]
+The two transfer functions can be put in relation through the following equation,
+\begin{equation}\label{eqn:minimumPhaseMaximumPhaseRelation}
+    H(z) = H_m(z)A(z)
+\end{equation}
+where $A(z)$ is an \emph{allpass function} which is causal and stable. Their magnitude is the same, however, regarding its phase,
+\begin{equation}\label{eqn:minimumPhaseMaximumPhaseExcessPhase}
+    \arg{H(e^{j\omega})} = \arg{H_m(e^{j\omega})} + \arg{A(e^{j\omega})}
+\end{equation}
+the transfer function $H(z)$ it is said to have an \textbf{excess phase lag} with respect to $H_m(z)$---the latter is called a \textbf{minimum-phase transfer function}.
+
+Essentially, a transfer function whose zeros are all inside the unit circle $H_m(z)$ is said to possess a \emph{minimum-phase delay}. Intrinsically, any other transfer function $H(z)$ whose magnitude is the same of $H_m(z)$ can be always re\"expressed with the product of $H_m(z)$ \emph{and} a specially crafted allpass function $A(z)$. Since the allpass function will introduce a phase group delay of $\pi$ \emph{for each} pole $M$, the transfer function $H(z)$ will exhibit a \emph{greater} amount of phase delay when put in comparison with $H_m(z)$, unless the allpass filter has no poles---but this suggests that the allpass filter is a $0$th-order filter; a filter with no poles at all. This circumstance, however, occurs only if the transfer function has \emph{all zeros inside the unit circle}. It is enough for it to have at least zero outside the unit circle, that the allpass filter $A(z)$ will exhibit at least a pole---causing a non-zero phase group delay.
+
+This leads to other two new definitions. The first one is the exact opposite of the former. Causal stable transfer functions will \emph{all zeros} outside the unit circle are said to be \textbf{maximum-phase transfer functions}---consonantly, causal stable transfer functions with zeros both inside and outside the unit circle are called \textbf{mixed-phase transfer functions}. Both ones will present an excess of phase lag with respect to another minimum-phase transfer function $H_m(z)$.
+
+An example of this could be the following mixed-phase transfer function,
+\[
+    H(z) = \frac{
+        2(1 + 0.3z^{-1})(0.4 - z^{-1})
+    } {
+        (1-0.2z^{-1})(1 + 0.5z^{-1})
+    }
+\]
+which exhibits a zero outside the unit circle ($z = 2.5$).
+
+Thanks to Equation~\ref{eqn:minimumPhaseMaximumPhaseRelation}, the transfer function can be re\"arranged into the following form
+\[
+    H(z) = \left[\frac{
+        2(1+0.3z^{-1})(1-0.4z^{-1})
+    } {
+        (1-0.2z^{-1})(1+0.5z^{-1})
+    }\right] \left( \frac{
+        0.4 - z^{-1}
+    } {
+        1 - 0.4z^{-1}
+    }\right),
+\]
+and---as expected---the allpass function in round brackets presents a pole, which alters the phase complexively of $\pi$. We have been able to re\"arrange the transfer function in a new form only because a zero outside of the unit circle was present. The rogue zero was embodied in the factor $(0.4 - z^{-1})$ at numerator, and is was sufficient to multiply--divide by the term $(1 - 0.4z^{-1})$ to automatically craft an allpass transfer function.
+
+\clearpage
+
+\chapter{Inverse systems}
+
+Signals $x[n]$ that pass through LTI systems over which the designer has no control, this includes those that can be expressed in the rational form $H(z) = \frac{B(z)}{A(z)}$, will generally undergo a distortion---which may be undesired. To remove it, one might try to determine the so called \textbf{inverse system}, a system that, if applied to the distorted signal, it ``nullifies'' the distortion induced by the LTI system. Such a system will be denoted as $H^{-1}(z)$ and will na\"ively have a transfer function of form $H^{-1}(z) = \frac{A(z)}{B(z)}$---the reciprocal of the original LTI system's rational transfer function. Such a filter, if applied after the first one, will ideally cancel distortions induced by it.
 
 
 \include{references}
