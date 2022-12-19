@@ -19,10 +19,14 @@
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
 \usepackage{pgfplots}
 %\usepackage{fontspec}
-\usepackage[default,regular,black]{sourceserifpro}
-\usepackage[stickstoo]{newtxmath}
+%\usepackage[default,regular,black]{sourceserifpro}
 %\usepackage{libertine}
+%\usepackage[stickstoo,scale=0.95]{newtxmath}
+\usepackage[p]{scholax}
+\usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
+%\usepackage{mlmodern}
 %\usepackage{libertinust1math}
+%\usepackage{mlmodern}
 \usepackage[all]{nowidow}
 \usepackage{graphicx}
 \usepackage{svg}
@@ -2499,7 +2503,7 @@ The last equation, in particular, depends on a parameter $\alpha$: if $|\alpha| 
     \hline
     \textbf{Sequence} & \textbf{Discrete-time Fourier Transform} \\
     \hline
-    $x[n]$ & $X(e^{j\omega}) = X_{re}(e^{j\omega)} + jX_{im}(e^{j\omega)}$ \\
+    $x[n]$ & $X(e^{j\omega}) = X_{re}(e^{j\omega}) + jX_{im}(e^{j\omega})$ \\
     \hline
     $x_{ev}[n]$ & $X_{re}(e^{j\omega})$ \\
     $x_{od}[n]$ & $jX_{im}(e^{j\omega})$ \\
@@ -5502,7 +5506,7 @@ with red area denoting the RoC of $A(z)$, and the green area denoting the RoC of
 
 By observing at the above result, it is clear that there are two poles, one located at $z=\frac 1 2$ and the other one located at $z = - \frac 1 4$; similarly, there are two zeros, one at the origin and the other one at $z = \frac 1 8$.
 
-Since---for right-sided sequences---the pole that determines the region of convergence is the one with the greatest modulus, it immediately follows that the region of convergence is the area $|z| > \frac 1 2$, as depicted in the following illustration (RoC is in blue). From there it is also evident that the DTFT exists, as the region of convergence includes the unit circle.
+Since---for right-sided sequences---the pole that de\-ter\-mi\-nes the region of convergence is the one with the greatest modulus, it immediately follows that the region of convergence is the area $|z| > \frac 1 2$, as depicted in the following illustration (RoC is in blue). From there it is also evident that the DTFT exists, as the region of convergence includes the unit circle.
 
 This was an example of determining the $z$-transform and the RoC of a sequence composed of two right-sided sequences---let's now focus on the case of a sequence embodying a left-sided sequence and a right-sided sequence.
 
@@ -6386,7 +6390,7 @@ and move it into the frequency-domain by applying the $z$-transform to it. Apply
 \end{align*}
 \begin{align*}
     &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{l=-\infty}^\infty x[l]z^{-(l+k)}\right)\\
-    &= \sum_{k=-\infty}^\infty h[k] \underbrace{\left(\sum_{l=-\infty}^\infty x[l]z^{-)}\right)}_{X(z)}z^{-k}\\
+    &= \sum_{k=-\infty}^\infty h[k] \underbrace{\left(\sum_{l=-\infty}^\infty x[l]z^{-l}\right)}_{X(z)}z^{-k}\\
     &= \underbrace{\left(\sum_{k=-\infty}^\infty h[k]z^{-k}\right)}_{H(z)} X(z)\\
     &= H(z)X(z)
 \end{align*}
@@ -6905,12 +6909,12 @@ it follows that one can rewrite $\mathcal A_M(z)$ in the following manner,
         D_M(z)
     }
 \end{equation}
-Notice how the above equation has a zero at $z=\frac 1 r e^{j\varphi}$ if there is a pole at $z = re^{j\varphi}$, because of Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$: the reciprocal of the pole. For this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} of the denominator, and vice versa. One can then employ a different notation altogether to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, that is
+Notice how the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. For this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a tilde,
 \begin{equation}\label{eqn:mirrorImagePolynomial}
     \tilde{D}_M(z) = z^{-M}D_M(z^{-1}).
 \end{equation}
 
-From the mirror-image property, a fundamental property can be inferred: all poles and zeros of a real-coefficient allpass transfer function must exhibit a \emph{mirror-image symmetry} in the z-plane. For instance, let's plot the following
+From the mirror-image property, a fundamental property can be inferred: all poles and zeros of a real-coefficient allpass transfer function must exhibit a \emph{mirror-image symmetry} in the z-plane, with respect to the unit circle. For instance, let's plot the following
 \[
     \mathcal A_3(z) = \frac {
         -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
@@ -6920,7 +6924,7 @@ From the mirror-image property, a fundamental property can be inferred: all pole
 \]
 into Figure~\ref{oct:allpassTransferFunctionMirrorExample}.
 
-To show off that $\left| \mathcal A_M(e^{j\omega}) \right| = 1$ it suffices to observe that
+To show off that the filter is an allpass filter, that is $\left| \mathcal A_M(e^{j\omega}) \right| = 1$, one has to simply observe that
 \[
     \mathcal A_M(z^{-1}) = \pm \frac {
         z^{M} D_M(z)
@@ -6929,7 +6933,7 @@ To show off that $\left| \mathcal A_M(e^{j\omega}) \right| = 1$ it suffices to o
     }.
 \]
 
-Hence,
+Hence, performing the squared module operation
 \[
     \mathcal A_M(z) \mathcal A_M(z^{-1}) = \frac {
         z^{-M} D_M(z^{-1})
@@ -6943,14 +6947,14 @@ Hence,
 \]
 which immediately leads to
 \[
-    \left|\mathcal A_M(e^{j\omega})\right|^2 \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
+    \left|\mathcal A_M(e^{j\omega})\right|^2 = \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
 \]
-that is
+a situation which undoubtedly yields
 \[
     \left|\mathcal A_M(e^{j\omega})\right| = 1.
 \]
 
-In order for a transfer function to be causal, it must lie inside the unit circle in the z-plane---otherwise, the region of convergence would not comprise the unit circle, and the corresponding transfer function would not be stable. Hence, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle, in order to reflect the mirror-image symmetry property. Indeed, this is what happened in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for allpass filter
+In order for a transfer function to be causal, it must lie \emph{inside} the unit circle in the z-plane---else, the region of convergence would not contain the unit circle, and as a result the corresponding transfer function would never be stable. Since all poles should stay inside the unit circle, and since the \emph{mirror-image polynomial} will contain all zeros whose location is given by the mirroring property, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle. Indeed, this is what occurs, as shown in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for an example allpass filter given by the formula
 \[
     A_3(z) = \frac{
         -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
@@ -6958,7 +6962,7 @@ In order for a transfer function to be causal, it must lie inside the unit circl
         1 + 0.4z^{-1} + 0.18z^{-2} - 0.2z^{-3}
     }, 
 \]
-and what generally happens in all allpass filters.
+and what generally happens for every allpass filter.
 
 \begin{figure*}[ht]
 \begin{center}
@@ -6968,7 +6972,10 @@ and what generally happens in all allpass filters.
 \end{center}
 \end{figure*}
 
-Unwrapped phase function of any arbitrary causal stable allpass function is a continuous function in $\omega$---some of its properties will be highlighted just below here.
+Let's also plot the phase function of the above filter. Figure~\ref{oct:allpassTransferFunctionMirrorExamplePhase} shows the principal value and the unwrapped phase function of filter $A_3(z)$.
+Generally speaking, the unwrapped phase function of \emph{any allpass function} which is also causal and stable is a continuous function in $\omega$.
+
+Some other paramount properties will be highlighted in the next section.
 
 \subsection{Properties of allpass transfer functions}
 The main properties of allpass transfer functions that distinguish them from a generic transfer functions are the following three.
@@ -6983,21 +6990,104 @@ The main properties of allpass transfer functions that distinguish them from a g
                     = 1, & |z| = 1\\
                     > 1, & |z| < 1
                 \end{array}
-            \right.;
+            \right..
         \]
+        Hence, the magnitude in the z-plane is equal to $1$ only in the unit circle, and greater or smaller than $1$ depending---respectively---whether $z$ is inside or outside the unit circle;
     \item let $\tau(\omega)$ be the group delay function of an allpass filter $A(z)$, then
         \[
             \tau(\omega) = -\frac{d}{d\omega}[\theta_c(\omega)]
         \]
         is equal to the negative derivative of the \emph{unwrapped} phase function $\theta_c(\omega)$.
 \end{enumerate}
-The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following equation,
+The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following integral equation,
 \[
     \int_0^\pi \tau(\omega)d\omega = M\pi.
 \]
 
+Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will be proportional to the order of the filter. In particular, a single pole will induce a rotation of $\pi$, whilst pole pairs will induce rotations of $2\pi$. Zeros will not introduce any rotation---either single ones or a pair of them will generate $0$ radians rotation. Generally speaking, an allpass transfer function with an order of $k$ poles will induce a phase rotation of $k\pi$.
 
-TODO complete all notes
+\subsection{Delay equalizers}\label{sec:delayEqualizers}
+
+Allpass filters are not only an abstract concept; they can find their applications in many fields and techniques, for instance as happens for \textbf{delay equalizers}.
+
+Let $G(z)$ be the transfer function of a digital filter designed to meet a prescribed magnitude response. Broadly speaking, what usually happens is that such a filter will introduce a \emph{nonlinear phase response} due to its peculiar shape and properties. Such a phase distortion should be corrected, just like a pair of glasses should be prescribed to a visually impaired person. To correct the phase response it could be useful to employ an allpass filter with a proper phase response---such a filter will leave the magnitude response unscathered (because $|A(e^{j\omega})| = 1$, while modifying the phase response so that the overall cascade of filters will have a \emph{constant group delay} in the band of interest.
+
+\begin{center}
+    \begin{tikzpicture}
+        \node[draw, thick, rectangle, minimum width=2cm, minimum height=.9cm](G) at (0, 0) {$G(z)$};
+        \node[draw, thick, rectangle, minimum width=2cm, minimum height=.9cm](A) at (3, 0) {$A(z)$};
+        \draw[-stealth] (-2, 0) -- (G);
+        \draw[-stealth] (G) -- (A);
+        \draw[-stealth] (A) -- (5, 0);
+    \end{tikzpicture}
+\end{center}
+
+The overall magnitude will be identical to the magnitude of the original filter $|G(e^{j\omega})A(e^{j\omega})| = |G(e^{j\omega})|$, but the overall group delay will be the \emph{sum} of the group delays of $G(z)$ and $A(z)$.
+
+\section{Classification of transfer functions based on phase characteristics}
+
+Transfer functions can be classified with respect to their unique \emph{phase characteristics}. Commonly, manipulating signals and sequences with filters or digital filters can introduce phase distortions, just like those addressed by the delay equalizers in Section~\ref{sec:delayEqualizers}. Phase distortions can be ignored or not depending on the situation and the application---in some cases, it is absolutely mandatory to correct any distortion of the input signal components' phase, especially in the band of interest. In such situations it is imperative to design a so-called \textbf{zero phase characteristic filter}.
+
+Zero phase characteristic filters are special filters that ideally have a \emph{real} and \emph{non-negative} characteristic. Unfortunately, it is not possible to build \emph{causal} digital filters with zero phase---therefore it is only possible to operate such zero phase characteristic filters on application that do not require \emph{real-time processing}. To say it shortly, zero phase filters can never be achieved if the filter is a causal filter, and for that reason real-time applications which strictly require causality are immediately put out of this game.
+
+A straightforward zero phase filtering scheme is sketched in the following diagram,
+
+\begin{center}
+    \begin{tikzpicture}
+        \node at (0, 0)(x) {$x[n]$};
+        \node[draw, thick, rectangle, minimum width=1.3cm, minimum height=.6cm](H1) at (1.5, 0) {$H(z)$};
+        \node at (3, 0)(v) {$v[n]$};
+        \node at (1.5, -1) {$u[n] = v[-n]$};
+        \draw[-stealth] (x) -- (H1);
+        \draw[-stealth] (H1) -- (v);
+        \node at (5, 0)(u) {$u[n]$};
+        \node[draw, thick, rectangle, minimum width=1.3cm, minimum height=.6cm](H2) at (6.5, 0) {$H(z)$};
+        \node at (8, 0)(w) {$w[n]$};
+        \node at (6.5, -1) {$y[n] = w[-n]$};
+        \draw[-stealth] (u) -- (H2);
+        \draw[-stealth] (H2) -- (w);
+        \draw[-stealth, dashed, thin] (v) -- (u);
+    \end{tikzpicture}
+\end{center}
+
+which can be soon understood by focusing on the frequency domain. Let $X(e^{j\omega})$, $V(e^{j\omega})$, $U(e^{j\omega})$, $W(e^{j\omega})$ and also $Y(e^{j\omega})$ be the Discrete-Time Fourier Transforms of sequences $x[n]$, $v[n]$, $u[n]$, $w[n]$ and $y[n]$, respectively. Also, let $H(e^{j\omega})$ be the transfer function of the involved filter. Interestingly, notable symmetry relations occur between such transforms and the transfer function---to investigate, let's first write each function as the byproduct of the filtering process or as another function,
+\begin{align*}
+    V(e^{j\omega}) &= H(e^{j\omega})X(e^{j\omega}),\\
+    W(e^{j\omega}) &= H(e^{j\omega})U(e^{j\omega}),\\
+    U(e^{j\omega}) &= V^*(e^{j\omega}),\\
+    V(e^{j\omega}) &= W^*(e^{j\omega}).
+\end{align*}
+(Remember that, for a complex-valued sequence $x[n]$, the DTFT of $x[-n]$ is $X(e^{-j\omega})$ and that $X(e^{j\omega}) = X^*(e^{-j\omega})$, so the above relationships are indeed correct.) Then, let's combine the above equations. This leads to a direct relationship between the input and the overall output
+\begin{align*}
+    Y(e^{j\omega}) &= W^*(e^{j\omega}) = H^*(e^{j\omega})U^*(e^{j\omega})\\
+                   &= H^*(e^{j\omega})V(e^{j\omega}) = H^*(e^{j\omega})H(e^{j\omega})X(e^{j\omega})\\
+                   &= \left|H(e^{j\omega})\right|^2X(e^{j\omega}).
+\end{align*}
+
+We have just obtained the DTFT of the output $Y$ as the DTFT input $X$ multiplied by the square magnitude of the filter's transfer function $\left|H(e^{j\omega})\right|^2$. In designing a filter, it is acceptable to replace a desired $H(e^{j\omega})$ directly with its square magnitude $\left|H(e^{j\omega})\right|^2$, in order to obtain a zero phase transfer function.
+
+On \textsc{Matlab}, a function called \texttt{filtfilt} can be employed to implement a zero phase filtering scheme such as the former.
+
+
+\subsection{Linear phase transfer functions}
+
+Now, the previous trick only works in the context of non-causal requirements, which cuts off every real-time application. What can we do in order to avoid phase distortion in all real-time contexts, respecting the causality requirement?
+
+In such scenarios, the phase distortion can be avoided by ensuring that the transfer function
+has a \emph{unity magnitude} and a \textbf{linear phase characteristic} in the band of interest. The resulting filtering scheme is said to have a \textbf{linear phase transfer function}.
+
+In signal processing, linear phase is a property of a filter where the phase response of the filter is a linear function of frequency. The result is that all frequency components of the input signal are shifted in time (usually delayed) by the same constant amount (the slope of the linear function), which is referred to as the group delay. Consequently, there is no phase distortion due to the time delay of frequencies relative to one another. For discrete-time signals, perfect linear phase is easily achieved with a finite impulse response (FIR) filter by having coefficients which are symmetric or anti-symmetric. Approximations can be achieved with infinite impulse response (IIR) designs, which are more computationally efficient\cite{bib:linearPhase}.
+
+A full-band filter with a linear phase will possess a frequency response that is given by the following
+\begin{equation}\label{eqn:linearPhaseTransferFunction}
+    H(e^{j\omega}) = e^{-j\omega D},
+\end{equation}
+with $D$ being a real constant. Such filter will possess a linear phase from $\omega=0$ to $\omega=2\pi$; moreover, its magnitude will be equal to $1$, and its group delay will be exactly $D$,
+\[
+    \tau(\omega) = D
+\]
+resulting in a \emph{constant group delay}.
+
 
 \include{references}
 
