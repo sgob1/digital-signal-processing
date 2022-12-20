@@ -6763,7 +6763,7 @@ moreover, it has been shown that the above impulse response is not absolutely su
     \end{tikzpicture}
 \end{center}
 
-The above figure shows a lowpass filter design, with its constraints. A lowpass filter must respect the \emph{passbands constraints} to be in margin between $1 \pm \delta_p$, and the \emph{stopband constraints} to stay in the margin from $0$ to $\delta_s$. Deciding about and imposing those constraints are indeed what it takes to start designing a lowpass filter, as the constraints $\delta_p$, $\delta_s$, $\omega_p$ and $\omega_s$ will force the filter to respect a specific behavior.
+The above figure shows a generic lowpass filter design, with its constraints. A lowpass filter must respect the \emph{passbands constraints} to be in margin between $1 \pm \delta_p$, and the \emph{stopband constraints} to stay in the margin from $0$ to $\delta_s$. Deciding about and imposing those constraints are indeed what it takes to start designing a lowpass filter, as the constraints $\delta_p$, $\delta_s$, $\omega_p$ and $\omega_s$ will force the filter to respect a specific behavior.
 
 Passband constraints force the filter magnitude to stay in a specific range of values---namely, $1 \pm \delta_p$---so that the filter an effectively \emph{allow to pass} frequencies up to frequency $\omega_p$. Stopband constraints force---instead---the filter to \emph{block} all frequencies from $\omega_s$ to $\pi$. In stopband, the filter shall not exceed values of $\delta_s$. Since no real filter is an ideal filter, a \textbf{transition band} must be endorsed in order for the filter to transition from the passband to the stopband. A specific range of frequencies---from $\omega_p$ to $\omega_s$---cannot be properly handled by the filter, as its magnitude in such range will exhibit an undefined behavior.
 
@@ -7147,7 +7147,7 @@ We have just obtained the DTFT of the output $Y$ as the DTFT input $X$ multiplie
 On \textsc{Matlab}, a function called \texttt{filtfilt} can be employed to implement a zero phase filtering scheme such as the former.
 
 
-\subsection{Linear phase transfer functions}
+\subsection{Linear phase transfer functions}\label{sec:linearPhaseTransferFunctions}
 
 Now, the previous trick only works in the context of non-causal requirements, which cuts off every real-time application. What can we do in order to avoid phase distortion in all real-time contexts, respecting the causality requirement?
 
@@ -7235,7 +7235,7 @@ As before, the above filter is both non-causal and of doubly infinite length---a
         \pi (n - \frac N 2)
     }, 0 \leq n \leq N,
 \]
-an impulse response of length $N+1$, which is both causal and of linear-phase, resulting in a FIR filter. Figure~\ref{oct:linearPhaseTransferFunctionSinc} shows the filter coefficients obtained with the above impulse response, for even and odd values of $N$.
+an impulse response of length $N+1$, which is both causal and of linear phase, resulting in a FIR filter. Figure~\ref{oct:linearPhaseTransferFunctionSinc} shows the filter coefficients obtained with the above impulse response, for even and odd values of $N$.
 
 \begin{figure*}[ht]
 \begin{center}
@@ -7482,7 +7482,158 @@ with peculiar initial conditions
 \end{align}
 
 
-\chapter{Linear-phase FIR transfer functions}
+\chapter{Linear phase FIR transfer functions}
+In Section~\ref{sec:linearPhaseTransferFunctions} we briefly investigated some properties of the linear phase transfer functions. To summarize, linear phase transfer functions are all those whose formula is
+\[
+    H(e^{j\omega}) = e^{-j\omega D},
+\]
+with $D\in\R$. Other properties were that $\left|e^{-j\omega D}\right| = 1$ and that the group delay was completely constant along the way from $0$ to $2\pi$,
+\[
+    \tau(\omega) = D.
+\]
+
+When dealing with digital signals, the nature of $D$ matters: if $D$ is not an integer, the outcome of a linear phase transfer function will be dissimilar to the input.
+
+In general, it is impossible to design an IIR transfer function with an exact linear phase. However, for a limited band of interest and for FIR transfer functions, it is \emph{always possible} to design a linear phase transfer function, for instance by truncating a sinc-shaped impulse response. To recall, the IIR impulse response, of linear phase,
+\[
+    h_{IIR,lp}[n] = \frac{
+        \sin \omega_c(n - n_0)
+    } {
+        \pi (n - n_0)
+    }, -\infty < n < \infty.
+\]
+can be truncated to the FIR impulse response, of linear phase as well,
+\[
+    \hat{h}_{FIR,lp}[n] = \frac{
+        \sin \omega_c(n - \frac N 2)
+    } {
+        \pi (n - \frac N 2)
+    }, 0 \leq n \leq N,
+\]
+an impulse response of length $N+1$, which is both causal and of linear phase.
+
+We will now develop the forms of the linear phase FIR transfer function $H(z)$ from a real impulse response $h[n]$.
+
+Let
+\[
+    H(z) = \sum_{n=0}^N h[n]z^{-n};
+\]
+if $H(z)$ should have a linear phase response, its frequency response must have the following form,
+\begin{equation}\label{eqn:linearPhaseTransferFunctionForm}
+    H(e^{j\omega}) = e^{j(c\omega + \beta)}\breve{H}(\omega),
+\end{equation}
+where $c$ and $\beta$ are constants and $\breve{H}(\omega)$ is said to be the \textbf{amplitude response} or \textbf{zero phase response}. The amplitude response is a real function in $\omega$. Its nature also depends on the nature of $H(z)$: if the latter is a real transfer function, then the amplitude response will be an \emph{even} function (this means that $\left|H(e^{j\omega})\right| = \left|H(e^{-j\omega})\right|$. Not only that---since $\left|H(e^{j\omega})\right| = \left|\breve{H}(\omega)\right|$, the amplitude response is \emph{either} an even or an odd function in $\omega$, that means that
+\[
+    \breve{H}(-\omega) = \pm\breve{H}(\omega).
+\]
+
+As any transfer function follows the property
+\begin{equation}\label{eqn:transferFunctionSymmetryProperty}
+    H(e^{j\omega}) = H^*(e^{-j\omega})
+\end{equation}
+a linear phase transfer function must abide to it as well. For linear phase transfer functions the above can be rewritten into
+\[
+    e^{j(c\omega + \beta)}\breve{H}(\omega) = e^{-j(c\omega + \beta)}\breve{H}(-\omega).
+\]
+Two fundamental cases must be distinguished then: the case of an \textbf{even} $\breve{H}(\omega)$ and the case of an \textbf{odd} $\breve{H}(\omega)$.
+
+In the case that $\breve{H}(\omega)$ is an even function in $\omega$, then $\breve{H}(-\omega) = \breve{H}(+\omega)$ and the above becomes
+\[
+    e^{j\beta} = e^{-j\beta}
+\]
+implying that either $\beta = 0$ or $\beta = \pi$. Following up, from Equation~\ref{eqn:linearPhaseTransferFunctionForm} one can express the amplitude response in terms of the inverse transform
+\begin{align*}
+    \breve{H}(\omega) &= e^{-j(c\omega + \beta)}H(e^{j\omega})\\
+                      &= e^{-j\beta}\sum_{n=0}^N h[n]e^{-j\omega(c + n)}.
+\end{align*}
+Since the amplitude function is even, we could freely replace $\omega$ with $-\omega$; however, for the moment let's only determine $\breve{H}(-\omega)$,
+\[
+    \breve{H}(-\omega) = e^{-j\beta}\sum_{l=0}^N h[l]e^{+j\omega(c + l)}.
+\]
+Making change of variable $l = N - n$, one can rewrite the above as
+\[
+    \breve{H}(-\omega) = e^{-j\beta}\sum_{n=0}^N h[N - n]e^{j\omega(c + N - n)}.
+\]
+Now we can make use of the even nature of the amplitude response---as $\breve{H}(-\omega) = \breve{H}(+\omega)$, it is possible to equate the above formulas into
+\[
+    h[n]e^{-j\omega(c+n)} = h[N-n]e^{j\omega(c + N - n)};
+\]
+by choosing $c = -\frac N 2$, one has
+\begin{align*}
+    h[n]e^{-j\omega(-\frac N 2 + n)} &= h[n]e^{+j\omega(+\frac N 2 - n)}\\
+    h[N - n]e^{j\omega(-\frac N 2 + N - n)} &= h[N - n]e^{+j\omega(+\frac N 2 - n)}
+\end{align*}
+with the first equation resulting from the left side of the previous condition, and the second equation resulting from the right side of the condition. Equating them yields
+\[
+    h[n] = h[N-n], 0 \leq n \leq N.
+\]
+
+This result clearly shows that, for \emph{even} amplitude functions, \textbf{the impulse response is symmetric}---or, equivalently, a FIR filter with an \emph{even} amplitude response can have a linear phase response only if it has a \textbf{symmetric impulse response}. Since property in Equation~\ref{eqn:transferFunctionSymmetryProperty} is true for all transfer functions, above condition is the same as equaling
+\[
+    e^{j(c\omega + \beta)}\breve{H}(\omega) = e^{-j(-c\omega + \beta)}\breve{H}(-\omega).
+\]
+
+We have just seen what happens when the amplitude function is an even function of $\omega$---what would happen in the case of an \textbf{odd} function?
+
+An odd amplitude function would satisfy
+\[
+    \breve{H}(\omega) = -\breve{H}(-\omega),
+\]
+and, essentially, this means that from the equation
+\[
+    e^{j(c\omega + \beta)}\breve{H}(\omega) = e^{-j(-c\omega + \beta)}\breve{H}(-\omega).
+\]
+we get
+\[
+    e^{j\beta} = -e^{-j\beta},
+\]
+which can only be satisfied if $\beta = \frac \pi 2$ or $\beta = -\frac \pi 2$. Again, from~\ref{eqn:linearPhaseTransferFunctionForm}, one obtains
+\begin{align*}
+    \breve{H}(\omega) &= e^{-j(c\omega + \beta)}H(e^{j\omega})\\
+                      &= e^{-j\beta}\sum_{n=0}^N h[n]e^{-j\omega(c + n)},
+\end{align*}
+just like before. From the above, inverting $\omega$ yields
+\[
+    \breve{H}(-\omega) = e^{-j\beta}\sum_{n=0}^N h[n]e^{+j\omega(c + n)},
+\]
+but this time $\breve{H}(\omega)$ is an odd function, and as such (by again replacing $l = N - n$)
+\begin{align*}
+    \breve{H}(-\omega) &= -\breve{H}(\omega) = -e^{-j\beta}\sum_{n=0}^N h[n]e^{-j\omega(c + n)}\\
+                       &=  -e^{-j\beta}\sum_{n=0}^N h[N - n]e^{-j\omega(c + N - n)}
+\end{align*}
+Equating the obtained results yields
+\[
+    e^{-j\beta}\sum_{n=0}^N h[n]e^{+j\omega(c + n)} = -e^{-j\beta}\sum_{n=0}^N h[N - n]e^{-j\omega(c + N - n)}.
+\]
+For $c = -\frac N 2$, one gets
+\[
+    \sum_{n=0}^N h[n]e^{+j\omega(-\frac N 2 + n)} = -\sum_{n=0}^N h[N - n]e^{-j\omega(-\frac N 2 + N - n)},
+\]
+which leads to
+\[
+    \sum_{n=0}^N h[n]e^{-j\omega(\frac N 2 - n)} = -\sum_{n=0}^N h[N - n]e^{-j\omega(\frac N 2 - n)};
+\]
+but this drives to
+\[
+    h[n] = -h[N-n], 0 \leq n \leq N.
+\]
+
+This can be interpreted with the fact that a FIR filter with an \emph{odd} amplitude response will have a linear phase response only if it has an \textbf{anti-symmetric impulse response}.
+
+Since the length of the impulse response is $N$, a number that can be either or odd, \emph{four} kinds of linear phase FIR transfer functions can be described.
+
+\section{Type 1: Symmetric impulse response with odd length}
+\section{Type 2: Symmetric impulse response with even length}
+\section{Type 3: Anti-symmetric impulse response with odd length}
+%ADD PROPERTY slide 15
+\section{Type 4: Anti-symmetric impulse response with even length}
+%ADD FIGURE slide 16
+
+
+
+
+
+
 
 
 
