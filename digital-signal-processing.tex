@@ -7087,7 +7087,7 @@ Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will 
         \pic [draw, stealth-, red, "$\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = pi--pzero--O};
         \pic [draw, stealth-, blue, "$-\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = O--nzero--pi};
     \end{tikzpicture}
-\end{center}\caption{Phase rotation induced by poles and zeros. In red and blue, induced phase rotations by the poles--zeros. On top-left, single pole configuration; top-right, double pole configuration; bottom-left, single zero configuration (notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle) and bottom-right, double zero configuration. In the last configuration, the two zeros induce an opposite phase rotation, resulting in no induced rotation. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
+\end{center}\caption{Phase rotation induced by poles and zeros, in example configurations. In red and blue, induced phase rotations by the poles--zeros. On top-left, single pole configuration; top-right, double pole configuration; bottom-left, single zero configuration (notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle) and bottom-right, double zero configuration. In the last configuration, the two zeros induce an opposite phase rotation, resulting in no induced rotation. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
 \end{figure*}
 
 \subsection{Delay equalizers}\label{sec:delayEqualizers}
@@ -7489,7 +7489,7 @@ with peculiar initial conditions
 
 
 \chapter{Linear phase FIR transfer functions}
-In Section~\ref{sec:linearPhaseTransferFunctions} we briefly investigated some properties of the linear phase transfer functions. To summarize, linear phase transfer functions are all those whose formula is
+In Section~\ref{sec:linearPhaseTransferFunctions} we briefly investigated some properties of the linear phase transfer functions. To summarize, linear phase transfer functions are all those transfer functions which present a \emph{linear} phase characteristic in a determined frequency range---called band of interest---and whose formula is
 \[
     H(e^{j\omega}) = e^{-j\omega D},
 \]
@@ -7497,6 +7497,12 @@ with $D\in\R$. Other properties were that $\left|e^{-j\omega D}\right| = 1$ and 
 \[
     \tau(\omega) = D.
 \]
+
+We have also seen that the output $y[n]$ of a linear phase filter to the specially crafted input $x[n]=Ae^{j\omega n}$ is
+\[
+    y[n] = Ae^{j\omega D} e^{j\omega n} = Ae^{j\omega(n - D)}.
+\]
+
 
 When dealing with digital signals, the nature of $D$ matters: if $D$ is not an integer, the outcome of a linear phase transfer function will be dissimilar to the input. Conversely, linear phase systems with integer $D$s will produce an outcome which is similar to the input, but delayed of $D\in\Z$ samples.
 
@@ -7674,7 +7680,7 @@ and $h[4]$ will be the only sample not involved in a symmetric pair, as it's the
          &= z^{-4}\left(h[0](z^{4} + z^{-4})
         + h[1](z^{3} + z^{-3})
         + h[2](z^{2} + z^{-2})\right.\\
-        & \left.+ h[3](z^{1} + z^{-1})
+        & \left.+ h[3](z + z^{-1})
         + h[4]\right).
 \end{align*}
 
@@ -7685,7 +7691,7 @@ The corresponding frequency response will be
 \end{align*}
 as
 \[
-    e^{-j\varphi\omega} + e^{j\varphi\omega} = \cos{(\varphi \omega)}.
+    e^{-j\varphi\omega} + e^{j\varphi\omega} = 2\cos{(\varphi \omega)}.
 \]
 
 The quantity inside the parentheses is a real function of $\omega$, and can assume positive or negative values in the frequency range of $0 \leq |\omega| \leq \pi$.
@@ -7707,7 +7713,7 @@ and a group delay of
     \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa.
 \end{equation}
 
-The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$. (Remember that, in order to obtain an odd length $N+1$, an even $N$ must be chosen.)
+The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$, with $\kappa$ being an \emph{integer} value. (Remember that, in order to obtain an odd length $N+1$, an even $N$ must be chosen.) As the amplitude response is an even function, either $\beta=0$ or $\beta=\pi$.
 
 Generally speaking, for \textbf{Type 1} FIR filters with $\kappa = \frac N 2$ the frequency response has the form
 \begin{equation}\label{eqn:linearPhaseTypeIResponse}
@@ -7718,34 +7724,307 @@ with an (even) amplitude response of the form
     \breve{H}(\omega) = h[\kappa] + 2\sum_{n=1}^\kappa h[\kappa - n]\cos{(\omega n)}.
 \end{equation}
 
-Take a look at how dependency on $N$ only occurs in the form of $\kappa = \frac N 2$.
-
 An example of a Type 1 FIR filter can be the following, of length $7$,
 \[
     H_7(z) = \frac 1 6 \left[\frac 1 2 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5} + \frac 1 2z^{-6}\right],
 \]
-which could be seen as a slightly modified version of a $7$-point moving average filter, as in \ref{eqn:mPointMovingAverageEquation}. (In point of fact, two samples of the impulse response are halved, and that is the discrepancy between the classic $M$-point moving average filter and this Type 1 FIR filter.) Since the above impulse response is symmetric and its length is odd, then it will possess the linear phase property of a Type 1 filter. Plots of the magnitude response of both $H_7(z)$ and a $7$-point moving average filter are shown in Figure~\ref{oct:typeI}. The impulse response has been improved by simply halving the first and the last coefficients---verily, the above Type 1 FIR filter is equivalent to the cascade of two moving average filters, the first of length $2$ and the second of length $6$:
+which could be seen as a slightly modified version of a $7$-point moving average filter, as in \ref{eqn:mPointMovingAverageEquation}. (To point out the differences, two samples of the impulse response are halved, and that is the discrepancy between the classic $M$-point moving average filter and this Type 1 FIR filter.) Since the above impulse response is symmetric and its length is odd, then it will possess the linear phase property of a Type 1 filter. Plots of the magnitude response of both $H_7(z)$ and a $7$-point moving average filter are shown in Figure~\ref{oct:typeI}. The impulse response has been improved by simply halving the first and the last coefficients---verily, the above Type 1 FIR filter is equivalent to the cascade of two moving average filters, the first of length $2$ and the second of length $6$:
 \[
     H_7(z) = \underbrace{\frac 1 2\left(1 + z^{-1}\right)}_{M=2}\cdot\underbrace{\frac 1 6 \left(1 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5}\right)}_{M=6},
 \]
-and for this reason $H_7(z)$ has a double zero at $z=-1$, which means $\omega = \pi$ in the unit circle---this allows to concretely push to $0$ the magnitude response at the very high frequencies.
-
-
-
+and for this reason $H_7(z)$ has a double zero at $z=-1$, which means $\omega = \pi$ in the unit circle---this allows to concretely push to $0$ the magnitude response at the very high frequencies, and ultimately improve the frequency response.
 
 
 \section{Type 2: Symmetric impulse response with even length and odd $N$}
+
+For transfer functions of \textbf{Type 2}, the degree $N$ is an \textbf{odd} number in order for the length $N+1$ to be an even number. Let's assume---for simplicity---$N=7$; the transfer function will be of the form, generally, of
+\begin{align*}
+    H(z) &= h[0]
+        + h[1]z^{-1}
+        + h[2]z^{-2}
+        + h[3]z^{-3}
+        + h[4]z^{-4}\\
+        & + h[5]z^{-5}
+        + h[6]z^{-6}
+        + h[7]z^{-7},
+\end{align*}
+and for symmetry of the impulse response coefficients one can get the following
+\begin{align*}
+    H(z) &= h[0](1 + z^{-7})
+        + h[1](z^{-1} + z^{-6})\\
+        & + h[2](z^{-2} + z^{-5})
+        + h[3](z^{-3} + z^{-4})\\
+         &= z^{-\frac 7 2}\left(h[0](z^{\frac 7 2} + z^{-\frac 7 2})
+        + h[1](z^{\frac 5 2} + z^{-\frac 5 2})\right.\\
+        & \left.+ h[2](z^{\frac 3 2} + z^{-\frac 32})
+        + h[3](z^{\frac 1 2} + z^{-\frac 1 2})\right).
+\end{align*}
+
+The corresponding frequency response will be
+\begin{align*}
+    H(e^{j\omega}) &= e^{-j\frac 7 2 \omega} \left(2h[0]\cos{(\frac 7 2 \omega)} + 2h[1] \cos{(\frac 5 2 \omega)}\right.\\
+    &\left. + 2h[2]\cos{(\frac 3 2 \omega)} + 2h[3] \cos{(\frac 1 2 \omega)} \right).
+\end{align*}
+
+As before, the quantity inside the parentheses is a real function in $\omega$, and can assume positive or negative values in the frequency range $0 \leq |\omega| \leq \pi$. Similarly, the phase function is given by
+\[
+    \theta(\omega) = -\frac 7 2 \omega + \beta,
+\]
+with $\beta$ either equal to $0$ or equal to $\pi$, since the amplitude response is an even function. The above formula proves that the phase function is a \emph{linear} function of $\omega$. The corresponding \textbf{group delay} is, again, a constant,
+\[
+    \tau(\omega) = +\frac 7 2,
+\]
+a constant delay of $\frac 7 2$ samples.
+
+Since $c=-\frac N 2$, a generic choice of $N = 2\kappa$, that is $\kappa = \frac N 2$ would lead to a phase function of 
+\begin{equation}\label{eqn:linearPhaseTypeIIPhaseFunction}
+    \theta(\omega) = -\kappa\omega + \beta
+\end{equation}
+and a group delay of
+\begin{equation}\label{eqn:linearPhaseTypeIIGroupDelay}
+    \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa,
+\end{equation}
+but this time $N$ is an odd number, and thus $\kappa$ should not be an integer number. The constant delay induced by the group delay would be the delay induced by a fractional number of samples. As the amplitude response is an even function, either $\beta=0$ or $\beta=\pi$.
+
+In general, for \textbf{Type 2} FIR filters with $\kappa = \frac N 2$ (a fractional quantity) the frequency response has the form
+\begin{equation}\label{eqn:linearPhaseTypeIIResponse}
+    H(e^{j\omega}) = e^{-j\kappa\omega}\breve{H}(\omega),
+\end{equation}
+with an (even) amplitude response of the form
+\begin{equation}\label{eqn:linearPhaseTypeIIAmplitudeResponse}
+    \breve{H}(\omega) = 2\sum_{n=1}^{\frac{N+1}{2}} h[\frac{N+1}{2} - n]\cos{(\omega (n - \frac 1 2))}.
+\end{equation}
+
+Notice how, this time, the sum should be computed on $\frac {N+1}{2}$ terms instead of $\kappa = \frac N 2$ terms, as the term $h[\kappa]$ that was present in~\ref{eqn:linearPhaseTypeIAmplitudeResponse} ouside of the summation now is included in the summation for the above amplitude response formula. An even length (or, equivalently, an odd $N$) means that for Type 2 a ``central'' coefficient in the impulse response is missing, therefore the center of the impulse response will be located at $\kappa = \frac N 2$, resulting in a fractional value.
+
+
 \section{Type 3: Anti-symmetric impulse response with odd length and even $N$}
-%ADD PROPERTY slide 15
+The third type---the \textbf{Type 3} FIR filter---arises from an \textbf{odd} amplitude response (thus, will possess an anti-symmetric impulse response) and from an \textbf{odd} length (or, equivalently, from the choice of an even $N$). Since $N$ is an even number and for the anti-symmetry this type is subject to, the following always holds,
+\begin{equation}\label{eqn:linearPhaseTypeIIIProperty}
+    h[\frac N 2] = 0,
+\end{equation}
+as the impulse response coefficient located in the middle of the response must be equal to $0$ in order to satisfy the anti-symmetry requirement induced by an odd amplitude response.
+
+Similarly to the previous two cases, let's assume---for simplicity---that $N=8$. Applying the anti-symmetry condition one gets
+\begin{align*}
+    H(z) &= z^{-4}\left(h[0](z^{4} - z^{-4})
+         + h[1](z^{3} - z^{-3})\right.\\
+         & \left.+ h[2](z^{2} - z^{-2})
+         + h[3](z - z^{-1})\right).
+\end{align*}
+which is very similar to what occurred with Type 1, except that $h[4] = h[\frac 8 2] = 0$ and some minus signs due to the anti-symmetry. The corresponding frequency response is given by the following
+\begin{align*}
+    H(e^{j\omega}) &= e^{-j 4\omega}e^{j\frac \pi 2}\left(2h[0]\sin{(4\omega)} + 2h[1]\sin{(3\omega)}\right.\\
+    & + \left. 2h[2]\sin{(2\omega)} + 2h[3]\sin{(\omega)}\right),
+\end{align*}
+as
+\[
+    e^{+j\varphi\omega} - e^{-j\varphi\omega} = 2j\sin{(\varphi \omega)}.
+\]
+A factor $e^{j\frac \pi 2}$ has been introduced, due to the Euler's formula when getting the sine function. (By way of clarification, $j = e^{j \frac \pi 2}$.)
+
+The linear phase response is
+\[
+    \theta(\omega) = -4\omega + \frac \pi 2 + \beta,
+\]
+and, this time, $\beta$ could either be $\frac \pi 2$ or $-\frac \pi 2$, as the amplitude response is an odd function. The group delay is
+\[
+    \tau(\omega) = +4,
+\]
+and just like the previous cases it is a constant group delay. (More similarly to the Type 1, the group delay is an \emph{integer} constant delay.)
+
+Since $c=-\frac N 2$, as always, a generic choice of $N = 2\kappa$ would lead to a phase function of 
+\begin{equation}\label{eqn:linearPhaseTypeIIIPhaseFunction}
+    \theta(\omega) = -\kappa\omega + \frac \pi 2 + \beta
+\end{equation}
+and a group delay of
+\begin{equation}\label{eqn:linearPhaseTypeIIIGroupDelay}
+    \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa.
+\end{equation}
+
+The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$, with $\kappa$ being an \emph{integer} value. As the amplitude response is an odd function, either $\beta=\frac \pi 2$ or $\beta=-\frac \pi 2$.
+
+Generally speaking, for \textbf{Type 3} FIR filters with $\kappa = \frac N 2$ integer, the frequency response has the form
+\begin{equation}\label{eqn:linearPhaseTypeIIIResponse}
+    H(e^{j\omega}) = e^{-j\kappa\omega}\breve{H}(\omega),
+\end{equation}
+with an (odd) amplitude response of the form
+\begin{equation}\label{eqn:linearPhaseTypeIIIAmplitudeResponse}
+    \breve{H}(\omega) = 2\sum_{n=1}^\kappa h[\kappa - n]\sin{(\omega n)},
+\end{equation}
+and $h[\kappa] = 0$.
+
+Very similar to the Type 1 amplitude response, still, the only difference is the presence of a sine function in place of a cosine function, which was caused by the anti-symmetry requirement (Type 3 filters are subject to an anti-symmetry property in place of a symmetry property).
+
+
+\begin{figure*}[ht]
+\begin{center}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.5,0) -- (3,0) node[anchor=north west] {$n$};
+        \draw[-stealth] (0,-.5) -- (0,1.6) node[anchor=south west] {$h_1[n]$};
+        \draw[-{Circle[open]}] (0.3*0,0) -- (0.3*0,1);
+        \draw[-{Circle[open]}] (0.3*1,0) -- (0.3*1,.6);
+        \draw[-{Circle[open]}] (0.3*2,0) -- (0.3*2,-.4);
+        \draw[-{Circle[open]}] (0.3*3,0) -- (0.3*3,.78);
+        \draw[-{Circle[open]}] (0.3*4,0) -- (0.3*4,.4);
+        \draw[-{Circle[open]}] (0.3*5,0) -- (0.3*5,.78);
+        \draw[-{Circle[open]}] (0.3*6,0) -- (0.3*6,-.4);
+        \draw[-{Circle[open]}] (0.3*7,0) -- (0.3*7,.6);
+        \draw[-{Circle[open]}] (0.3*8,0) -- (0.3*8,1);
+        \node at (0.3*0 - .1, -.2) {$0$};
+        \node at (0.3*1, -.2) {$1$};
+        \node at (0.3*2, +.2) {$2$};
+        \node at (0.3*3, -.2) {$3$};
+        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*5, -.2) {$5$};
+        \node at (0.3*6, +.2) {$6$};
+        \node at (0.3*7, -.2) {$7$};
+        \node at (0.3*8, -.2) {$8$};
+        \draw[dashed, thin] (0.3*4, -1.2) -- (0.3*4, 1.6);
+        \node at (0.3*4 + .8, 1.4) {\tiny Center of symmetry};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.5,0) -- (3,0) node[anchor=north west] {$n$};
+        \draw[-stealth] (0,-.5) -- (0,1.6) node[anchor=south west] {$h_2[n]$};
+        \draw[-{Circle[open]}] (0.3*0,0) -- (0.3*0,1);
+        \draw[-{Circle[open]}] (0.3*1,0) -- (0.3*1,-.66);
+        \draw[-{Circle[open]}] (0.3*2,0) -- (0.3*2,+.32);
+        \draw[-{Circle[open]}] (0.3*3,0) -- (0.3*3,1.11);
+        \draw[-{Circle[open]}] (0.3*4,0) -- (0.3*4,1.11);
+        \draw[-{Circle[open]}] (0.3*5,0) -- (0.3*5,+.32);
+        \draw[-{Circle[open]}] (0.3*6,0) -- (0.3*6,-.66);
+        \draw[-{Circle[open]}] (0.3*7,0) -- (0.3*7,1);
+        \node at (0.3*0 - .1, -.2) {$0$};
+        \node at (0.3*1, +.2) {$1$};
+        \node at (0.3*2, -.2) {$2$};
+        \node at (0.3*3, -.2) {$3$};
+        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*5, -.2) {$5$};
+        \node at (0.3*6, +.2) {$6$};
+        \node at (0.3*7, -.2) {$7$};
+        \draw[dashed, thin] (0.3*3.5, -1.2) -- (0.3*3.5, 1.6);
+        \node at (0.3*3.5 + .8, 1.4) {\tiny Center of symmetry};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.5,0) -- (3,0) node[anchor=north west] {$n$};
+        \draw[-stealth] (0,-.5) -- (0,1.6) node[anchor=south west] {$h_3[n]$};
+        \draw[-{Circle[open]}] (0.3*0,0) -- (0.3*0,1.3);
+        \draw[-{Circle[open]}] (0.3*1,0) -- (0.3*1,.6);
+        \draw[-{Circle[open]}] (0.3*2,0) -- (0.3*2,+.27);
+        \draw[-{Circle[open]}] (0.3*3,0) -- (0.3*3,-.48);
+        \node[draw, circle, inner sep=1.1pt, minimum size=0pt] at (0.3*4,0) {};
+        \draw[-{Circle[open]}] (0.3*5,0) -- (0.3*5,.48);
+        \draw[-{Circle[open]}] (0.3*6,0) -- (0.3*6,-.27);
+        \draw[-{Circle[open]}] (0.3*7,0) -- (0.3*7,-.6);
+        \draw[-{Circle[open]}] (0.3*8,0) -- (0.3*8,-1.3);
+        \node at (0.3*0 - .1, -.2) {$0$};
+        \node at (0.3*1, -.2) {$1$};
+        \node at (0.3*2, -.2) {$2$};
+        \node at (0.3*3, +.2) {$3$};
+        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*5, -.2) {$5$};
+        \node at (0.3*6, +.2) {$6$};
+        \node at (0.3*7, +.2) {$7$};
+        \node at (0.3*8, +.2) {$8$};
+        \draw[dashed, thin] (0.3*4, -1.2) -- (0.3*4, 1.6);
+        \node at (0.3*4 + .8, 1.4) {\tiny Center of symmetry};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[-stealth] (-.5,0) -- (3,0) node[anchor=north west] {$n$};
+        \draw[-stealth] (0,-.5) -- (0,1.6) node[anchor=south west] {$h_4[n]$};
+        \draw[-{Circle[open]}] (0.3*0,0) -- (0.3*0,-.3);
+        \draw[-{Circle[open]}] (0.3*1,0) -- (0.3*1,.7);
+        \draw[-{Circle[open]}] (0.3*2,0) -- (0.3*2,-.4);
+        \draw[-{Circle[open]}] (0.3*3,0) -- (0.3*3,-1);
+        \draw[-{Circle[open]}] (0.3*4,0) -- (0.3*4,1);
+        \draw[-{Circle[open]}] (0.3*5,0) -- (0.3*5,.4);
+        \draw[-{Circle[open]}] (0.3*6,0) -- (0.3*6,-.7);
+        \draw[-{Circle[open]}] (0.3*7,0) -- (0.3*7,.3);
+        \node at (0.3*0 - .1, +.2) {$0$};
+        \node at (0.3*1, -.2) {$1$};
+        \node at (0.3*2, +.2) {$2$};
+        \node at (0.3*3, +.2) {$3$};
+        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*5, -.2) {$5$};
+        \node at (0.3*6, +.2) {$6$};
+        \node at (0.3*7, -.2) {$7$};
+        \draw[dashed, thin] (0.3*3.5, -1.2) -- (0.3*3.5, 1.6);
+        \node at (0.3*3.5 + .8, 1.4) {\tiny Center of symmetry};
+    \end{tikzpicture}\\
+\end{center}\caption{Stem plots of example impulse responses of linear phase FIR filters, of types from $1$ to $4$. The first two types possess symmetric properties, while the last two show anti-symmetric properties---with the coefficient at the center of symmetry of Type 3 being equal to $0$. Type 2 and Type 4 have odd $N$ value, and thus exhibit a center of symmetry of fractional value.}\label{tikz:linearPhaseAllTypesImpulseResponses}
+\end{figure*}
+
 \section{Type 4: Anti-symmetric impulse response with even length and odd $N$}
-%ADD FIGURE slide 16
+In \textbf{Type 4}, the amplitude response is an odd function, and the degree $N$ is odd to obtain an even length of $N+1$. Let's assume $N=7$. The symmetry condition yields
+\begin{align*}
+    H(z) &= z^{-\frac 7 2}\left(h[0](z^{\frac 7 2} - z^{-\frac 7 2})
+         + h[1](z^{\frac 5 2} - z^{-\frac 5 2})\right.\\
+         & \left.+ h[2](z^{\frac 3 2} - z^{-\frac 32})
+         + h[3](z^{\frac 1 2} - z^{-\frac 1 2})\right),
+\end{align*}
+analogously to Type 2 filters, but with some minus signs induced by the anti-symmetry property. Again, this will lead to sine functions in the frequency response,
+\begin{align*}
+    H(e^{j\omega}) &= e^{-j\frac 7 2 \omega} e^{j\frac \pi 2} \left(2h[0]\sin{(\frac 7 2 \omega)} + 2h[1] \sin{(\frac 5 2 \omega)}\right.\\
+    &\left. + 2h[2]\sin{(\frac 3 2 \omega)} + 2h[3] \sin{(\frac 1 2 \omega)} \right).
+\end{align*}
+A factor $e^{j\frac \pi 2}$ has been introduced, again, for the same reasons as in Type 3 proceedings.
+
+In this case, the phase response is
+\[
+    \theta(\omega) = - \frac 7 2 \omega + \frac \pi 2 + \beta,
+\]
+with either $\beta=\frac \pi 2$ or $\beta = - \frac \pi 2$. The group delay is constant and of a fractional value,
+\[
+    \tau(\omega) = \frac 7 2.
+\]
+
+Since $c=-\frac N 2$, a generic choice of $N = 2\kappa$, that is $\kappa = \frac N 2$ (in this case, a fractional value) would lead to a phase function of
+\begin{equation}\label{eqn:linearPhaseTypeIVPhaseFunction}
+    \theta(\omega) = -\kappa\omega + \frac \pi 2 + \beta
+\end{equation}
+and a group delay of
+\begin{equation}\label{eqn:linearPhaseTypeIVGroupDelay}
+    \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa,
+\end{equation}
+but this time $N$ is an odd number, and thus $\kappa$ is not an integer number. The constant delay induced by the group delay would be the delay induced by a fractional number of samples. As the amplitude response is an odd function, either $\beta=\frac \pi 2$ or $\beta=- \frac \pi 2$.
+
+In the general case, for \textbf{Type 4} FIR filters with $\kappa = \frac N 2$ (a fractional quantity) the frequency response has the form
+\begin{equation}\label{eqn:linearPhaseTypeIVResponse}
+    H(e^{j\omega}) = e^{-j\kappa\omega}\breve{H}(\omega),
+\end{equation}
+with an (odd) amplitude response of the form
+\begin{equation}\label{eqn:linearPhaseTypeIVAmplitudeResponse}
+    \breve{H}(\omega) = 2\sum_{n=1}^{\frac{N+1}{2}} h[\frac{N+1}{2} - n]\sin{(\omega (n - \frac 1 2))}.
+\end{equation}
 
 
+\section{General form of the frequency response}
+In all four types of linear phase FIR filters, the \textbf{frequency response} has a general form, that is
+\begin{equation}\label{eqn:linearPhaseGeneralResponse}
+    H(e^{j\omega}) = e^{-j\frac N 2 \omega}e^{j\beta}\breve{H}(\omega).
+\end{equation}
 
+The amplitude response, in general, can become negative over certain frequency ranges; typically, it will become negative \emph{in the stopband}. In particular, the \textbf{magnitude} and \textbf{phase response} of linear phase FIR filters are given by the following two formulas,
+\begin{equation}\label{eqn:linearPhaseGeneralMagnitudeResponse}
+    \left|H(e^{j\omega})\right| = \left|\breve{H}(\omega)\right|,
+\end{equation}
+and
+\begin{equation}\label{eqn:linearPhaseGeneralPhaseResponse}
+    \theta(\omega) = 
+    \left\{
+        \begin{array}{ll}
+            -\frac N 2 \omega + \beta, & \breve{H}(\omega) \leq 0\\
+            -\frac N 2 \omega + \beta - \pi, & \breve{H}(\omega) < 0
+        \end{array}
+    \right..
+\end{equation}
+In each and every case, the \textbf{group delay}, with $\kappa = \frac N 2$, will be
+\begin{equation}\label{eqn:linearPhaseGeneralGroupDelay}
+    \tau(\omega) = +\kappa = +\frac N 2,
+\end{equation}
+will always be a \emph{constant delay}, either of a fractional quantity or an integer quantity depending whether $N$ is even or odd. Note that, even though the group delay is a constant, the output waveform \textbf{is not} a replica of the input wavform (indeed, the amplitude response might vary the signal over frequency, as $\left|\breve{H}(\omega)\right|$it is not in general a constant).
 
-
-
-
+To conclude the perspective over linear phase FIR filters Types, any FIR filter with a \textbf{real frequency response} of $\omega$ is said to be a \textbf{zero phase filter}---such a filter must have a noncausal impulse response.
 
 
 \include{references}
