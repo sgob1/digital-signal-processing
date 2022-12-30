@@ -6879,7 +6879,7 @@ becomes a \emph{BR transfer function} with the choice $K = \pm(1 - \alpha)$. Fig
 
 The output sequence $y[n]$ will be a weighted average $K > 0$ or a `weighted difference' $K < 0$ of $x[n]$ and $y[n-1]$.
 
-\section{Allpass transfer functions}
+\section{Allpass transfer functions}\label{sec:allpassTransferFunctions}
 Some transfer functions are completely flat---such systems are said to be \emph{allpass filters} and related transfer functions are \emph{allpass transfer functions}.
 
 \begin{defin}[Allpass Transfer Functions]
@@ -6918,10 +6918,16 @@ it follows that one can rewrite $\mathcal A_M(z)$ in the following manner,
         D_M(z)
     }
 \end{equation}
-Notice how the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. For this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a tilde,
+Notice how the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. This is the rule of a very important scenario---for this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} (MIP) of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a tilde,
 \begin{equation}\label{eqn:mirrorImagePolynomial}
     \tilde{D}_M(z) = z^{-M}D_M(z^{-1}).
 \end{equation}
+
+Later on a similar concept will also prove useful---similarly to the mirror-image polynomial, one can define an \textbf{antimirror-image polynomial} (AIP) as any polynomial that satisfies the following equation,
+\begin{equation}\label{eqn:antimirrorImagePolynomial}
+    \tilde{D}_M(z) = -z^{-M}D_M(z^{-1}).
+\end{equation}
+
 
 From the mirror-image property, a fundamental property can be inferred: all poles and zeros of a real-coefficient allpass transfer function must exhibit a \emph{mirror-image symmetry} in the z-plane, with respect to the unit circle. For instance, let's plot the following
 \[
@@ -7875,7 +7881,7 @@ Very similar to the Type 1 amplitude response, still, the only difference is the
         \node at (0.3*1, -.2) {$1$};
         \node at (0.3*2, +.2) {$2$};
         \node at (0.3*3, -.2) {$3$};
-        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*4+.08, -.2) {$4$};
         \node at (0.3*5, -.2) {$5$};
         \node at (0.3*6, +.2) {$6$};
         \node at (0.3*7, -.2) {$7$};
@@ -7921,7 +7927,7 @@ Very similar to the Type 1 amplitude response, still, the only difference is the
         \node at (0.3*1, -.2) {$1$};
         \node at (0.3*2, -.2) {$2$};
         \node at (0.3*3, +.2) {$3$};
-        \node at (0.3*4, -.2) {$4$};
+        \node at (0.3*4+.08, -.2) {$4$};
         \node at (0.3*5, -.2) {$5$};
         \node at (0.3*6, +.2) {$6$};
         \node at (0.3*7, +.2) {$7$};
@@ -8022,9 +8028,259 @@ In each and every case, the \textbf{group delay}, with $\kappa = \frac N 2$, wil
 \begin{equation}\label{eqn:linearPhaseGeneralGroupDelay}
     \tau(\omega) = +\kappa = +\frac N 2,
 \end{equation}
-will always be a \emph{constant delay}, either of a fractional quantity or an integer quantity depending whether $N$ is even or odd. Note that, even though the group delay is a constant, the output waveform \textbf{is not} a replica of the input wavform (indeed, the amplitude response might vary the signal over frequency, as $\left|\breve{H}(\omega)\right|$it is not in general a constant).
+will always be a \emph{constant delay}, either of a fractional quantity or an integer quantity depending whether $N$ is even or odd. Note that, even though the group delay is a constant, the output waveform \textbf{is not} a replica of the input wavform (indeed, the amplitude response might vary the signal over frequency, as $\left|\breve{H}(\omega)\right|$ is not, in general, a constant).
 
-To conclude the perspective over linear phase FIR filters Types, any FIR filter with a \textbf{real frequency response} of $\omega$ is said to be a \textbf{zero phase filter}---such a filter must have a noncausal impulse response.
+To conclude the perspective over linear phase FIR filters Types, any FIR filter with a \textbf{real frequency response} of $\omega$ is said to be a \textbf{zero phase filter}---such a filter must possess a noncausal impulse response.
+
+\subsection{Location of zeros in Linear-phase FIR transfer functions}
+Let $h[n]$ be a \emph{symmetric} impulse response of a FIR filter with length $N+1$, that is an impulse response that satisfies property $h[n] \equiv h[N-n]$. Due to symmetry, its transfer function can be rewritten as
+\[
+    H(z) = \sum_{n=0}^N h[n]z^{-n} = \sum_{n=0}^N h[N-n]z^{-n}.
+\]
+
+By the change of variable $m = N - n$, one can soon re\"express the above as
+\[
+    \sum_{n=0}^N h[N-n]z^{-n} = \sum_{m=0}^N h[m]z^{-N+m} = z^{-N}\sum_{m=0}^N h[m]z^{+m},
+\]
+which clearly leads to
+\[
+    H(z) = \sum_{n=0}^N h[N-n]z^{-n} = z^{-N}\underbrace{\sum_{m=0}^N h[m]z^{-m}}_{H(z^{-1})} = z^{-N}H(z^{-1}),
+\]
+and definitely
+\[
+    H(z) =  z^{-N}H(z^{-1}).
+\]
+
+As one might recall, any polynomial with \emph{real coefficients} satisfying Equation~\ref{eqn:mirrorImagePolynomial} is called a \textbf{mirror-image polynomial}---that is the same relationship as above. Thus, any $H(z)$ satisfying the above will also be a \emph{mirror-image polynomial} transfer function.
+
+To name an example, let
+\[
+    H(z) = a_0 + a_1z^{-1} + a_2z^{-2} + a_2z^{-3} + a_1z^{-4} + a_0z^{-5}
+\]
+be a polynomial in $z$. One has
+\begin{align*}
+    z^{-5}H(z^{-1}) &= z^{-5}(a_0 + a_1z^{1} + a_2z^{2} + a_2z^{3} + a_1z^{4} + a_0z^{5}) \\
+                    &= a_0z^{-5} + a_1z^{-4} + a_2z^{-3} + a_2z^{-2} + a_1z^{-1} + a_0 \\
+                    &= a_0 + a_1z^{-1} + a_2z^{-2} + a_2z^{-3} + a_1z^{-4} + a_0z^{-5} \\
+                    &= H(z).
+\end{align*}
+
+Note that this only works because $h[n] \equiv h[N-n]$, due to the symmetry property with which the impulse response $h$ was supposed to comply from the beginning. What's the case of an anti-symmetric impulse response then?
+
+Let's try with an anti-symmetric impulse response $h[n]$ of, again, a FIR filter, which has to comply with $h[n] \equiv -h[N-n]$. With the same logic as before, let's rewrite the transfer function into something different
+\[
+    H(z) = \sum_{n=0}^N h[n]z^{-n} = -\sum_{n=0}^N h[N-n]z^{-n},
+\]
+and going through the change of variable $m = N - n$ same as before, one is able to re\"express the above as
+\[
+    -\sum_{n=0}^N h[N-n]z^{-n} = -\sum_{m=0}^N h[m] z^{-N+m} = -z^{-N}H(z^{-1});
+\]
+this inevitably leads to
+\[
+    H(z) = -z^{-N}H(z^{-1}).
+\]
+
+Just like the previous case, this time we can refer to Equation~\ref{eqn:antimirrorImagePolynomial}, and we can say that any transfer function $H(z)$ of \emph{real coefficients} that abides to the above resulting equation will be an \textbf{antimirror-image polynomial} transfer function. 
+
+Similarly, we can craft an example that can speak for itself---let $H(z)$ be an antimirror-image polynomial
+\[
+    H(z) = a_0 + a_1z^{-1} + a_2z^{-2} - a_2z^{-3} - a_1z^{-4} - a_0z^{-5}.
+\]
+
+Hence,
+\begin{align*}
+    -z^{-5}H(z^{-1}) &= -z^{-5}(a_0 + a_1z^{1} + a_2z^{2} - a_2z^{3} - a_1z^{4} - a_0z^{5})\\
+                     &= a_0z^{-5} + a_1z^{-4} + a_2z^{-3} - a_2z^{-2} - a_1z^{-1} - a_0\\
+                     &= a_0 + a_1z^{-1} + a_2z^{-2} - a_2z^{-3} - a_1z^{-4} - a_0z^{-5}\\
+                     &= H(z).
+\end{align*}
+
+These two scenarios of symmetric and anti-symmetric transfer functions---the mirror-image polynomial and the antimirror-image polynomial---are not just a mere showoff: instead, the two concepts lay the foundations for a simple way to find the zeros of a FIR filter that abides to some symmetry or anti-symmetry rule. Indeed, by looking at the (anti)mirror image of a transfer function of that kind,
+\[
+    H(z) = \pm z^{-N}H(z^{-1})
+\]
+one can easily infer that if $z=\xi_0$ is a zero of $H(z)$, then $z=\frac 1 {\xi_0}$ must be a zero as well. (To explain that, simply recall the results highlighted in Section~\ref{sec:allpassTransferFunctions}, which explains how mirror-image polynomials of real-coefficient transfer functions possess pairs of zeros located in the `mirror' position, that is the reciprocal of the value of the zero.)
+
+Additionally, if the impulse response is totally real-valued, then the zeros of $H(z)$ will occur in \emph{complex--conjugate pairs}; but this means that for any zero $z=\xi_0$ there will be a conjugate associated twin at $z=\xi^*_0$. This leads to the following, crucial result for linear-phase FIR filters: any complex zero that is not in the unit circle will be associated to other $3$ zeros, forming \textbf{a set of $4$ zeros} given by the following expressions
+\begin{eqnarray}\label{eqn:linearPhaseGeneralZeroLocationsSet}
+    z_{1,2} = r e^{\pm j\varphi}, \\
+    z_{3,4} = \frac 1 r e^{\pm j\varphi}.
+\end{eqnarray}
+
+If a zero lies on the unit circle, it appears \textbf{as a pair only}
+\begin{equation}\label{eqn:linearPhaseGeneralZeroLocationsPair}
+    z_{1,2} = e^{\pm j\varphi},
+\end{equation}
+as the reciprocal has the same `mirror' location of the mirrored zero, since $r \equiv \frac 1 r$. In this case, the (anti)mirror-image pair overlap, leaving the complex--conjugate pair alone.
+
+If a zero is real, then its reciprocal appears at the mirror location, and the zeros will appear \textbf{as a pair}. In this case, the complex--conjugate pair will overlap, and there will only be the (anti)mirror-image pair left,
+\begin{eqnarray}\label{eqn:linearPhaseGeneralZeroLocationsPairReal}
+    z_1 = \alpha, \\
+    z_2 = \frac 1 \alpha.
+\end{eqnarray}
+
+Finally, all $4$ zeros will appear \textbf{the same} if $z=\pm1$; that's because both the complex--conjugate pair and the (anti)mirror-image pair will overlap.
+
+After looking at how the sets of zeros are built---namely, there must be both a complex--conjugate pair and an (anti)mirror-image pair, which could possibly overlap---we will now discover that some \emph{constraints} on zero locations exist, depending on the types of linear-phase transfer functions. 
+
+The following list explains such constraints and properties, and also contains example illustrations for each type.
+
+\begin{description}
+    \item[Type 2] A Type 2 FIR filter will have a zero at $z=-1$. In point of fact, since it satisfies
+        \[
+            H(z) = z^{-N}H(z^{-1}), N \mbox{ odd }
+        \]
+        then
+        \[
+            H(-1) = (-1)^{-N} H(-1) = -H(-1) \equiv 0,
+        \]
+        which proves the claim;
+        \begin{center}
+            \begin{tikzpicture}
+                \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+                \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+                \draw (1pt, 2.0) -- (-1pt, 2.0) node[anchor=north east] {$1$};
+                \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+                \node[draw, zeroz, thick] at (-2, 0) {};
+                \node[draw, zeroz, thick, red] at (.4, 1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, 2.5) {};
+                \node[draw, zeroz, thick, red] at (.4, -1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, -2.5) {};
+                \node[draw, zeroz, thick, green] at (1.8, 0) {};
+                \node[draw, zeroz, thick, green] at (2.22, 0) {};
+                \node[draw, zeroz, thick, blue] at (-.5, 1.9378) {};
+                \node[draw, zeroz, thick, blue] at (-.5, -1.9378) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, .6) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, -.6) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, 0.766) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, -0.766) {};
+            \end{tikzpicture}
+        \end{center}
+    \item[Type 4] Type 4 FIR filters will have a zero at $z=+1$. Indeed, it satisfies
+        \[
+            H(z) = -z^{-N}H(z^{-1}), N \mbox{ odd },
+        \]
+        which results in
+        \[
+            H(1) = -(1)^{-N} H(1) = -H(1) \equiv 0;
+        \]
+        \begin{center}
+            \begin{tikzpicture}
+                \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+                \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+                \draw (1pt, 2.0) -- (-1pt, 2.0) node[anchor=north east] {$1$};
+                \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+                \node[draw, zeroz, thick] at (+2, 0) {};
+                \node[draw, zeroz, thick, red] at (.4, 1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, 2.5) {};
+                \node[draw, zeroz, thick, red] at (.4, -1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, -2.5) {};
+                \node[draw, zeroz, thick, green] at (1.8, 0) {};
+                \node[draw, zeroz, thick, green] at (2.22, 0) {};
+                \node[draw, zeroz, thick, blue] at (-.5, 1.9378) {};
+                \node[draw, zeroz, thick, blue] at (-.5, -1.9378) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, .6) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, -.6) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, 0.766) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, -0.766) {};
+            \end{tikzpicture}
+        \end{center}
+    \item[Type 3] Any Type 3 FIR filter will be forced to have at least two zeros: one at $z=+1$ and the other one at $z=-1$. Verily, they must abide to
+        \[
+            H(z) = -z^{-N}H(z^{-1}), N \mbox{ even },
+        \]
+        and for this reason both
+        \[
+            H(1) = -(1)^{-N}H(1) = -H(1) \equiv 0
+        \]
+        and
+        \[
+            H(-1) = -(-1)^{-N}H(-1) = -H(-1) \equiv 0
+        \]
+        are true, forcing the two zeros to exist;
+        \begin{center}
+            \begin{tikzpicture}
+                \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+                \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+                \draw (1pt, 2.0) -- (-1pt, 2.0) node[anchor=north east] {$1$};
+                \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+                \node[draw, zeroz, thick] at (+2, 0) {};
+                \node[draw, zeroz, thick] at (-2, 0) {};
+                \node[draw, zeroz, thick, red] at (.4, 1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, 2.5) {};
+                \node[draw, zeroz, thick, red] at (.4, -1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, -2.5) {};
+                \node[draw, zeroz, thick, green] at (1.8, 0) {};
+                \node[draw, zeroz, thick, green] at (2.22, 0) {};
+                \node[draw, zeroz, thick, blue] at (-.5, 1.9378) {};
+                \node[draw, zeroz, thick, blue] at (-.5, -1.9378) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, .6) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, -.6) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, 0.766) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, -0.766) {};
+            \end{tikzpicture}
+        \end{center}
+    \item[Type 1] Type 1 FIR filters are not subject to any of the phenomena that occur for the other three types of FIR filters---indeed, they must follow
+        \[
+            H(z) = z^{-N}H(z^{-1}), N \mbox{ even },
+        \]
+        which leads to no forced zeros at all.
+        \begin{center}
+            \begin{tikzpicture}
+                \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+                \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+                \draw (1pt, 2.0) -- (-1pt, 2.0) node[anchor=north east] {$1$};
+                \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+                \node[draw, zeroz, thick, red] at (.4, 1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, 2.5) {};
+                \node[draw, zeroz, thick, red] at (.4, -1.6) {};
+                \node[draw, zeroz, thick, red] at (.6, -2.5) {};
+                \node[draw, zeroz, thick, green] at (1.8, 0) {};
+                \node[draw, zeroz, thick, green] at (2.22, 0) {};
+                \node[draw, zeroz, thick, blue] at (-.5, 1.9378) {};
+                \node[draw, zeroz, thick, blue] at (-.5, -1.9378) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, .6) {};
+                \node[draw, zeroz, thick, purple] at (-1.7, -.6) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, 0.766) {};
+                \node[draw, zeroz, thick, purple] at (-2.2, -0.766) {};
+            \end{tikzpicture}
+        \end{center}
+\end{description}
+
+Of course, nothing prevents any of the above types to possess \textbf{additional} zeros at both $z=-1$ and $z=+1$: what the above results tell, instead, is that \emph{single} zeros exist at specified locations regardless of the polynomial feats. This means that
+\begin{itemize}
+    \item \emph{Type 1} filters will either have an even number of zeros or no zeros at $z=1$ and $z=-1$;
+    \item \emph{Type 2} filters will either have an even number of zeros or no zeros at $z=1$, and an odd number of zeros at $z=-1$;
+    \item \emph{Type 3} filters will have an odd number of zeros at both $z=1$ and $z=-1$;
+    \item \emph{Type 4} filters will either have an even number of zeros or no zeros at $z=-1$, and an odd number of zeros at $z=1$.
+\end{itemize}
+
+We can then summarize the results into the following Table,
+\begin{table}[ht]
+\centering
+\begin{tabular}{c|ll}
+    \textbf{Filter type} & \textbf{Zeros at} $z=1$ & \textbf{Zeros at} $z=-1$ \\
+    \hline
+    1 & even or none & even or none\\
+    2 & even or none & odd\\
+    3 & odd & odd\\
+    4 & odd & even or none
+\end{tabular}
+\caption{Number of zeros at $z=\pm 1$ for different types of linear-phase FIR filters.}\label{tab:linearPhaseGeneralZeroNumbers}
+\end{table}
+\bigskip
+
+Some notable consequences derive from the above results---the mandatory zeros at $z = \pm 1$ introduce some possible shortcomings when it comes to filter design. Very much,
+\begin{description}
+    \item[Type 2] Design of \emph{highpass} and \emph{bandstop} filters is not possible, due to the zero at $\omega=\pi$;
+    \item[Type 3] Design of \emph{lowpass}, \emph{highpass} or \emph{bandstop} filters is not possible, since there are two unavoidable zeros, one at $\omega = 0$ and the other one at $\omega = \pi$;
+    \item[Type 4] Design of \emph{lowpass} and \emph{bandstop} filters is not possible, as the zero at $\omega = 0$ makes it impossible;
+    \item[Type 1] Type 1 filters have no mandatory zeros, therefore \textbf{they freely allow any kind of design}.
+\end{description}
+
+\chapter{Simple Digital Filters}
+
+
 
 
 \include{references}
