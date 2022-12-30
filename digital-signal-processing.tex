@@ -8280,6 +8280,46 @@ Some notable consequences derive from the above results---the mandatory zeros at
 
 \chapter{Simple Digital Filters}
 
+Digital filters design involves composing a filter that is capable of satisfying some prescribed \emph{specifications}---later on, more advanced techniques to do so will be provided. For the moment, a battery of simple digital filters will be addressed, with reasonable selective frequency responses that are satisfactory in a number of convenient applications.
+
+All simple digital filters hereby listed have integer-valued impulse responses coefficients. Moreover, since they are very simple filters, inexpensive hardware can be exploited for their practical realization.
+
+\section{Lowpass FIR digital filters}
+
+\textbf{Lowpass FIR digital filters} are the first category of simple digital filters we will encounter. The simplest of them is the $2$-point moving average filter, that is given by the following
+\begin{equation}\label{eqn:twoPointMovingAverageFilterFIR}
+    H_2(z) = \frac 1 2 \left(1 + z^{-1}\right) = \frac {z+1} {2z}.
+\end{equation}
+
+The above transfer function is symmetric and of even length (hence, $N$ is odd)---a Type 2 transfer function. For this reason, it will possess a zero in $\zeta=-1$ and additionally a pole in $\xi = 0$. A digital FIR filter of this kind will possess a zero at high frequencies $\omega = \pi$, while keeping the magnitude of any other point as close to the input value as this configurations makes possible---indeed, the \emph{pole vector} (the vector from the pole to the unit circle when going through $\omega$ frequencies) will have a constant module of $1$, as shown in the next graph.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+        \draw (2.0, 1pt) -- (2.0, -1pt) node[anchor=north east] {$1$};
+        \draw (-2.0, 1pt) -- (-2.0, -1pt) node[anchor=north east] {$-1$};
+        \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+        \node[draw, zeroz, thick](zero) at (-2, 0) {};
+        \node[draw, polez, thick](pole) at (0, 0) {};
+        \draw[-latex, green] (pole) -- (1.8421, 0.7788);
+        \draw[-latex, blue] (zero) -- (1.8421, 0.7788);
+        \draw[-latex, dashed, green] (pole) -- (1.3934, 1.4347);
+        \draw[-latex, dashed, blue] (zero) -- (1.3934, 1.4347);
+        \draw[-latex, dashed, green] (pole) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, blue] (zero) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, green] (pole) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, blue] (zero) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, green] (pole) -- (-0.4215, -1.9550);
+        \draw[-latex, dashed, blue] (zero) -- (-0.4215, -1.9550);
+        \node[] at (-2.35, .9)(hf) {$\omega = \pi$};
+        \node[] at (2.35, .8)(lf) {$\omega = 0$};
+        \draw[-stealth, dashed, thin] (hf) -- (zero);
+        \draw[-stealth, dashed, thin] (lf) -- (2, 0);
+    \end{tikzpicture}
+\end{center}
+
+The above figure shows that the pole vector (in green) will always have a constant module, whilst the zero vector (in blue) will be larger or smaller in magnitude depending on the current frequency $\omega$. As the evaluation approaches high frequencies (very close to $\omega = \pi$), the zero gains importance and its contribution becomes relevant: the filter will act as a lowpass filter.
 
 
 
