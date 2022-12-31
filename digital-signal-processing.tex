@@ -4338,7 +4338,7 @@ form of
 \end{equation}
 where $\Delta t$ is the \emph{time resolution}---how well two spikes in time can be separated from each other in the frequency domain---and $\Delta f$ is the \emph{frequency resolution}---how well two spectral components can be divided from each other in the time domain. The unquestionable fact is that \emph{both $\Delta t$ and $\Delta f$ cannot be made arbitrarily small}: shrinking one of the two will incontrovertibly grow the other, and vice versa!
 
-This fundamental law of nature can never be infringed, signifying that one cannot know the \emph{exact} time-frequency representation of a signal, since it must abide to the uncertainty principle and will be subject to a trade--of between time resolution and frequency resolution: one can only know what inverval of frequencies belongs to a given time interval. Wavelets are windows whose value take in account the product $\Delta t \Delta f$, and can be represented by rectangles having base $\Delta f$ and height $\Delta t$. The area of the wavelets cannot go below the value $\Delta t \cdot \Delta f$.
+This fundamental law of nature can never be infringed, signifying that one cannot know the \emph{exact} time-frequency representation of a signal, since it must abide to the uncertainty principle and will be subject to a trade--off between time resolution and frequency resolution: one can only know what inverval of frequencies belongs to a given time interval. Wavelets are windows whose value take in account the product $\Delta t \Delta f$, and can be represented by rectangles having base $\Delta f$ and height $\Delta t$. The area of the wavelets cannot go below the value $\Delta t \cdot \Delta f$.
 
 \section{Discrete Cosine Transform}\label{sec:discreteCosineTransform}
 
@@ -8162,8 +8162,9 @@ The following list explains such constraints and properties, and also contains e
         \]
         which results in
         \[
-            H(1) = -(1)^{-N} H(1) = -H(1) \equiv 0;
+            H(1) = -(1)^{-N} H(1) = -H(1) \equiv 0,
         \]
+        forcing a zero at $z=+1$;
         \begin{center}
             \begin{tikzpicture}
                 \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
@@ -8287,8 +8288,8 @@ All simple digital filters hereby listed have integer-valued impulse responses c
 \section{Lowpass FIR digital filters}
 
 \textbf{Lowpass FIR digital filters} are the first category of simple digital filters we will encounter. The simplest of them is the $2$-point moving average filter, that is given by the following
-\begin{equation}\label{eqn:twoPointMovingAverageFilterFIR}
-    H_2(z) = \frac 1 2 \left(1 + z^{-1}\right) = \frac {z+1} {2z}.
+\begin{equation}\label{eqn:twoPointMovingAverageFilterFIRLowpass}
+    H_0(z) = \frac 1 2 \left(1 + z^{-1}\right) = \frac {z+1} {2z}.
 \end{equation}
 
 The above transfer function is symmetric and of even length (hence, $N$ is odd)---a Type 2 transfer function. For this reason, it will possess a zero in $\zeta=-1$ and additionally a pole in $\xi = 0$. A digital FIR filter of this kind will possess a zero at high frequencies $\omega = \pi$, while keeping the magnitude of any other point as close to the input value as this configurations makes possible---indeed, the \emph{pole vector} (the vector from the pole to the unit circle when going through $\omega$ frequencies) will have a constant module of $1$, as shown in the next graph.
@@ -8319,8 +8320,173 @@ The above transfer function is symmetric and of even length (hence, $N$ is odd)-
     \end{tikzpicture}
 \end{center}
 
-The above figure shows that the pole vector (in green) will always have a constant module, whilst the zero vector (in blue) will be larger or smaller in magnitude depending on the current frequency $\omega$. As the evaluation approaches high frequencies (very close to $\omega = \pi$), the zero gains importance and its contribution becomes relevant: the filter will act as a lowpass filter.
+The above figure shows that the pole vector (in green) will always have a constant module, whilst the zero vector (in blue) will be larger or smaller in magnitude depending on the current frequency $\omega$.
+As the evaluation approaches high frequencies (very close to $\omega = \pi$), the zero gains importance and its contribution becomes relevant: the filter will act as a lowpass filter. 
+Indeed, the zero vector starts with a magnitude of $2$---the radius of the unit circle---and goes down to a magnitude of $0$. 
+The magnitude response $\left|H_0(\omega)\right|$ will be a monotonically decreasing function of $\omega$ in the interval $[0, \pi]$. 
+The peak value is $\left|H_0(e^{j0})\right| = 1$ and the minimum is $\left|H_0(e^{j\pi})\right| = 0$: we have just built a very simple digital lowpass filter from the $M$-point moving average filter. 
 
+The frequency response of the above filter will be
+\begin{equation}\label{eqn:twoPointMovingAverageFilterFIRFrequencyResponse}
+    H_0(e^{j\omega}) = e^{-j\frac \omega 2}\cos{(\frac \omega 2)}.
+\end{equation}
+
+Undoubtedly, by considering the magnitude response
+\[
+    \left|H_0(e^{j\omega})\right| = \cos{(\frac \omega 2)}
+\]
+it's rather straightforward to see that it is in fact a monotonically decreasing function in the interval $[0, \pi]$, as shown in the next plot.
+\begin{center}
+    \begin{tikzpicture}[
+        ]
+            \begin{axis}[
+                at={(0,0)},
+                xlabel = $\frac \omega \pi$,
+                domain = 0:1,
+                samples = 200,
+                legend style = {
+                at = {(0.5,1.02)},
+                anchor = south},
+                ]
+                \addlegendentry{$\left|H_0(e^{j\omega})\right| = \cos{(\frac \omega 2)}$}
+                        \addplot[mark = none, thick] gnuplot[raw gnuplot] {
+                            set samples 200;
+                            magnitude(x) = cos(0.5*x*pi);
+                            plot[0:1] magnitude(x);
+                    };
+            \end{axis};
+    \end{tikzpicture}
+\end{center}
+
+\begin{figure*}[ht]
+    \begin{center}
+        \begin{tikzpicture}[
+            ]
+                \begin{axis}[
+                    at={(0,0)},
+                    xlabel = $\frac \omega \pi$,
+                    domain = 0:1,
+                    samples = 200,
+                    legend style = {
+                    at = {(0.5,1.02)},
+                    anchor = south},
+                    ]
+                    \addlegendentry{Single $\left|H_0(e^{j\omega})\right| = \cos{(\frac \omega 2)}$}
+                            \addplot[mark = none, thick] gnuplot[raw gnuplot] {
+                                set samples 200;
+                                magnitude(x) = cos(0.5*x*pi);
+                                plot[0:1] magnitude(x);
+                        };
+                \end{axis};
+        \end{tikzpicture}
+        \begin{tikzpicture}[
+            ]
+                \begin{axis}[
+                    at={(0,0)},
+                    xlabel = $\frac \omega \pi$,
+                    domain = 0:1,
+                    samples = 200,
+                    legend style = {
+                    at = {(0.5,1.02)},
+                    anchor = south},
+                    ]
+                    \addlegendentry{Cascade of three $\left|H_0(e^{j\omega})\right| = \cos{(\frac \omega 2)}$}
+                            \addplot[mark = none, thick] gnuplot[raw gnuplot] {
+                                set samples 200;
+                                magnitude(x) = cos(0.5*x*pi);
+                                plot[0:1] magnitude(x)*magnitude(x)*magnitude(x);
+                        };
+                \end{axis};
+        \end{tikzpicture}
+    \end{center}\caption{Comparison between a single $2$-point moving average filter with magnitude frequency response $\left|H_0(e^{j\omega})\right| = \cos{(\frac \omega 2)}$ and a system composed of the cascode of three filters, all with the same magnitude frequency response $\left|H_0(e^{j\omega})\right|$. The system of three filters shows a better lowpass performance, at the expense of a smaller passband width.}\label{oct:simpleFiltersComparisonSingleThreeMPointMovingAverageFilters}
+\end{figure*}
+
+A peculiar frequency, which is of remarkable interest, is the frequency $\omega_c$ at which
+\[
+    \left|H_0(e^{j\omega_c})\right| = \frac{1}{\sqrt{2}} \left|H_0(e^{j0})\right|;
+\]
+at such frequency, the \textbf{gain} $\mathcal G (\omega_c)$, in decibel (dB), is given by
+\begin{align*}
+    \mathcal G(\omega_c) &= 20\log_{10}\left|H(e^{j\omega_c})\right|\\
+                         &= 20\log_{10}\left|H(e^{j0})\right| - 20\log_{10}\sqrt{2}\\
+                         &\simeq 3 \mbox{dB},
+\end{align*}
+as the gain $\mathcal G(0) = 20 \log_{10}\left|H(e^{j0})\right| = 0$. As a result, the gain $\mathcal G(\omega)$ at $\omega = \omega_c$ is approximately $3$ dB less than the gain at $\omega = 0$---the frequency $\omega_c$ is said to be the \textbf{3-dB Cutoff Frequency}.
+
+The 3-dB cutoff frequency $\omega_c$ for any filter will be the frequency for which
+\begin{equation}\label{eqn:cutoffFrequency}
+    \left|H(e^{j\omega_c})\right| = \frac{1}{\sqrt{2}} \left|H(e^{j0})\right|,
+\end{equation}
+that corresponds to a gain loss of approximately $3$ dB.
+
+In the above lowpass filter, to determine the gain at the cutoff frequency it is enough to impose
+\[
+    \left|H_0(e^{j\omega_c})\right|^2 = \cos^2{(\frac {\omega_c} {2})} = \frac 1 2,
+\]
+which yields $\omega_c = \frac \pi 2$---the $3$-dB cutoff frequency for the simplest lowpass digital filter is located exactly at half the frequency interval $[0, \pi]$.
+The $3$-dB cutoff frequency plays a crucial role in filters design, as it can be interpreted as the frequency at the \emph{edge of the passband region}.
+For \emph{lowpass} digital filters, frequencies split by the $\omega_c$ will either belong to the passband region or to the stopband region, as input components of frequencies greater than $\omega_c$ will be subject to attenuation by the filter.
+In the above, $\omega_c = \frac \pi 2$, the passband region is $[0, \frac \pi 2]$ and as a result the stopband region will be the remaining portion of higher frequencies, $[\frac \pi 2, \pi]$.
+The zero of $H_0(z)$ lies in the stopband of the filter (of course, as it causes the input frequency to be totally dissolved).
+
+As we have already seen, a cascade of moving average filters could be useful in order to improve the frequency response properties of the overall system, in particular related to performing lowpass to input signals---Figure~\ref{oct:simpleFiltersComparisonSingleThreeMPointMovingAverageFilters} highlights this property, showing off a better frequency response---when it comes to lowpass performance---for the bank of three filters.
+
+Generally speaking, a bank of $K$ sections results in a filter whose $3$-dB cutoff frequency will be
+\begin{equation}\label{eqn:simpleFiltersMovingAverageSectionsOmegaC}
+    \omega_c = 2\cos^{-1}{\left(2^{(-\frac 1 2 K)}\right)}.
+\end{equation}
+
+For $K = 3$, the above yields $\omega_c = 0.302\pi$.
+As one can see from Equation~\ref{eqn:simpleFiltersMovingAverageSectionsOmegaC}, the $\omega_c$ will actually decrease as $K$ increases, or alternatively, as $K$ increases the passband gets smaller and smaller.
+This behavior is actually a trade--off: greater $K$s allow to generate better frequency responses, but all of this comes at the cost of a smaller passband width.
+Better approximations to the \emph{ideal} lowpass filter---the rectangle filter---are given by higher-order moving average filters.
+Such filters have the property to remove sudden peaks and spurs presented by the input signal, de facto ``smoothing'' the signal.
+However, signals with abrupt changes overtime or which show spurs are typically high-frequency signals.
+$M$-point moving average filters have the property to remove spurs and abrupt changes induced by noise, but can also smoothe the signal, ultimately removing the high-frequency contents carried by the latter.
+
+In general, $2$-point moving average filters are a simple and straightforward way to quickly obtain a cheap and fast lowpass FIR digital filter, both with a low hardware cost and a small mental effort. The next section will cover the counterpart of these filters---the \emph{highpass FIR digital filters}.
+
+\section{Highpass FIR digital filters}
+\textbf{Highpass FIR digital filters} are the first category of simple digital filters we will encounter. The simplest of them is the $2$-point moving average filter, but replacing $z$ with $-z$. This involves a flip over the $z$ domain, and leads to
+\begin{equation}\label{eqn:twoPointMovingAverageFilterFIRHighpass}
+    H_1(z) = \frac 1 2 \left(1 - z^{-1}\right) = \frac {z-1} {2z}.
+\end{equation}
+
+Conversely to the previous case, the above has an \emph{anti-symmetric} impulse response composed of $N+1 = 2$ samples, therefore $N$ is again an odd number.
+Hence, we are in front of a \emph{Type 4} linear-phase FIR filter.
+As all linear-phase filters belonging to the fourth category, a zero $z = \zeta$ will be located at $\zeta = +1$.
+Same as before, a single pole is located at the origin $\xi = 0$.
+Again, we can draw the circumpherence along with the pole and zero vectors in a similar fashion as before.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
+        \draw[thick,-stealth] (0,-3.0) -- (0,3.0) node[anchor=south east] {$\Im z$};
+        \draw (2.0, 1pt) -- (2.0, -1pt) node[anchor=north east] {$1$};
+        \draw (-2.0, 1pt) -- (-2.0, -1pt) node[anchor=north east] {$-1$};
+        \node[draw, circle, thick, minimum size=4cm] at (0,0) {};
+        \node[draw, zeroz, thick](zero) at (+2, 0) {};
+        \node[draw, polez, thick](pole) at (0, 0) {};
+        \draw[-latex, green] (pole) -- (1.8421, 0.7788);
+        \draw[-latex, blue] (zero) -- (1.8421, 0.7788);
+        \draw[-latex, dashed, green] (pole) -- (1.3934, 1.4347);
+        \draw[-latex, dashed, blue] (zero) -- (1.3934, 1.4347);
+        \draw[-latex, dashed, green] (pole) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, blue] (zero) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, green] (pole) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, blue] (zero) -- (-1.6022, 1.1969);
+        \draw[-latex, dashed, green] (pole) -- (-0.4215, -1.9550);
+        \draw[-latex, dashed, blue] (zero) -- (-0.4215, -1.9550);
+        \node[] at (-2.35, .9)(hf) {$\omega = \pi$};
+        \node[] at (2.35, .8)(lf) {$\omega = 0$};
+        \draw[-stealth, dashed, thin] (hf) -- (-2, 0);
+        \draw[-stealth, dashed, thin] (lf) -- (2, 0);
+    \end{tikzpicture}
+\end{center}
+
+The figure clearly shows that, for the same example points as before, the behavior of the zero vector (in blue) is completely the opposite as before.
+Now, the magnitude of the zero vector is close to zero as $\omega \simeq 0$ and close to $2$---the diameter of the unit circle---as $\omega \simeq \pi$.
+Still, the pole is again at the origin, and that makes no difference in comparison with the previous case of the lowpass filter, since its magnitude will always be constant to $1$.
 
 
 \include{references}
