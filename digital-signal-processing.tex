@@ -86,7 +86,7 @@ frequencies, as a substitute for the more precise term spatial domain~\cite{bib:
 
 \section{Signal definition}
 
-In signal processing, a \textbf{signal} is a function that conveys information about a phenomenon. Signals are functions of independent variables, such as \emph{time}, \emph{distance}, \emph{position}, and so on. They are represented as se\-quen\-ces of numbers, called \emph{samples}. Signals are composed of samples---the single values of the signal at a certain, discrete time quantum $n \in \Z$. Signals will be denoted with $\{x[n]\}$ while samples will be denoted as $x[n]$. The variable $n$ may or may not be an integer, since the quantum of time may not be constant in some applications.
+In signal processing, a \textbf{signal} is a function that conveys information about a phenomenon. Signals are functions of independent variables, such as \emph{time}, \emph{distance}, \emph{position}, and so on. They are represented as se\-quen\-ces of numbers, called \emph{samples}. Signals are composed of samples---the single values of the signal at a certain, discrete time quantum $n \in \Z$. Signals will be denoted with $\{x[n]\}$ while samples will be denoted as $x[n]$. While the variable $n$ is usually an integer, in some applications it might be a real-valued number, as the quantum of time may not be constant overtime.
 
 Typically a discrete signal can be either a \emph{sampled-data signal} or a \emph{digital} signal. Both types of signals only exist in specific time quanta and they are likely the result of a sampling, but only digital signals have \emph{quantized} value---common sampled-data signals will possess continuous values. Values of digital signals are usually obtained from sample values either by \emph{rounding} or \emph{truncation} techniques---in both cases an error occurs and some information is inevitably lost.
 
@@ -149,20 +149,12 @@ straight line, in a similar fashion to the interpolation.
 
 \subsubsection{Complex signals}
 
-A signal can be either real or complex valued. A \emph{real se\-quen\-ce} comprises
-only real samples such that $x[i] \in \R, \forall i \in \Z$ while a
-\emph{complex se\-quen\-ce} has at least one complex sample $x[k] \in \C$. Complex
-se\-quen\-ces may be seen as the result of the sum of two, distinct, real
-se\-quen\-ces. In particular, by writing \[\{x[n]\} = \{x_{re}[n]\} +
-j\{x_{im}[n]\}\] two different se\-quen\-ces, one for real part and the other one
-for the imaginary part, are summed to form a single complex signal. It's easy
-to understand that a real valued signal can still be written as a complex
-signal, provided that $x_{im}[n] \equiv 0, \forall n$.
+A signal can be either real or complex valued. A \emph{real se\-quen\-ce} comprises only real samples such that $x[i] \in \R, \forall i \in \Z$ while a \emph{complex se\-quen\-ce} has at least one complex sample $x[k] \in \C$. 
+Complex se\-quen\-ces may be seen as the result of the sum of two, distinct, real se\-quen\-ces.
+In particular, by writing \[\{x[n]\} = \{x_{re}[n]\} + j\{x_{im}[n]\}\] two different se\-quen\-ces, one for real part and the other one for the imaginary part, are summed to form a single complex signal.
+It's easy to understand that a real valued signal can always be written as a complex signal, provided that $x_{im}[n] \equiv 0, \forall n$.
 
-A complex signal's short, alternative notation is \[\{x[n]\} = \{A[n]e^{-j\cdot
-f_t n}\},\] where the imaginary and real part are intrinsic in the exponential
-representation and can thus be obtained by decomposing it into a sine and a
-cosine addenda.
+A complex signal's concise, alternative notation is \[\{x[n]\} = \{A[n]e^{-j\cdot f_t n}\},\] where the imaginary and real part are intrinsic in the complex exponential representation and can thus be obtained by decomposing it into a sine and a cosine addenda.
 
 \subsubsection{Length of a signal}
 
@@ -172,7 +164,7 @@ In practice, no signal really has infinite length, but it could be useful to sti
 
 \subsubsection{Zero-padding}
 
-A signal may see its length varied by arbitrary operations. A very common operation in that regard is to increase the length of a signal by appending or prepending $0$s to the signal, in a process called \textbf{zero-padding}. This usually involves a finite-length signal becoming an infinite-length signal by applying an infinitely long list of $0$s on both sides of the original signal; it is not uncommon, however, to apply the zero-padding technique to only one side of the signal. Another way to handle zero-padding is to simply add a finite---yet necessary for specific needs---number of $0$s depending on the duty to perform.
+A signal may see its length varied by arbitrary operations. A very common operation in that regard is to increase the length of a signal by appending or prepending $0$s to the signal, in a process called \textbf{zero-padding}. This usually involves a finite-length signal becoming an infinite-length signal by applying an infinitely long list of $0$s on both sides of the original signal; it is not uncommon, though, to apply the zero-padding technique to only one side of the signal. Another way to handle zero-padding is to simply add a finite---yet necessary for specific needs---number of $0$s depending on the duty to perform.
 
 \subsubsection{Causality}
 
@@ -188,13 +180,13 @@ An important concept is the \textbf{strength} of a signal, also called \emph{siz
 \[
 ||x||_p = \left(\sum_{i=N_1}^{N_2} |x[n]|^p\right)^{\frac{1}{p}},
 \]
-where $p \in \N \setminus \{0\}$ is a positive integer, which is different from zero. In strength definition, one cannot ignore the specific value of the parameter $p$. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---in fact, RMS is the square root of the \textbf{mean} of the squares, but there's an additional $\frac{1}{\sqrt{n}}$ factor when it comes to the $2$-strength. The other two routine cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except for a constant factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal.
+where $p \in \N \setminus \{0\}$ is a positive integer, which is different from zero. In strength definition, one cannot ignore the specific value of the parameter $p$. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---in fact, RMS is the square root of the \textbf{mean} of the squares, but there's an additional $\frac{1}{\sqrt{n}}$ factor that the $2$-strength lacks. The other two routine cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except for a constant factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal.
 
 From the concept of signal strength, the concept of \emph{relative error} immediately arises. Let $\{y[n]\}, 0 \leq n \leq N - 1$ be an approximation of the signal $\{x[n]\}, 0 \leq n \leq N - 1$. In this case, one calls \textbf{relative error} the quantity
 \begin{equation}\label{eqn:RelativeError}
 	E_{rel} = \left(\frac{\sum_{n=0}^{N-1} |y[n] - x[n]|^2}{\sum_{n=0}^{N-1} |x[n]|^2}\right)^\frac{1}{2},
 \end{equation}
-which is the ratio of the $\mathcal L_2$-norm of the signal which is the difference between $y[n]$ and $x[n]$, and the $\mathcal L_2$-norm of the signal $\{x[n]\}$ alone. Everything is then square-rooted, as each $2$-norm is actually square-rooted from its definition.
+the ratio of the $\mathcal L_2$-norm of the signal which is the difference between $y[n]$ and $x[n]$, and the $\mathcal L_2$-norm of the signal $\{x[n]\}$ alone. The relative error between a sequence $y$ and a sequence $x$ is actually the $2$-strength of the difference between $y$ and $x$ across their length from sample $0$ to sample $N-1$, divided by the $2$-strength of the sequence $x$. Everything is square-rooted, as each $2$-norm is actually square-rooted from its definition.
 
 The numerator of such quantity can be considered as the error between se\-quen\-ces $x$ and $y$, while the denominator is the $2$-strength of a non-approximated se\-quen\-ce. We can interpret it as the ratio between a kind of `error' between sequences $y$ and $x$, measured through the $\mathcal L_2$-norm, and the overall $2$-strength of the sequence $x$.
 
@@ -242,7 +234,7 @@ Other elementary operations are the \emph{multiplication} operation and the \emp
     \node [](C) at(3,0){$y[n]$};
     \draw[->] (A) -- (B);
     \draw[->] (B) -- (C);
-\end{tikzpicture}\caption{Notation for the multiplication (product for a constant) operation.}\label{tikz:multiplication-operation}
+\end{tikzpicture}\caption{Notation for the multiplication (product for a constant $A$) operation.}\label{tikz:multiplication-operation}
 \end{center}
 \end{figure}
 
@@ -265,7 +257,7 @@ Much relevant elementary operations are, indeed, the \emph{time delay} and
 of the original signal, but translated in time (delayed in this case).
 Vice-versa, in the case of time advance, the signal copy of the original will be
 anticipated. In the first case, the adopted symbol is $z^{-1}$, while for the
-anticipation it is $z$. The reason why the anticipation and the delay symbols involve a $z$ letter will be clear in the following chapters. Hence, $y[n] = x[n - 1]$ and $y[n] = x[n + 1]$.
+anticipation it is $z$. The reason why the anticipation and the delay symbols involve a $z$ letter will be clear in the following chapters (related to $z$-Transforms). Hence, $y[n] = x[n - 1]$ in the case of the delay and $y[n] = x[n + 1]$ in the case of the anticipation.
 
 \begin{figure}[ht]
 \begin{center}
@@ -291,7 +283,7 @@ anticipation it is $z$. The reason why the anticipation and the delay symbols in
 \end{center}
 \end{figure}
 
-An interesting operation is the \emph{time reversal} or \emph{folding}. The folding operation inverts the time axis of a signal, that means $y[n] = x[-n]$. Any sample that was located on the positive axis is now ``reflected'' on the negative axis, and vice-versa. Time reversal does not have any explicit symbol, since it is an operation that requires a complete reflection of a signal from its origin point and should be handled carefully.
+An interesting operation is the \emph{time reversal} or \emph{folding}. The folding operation inverts the time axis of a signal, that means $y[n] = x[-n]$. Any sample that was located on the positive axis is now ``reflected'' on the negative axis, and vice-versa. Time reversal does not have any explicit symbol, since it is an operation that requires a complete reflection of a signal from its origin point and should be handled carefully. In particular, performing such operation requires to first collect the entire signal, as all output samples in the past should be collected from the future original signal.
 
 Yet another common `operation' is the \emph{branching} operation, in which a signal $w$ is simply the copy of the input signal, as well as the $y$ signal (a single input is copied into two outputs). Branching allows signals to flow into multiple blocks by copying it. Branching is shown in Diagram~\ref{tikz:branchingOperation}.
 \begin{figure}[ht]
@@ -317,9 +309,9 @@ A very powerful---although non elementary---operation to apply to a signal is th
 
 Suppose $i$-th measured signal $x_i$ has two components $x_i = s + d_i$, the
 first one relative to an original signal $s$ and the noise component $d_i$, which
-varies according to the measurement. The ensamble average of the $K$ measurements is the signal $x_{avg}$ such that
+varies according to the measurement. Each measurement will measure the same signal $s$, but carry its own noise $d_i$. The ensemble average of the $K$ measurements is the signal $x_{avg}$ built from the mean of $K$ measurements of $s + d$,
 \begin{equation}\label{eqn:EnsambleAveraging}
-	x_{avg} = \frac{1}{K}\sum_{i=1}^{K} s + d_i = s + \frac{1}{K}\sum_{i=1}^{K}d_i,
+	x_{avg} = \frac{1}{K}\sum_{i=1}^{K} (s + d_i) = s + \frac{1}{K}\sum_{i=1}^{K}d_i,
 \end{equation}
 which tends to the original signal $s$ as the number of signals $K \rightarrow \infty$ approaches infinity. The benefit of the ensemble averaging lies in the fact that the variance of the white noise $d_i$ is reduced by a factor of $K$, leading to a reasonable replica of the original signal $s$. An example of application of ensemble averaging is shown in Figure~\ref{oct:ensembleAveraging}.
 
@@ -358,6 +350,8 @@ original signal:
 		\end{array}
 	\right.
 \end{equation}
+
+Such definition means that the output sequence will be composed of zeros, except at those samples at which $n$ is a multiple of the interpolation factor $L$.
 
 Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tikz:upsamplingOperation}. Upsampling is usually followed by \emph{interpolation} to produce an actually meaningful signal.
 
@@ -405,7 +399,7 @@ The result of downsampling is a se\-quen\-ce in which some values are missing, t
 
 There are several ways to classify a se\-quen\-ce.
 
-The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$. Summing up, one obtains $x[n]$.
+The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymmetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$, and by summing up one obtains $x[n]$.
 
 Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{GCD}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{GCD}$ is the ``greatest common divisor'' operation;
 
@@ -413,22 +407,26 @@ One can also compute the \textbf{total energy} of a signal $x$, defined as the q
 \begin{equation}\label{eqn:totalEnergy}
     \mathcal E_x = \sum_{n=-\infty}^{\infty} | x[n] |^2.
 \end{equation}
-A finite-length se\-quen\-ce will possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Among with the definition of energy, it comes the definition of \textbf{average power} of a signal, which is, specifically,
+A finite-length se\-quen\-ce will possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Indeed, such summation could easily lead to a not limited result, as the argument (the sequence $x$) might be such that $\mathcal E_x$ is an infinite quantity. Soon after the definition of energy, it comes the definition of \textbf{average power} of a signal, which is, essentially,
 \begin{equation}\label{eqn:averagePower}
-    P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2.
+    P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2,
 \end{equation}
-The average power formula may depend on the nature of the signal. In particular,
+an energy-like sum over $2K + 1$ values centered in the origin, with $K \rightarrow \infty$. We might call the summation $\mathcal E_{x, K} = \sum_{n=-K}^{K}|x[n]|^2$---an energy-like term which is calculated from sample $-K$ to sample $K$ rather than all possible samples, something that instead occurrs when computing the total energy of a signal;
+
+The average power formula depends on the nature of the signal. In particular, it will vary if the signal in exam is periodic or aperiodic:
 \begin{itemize}
     \item regarding \emph{aperiodic} signals, the average power is
         \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2, \]
     and---recalling the definition of total energy---can thus be rewritten as
     \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \mathcal E_{x,K}; \]
     \item regarding \emph{periodic} signals with period $N$, the average power is
-        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
+        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}. 
 \end{itemize}
-A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce since \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
+We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
 
-A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}. An absolutely summable sequence is a sequence such that
+A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce because, simply, \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
+
+A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since one can show that \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}. An absolutely summable sequence is a sequence such that
 \begin{equation}\label{eqn:absolutelySummableSequence}
     \sum_{n=-\infty}^{\infty}|x[n]| < \infty.
 \end{equation}
@@ -436,11 +434,13 @@ As we will see later, absolute summability implies that the Fourier transform co
 
 At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. Se\-quen\-ces can be absolutely summable but not squa\-re-sum\-ma\-ble, and the contrary can occur as well. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
 
+Square-summability property overlaps with the definition of \emph{total energy}, as in Equation~\ref{eqn:totalEnergy}. In fact, requiring that a sequence is square-summable automatically implies that the considered sequence should have a \emph{finite} total energy---vice versa, a not square-summable sequence will possess an \emph{infinite} total energy. Of course, it should be clear that both absolute- and square-summability conditions must be evaluated with a summation across \emph{all} samples of the sequence---that is, from $-\infty$ to $\infty$---rather than across a limited portion of samples. The latter case, in practice, is only virtually obtained with sequences having a limited number of samples, for which a zero-padding operation must be enforced for both the left side and the right side of the signal, resulting in a summation-by-zero of samples outside the range of non-zero samples of the considered signal.
+
 \section{Basic se\-quen\-ces}
 Basic se\-quen\-ces are the fundamental se\-quen\-ces that will be encountered throughout the study of signals.
 There are several kinds of notable basic se\-quen\-ces. All of them possess peculiar properties which are paramount to the discipline of signal theory.
 
-The first one to be mentioned is the \textbf{unit sample se\-quen\-ce}, also called the \textbf{impulse se\-quen\-ce}. It is a special signal whose only sample different from zero is the sample in the origin: \[\delta[n] = \left\{\begin{array}{ll} 1 & n = 0\\ 0 & n \neq 0 \end{array}\right..\]
+The first one to be mentioned is the \textbf{unit sample se\-quen\-ce}, also called the \textbf{impulse se\-quen\-ce} and denoted as $\delta[n]$. It is a special signal whose only sample different from zero is the sample in the origin, whose value is exactly $1$: \[\delta[n] = \left\{\begin{array}{ll} 1 & n = 0\\ 0 & n \neq 0 \end{array}\right..\]
 
 \begin{center}
 \begin{tikzpicture}
