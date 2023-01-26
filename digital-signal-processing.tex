@@ -562,17 +562,25 @@ Complex exponential sequences are capable, in some way, of incorporating the beh
 
 Another paramount property revolves around the oscillation frequency of a sinusoid $x[n]=\cos{(\omega_0 n)}$. In practice, the frequency of oscillation increases as $\omega_0$ goes from $0$ to $\pi$, while the contrary happens when moving from $\pi$ to $2\pi$. What does this mean?
 
-That is a property of \emph{discrete} sinusoids: the frequency of oscillation is the greatest around $\omega=\pi$, while it is the lowest possible for frequencies close to $0$ or close to $2\pi$. The first frequencies are said to be \textbf{high frequencies}, while the latter ones are the \textbf{low frequencies}.
+That is a property of \emph{discrete} sinusoids: the frequency of oscillation is the greatest around $\omega=\pi$, while it is the lowest possible for frequencies close to $0$ or close to $2\pi$. The first frequencies are said to be \textbf{high frequencies}, while the latter ones are indeed the \textbf{low frequencies}.
 
 For the first considered property, a sinusoidal se\-quen\-ce having frequency $\omega_0$ in the neighborhood of $\omega=2\pi k$ is indistinguishable from another sinusoidal se\-quen\-ce whose frequency is $\omega_0 - 2 \pi k$, in the neighborhood of $\omega = 0$. Along with the same reasoning, any frequency $\omega_0$ in the neighborhood of $\omega = \pi (2k + 1)$ is indistinguishable from a frequency $\omega_0 - \pi(2k + 1)$ in the neighborhood of $\omega = \pi$.
 
-Actually, what happens is that the oscillation shows a \emph{periodic} behavior across the frequency---hence, it is possible to describe the entire frequency space with the sole range of values $[0, \pi]$, as the other half $[\pi, 2\pi]$ is completely symmetric to the first range.
+Actually, what happens is that the oscillation shows a \emph{periodic} behavior across the frequency---hence, it is possible to describe the entire frequency space with the sole range of values $[0, \pi]$, as the other half $[\pi, 2\pi]$ is completely symmetric to the first range (what, in practice, occurs is that a discrete sinusoid increases its oscillation frequency moving from $0$ towards $\pi$, and decreases the other way around from $\pi$ to $2\pi$; the increasing and decreasing patterns are completely symmetric).
 
-As previously said, frequencies in neighborhood of $\omega = 2 \pi k$ are the low frequencies, in contrast to those in the neighborhood of $\omega = \pi (2k + 1)$ that are the high frequencies. As an example, the se\-quen\-ce \[v_1[n] = \cos{(0.1 \pi n)} \equiv \cos{(1.9\pi n)}\] is a low frequency signal, while se\-quen\-ce \[v_2[n] = \cos{(0.8 \pi n)} \equiv \cos{(1.2\pi n)}\] is a high frequency one.
+As previously said, frequencies in neighborhood of $\omega = 2 \pi k$ are the low frequencies, in contrast to those in the neighborhood of $\omega = \pi (2k + 1)$ that are the high frequencies. As an example, the se\-quen\-ce 
+\[
+    v_1[n] = \cos{(0.1 \pi n)} \equiv \cos{(1.9\pi n)}
+\] 
+is a low frequency signal, while se\-quen\-ce 
+\[
+    v_2[n] = \cos{(0.8 \pi n)} \equiv \cos{(1.2\pi n)}
+\] 
+is a high frequency one. 
 
 \subsection{Representation of a se\-quen\-ce with basic se\-quen\-ces}
 
-Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weighted sum} of some basic se\-quen\-ces and its delayed--advanced versions.
+Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weighted sum} of some basic se\-quen\-ces and its delayed--advanced versions. The trick works by making use of many impulse sequences, each to describe a single non-zero sample of the original sequence:
 
 \begin{center}
 \begin{tikzpicture}
