@@ -495,9 +495,18 @@ Defined as \[\mu[n] = \left\{\begin{array}{ll}1, & n \geq 0 \\ 0, & n < 0\end{ar
 
 A \textbf{real sinusoidal se\-quen\-ce} is a se\-quen\-ce defined as \[x[n] = A\cos{(\omega_0 n + \varphi)},\] where $A$ is the \emph{amplitude} of the sinusoid, $\omega_0$ is the \emph{angular frequency} and $\varphi$ is the \emph{phase} of $x[n]$. A real sinusoid se\-quen\-ce therefore possesses amplitude, (angular) frequency and phase as its intrinsic and fundamental properties. Sinusoids fulfill an important role as they are signals whose amplitude and frequency stays the same throughout the time and are describable with sine and cosine, both to be considered ``elementary'' functions.
 
-An indeed important family of se\-quen\-ces are the \textbf{exponential se\-quen\-ces}, all of them having form \[x[n] = A\alpha^n, -\infty < n < \infty,\] where $A, \alpha \in \C$ can be either real or complex numbers. The quantity $\alpha$ is chosen such that its module is equal to $1$, that is $|\alpha| = 1$. Hence, $\alpha = e^{(\sigma_0 + j \omega_0)}$ and $A = |A|e^{j\varphi}$. The various kinds of exponentials arise from peculiar choices of coefficient and basis, as the behavior will dramatically change depending on the nature of both.
+An indeed important family of se\-quen\-ces are the \textbf{exponential se\-quen\-ces}, all of them having the form \[x[n] = A\alpha^n, -\infty < n < \infty,\] where $A, \alpha \in \C$ can be either real or complex numbers.
+The quantity $\alpha$ is chosen such that its module is equal to $1$, that is $|\alpha| = 1$.
+Hence, $\alpha = e^{(\sigma_0 + j \omega_0)}$ and $A = |A|e^{j\varphi}$.
+The various kinds of exponentials arise from peculiar choices of coefficient and basis, as the behavior will dramatically change depending on the nature of both.
 
-In general, an exponential se\-quen\-ce can be either expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n},\] or by a partitioning into real and imaginary part of the se\-quen\-ce, that is \[x[n] = x_{re}[n] + jx_{im}[n].\] By joining the two, one has
+In general, an exponential se\-quen\-ce can be either expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n},\] or by a partitioning into real and imaginary part of the se\-quen\-ce, that is 
+\begin{align*}
+    x[n] &= x_{re}[n] + jx_{im}[n],\\
+         &= |A|e^{\sigma_0n}\cos{(\omega_0 n + \varphi)} \\
+         &+ j|A|e^{\sigma_0n}\sin{(\omega_0 n + \varphi)}.
+\end{align*}
+By separating the two, one can identify the real and imaginary components as
 \begin{align}
     x_{re}[n] & = |A|e^{\sigma_0n}\cos{(\omega_0 n + \varphi)},\\
     x_{im}[n] & = |A|e^{\sigma_0n}\sin{(\omega_0 n + \varphi)}.
@@ -515,7 +524,7 @@ Both sinusoidal se\-quen\-ces and (constant in amplitude, having $\sigma_0 = 1$)
 \begin{equation}\label{eqn:sinusoidExponentialPeriod}
 \omega_0 N = 2\pi r
 \end{equation}
-holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \emph{fundamental period} of the se\-quen\-ce. A proof for this is soon given.
+holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \emph{fundamental period} of the se\-quen\-ce. A proof for this is soon to be given.
 \begin{proof}
 In order to verify this, two very similar se\-quen\-ces must be picked---the same original se\-quen\-ce and a shifted of $N$ samples copy:
 \begin{align}
@@ -529,21 +538,27 @@ Now, the second se\-quen\-ce can be soon rewritten as
            &= \cos{(\omega_0 n + \varphi)}\cos{\omega_0 N} - \sin{(\omega_0 n + \varphi)}\sin{\omega_0 N}.\label{eqn:proofSinusoidPeriod}
 \end{align}
 
-The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $\pi$; that is equivalent to say that $N$ is the period of the sequence. Alternatively, the very same equation---but re\-\"ar\-ran\-ged---must be satisfied,
+    The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $2\pi$; that is equivalent to say that \emph{$N$ is the period of the sequence}. Alternatively, the very same equation---but re\-\"ar\-ran\-ged---must be satisfied,
 \begin{equation}\label{eqn:sinusoidExponentialPeriodFraction}
     \frac{2\pi}{\omega_0} = \frac{N}{r}.
 \end{equation}
 \end{proof}
 
-Along with this proof, one might say that $N$ is the \emph{true} period, while the quantity $\frac{N}{r}$ is the \emph{apparent} period---the one of the implied continuous function. In fact, if $\frac{2\pi}{\omega_0}$ is a noninteger rational number, then the period will be a multiple of $\frac{2\pi}{\omega_0}$, which basically means $r > 1$. Otherwise, in the case of an irrational $\frac{2\pi}{\omega_0}$ the discrete se\-quen\-ce will be aperiodic.
+Along with this proof, one might say that $N$ is the \emph{true} period, while the quantity $\frac{N}{r}$ is the \emph{apparent} period---the one of the implied continuous function.
+In fact, if $\frac{2\pi}{\omega_0}$ is a noninteger rational number, then the period will be a multiple of $\frac{2\pi}{\omega_0}$, which basically means $r > 1$.
+In this case, $\omega_0$ must be an irrational number which contains $\pi$ in order for it to cancel with $\pi$ on the numerator and yield an overall rational number.
+Otherwise, we are in the case of an irrational $\frac{2\pi}{\omega_0}$ and the resulting \emph{discrete} se\-quen\-ce will be aperiodic.
+Essentially, for a discrete sinusoid to be a periodic sequence the angular frequency $\omega_0$ should be an irrational number so that it cancels out with $\pi$.
 
-For instance, if one considers \[x[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order to fulfill the condition of rationality.
+For instance, if one considers \[x[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled.
 
 \subsection{Frequency properties of basic sinusoidal se\-quen\-ces}
 
 Let's now focus on the peculiar properties of sinusoidal and exponential basis se\-quen\-ces.
 
-To begin with, consider se\-quen\-ces $x[n] = \exp{j \omega_1 n}$ and $y[n] = \exp{j \omega_2 n}$, with $0 \leq \omega_1 < \pi$ and $2 \pi k \leq \omega_2 < \pi(2k+1)$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ are \emph{indistinguishable} from each other. The effect is induced by the peculiar choice of $\omega_2$, exactly $\omega_1$ plus a multiply of $2\pi$. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$ leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will be exactly the same as the original one.
+To begin with, consider se\-quen\-ces $x[n] = \exp{j \omega_1 n}$ and $y[n] = \exp{j \omega_2 n}$, with $0 \leq \omega_1 < \pi$ and $2 k \pi \leq \omega_2 < (2k+1)\pi$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ are \emph{indistinguishable} from each other. The effect is induced by the peculiar choice of $\omega_2$, exactly $\omega_1$ plus a multiply of $2\pi$. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$ leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will be exactly the same as the original one.
+
+Complex exponential sequences are capable, in some way, of incorporating the behavior of a single angular frequency through a system---$\omega_0$---so that their properties regarding their frequency reflect in general to the same frequency $\omega_0$ in all kinds of signals. Therefore, an angular frequency $\omega_2 = \omega_1 + 2k \pi$ on any sequence is subjected to the above property as well: $\omega_2$ is indistinguishable from $\omega_1$.
 
 Another paramount property revolves around the oscillation frequency of a sinusoid $x[n]=\cos{(\omega_0 n)}$. In practice, the frequency of oscillation increases as $\omega_0$ goes from $0$ to $\pi$, while the contrary happens when moving from $\pi$ to $2\pi$. What does this mean?
 
