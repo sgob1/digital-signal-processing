@@ -420,8 +420,10 @@ The average power formula depends on the nature of the signal. In particular, it
     and---recalling the definition of total energy---can thus be rewritten as
     \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \mathcal E_{x,K}; \]
     \item regarding \emph{periodic} signals with period $N$, the average power is
-        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}. 
+        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}.
 \end{itemize}
+The difference between periodic and aperiodic formulations of average power lies in the width of the summation interval. In the case of periodic sequences one has to perform a sum over just a period consisting of a total of $N$ samples, while in the case of aperiodic sequences the average power must be evaluated in an interval whose length is $2K + 1$, with a limit of $K \rightarrow \infty$.
+
 We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
 
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce because, simply, \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
@@ -535,7 +537,8 @@ In order to verify this, two very similar se\-quen\-ces must be picked---the sam
 Now, the second se\-quen\-ce can be soon rewritten as
 \begin{align}
     x_2[n] &= \cos{(\omega_0 (n + N) + \varphi)},\\
-           &= \cos{(\omega_0 n + \varphi)}\cos{\omega_0 N} - \sin{(\omega_0 n + \varphi)}\sin{\omega_0 N}.\label{eqn:proofSinusoidPeriod}
+           &= \cos{(\omega_0 n + \varphi + \omega_0 N)}\\
+           &= \underbrace{\cos{(\omega_0 n + \varphi)}}_{x_1[n]}\cos{\omega_0 N} - \sin{(\omega_0 n + \varphi)}\sin{\omega_0 N}.\label{eqn:proofSinusoidPeriod}
 \end{align}
 
     The \ref{eqn:proofSinusoidPeriod} will be equal to $x_1[n]$ if and only if \begin{equation}\sin{\omega_0 N} = 0 \wedge \cos{\omega_0 N} = 1,\end{equation} two conditions that are met if and only if the \ref{eqn:sinusoidExponentialPeriod} is satisfied, which occurs only when the argument $\omega_0 N$ is exactly a multiple of $2\pi$; that is equivalent to say that \emph{$N$ is the period of the sequence}. Alternatively, the very same equation---but re\-\"ar\-ran\-ged---must be satisfied,
@@ -608,7 +611,7 @@ Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weig
 \end{tikzpicture}
 \end{center}
 
-In the above example, the se\-quen\-ce $x[n]$ is represented by a weighted sum of $\delta$ impulses $A\delta[n-\tau]$ with amplitude $A$ having the same value of the original se\-quen\-ce at the sample with position $-\tau$ from the origin.
+In the above example, the se\-quen\-ce $x[n]$ is represented by a weighted sum of $\delta$ impulses $A\delta[n-\kappa]$ with amplitude $A$ having the same value of the original se\-quen\-ce at the sample with position $-\kappa$ from the origin. The function $A$ will module such a sum, yielding the original sequence to be described.
 
 
 \section{The sampling process}
@@ -619,28 +622,38 @@ The relationship between the original con\-ti\-nuo\-us-time signal and the discr
 \[
     x[n] = x_a(t)\Bigr\rvert_{t=nT} = x_a(nT), n = \dots,-2,-1,0,1,2,\dots
 \]
-The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ at \emph{some} samples $nT$. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period $T$.
+The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ \emph{at some samples} $nT$, discarding every other point. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period $T$ out of an original continuous-time signal $x_a(t)$.
 
-The time variable $t$ of the con\-ti\-nuo\-us-time signal $x_a(t)$ is related to the time variable $n$ of $x[n]$ only in some discrete-time instants $t_n$ that must abide to the following rule,
+The time variable $t$ of the con\-ti\-nuo\-us-time signal $x_a(t)$ is related to the time variable $n$ of $x[n]$ only in some discrete-time instants $t_n$, and each of them must abide to the following rule,
 \begin{equation}\label{eqn:timeSamplingRule}
     t_n = nT = \frac n {F_T} = \frac {2\pi n} {\Omega_T},
 \end{equation}
-with $F_T = \frac 1 T$ denoting the sampling frequency, as expected. Indeed, $\Omega_T = 2\pi F_T = \frac{2\pi}{T}$ is the \emph{sampling angular frequency}, in a constant multiplication-factor relationship between the sampling frequency.
+with $F_T = \frac 1 T$ denoting the \emph{sampling frequency}, as expected. Indeed, $\Omega_T = 2\pi F_T = \frac{2\pi}{T}$ is a notable term which is called the \emph{sampling angular frequency}; the term is put in a constant multiplication-factor of $2\pi$ relationship between the sampling frequency, so one can say the two terms are bound together.
 
 Let's now consider the con\-ti\-nuo\-us-time sinusoidal signal
 \[
     x_a(t) = A\cos{(2\pi f_0 t + \varphi)} = A\cos{(\Omega_0 t + \varphi)}
 \]
-and perform a sampling process with sampling period $T$. The resulting se\-quen\-ce will be
+and perform a sampling process with sampling period $T$. 
+The resulting se\-quen\-ce will be
 \begin{align}
-    x[n] &= A\cos{(\Omega_0 n T + \varphi)} = A\cos{(\underbrace{\frac{2\pi \Omega_0}{\Omega_T}}_{\omega_0} n + \varphi)}, \\
+    x[n] &= A\cos{(\Omega_0 n T + \varphi)} = A\cos{(\underbrace{\Omega_0 \frac{2\pi}{\Omega_T}}_{\omega_0} n + \varphi)}, \\
          &= A\cos{(\omega_0 n + \varphi)},
 \end{align}
-where the angular frequency $\omega_0 := 2 \pi \frac {\Omega_0} {\Omega_T} = \Omega_0 T$ is the \emph{normalized digital angular frequency} of the se\-quen\-ce $x[n]$. Notice that an analog function generates \emph{different} sampled se\-quen\-ces according to the choice of the sampling period $T$. Indeed, \emph{different} sine functions can generate \emph{the same} sampled se\-quen\-ce if a peculiar $T^*$ is selected.
+where the \textbf{angular frequency} 
+\[
+    \omega_0 := 2 \pi \frac {\Omega_0} {\Omega_T} = \Omega_0 T
+\]
+is called the \emph{normalized digital angular frequency} of the se\-quen\-ce $x[n]$. Notice that an analog function generates \emph{different} sampled se\-quen\-ces according to the choice of the sampling period $T$. Indeed, \emph{different} sine functions can generate \emph{the same} sampled se\-quen\-ce if a peculiar $T^*$ is selected.
 
-\subsubsection{Measurement units}
+A normalized digital angular frequency is ultimately composed of three elements:
+\begin{enumerate}
+    \item a constant multiplication factor of $2\pi$;
+    \item the angular frequency of the original continuous-time signal $\Omega_0$;
+    \item the angular sampling frequency $\Omega_T$.
+\end{enumerate}
 
-Measurements units are the following ones,
+Measurements units for some of the just introduced quantities are the following ones,
 \begin{itemize}
     \item $T$ measures in seconds;
     \item $\omega_0$ in radians/sample;
@@ -675,7 +688,8 @@ Now, since
 
 all three se\-quen\-ces result to be identical. Therefore, it is rather difficult---let alone possible---to associate a unique con\-ti\-nuo\-us-time function with each of these se\-quen\-ces.
 
-The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation.
+The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation. 
+Otherwise, one would inevitably incur in some aliasing phenomena.
 
 Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain a discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
 \begin{align*}
@@ -694,7 +708,7 @@ To do so, one should perform the following algebraic transformations,
     v[n] &= 8 \cos{0.3 \pi n} + 5 \cos{(0.5 \pi n + 0.6435)} - 10 \sin{0.7\pi n}.
 \end{align*}
 
-In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequencies $0.3\pi$, $0.5\pi$ and $0.7\pi$.
+In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequencies $0.3\pi$, $0.5\pi$ and $0.7\pi$. This is the kind of algebraic transformations that allows for an aliasing-free representation of a sequence.
 
 However, that's not the only signal possible that is capable of generating that very same sequence. Veritably, also the two following signals $w_a(t)$ and $g_a(t)$
 \begin{align*}
@@ -703,25 +717,27 @@ However, that's not the only signal possible that is capable of generating that 
            &+ 6\cos{460\pi t} + 3 \sin{700\pi t}
 \end{align*}
 will produce the very same sequence $v[n]$.
+However, they are \emph{not} a normalized representation.
 
-To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular frequency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur. 
+To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textbf{Nyquist Sampling Theorem} dictates, since $\omega_0 = \frac{2\pi \Omega_0}{\Omega_T}$, if $\Omega_T > 2\Omega_0$ the corresponding normalized digital angular frequency $\omega_0$ of the discrete-time signal obtained by sampling the parent continuous-time sinusoidal signal will be in the range $-\pi < \omega < \pi$, and no aliasing phenomena would occur.
+This happens because, if the above condition is true, the term $\left|\frac{2\pi \Omega_0}{\Omega_T}\right| < \pi$ and the sequence will be fully representable in the range $[0, \pi]$, which is the requirement for digital signals.
 
-In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall in the range $-\pi < \omega < \pi$, then it will fold over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
+In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall outside the interval $[-\pi, \pi]$ folding over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
 
+That's another way of looking at why the frequencies fold around $2\pi$, or at why the frequency domain repeats periodically in the interval $[0, 2\pi]$.
 
-\subsection{Generalization}
+\subsection{Generalization for sampling of continuous-time signals}
 
-Let's consider an arbitrary continuous-time signal $x_a(t)$, composed of a weighted sum of an arbitrary, finite number of sinusoidal signals. The signal might be uniquely represented---completely avoiding the aliasing effect---by a sequence $\{x[n]\}$, a sampled version of the original signal $x_a(t)$ with sampling frequency $\Omega_T$ that should be \emph{greater than the double of} the highest frequency in the signal $x_a(t)$. For instance, suppose $x_a$ contains a sinusoid whose frequency $f_h$ is the highest of all sinusoids in $x_a$; in order to avoid the aliasing effect, a correct choice for the angular sampling frequency would be $\Omega_T > 2\pi f_h$.
+Let's consider an arbitrary continuous-time signal $x_a(t)$, composed of a weighted sum of an arbitrary, finite number of sinusoidal signals. The signal might be uniquely represented---completely avoiding the aliasing effect---by a sequence $\{x[n]\}$, a sampled version of the original signal $x_a(t)$ with sampling frequency $\Omega_T$ that should be \emph{greater than the double of} the highest frequency in the signal $x_a(t)$. For instance, suppose $x_a$ contains a sinusoid whose frequency $f_h$ is the highest of all sinusoids in $x_a$; in order to avoid the aliasing effect, a correct choice for the angular sampling frequency would be $\Omega_T > 2\pi f_h$. Disrespecting this rule will inevitably lead to an aliased representation by the sampled signal.
 
 
 \chapter{Discrete-time Systems}
 
 \textbf{Discrete time} views values of variables as occurring at distinct, separate ``points in time'', or equivalently as being unchanged throughout each non-zero region of time (``time pe\-ri\-od'')---that is, \emph{time is viewed as a discrete variable} rather than as a continuous one. Thus a non-time variable jumps from one value to another as time moves from one time period to the next. This view of time corresponds to a digital clock that gives a fixed reading of 10:37 for a while, and then jumps to a new fixed reading of 10:38, etc. In this framework, each variable of interest is measured once at each time period. The number of measurements between any two time periods is finite. Measurements are typically made at sequential integer values of the variable ``time''~\cite{bib:discreteTimeSystems}.
 
-A \textbf{discrete-time system} is a system that processes a given \emph{input sequence} $x[n]$ to generate an \emph{output sequence} $y[n]$ with certain characteristics derived from both the input sequence and the system. Typically, one has a single-input, single-output discrete-time system, whose general diagram is of the following kind,
+A \textbf{discrete-time system} is a system that processes a given discrete \emph{input sequence} $x[n]$ to generate a discrete \emph{output sequence} $y[n]$ with certain characteristics derived from both the input sequence and the system. Typically, one has a single-input, single-output discrete-time system, whose general diagram is of the following kind,
 \begin{center}
 \begin{tikzpicture}
-
     \node                 (input)                                 {$x[n]$};
     \node[squarednode, thick, label=above:{\footnotesize{\emph{Discrete-time System}}}, minimum width=2cm]    (operation)     [right=of input]        {$\mathcal H(\cdot)$};
     \node                 (output)        [right=of operation]    {$y[n]$};
@@ -730,9 +746,9 @@ A \textbf{discrete-time system} is a system that processes a given \emph{input s
     \draw[->] (operation.east) -- (output.west);
 \end{tikzpicture}
 \end{center}
-Sure thing, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$ that transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and depend on the requirements.
+Sure thing, the discrete-time system is characterized by an operator $\mathcal H(\cdot)$, which transforms the input sequence $x$ into another sequence $y$, the output. Resulting output will possess some characteristics that should be desirable and ultimately depend on the requirements.
 
-We have already seen some examples of discrete-time systems. For instance, two of these were the \emph{modulator} and the \emph{adder} discrete-time systems, both $2$-input, $1$-output systems.
+More generally, a discrete-time system may take as inputs a \emph{multitude} of input sequences, to produce a single output sequence. We have already seen some examples of these multiple-input discrete-time systems. For instance, two of these were the \emph{modulator} and the \emph{adder} discrete-time systems, both $2$-input, $1$-output systems.
 \begin{center}
     \begin{tikzpicture}
     \node [](A){$x[n]$};
@@ -790,7 +806,7 @@ In addition, multiple elementary operators may be combined together to form a mu
     \draw[-stealth, thick] (alpha4) |- (adder);
     \draw[-stealth, thick] (adder) -- (output);
 
-\end{tikzpicture}\caption{A one-input, one-output discrete-time system that shows concatenation of multiple elementary operators to form a more complex graph and a more convoluted input--output relationship.} \label{tikz:moreComplexDiscreteTimeSystem}
+\end{tikzpicture}\caption{An example of a one-input, one-output discrete-time system that shows concatenation of multiple elementary operators to compose a more complex graph and a way more complicated input--output relationship than seen for the previously basic examples.} \label{tikz:moreComplexDiscreteTimeSystem}
 \end{center}
 \end{figure*}
 
@@ -804,17 +820,19 @@ The first fundamental discrete-time system we will meet is the \textbf{accumulat
          &= \sum_{i=-\infty}^{n-1} x[i] + x[n]\\
          &= y[n-1] + x[n].\label{eqn:accumulatorEquation}
 \end{align}
-which establishes that the output $y[n]$ at the time instant $n$ is the sum of two terms, the first one being the input at the time instant $n$, $x[n]$, and the second one being the previous output $y[n-1]$ at the previous time instant $n-1$. The latter addendum is the sum of all previous input sample values, from the beginning of the signal to the previous time instant---that is, from sample $-\infty$ to sample $n-1$.
+which establishes that the output $y[n]$ at the time instant $n$ is the sum of two terms, the first one being the input at the time instant $n$, $x[n]$, and the second one being the previous output $y[n-1]$ at the previous time instant $n-1$. The latter addendum is the sum of all previous input sample values, from the beginning of the signal to the previous time instant---that is, from sample $-\infty$ to sample $n-1$---which collects all previous elements, performing an \emph{accumulation} of values, potentially infinite in size.
 
 An accumulator, as its name suggests, \emph{cumulatively adds} all input sample values from the beginning of the signal history up to the current time instant $n$. This behavior is indeed evident by looking at the terms in the sides of Equation~\ref{eqn:accumulatorEquation}.
 
-Any accumulator could be split into two terms, a first being a constant, and the second one capable of describing a \emph{causal} input sequence. In truth,
+A notable property for accumulators is that any of them could be split into two terms, a first being a constant, and the second one capable of describing a \emph{causal} input sequence.
+
+One has, for any accumulator,
 \begin{align}
     y[n] &= \sum_{i=-\infty}^{n} x[i] \\
-         &= \sum_{i=-\infty}^{-1} x[i] + \sum_{i=0}^{n}x[i]\\
+         &= \underbrace{\sum_{i=-\infty}^{-1} x[i]}_{\mbox{up to } 0} + \underbrace{\sum_{i=0}^{n}x[i]}_{\mbox{from } 0}\\
          &= y[-1] + \sum_{i=0}^n x[n].\label{eqn:accumulatorCausalEquation}
 \end{align}
-where the first term $y[-1]$ is said to be \emph{initial condition}, while the second term is fit to describe a \emph{causal} input sequence, as it is a sum starting from time instant $0$. Basically, this means that \emph{any accumulator can be described with a causal input sequence and with its initial conditions}, as \ref{eqn:accumulatorCausalEquation} suggests. This property reveals to be of paramount importance when describing accumulators in general, especially if one wants to build a discrete-time system that only takes in account causal input signals, starting from time interval $0$ and going on.
+where the first term $y[-1]$ is said to be \emph{initial condition}, while the second term is fit to describe a \emph{causal} input sequence, as it is a sum starting from time instant $0$. Basically, this means that \emph{any accumulator can be described with a causal input sequence and its initial conditions}, as \ref{eqn:accumulatorCausalEquation} suggests. Every value up to $0$ can be collapsed into a single term $y[-1]$ summing up all terms before $0$. This property reveals to be of paramount importance when describing accumulators in general, especially if one wants to build a discrete-time system that only takes in account causal input signals, starting from time interval $0$ and going on.
 
 \subsection{$M$-point Moving-Average System}
 
