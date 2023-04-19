@@ -216,7 +216,7 @@ The numerator of such quantity can be considered as the error between se\-quen\-
 
 \subsection{Operations on se\-quen\-ces}\label{sec:operationsOnSequences}
 
-Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there is an input se\-quen\-ce and an output se\-quen\-ce resulting from the operation. Of course, there may be well more than one input and one output.
+Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there are (possibly multiple) input se\-quen\-ces and (possibly multiple) output se\-quen\-ces resulting from the operation. Of course, there may be well more than one input and one output. Operations in general can be seen as \textbf{discrete-time systems} as they allow manipulation of discrete-time sequences.
 
     \begin{figure}[ht]
 \begin{center}
@@ -232,7 +232,7 @@ Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can
 \end{center}
 \end{figure}
 
-Basic signal operations are called \textbf{elementary operations}. The first elementary operation is the \emph{modulation}, an operation in which a signal $x$ is multiplied by another signal, say $w$, to produce an output signal $y$ such that $$y[n] = x[n]\cdot w[n].$$ A common application of the modulation is the \emph{windowing} process, in which an infinite-length signal $x$ is ``windowed'' by a finite-length signal $w$, whose non-zero values are limited to a finite interval and the non-zero values are all equal to $1$. In that case, it would be like ``selecting'' the values of $x$ that lay in the $w$ window, as any other value would be multiplied by $0$. Modulation is denoted with a cross inside a circle, as shown in Diagram~\ref{tikz:modulation-operation}.
+Basic signal operations are called \textbf{elementary operations}. The first elementary operation is the \emph{modulation}, an operation in which a signal $x$ is multiplied by another signal, say $w$, to produce an output signal $y$ such that $$y[n] = x[n]\cdot w[n].$$ A common application of the modulation is the \textbf{windowing} process, in which an infinite-length signal $x$ is ``windowed'' by a finite-length signal $w$, whose non-zero values are limited to a finite interval and the non-zero values are all equal to $1$. In that case, it would be like ``selecting'' the values of $x$ that lay in the $w$ window, as any other value would be multiplied by $0$. Modulation is denoted with a cross inside a circle, as shown in Diagram~\ref{tikz:modulation-operation}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -248,7 +248,7 @@ Basic signal operations are called \textbf{elementary operations}. The first ele
 \end{center}
 \end{figure}
 
-Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---an opamp-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ The addition is instead performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$
+Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---a triangle-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ The addition is instead performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$
 
 \begin{figure}[ht]
 \begin{center}
@@ -281,7 +281,7 @@ Much relevant elementary operations are, indeed, the \emph{time delay} and
 of the original signal, but translated in time (delayed in this case).
 Vice-versa, in the case of time advance, the signal copy of the original will be
 anticipated. In the first case, the adopted symbol is $z^{-1}$, while for the
-anticipation it is $z$. The reason why the anticipation and the delay symbols involve a $z$ letter will be clear in the following chapters (related to $z$-Transforms). Hence, $y[n] = x[n - 1]$ in the case of the delay and $y[n] = x[n + 1]$ in the case of the anticipation.
+anticipation it is $z$. The reason why the anticipation and the delay symbols involve a $z$ letter will be clear from chapter~\ref{sec:zTransform}. Hence, $y[n] = x[n - 1]$ in the case of the delay and $y[n] = x[n + 1]$ in the case of the anticipation.
 
 \begin{figure}[ht]
 \begin{center}
@@ -337,9 +337,9 @@ varies according to the measurement. Each measurement will measure the same sign
 \begin{equation}\label{eqn:EnsambleAveraging}
 	x_{avg} = \frac{1}{K}\sum_{i=1}^{K} (s + d_i) = s + \frac{1}{K}\sum_{i=1}^{K}d_i,
 \end{equation}
-which tends to the original signal $s$ as the number of signals $K \rightarrow \infty$ approaches infinity. The benefit of the ensemble averaging lies in the fact that \emph{the variance of the white noise $d_i$ is reduced by a factor of $K$}, leading to a reasonable replica of the original signal $s$. An example of application of ensemble averaging is shown in Figure~\ref{oct:ensembleAveraging}.
+which tends to the original signal $s$ as the number of signals $K \rightarrow \infty$ approaches infinity. The benefit of the ensemble averaging lies in the fact that \emph{the variance of the white noise $d_i$ is reduced by a factor of $K$ and by the averaging process}, leading to a much more reasonable replica of the original signal $s$, having noise of reduced variance. Error variance will approximately be $\frac 1 K$-th of the original noise variance, a reduction of---indeed---a factor of $K$. An example of application of ensemble averaging is shown in Figure~\ref{oct:ensembleAveraging}.
 
-The ensemble averaging on the chart is a powerful method to remove the noise, having many different recordings of a signal at our disposal.
+On the chart, the ensemble averaging is a powerful method to remove the noise, having many different recordings of a signal at our disposal.
 The common noise encountered, though, will hardly be a noise such that their average is zero---moreover, a typical noise will hardly be white and completely uncorrelated with the original signal $s$.
 For these reasons, this method is not perfect and manifests some drawbacks. Nevertheless, the method works and the effects are palpable, even if the noise does not comply with our hypothesis.
 
@@ -394,6 +394,8 @@ Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tik
 \end{center}
 \end{figure}
 
+On its essential core, up-sampling is an \emph{uphill} transformation that involves taking a signal over a discrete-time domain with sampling rate $\frac 1 T$ and generating a new signal with an higher sampling rate $\frac 1 {NT}$ by means of a convolution with a delta impulse in the output domain. The convolution with the correct delta impulses will yield a new signal, having the same original values, plus the new zeros added between the previous values.
+
 \subsubsection{Down-Sampling}
 
 The down-sampling operation by an integer factor $M > 1$ means that from the
@@ -422,6 +424,8 @@ The result of downsampling is a se\-quen\-ce in which some values are missing, t
     }\caption{Example of down-sampling operation applied to a sinusoidal input se\-quen\-ce.}\label{oct:downsamplingOperationEffect}
 \end{figure*}
 
+On its core, a down-sampling operation is a \emph{downhill} transformation from a higher sampling frequency to a lower one. Essentially it involves discarding some samples through the convolution with a suitable delta impulse, defined in the input domain (but with the output signal defined on a less narrow domain).
+
 
 \section{Classification of se\-quen\-ces}
 
@@ -429,40 +433,53 @@ There are several ways to classify a se\-quen\-ce.
 
 The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymmetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$, and by summing up one obtains $x[n]$.
 
-Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{GCD}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{GCD}$ is the ``greatest common divisor'' operation;
+Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for some $N \in \Z$. Smallest $N$ value that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{gcd}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{gcd}$ is the ``greatest common divisor'' operation;
 
 One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity
 \begin{equation}\label{eqn:totalEnergy}
     \mathcal E_x = \sum_{n=-\infty}^{\infty} | x[n] |^2.
 \end{equation}
-A finite-length se\-quen\-ce will possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Indeed, such summation could easily lead to a not limited result, as the argument (the sequence $x$) might be such that $\mathcal E_x$ is an infinite quantity. Soon after the definition of energy, it comes the definition of \textbf{average power} of a signal, which is, essentially,
+A finite-length se\-quen\-ce will possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Indeed, such summation could easily lead to a not limited result, as the argument (the sequence $x$) might be such that $\mathcal E_x$ is an infinite quantity.
+
+A much similar quantity is the \textbf{energy over a finite interval} $-K \leq n \leq K$ of a signal $x$, which essentially is a finite-computations version of the total energy as in~\ref{eqn:totalEnergy},
+\begin{equation}\label{eqn:totalEnergyOverInterval}
+    \mathcal E_{x,K} = \sum_{n=-K}^{K} | x[n] |^2,
+\end{equation}
+and depends on the parameter $K$.
+
+Soon after the definition of energy, it comes the definition of \textbf{average power} of an \emph{aperiodic} discrete signal, which is, essentially,
 \begin{equation}\label{eqn:averagePower}
     P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2,
 \end{equation}
-an energy-like sum over $2K + 1$ values centered in the origin, with $K \rightarrow \infty$. We might call the summation $\mathcal E_{x, K} = \sum_{n=-K}^{K}|x[n]|^2$---an energy-like term which is calculated from sample $-K$ to sample $K$ rather than all possible samples, something that instead occurrs when computing the total energy of a signal;
+an energy-like sum over $2K + 1$ values centered in the origin, with $K \rightarrow \infty$;
 
 The average power formula depends on the nature of the signal. In particular, it will vary if the signal in exam is periodic or aperiodic:
 \begin{itemize}
-    \item regarding \emph{aperiodic} signals, the average power is
+    \item regarding \emph{aperiodic} signals, the average power is the aforementioned formula,
         \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \sum_{n = -K}^K |x[n]|^2, \]
-    and---recalling the definition of total energy---can thus be rewritten as
+    and---recalling the definition of energy over an interval---can thus be rewritten as
     \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \mathcal E_{x,K}; \]
-    \item regarding \emph{periodic} signals with period $N$, the average power is
-        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence\footnote{To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.}.
+    \item regarding \emph{periodic} signals with period $N$, the average power is, instead, the quantity
+        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence.
 \end{itemize}
+
+To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.
+
 The difference between periodic and aperiodic formulations of average power lies in the width of the summation interval. In the case of periodic sequences one has to perform a sum over just a period consisting of a total of $N$ samples, while in the case of aperiodic sequences the average power must be evaluated in an interval whose length is $2K + 1$, with a limit of $K \rightarrow \infty$.
 
-We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \emph{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \emph{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties.
+We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \textbf{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \textbf{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties. These definitions are relevant \emph{only for infinite length sequences}.
 
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce because, simply, \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
 
-A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity\footnote{For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since one can show that \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]}. An absolutely summable sequence is a sequence such that
+A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute values for all of its samples samples is a limited quantity. An absolutely summable sequence is a sequence such that
 \begin{equation}\label{eqn:absolutelySummableSequence}
     \sum_{n=-\infty}^{\infty}|x[n]| < \infty.
 \end{equation}
 As we will see later, absolute summability implies that the Fourier transform converges uniformly, so this means that the unit circle is contained in the region of convergence (RoC).
 
-At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. Se\-quen\-ces can be absolutely summable but not squa\-re-sum\-ma\-ble, and the contrary can occur as well. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
+For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since one can show that \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]
+
+At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. Se\-quen\-ces can be squa\-re-sum\-ma\-ble but not ab\-so\-lu\-te\-ly-sum\-ma\-ble. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
 
 Square-summability property overlaps with the definition of \emph{total energy}, as in Equation~\ref{eqn:totalEnergy}. In fact, requiring that a sequence is square-summable automatically implies that the considered sequence should have a \emph{finite} total energy---vice versa, a not square-summable sequence will possess an \emph{infinite} total energy. Of course, it should be clear that both absolute- and square-summability conditions must be evaluated with a summation across \emph{all} samples of the sequence---that is, from $-\infty$ to $\infty$---rather than across a limited portion of samples. The latter case, in practice, is only virtually obtained with sequences having a limited number of samples, for which a zero-padding operation must be enforced for both the left side and the right side of the signal, resulting in a summation-by-zero of samples outside the range of non-zero samples of the considered signal.
 
@@ -4823,7 +4840,7 @@ Any transform that adopts wavelet is said to be a \emph{wavelet transform}; amon
     \end{center}\caption{Square wavelets associated with \emph{Haar Transform}. The parameters of the Haar transform specify the width and the location of the wavelet.}\label{tikz:haarTransformWavelets}
 \end{figure*}
 
-\chapter{$z$-Transform}
+\chapter{$z$-Transform}\label{sec:zTransform}
 
 In mathematics and signal processing, the $z$-Transform converts a discrete-time signal, which is a sequence of real or complex numbers, into a complex frequency-domain (z-domain or z-plane) representation.
 
