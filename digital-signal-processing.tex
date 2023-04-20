@@ -571,7 +571,7 @@ Both sinusoidal se\-quen\-ces and (constant in amplitude, having $\sigma_0 = 1$)
 \begin{equation}\label{eqn:sinusoidExponentialPeriod}
 \omega_0 N = 2\pi r
 \end{equation}
-holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \emph{fundamental period} of the se\-quen\-ce. A proof for this is soon to be given.
+holds, with the very same parameters as in the above models and with $r,N \in \N$. As it goes for general periodic signals, the smallest value of $N$ that satisfies the \ref{eqn:sinusoidExponentialPeriod} is the \textbf{fundamental period} of the se\-quen\-ce. A sinusoid is periodic only if it is possible to find $r, N \in \N$ such that Equation~\ref{eqn:sinusoidExponentialPeriod} is satisfied. A proof for this is soon to be given.
 \begin{proof}
 In order to verify this, two very similar se\-quen\-ces must be picked---the same original se\-quen\-ce and a shifted of $N$ samples copy:
 \begin{align}
@@ -598,13 +598,13 @@ In this case, $\omega_0$ must be an irrational number which contains $\pi$ in or
 Otherwise, we are in the case of an irrational $\frac{2\pi}{\omega_0}$ and the resulting \emph{discrete} se\-quen\-ce will be aperiodic.
 Essentially, for a discrete sinusoid to be a periodic sequence the angular frequency $\omega_0$ should be an irrational number so that it cancels out with $\pi$.
 
-For instance, if one considers \[x[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled.
+For instance, if one considers \[x_a[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled. Also the sequence \[x_b[n] = \sin{(3n + \varphi)}\] is not periodic for similar reasons as stated above. On contrary, the sequence \[x_c[n] = \sin{(3\pi n + \varphi)}\] \emph{is} a periodic sequence, as \[\frac{2\pi}{3\pi} = \frac 2 3 \in \Q.\]
 
 \subsection{Frequency properties of basic sinusoidal se\-quen\-ces}
 
 Let's now focus on the peculiar properties of sinusoidal and exponential basis se\-quen\-ces.
 
-To begin with, consider se\-quen\-ces $x[n] = \exp{j \omega_1 n}$ and $y[n] = \exp{j \omega_2 n}$, with $0 \leq \omega_1 < \pi$ and $2 k \pi \leq \omega_2 < (2k+1)\pi$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ are \emph{indistinguishable} from each other. The effect is induced by the peculiar choice of $\omega_2$, exactly $\omega_1$ plus a multiply of $2\pi$. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$ leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will be exactly the same as the original one.
+To begin with, consider se\-quen\-ces \[x[n] = \exp{j \omega_1 n}\] and \[y[n] = \exp{j \omega_2 n},\] with $0 \leq \omega_1 < \pi$ and $2 k \pi \leq \omega_2 < (2k+1)\pi$, with $k$ positive integer. If $\omega_2 = \omega_1 + 2 \pi k$, then $x[n] \equiv y[n]$: se\-quen\-ces $x$ and $y$ appear to be \emph{indistinguishable} from each other. The effect is induced by the peculiar choice of $\omega_2$, exactly $\omega_1$ plus a multiply of $2\pi$, basically a replica of the same sequence but translated of $2\pi$. This means that for (complex) exponential se\-quen\-ces a shift of $2\pi k$, with any $k$, leads to \emph{the very same} se\-quen\-ce, as the resulting shifted se\-quen\-ce will end to be exactly the same as the original one. In a nutshell, this essentially means that the frequency does not increase indefinitely as $\omega$ increases.
 
 Complex exponential sequences are capable, in some way, of incorporating the behavior of a single angular frequency through a system---$\omega_0$---so that their properties regarding their frequency reflect in general to the same frequency $\omega_0$ in all kinds of signals. Therefore, an angular frequency $\omega_2 = \omega_1 + 2k \pi$ on any sequence is subjected to the above property as well: $\omega_2$ is indistinguishable from $\omega_1$.
 
@@ -628,7 +628,7 @@ is a high frequency one.
 
 \subsection{Representation of a se\-quen\-ce with basic se\-quen\-ces}
 
-Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weighted sum} of some basic se\-quen\-ces and its delayed--advanced versions. The trick works by making use of many impulse sequences, each to describe a single non-zero sample of the original sequence:
+Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weighted sum} of some basic se\-quen\-ces and its delayed--advanced versions. The trick works by making use of many impulse sequences, each to describe a single non-zero sample of the original sequence, opportunely delayed or advanced to locate them in the proprer index in time:
 
 \begin{center}
 \begin{tikzpicture}
@@ -673,13 +673,13 @@ The time variable $t$ of the con\-ti\-nuo\-us-time signal $x_a(t)$ is related to
 \begin{equation}\label{eqn:timeSamplingRule}
     t_n = nT = \frac n {F_T} = \frac {2\pi n} {\Omega_T},
 \end{equation}
-with $F_T = \frac 1 T$ denoting the \emph{sampling frequency}, as expected. Indeed, $\Omega_T = 2\pi F_T = \frac{2\pi}{T}$ is a notable term which is called the \emph{sampling angular frequency}; the term is put in a constant multiplication-factor of $2\pi$ relationship between the sampling frequency, so one can say the two terms are bound together.
+with $F_T = \frac 1 T = \frac {\Omega_0} {2\pi}$ denoting the \emph{sampling frequency}, as expected. Indeed, $\Omega_T = 2\pi F_T = \frac{2\pi}{T}$ is a notable term which is called the \emph{sampling angular frequency}; the term is put in a constant multiplication-factor of $2\pi$ relationship between the sampling frequency, so one can say the two terms are bound together.
 
 Let's now consider the con\-ti\-nuo\-us-time sinusoidal signal
 \[
     x_a(t) = A\cos{(2\pi f_0 t + \varphi)} = A\cos{(\Omega_0 t + \varphi)}
 \]
-and perform a sampling process with sampling period $T$. 
+and perform a sampling process with sampling period $T$.
 The resulting se\-quen\-ce will be
 \begin{align}
     x[n] &= A\cos{(\Omega_0 n T + \varphi)} = A\cos{(\underbrace{\Omega_0 \frac{2\pi}{\Omega_T}}_{\omega_0} n + \varphi)}, \\
@@ -687,9 +687,9 @@ The resulting se\-quen\-ce will be
 \end{align}
 where the \textbf{angular frequency} 
 \[
-    \omega_0 := 2 \pi \frac {\Omega_0} {\Omega_T} = \Omega_0 T
+    \omega_0 := 2 \pi \frac {\Omega_0} {\Omega_T} = \Omega_0 T \mbox { [rad] }
 \]
-is called the \emph{normalized digital angular frequency} of the se\-quen\-ce $x[n]$. Notice that an analog function generates \emph{different} sampled se\-quen\-ces according to the choice of the sampling period $T$. Indeed, \emph{different} sine functions can generate \emph{the same} sampled se\-quen\-ce if a peculiar $T^*$ is selected.
+is called the \emph{normalized digital angular frequency} of the se\-quen\-ce $x[n]$. It measures in radiands, as $\Omega_0$ is radians per second. Notice that, depending on value of $T$, an analog function generates \emph{different} sampled se\-quen\-ces. However, \emph{different} sine functions can generate \emph{the same} sampled se\-quen\-ce with a peculiar choice of $T$; this behaviour is caused by aliasing.
 
 A normalized digital angular frequency is ultimately composed of three elements:
 \begin{enumerate}
@@ -721,7 +721,7 @@ of frequencies---respectively---of $3$Hz, $7$Hz and $13$Hz. Sampling the three s
     g_3[n] &= \cos{(2.6\pi n)},
 \end{align*}
 
-as $f_0 \cdot T = \frac{1}{10}f_0$.
+as $f_0 \cdot T = \frac{1}{10}f_0$. However, keep in mind that sampling at $10$Hz frequency sinusoids with frequencies $7$Hz and $13$Hz is going to violate the Shannon theorem, as the sampling frequency is lower than twice the frequency.
 
 Now, since
 \begin{align*}
@@ -733,16 +733,16 @@ Now, since
 
 all three se\-quen\-ces result to be identical. Therefore, it is rather difficult---let alone possible---to associate a unique con\-ti\-nuo\-us-time function with each of these se\-quen\-ces.
 
-The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation. 
+The phenomenon for which a con\-ti\-nuo\-us-time signal of high\-er frequency acquires the identity of a sinusoidal se\-quen\-ce of lower frequency after sampling is called \textbf{aliasing}. In point of fact, we have just violated the Shannon theorem when sampling the above sequences. Since there are an infinite number of con\-ti\-nuo\-us-time signals that can lead to the same se\-quen\-ce when sampled periodically, additional conditions are needed so that the se\-quen\-ce $\{x[n]\} = \{x_a(nT)\}$ can uniquely represent the parent con\-ti\-nuo\-us-time signal $x_a(t)$. Indeed, in the above case $x_a(t)$ can still be fully recovered from the se\-quen\-ce $\{x[n]\}$. The process of bringing the angular frequency to a value between $0$ and $\pi$ is the \emph{normalization of the angular frequency}, a step that should always be performed as it is in the best interests to uniquely represent a specific class of sinusoids with a normalized representation.
 Otherwise, one would inevitably incur in some aliasing phenomena.
 
-Of course, there are many examples of se\-quen\-ces from which signals might be fully recovered. Suppose one wants to obtain a discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
+Of course, there are many examples of se\-quen\-ces from which signals not might be fully recovered. Suppose one wants to obtain a discrete-time signal $v[n]$ from a con\-ti\-nuo\-us-time signal of shape
 \begin{align*}
 v_a(t) &=6\cos{60\pi t} + 3\sin{300\pi t} + 2\cos{340\pi t} \\ & + 4\cos{500\pi t} + 10\sin{660\pi t}
 \end{align*}
 
-with sampling period $T = \frac 1 {200} = 0.005s$.
-To do so, one should perform the following algebraic transformations,
+with sampling period $T = \frac 1 {200} = 0.005s$. With such a low sampling frequency we are inevitably going to violate Shannon theorem, producing aliasing for all sinusoids except the first one, which has a frequency below the Nyquist frequency. This is a dangerous step to take, as not only the higher frequency sinusoids will inevitably appear with a lower frequency, but there is also the risk of one of the aliased components to interfere with the $30$Hz sinusoid, producing a wrong output.
+Going on with the calculus, one should perform the following algebraic transformations,
 \begin{align*}
     v[n] &= 6 \cos{0.3 \pi n} + 3 \sin{1.5 \pi n} + 2 \cos{1.7 \pi n} \\
          &+ 4 \cos{2.5 \pi n} + 10 \sin{3.3 \pi n},\\
@@ -753,7 +753,7 @@ To do so, one should perform the following algebraic transformations,
     v[n] &= 8 \cos{0.3 \pi n} + 5 \cos{(0.5 \pi n + 0.6435)} - 10 \sin{0.7\pi n}.
 \end{align*}
 
-In the end, $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequencies $0.3\pi$, $0.5\pi$ and $0.7\pi$. This is the kind of algebraic transformations that allows for an aliasing-free representation of a sequence.
+In the end, aliasing-suffering sequence $v[n]$ is composed of 3 discrete-time sinusoidal signals of normalized angular frequencies $0.3\pi$, $0.5\pi$ and $0.7\pi$. Not only $0.5\pi$ and $0.7\pi$ were not present in the first formulation, but also frequency $0.3\pi$ has a different (and wrong) amplitude.
 
 However, that's not the only signal possible that is capable of generating that very same sequence. Veritably, also the two following signals $w_a(t)$ and $g_a(t)$
 \begin{align*}
@@ -768,7 +768,6 @@ To avoid aliasing, an \emph{anti-aliasing} strategy should be adopted. As \textb
 This happens because, if the above condition is true, the term $\left|\frac{2\pi \Omega_0}{\Omega_T}\right| < \pi$ and the sequence will be fully representable in the range $[0, \pi]$, which is the requirement for digital signals.
 
 In practice, it is sufficient to select a sampling angular frequency $\Omega_T$ that is \emph{at least the double} of the $\Omega_0$ angular frequency of the sinusoid. On contrary, if $\Omega_T < 2\Omega_0$ the normalized digital angular frequency will fall outside the interval $[-\pi, \pi]$ folding over a lower digital frequency $\omega_0 = \langle \frac{2 \pi \Omega_0 }{\Omega_T}\rangle_{2\pi}$ because of the aliasing phenomenon. This will inevitably lead to artifacts, as the sequence can be interpreted as different sinusoids other than the original one.
-
 That's another way of looking at why the frequencies fold around $2\pi$, or at why the frequency domain repeats periodically in the interval $[0, 2\pi]$.
 
 \subsection{Generalization for sampling of continuous-time signals}
@@ -859,19 +858,21 @@ In addition, multiple elementary operators may be combined together to form a mu
 
 \subsection{Accumulator}
 
-The first fundamental discrete-time system we will meet is the \textbf{accumulator} system. An accumulator is governed by the following relationship
-\begin{align}
+The first fundamental discrete-time system we will meet is the \textbf{accumulator} system. An accumulator is governed by the following input--output relationship
+\begin{align}\label{eqn:accumulatorEquationNonRecursive}
     y[n] &= \sum_{i=-\infty}^{n} x[i] \\
          &= \sum_{i=-\infty}^{n-1} x[i] + x[n]\\
          &= y[n-1] + x[n].\label{eqn:accumulatorEquation}
 \end{align}
 which establishes that the output $y[n]$ at the time instant $n$ is the sum of two terms, the first one being the input at the time instant $n$, $x[n]$, and the second one being the previous output $y[n-1]$ at the previous time instant $n-1$. The latter addendum is the sum of all previous input sample values, from the beginning of the signal to the previous time instant---that is, from sample $-\infty$ to sample $n-1$---which collects all previous elements, performing an \emph{accumulation} of values, potentially infinite in size.
 
+The formulation as in Equation~\ref{eqn:accumulatorEquation} is called a \textbf{recursive representation}, and the formulation as in~\ref{eqn:accumulatorEquationNonRecursive} is said to be a \textbf{non-recursive representation}.
+
 An accumulator, as its name suggests, \emph{cumulatively adds} all input sample values from the beginning of the signal history up to the current time instant $n$. This behavior is indeed evident by looking at the terms in the sides of Equation~\ref{eqn:accumulatorEquation}.
 
 A notable property for accumulators is that any of them could be split into two terms, a first being a constant, and the second one capable of describing a \emph{causal} input sequence.
 
-One has, for any accumulator,
+One has, for any accumulator, we can derive the \textbf{causal input--output relation}
 \begin{align}
     y[n] &= \sum_{i=-\infty}^{n} x[i] \\
          &= \underbrace{\sum_{i=-\infty}^{-1} x[i]}_{\mbox{up to } 0} + \underbrace{\sum_{i=0}^{n}x[i]}_{\mbox{from } 0}\\
@@ -908,17 +909,19 @@ and finally
     y[n] = y[n-1] + \frac 1 M \left(x[n] - x[n - M]\right).
 \]
 
-We have just witnessed how the computation of the modified $M$-point moving average system---re\"arranging the \emph{recursive equation}---requires \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly re\"arranging the equation of the system involved. Later on, we will see other cases in which this is true and very desirable.
+Take a look at how the computation of the modified $M$-point moving average system---re\"arranging the \emph{recursive e\-qua\-tion}---re\-qui\-res now \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly re\"arranging the equation of the system involved. Indeed, the trick lied in the fact that we already have the information contained in $y[n-1]$, and we simply appended the information from $x[n]$, with the inclusion of $x[n-M]$. Later on, we will see other cases in which this is true and very desirable.
 
-An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal.
+An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal. $M$-point moving average systems will usually yield a \emph{delay} in the output, as the filtering requires several previous values in order to work. The filter needs to first be "filled" with values, since it starts with zeros.
 
 \subsection{Exponentially Weighted Running Average Filter}
 
-The \textbf{Exponentially Weighted Running Average Filter} is a kind of filter expressed by the relationship
+The \textbf{Exponentially Weighted Running Average Filter} is a kind of filter, similar in nature to the accumulator as in~\ref{eqn:accumulatorEquation}, expressed by the relationship
 \begin{equation}\label{eqn:exponentiallyWeightedRunningAverageFilterEquation}
     y[n] = \alpha y[n-1] + x[n], 0 < \alpha < 1.
 \end{equation}
-Since $0 < \alpha < 1$, the exponentially weighted average filter places a lot more emphasis on \emph{current} data samples than \emph{past} data samples, as all the previous preocessed data is multiplied by a constant factor which is smaller than $1$. If $x[n]\equiv 0$ at some time interval and for all future samples, the output $y[n]$ is condemned to decay and collapse to $0$ at a speed that substantially depends on the value of $\alpha$.
+The factor $\alpha$ acts as a \emph{forgetting factor}, as the previous output values are weighted by it.
+
+Since $0 < \alpha < 1$, the exponentially weighted average filter places either a bit or a lot more emphasis on \emph{current} data samples than \emph{past} data samples, as all the previous preocessed data is multiplied by a constant factor which is smaller than $1$. If $x[n]\equiv 0$ at some time interval and for all future samples, the output $y[n]$ is condemned to decay and collapse to $0$ at a speed that substantially depends on the value of $\alpha$.
 
 In fact, this is soon shown by just substituting recursively the definition with itself,
 \begin{align*}
