@@ -911,7 +911,7 @@ and finally
 
 Take a look at how the computation of the modified $M$-point moving average system---re\"arranging the \emph{recursive e\-qua\-tion}---re\-qui\-res now \emph{only $2$ additions and $1$ division}, in contrast with the previous case where a number of operations dependent on the number of samples $M$ was necessary. An apparently unvalicable computation limit had been removed just by cleverly re\"arranging the equation of the system involved. Indeed, the trick lied in the fact that we already have the information contained in $y[n-1]$, and we simply appended the information from $x[n]$, with the inclusion of $x[n-M]$. Later on, we will see other cases in which this is true and very desirable.
 
-An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal. $M$-point moving average systems will usually yield a \emph{delay} in the output, as the filtering requires several previous values in order to work. The filter needs to first be "filled" with values, since it starts with zeros.
+An application for the $M$-point moving average system is the following one: let a sequence $x[n]$ be the sum of two sequences, the first one being a sequence $s[n]$ obtained from a signal which is inevitably corrupted by a noise $d[n]$, hence \[x[n] = s[n] + d[n].\] Usually, the noise is a small part of the signal; still, the original signal is somehow corrupted by the presence of the noise in such a way that sometimes noise reduction techniques are auspicable. A common scenario in which it is adopted is to make the input signal smoother to achieve a sort of noise reduction, with the signal smoother as the number of points $M$ increases. In practice, this occurs since the $M$-point moving average system will perform an average over $M$ points of the original signal, generating a smoother version of the original signal. $M$-point moving average systems will usually yield a \emph{delay} in the output, as the filtering requires several previous values in order to work. The filter needs to first be "filled" with values, since it starts with zeros. Delay is, generally speaking, a function of the length of the filter. Longer filters will result in higher output delays, and perhaps with some peaks attenuated, since the longer the filter, the slower the speed of increases.
 
 \subsection{Exponentially Weighted Running Average Filter}
 
@@ -930,7 +930,7 @@ In fact, this is soon shown by just substituting recursively the definition with
          &= \alpha^2(\alpha y[n-3] + x[n-2]) + \alpha x[n-1] + x[n]\\
          &= \alpha^3y[n-3] + \alpha^2 x[n-2] + \alpha x[n-1] + x[n]
 \end{align*}
-where it is immediately clear that the terms with $\alpha$ of higher order tend to be smaller as the order increases.
+where it is immediately clear that the terms with $\alpha$ of higher order tend to be smaller as the order increases, leading to less and less emphasis on past data samples.
 
 Computation of the running average filter only requires a single addition and a single multiplication; still, it requires storage of the previously-run average value. As a bonus, it does not require the storage of the full-chain of past data samples.
 
@@ -1045,7 +1045,7 @@ Mathematically, interpolation having factors of $2$ and $3$ might be expressed, 
     y_3[n] &= x_u[n] + \frac 1 3(x_u[n-2] + x_u[n+2])\\
            &+ \frac 2 3(x_u[n-1] + x_u[n+1]),
 \end{align*}
-with the \emph{low-frequency gain} equal to $\mbox{DCGain} = L$. Notice that a formally correct solution would require much more complex operators.
+with the \emph{low-frequency gain} equal to $\mbox{DCGain} = L$. The gain is equal to the numbers of the added samples because in order to perform interpolation one has to introduce "numerical energy" to the original signal. Notice that a formally correct solution would require much more complex operators.
 
 \clearpage
 
@@ -1053,7 +1053,7 @@ with the \emph{low-frequency gain} equal to $\mbox{DCGain} = L$. Notice that a f
 
 \subsection{Linear Discrete-time Systems}
 
-A \textbf{Linear Discrete-time System} is any special kind of discrete-time system such that, if $y_1$ is the output of the input $x_1$ and $y_2$ is the output from the input $x_2$, then f or an input that is the combination of the two inputs $x_1$ and $x_2$
+A \textbf{Linear Discrete-time System} is any special kind of discrete-time system such that, if $y_1$ is the output of the input $x_1$ and $y_2$ is the output from the input $x_2$, then for an input that is the combination of the two inputs $x_1$ and $x_2$ one gets
 \begin{equation*}
     x[n] = \alpha x_1[n] + \beta x_2[n],
 \end{equation*}
@@ -1089,10 +1089,12 @@ and for this reason $y[n] = \alpha y_1[n] + \beta y_2[n]$ if and only if
 \begin{equation}\label{eqn:accumulatorInitialCondition}
     y[-1] = \alpha y_1[-1] + \beta y_2[-1],
 \end{equation}
-a severe equation that establishes a precise condition under which the initial condition must undergo. For any accumulator with a causal input to be \emph{linear} the condition expressed in Equation~\ref{eqn:accumulatorInitialCondition} must hold for all initial conditions $y[-1]$, $y_1[-1]$, $y_2[-1]$ and for all constants $\alpha$ and $\beta$. Still, the condition can never be satisfied---unless the accumulator is \emph{initially at rest}, with zero initial condition. That practically means having
+an equation that establishes a precise condition under which the initial condition must undergo. For any accumulator with a causal input to be \emph{linear} the condition expressed in Equation~\ref{eqn:accumulatorInitialCondition} must hold for all initial conditions $y[-1]$, $y_1[-1]$, $y_2[-1]$ and for all constants $\alpha$ and $\beta$. Still, the condition can never be satisfied---unless the accumulator is \emph{initially at rest}, with zero initial condition. That practically means having
 \[
     y[-1] = \alpha y_1[-1] + \beta y_2[-1] \equiv 0.
 \]
+
+If the above condition is not satisfied, the sum of accumulators is not a linear system.
 
 \subsection{Nonlinear Discrete-time Systems}
 
@@ -1159,14 +1161,14 @@ as time instant on the numerator is shifted by $n_0$ and not by $Ln_0$. When a d
 
 \subsection{Linear Time-Invariant Systems}\label{sec:ltiSystems}
 
-A much important class of discrete-time systems is the class of the \textbf{Linear Time-Invariant (LTI) Systems}. An LTI system is any system that it is both linear and shift-invariant---that is a system satisfying both the superposition principle and the time-invariance property. LTI systems are mathematically easy to deal with, to analyze and to characterize. As a consequence, they are very easy to design compared to other ``harder'' signals. Indeed, highly useful signal processing algorithms have been developed by means of this class of systems over the last several decades.
+A much important class of discrete-time systems is the class of the \textbf{Linear Time-Invariant (LTI) Systems}. An LTI system is any system that it is both linear and shift-invariant---that is a system satisfying both the superposition principle and the time-invariance property. LTI systems are mathematically easy to deal with, to analyze and to characterize. As a consequence, they are very easy to design compared to other ``harder'' signals and are thus very widely investigated and adopted. Indeed, highly useful signal processing algorithms have been developed by means of this class of systems over the last several decades. Their usefulness lies in the fact that---with linear systems---engineers have the possibility to produce an unique, exact output \emph{given} the specifications and project requirements. Indeed, LTI systems only have those guarantees.
 
 \subsection{Causal Systems}
 
-In a \textbf{Causal System}, the $n_0$-th output sample $y[n_0]$ depends only on input samples $x[n]$ for $n\leq n_0$; this means that the output depends only on the input from time instants \emph{before} the current one ($n_0$), and does not depend on future input samples $n \geq n_0$.
+In a \textbf{Causal System}, the $n_0$-th output sample $y[n_0]$ depends only on input samples $x[n]$ for $n\leq n_0$; this means that the output depends only on the input from time instants \emph{before} the current one ($n_0$), and does not depend on future input samples $n \geq n_0$. A causal system will provide a response from a stimulus only after the stimulus had been provided---no causal system will ever produce a response from future samples.
 
 Let $y_1[n]$ and $y_2[n]$ be the responses of a causal, discrete-time system to the inputs $x_1[n]$ and $x_2[n]$, respectively. Then, \begin{equation}\label{eqn:causalDiscreteTimeSystemsEquation}x_1[n] = x_2[n], n < N \Longrightarrow y_1[n] = y_2[n], n < N.\end{equation}
-Equation~\ref{eqn:causalDiscreteTimeSystemsEquation} implies that for a causal system all changes in output samples never precede changes in the input samples.
+Equation~\ref{eqn:causalDiscreteTimeSystemsEquation} implies that for a causal system all changes in output samples never precede changes in the input samples, so if two sequences are equal up to a certain point, then the output sequences will inevitably be equal to each other up to that same index.
 Examples of causal systems are the signals $y_{c,1}$, $y_{c,2}$, and $y_{c,3}$,
 \begin{align*}
     y_{c,1}[n] &= \alpha_1 x[n] + \alpha_2 x[n-1]\\
@@ -1176,12 +1178,16 @@ Examples of causal systems are the signals $y_{c,1}$, $y_{c,2}$, and $y_{c,3}$,
     y_{c,3}[n] &= y[n-1] + x[n],
 \end{align*}
 while a noncausal system is, for example, the sequence of a linear interpolation $y_{nc}[n]$,
+\[
+    y_{nc}[n] = x_u[n] + \frac 1 2(x_u[n-1] + x_u[n+1]),
+\]
+or another one with greater length,
 \begin{align*}
     y_{nc}[n] &= x_u[n] + \frac 1 3(x_u[n-2] + x_u[n+2])\\
            &+ \frac 2 3(x_u[n-1] + x_u[n+1]).
 \end{align*}
 
-Any noncausal system can still be implemented as a causal system; this is done by delaying the output by an appropriate number of samples. For instance, a causal implementation of the factor-of-two interpolator---an otherwise noncausal system---is given by
+Any noncausal system can still be implemented as a causal system; this is done by delaying the output by an appropriate number of samples so that all terms refer to present or past samples only. For instance, a causal implementation of the factor-of-two interpolator---an otherwise noncausal system---is given by
 \begin{equation}\label{eqn:causalLinearInterpolationFactorTwo}
     y[n] = x_u[n-1] + \frac 1 2(x_u[n-2] + x_u[n]).
 \end{equation}
