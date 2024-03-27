@@ -466,7 +466,7 @@ To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = 
 
 The difference between periodic and aperiodic formulations of average power lies in the width of the summation interval. In the case of periodic sequences one has to perform a sum over just a period consisting of a total of $N$ samples, while in the case of aperiodic sequences the average power must be evaluated in an interval whose length is $2K + 1$, with a limit of $K \rightarrow \infty$.
 
-We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \textbf{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \textbf{energy signal}\footnote{Indeed, since the energy appears as a factor in the determination of the average power, a finite energy signal cannot possess an infinite average power, and in order for the average power to be infinite the energy has to be infinite as well}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties. Remind that these definitions are relevant \emph{only for infinite length sequences}.
+We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \textbf{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \textbf{energy signal}\footnote{Indeed, since the energy appears as a factor in the determination of the average power, a finite energy signal cannot possess an infinite average power, and in order for the average power to be infinite the energy has to be infinite as well.}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties. Remind that these definitions are relevant \emph{only for infinite length sequences}.
 
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce because, simply, \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
 
@@ -476,7 +476,7 @@ A se\-quen\-ce is \textbf{absolutely summable} if the sum of all its absolute va
 \end{equation}
 As we will see later, absolute summability implies that the Fourier transform converges uniformly, so this means that the unit circle is contained in the region of convergence (RoC).
 
-For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since one can show that \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty.\]
+For example, se\-quen\-ce \[y[n] = \left\{\begin{array}{lc} 0.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is absolutely summable since one can show that \[ \sum_{n=0}^\infty |0.3^n| = \frac{1}{1 - 0.3} < \infty,\] while a sequence \[ w[n] = \left\{\begin{array}{lc} 1.3^n, & n \geq 0 \\ 0, & n < 0\end{array}\right.\] is not.
 
 At last, a se\-quen\-ce $x[n]$ is \textbf{square-summable} if  \[\sum_{n=-\infty}^{\infty}|x[n]|^2 < \infty,\] in a similar fashion to the absolutely summable case. Se\-quen\-ces can be squa\-re-sum\-ma\-ble but not ab\-so\-lu\-te\-ly-sum\-ma\-ble. For instance, if one considers the se\-quen\-ce $k[n] = \frac{\sin{0.4n}}{\pi n}$ will find out that it is squa\-re-sum\-ma\-ble but \textbf{not} absolutely summable.
 
@@ -509,8 +509,7 @@ The first one to be mentioned is the \textbf{unit sample se\-quen\-ce}, also cal
 \end{tikzpicture}
 \end{center}
 
-In practice, the ``delta impulse'' can be used to show a lot of interesting properties, and it is indeed the kernel of the convolution filter.
-
+In practice, the ``delta impulse'' can be used to show a lot of interesting properties, like highlighting the \emph{impulse response} of a given filter. 
 Let's continue with the second basic se\-quen\-ce.
 
 Defined as \[\mu[n] = \left\{\begin{array}{ll}1, & n \geq 0 \\ 0, & n < 0\end{array}\right.,\] the \textbf{unit step se\-quen\-ce} is the integral of the impulse se\-quen\-ce. Indeed, when summing up all the values of the unit impulse se\-quen\-ce one has only $0$s until the only non-zero value occurs and the value of the integral collapses to the unit $1$, resulting in the sequence depicted in the next figure.
@@ -546,7 +545,7 @@ The quantity $\alpha$ is chosen such that its module is equal to $1$, that is $|
 Hence, $\alpha = e^{(\sigma_0 + j \omega_0)}$ and $A = |A|e^{j\varphi}$.
 The various kinds of exponentials arise from peculiar choices of coefficient and basis, as the behavior will dramatically change depending on the nature of both.
 
-In general, an exponential se\-quen\-ce can be either expressed expanding modulus and phase of both numbers, obtaining \[x[n] = |A|e^{j\varphi}e^{(\sigma_0 + j\omega_0)n},\] or by a partitioning into real and imaginary part of the se\-quen\-ce, that is 
+In general, an exponential se\-quen\-ce can be either expressed expanding modulus and phase of both numbers, obtaining \[x[n] = \underbrace{|A|e^{j\varphi}}_{A}\underbrace{e^{(\sigma_0 + j\omega_0)n}}_{\alpha},\] or by a partitioning into real and imaginary part of the se\-quen\-ce, that is 
 \begin{align*}
     x[n] &= x_{re}[n] + jx_{im}[n],\\
          &= |A|e^{\sigma_0n}\cos{(\omega_0 n + \varphi)} \\
@@ -558,9 +557,11 @@ By separating the two, one can identify the real and imaginary components as
     x_{im}[n] & = |A|e^{\sigma_0n}\sin{(\omega_0 n + \varphi)}.
 \end{align}
 
-Following this idea, the analysis of both terms indicate two different behaviors depending on the nature of $A$ and $\alpha$. Suppose $A \in \C$ and $\alpha \in \C$. The first and second terms---related to the real and imaginary parts of the exponential se\-quen\-ce---are two real, sinusoidal se\-quen\-ces with constant ($\sigma_0 = 0$), growing ($\sigma_0 > 0$) or decaying ($\sigma_0 < 0$) amplitudes for samples $n > 0$. In practice, they are sinusoids whose angular frequency and phase are determined, respectively, by terms $\omega_0$ and $\varphi$, and whose amplitude varies according to the term $e^{\sigma_0n}$ with the exception of a multiplication constant $|A|$, the modulus of the complex number $A \in \C$. The term $e^{j\varphi}$ vanishes, as its module is equal to $1$. Still, the value at zero of the real and imaginary terms will be different as they are described by either sine or cosine, but the overall behavior will be the same: either decaying, or growing, or they are sinusoids of constant amplitude.
+Following this idea, the analysis of both terms indicate two different behaviors depending on the nature of $A$ and $\alpha$. Suppose $A \in \C$ and $\alpha \in \C$. The first and second terms---related to the real and imaginary parts of the exponential se\-quen\-ce---are two real, sinusoidal se\-quen\-ces with constant ($\sigma_0 = 0$), growing ($\sigma_0 > 0$) or decaying ($\sigma_0 < 0$) amplitudes for samples $n > 0$. In practice, they are sinusoids whose angular frequency and phase are determined, respectively, by terms $\omega_0$ and $\varphi$, and whose amplitude varies according to the term $e^{\sigma_0n}$ with the exception of a multiplication constant $|A|$, the modulus of the complex number $A \in \C$. The term $e^{j\varphi}$ vanishes when computing amplitude, as its module is equal to $1$. Still, the value at zero of the real and imaginary terms will be different as they are described by either sine or cosine, but the overall behavior will be the same: either decaying, or growing, or they are sinusoids of constant amplitude.
 
-Let now $A,\alpha \in \R$. Real exponential se\-quen\-ces are the ``classic'' exponential se\-quen\-ces, described by \[x[n] = A\alpha^n\] and possibly constant within the special case $\alpha=1$. In practice,
+Let now $A,\alpha \in \R$. Real exponential se\-quen\-ces are the ``classic'' exponential se\-quen\-ces, described by \[x[n] = A\alpha^n\] and possibly constant within the special case\footnote{
+    In such a case, \[x[n] = A\cdot 1^n \equiv A \forall n \in \Z.\]
+} $\alpha=1$. In practice,
 \begin{itemize}
     \item for values $\alpha < 1$, the exponential will decay;
     \item for values $\alpha > 1$, the exponential will grow over time.
@@ -591,13 +592,15 @@ Now, the second se\-quen\-ce can be soon rewritten as
 \end{equation}
 \end{proof}
 
-Along with this proof, one might say that $N$ is the \emph{true} period, while the quantity $\frac{N}{r}$ is the \emph{apparent} period---the one of the implied continuous function.
+The very last form highlights how the fraction on the right---a rational term, since both $N,r \in \N$---has to match the fraction on the left---a possibly irrational term, with the presence of the factor $\pi$. To do so, $\omega_0$ must contain $\pi$.
+
+Along with this proof, one might say that $N$ is the \emph{true} period, while the quantity $\frac{N}{r}$ is the \emph{apparent} period---the one of the implied underlying continuous function.
 In fact, if $\frac{2\pi}{\omega_0}$ is a noninteger rational number, then the period will be a multiple of $\frac{2\pi}{\omega_0}$, which basically means $r > 1$.
 In this case, $\omega_0$ must be an irrational number which contains $\pi$ in order for it to cancel with $\pi$ on the numerator and yield an overall rational number.
 Otherwise, we are in the case of an irrational $\frac{2\pi}{\omega_0}$ and the resulting \emph{discrete} se\-quen\-ce will be aperiodic.
 Essentially, for a discrete sinusoid to be a periodic sequence the angular frequency $\omega_0$ should be an irrational number so that it cancels out with $\pi$.
 
-For instance, if one considers \[x_a[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled. Also the sequence \[x_b[n] = \sin{(3n + \varphi)}\] is not periodic for similar reasons as stated above. On contrary, the sequence \[x_c[n] = \sin{(3\pi n + \varphi)}\] \emph{is} a periodic sequence, as \[\frac{2\pi}{3\pi} = \frac 2 3 \in \Q.\]
+For instance, if one considers \[x_a[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled. Also the sequence \[x_b[n] = \sin{(3n + \varphi)}\] is not periodic for similar reasons as stated above. On contrary, the sequence \[x_c[n] = \sin{(3\pi n + \varphi)}\] is a periodic sequence, as \[\frac{2\pi}{3\pi} = \frac 2 3 \in \Q.\]
 
 \subsection{Frequency properties of basic sinusoidal se\-quen\-ces}
 
