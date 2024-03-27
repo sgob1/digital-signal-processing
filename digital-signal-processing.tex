@@ -438,13 +438,13 @@ One can also compute the \textbf{total energy} of a signal $x$, defined as the q
 \begin{equation}\label{eqn:totalEnergy}
     \mathcal E_x = \sum_{n=-\infty}^{\infty} | x[n] |^2.
 \end{equation}
-A finite-length se\-quen\-ce will possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Indeed, such summation could easily lead to a not limited result, as the argument (the sequence $x$) might be such that $\mathcal E_x$ is an infinite quantity.
+A finite-length se\-quen\-ce will inevitably possess finite energy, but an infinite-length se\-quen\-ce might have finite or infinite energy depending on the nature of the signal. Indeed, such summation could easily lead to a not limited result, as the argument (the sequence $x$) might be such that $\mathcal E_x$ is an infinite quantity.
 
 A much similar quantity is the \textbf{energy over a finite interval} $-K \leq n \leq K$ of a signal $x$, which essentially is a finite-computations version of the total energy as in~\ref{eqn:totalEnergy},
 \begin{equation}\label{eqn:totalEnergyOverInterval}
     \mathcal E_{x,K} = \sum_{n=-K}^{K} | x[n] |^2,
 \end{equation}
-and depends on the parameter $K$.
+and depends on the parameter $K$. The larger $K$ is, the closer to the total energy will be.
 
 Soon after the definition of energy, it comes the definition of \textbf{average power} of an \emph{aperiodic} discrete signal, which is, essentially,
 \begin{equation}\label{eqn:averagePower}
@@ -459,14 +459,14 @@ The average power formula depends on the nature of the signal. In particular, it
     and---recalling the definition of energy over an interval---can thus be rewritten as
     \[ P_x = \lim_{K \rightarrow \infty} \frac{1}{2K + 1} \mathcal E_{x,K}; \]
     \item regarding \emph{periodic} signals with period $N$, the average power is, instead, the quantity
-        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence.
+        \[P_x = \frac{1}{N} \sum_{n = 0}^{N-1} |x[n]|^2,\] a quantity that is computed through a period and might be finite or infinite depending on the considered sequence. Notice how, this time, the interval of computation is not symmetric to the origin, as it is enough to perform computation over a single period, which usually starts from the origin.
 \end{itemize}
 
-To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity, of course.
+To introduce some examples, consider a causal se\-quen\-ce defined by \[ x[n] = \left\{\begin{array}{lc}3(-1)^n, & n \geq 0\\ 0, & n < 0\end{array}\right. .\] Se\-quen\-ce $x$ has infinite energy. The average power of $x$ is given by \[P_x = \lim_{K\rightarrow \infty}\frac{1}{2K+1}\left(9\sum_{n=0}^K 1\right) = \lim_{K\rightarrow \infty}\frac{9(K+1)}{2K+1} = 4.5,\] a finite quantity.
 
 The difference between periodic and aperiodic formulations of average power lies in the width of the summation interval. In the case of periodic sequences one has to perform a sum over just a period consisting of a total of $N$ samples, while in the case of aperiodic sequences the average power must be evaluated in an interval whose length is $2K + 1$, with a limit of $K \rightarrow \infty$.
 
-We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \textbf{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \textbf{energy signal}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties. These definitions are relevant \emph{only for infinite length sequences}.
+We can now highlight two different, interesting classes of sequences. A periodic se\-quen\-ce that possesses an infinite energy---but finite average power---is said to be a \textbf{power signal}. Instead, a finite energy signal with infinite length possessing zero average power is said to be an \textbf{energy signal}\footnote{Indeed, since the energy appears as a factor in the determination of the average power, a finite energy signal cannot possess an infinite average power, and in order for the average power to be infinite the energy has to be infinite as well}. Energy signals and power signals are peculiar se\-quen\-ces that satisfy some specific properties. Remind that these definitions are relevant \emph{only for infinite length sequences}.
 
 A se\-quen\-ce $x[n]$ is said to be \textbf{bounded} if \[|x[n]| \leq B_x < \infty,\] when the greatest value---in absolute value---of the se\-quen\-ce is smaller than a certain \emph{bound} $B_x$ of the se\-quen\-ce $x$. The se\-quen\-ce $x[n] = \cos{0.3\pi n}$ is a bounded se\-quen\-ce because, simply, \[|x[n]| = |\cos{0.3\pi n}| \leq 1.\]
 
