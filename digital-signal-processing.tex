@@ -1,6 +1,6 @@
 \newcommand{\classname}{extbook}
-\newcommand{\innermargin}{1.5cm}
-\newcommand{\outermargin}{1.5cm}
+\newcommand{\innermargin}{1.3cm}
+\newcommand{\outermargin}{1.3cm}
 \newcommand{\documentfontsize}{9pt}
 \newcommand{\titlepagename}{dsp-titlepage}
 \newcommand{\spacingvalue}{1.20}
@@ -44,7 +44,7 @@
 \usepackage[normalem]{ulem} 
 
 
-\setlength{\columnsep}{42pt}
+\setlength{\columnsep}{40pt}
 
 \begin{document}
 \include{\titlepagename}
@@ -109,15 +109,15 @@ However, digital signal processing tools are \emph{much more complicated} than t
 
 \section{Signal definition}
 
-A \textbf{signal} is a function that conveys information about a phenomenon. Signals are \emph{functions of independent variables}, such as \emph{time}, \emph{distance}, \emph{position}, and so on. They are represented as \emph{se\-quen\-ces of numbers}, called \emph{samples}. Signals are made out of samples---the single values of the signal at a certain, discrete time quantum $n \in \Z$---such denomination would still be valid even if the signal values \emph{were not} obtained through a common sampling process. Signals will be denoted with $\{x[n]\}$ while samples will be denoted as $x[n]$, however we may often refer to a complete sequence without explicit use of curly brackets. While the variable $n$ is usually an integer, in some applications it might be a real-valued number, as the quantum of time may not be constant overtime. The letter $n$ denotes an \emph{index} of the position in the sequence, and it can possibly be in the range $-\infty \leq n \leq +\infty$.
+A \textbf{signal} is a function that conveys information about a phenomenon. Signals are \emph{functions of independent variables}, such as \emph{time}, \emph{distance}, \emph{position}, and so on. They are represented as \emph{se\-quen\-ces of numbers}, called \emph{samples}. Signals are made out of samples---the single values of the signal at a certain, discrete time quantum $n \in \Z$---however, such denomination would still be valid even if the signal values \emph{were not} obtained through a common sampling process. Signals will generally be denoted with $\{x[n]\}$ whilst samples will be denoted as $x[n]$; that said, we may often refer to a complete sequence without explicit use of curly brackets, for simplicity. While the variable $n$ is usually an integer, in some applications it might be a real-valued number, as the quantum of time may not be constant overtime. The letter $n$ denotes an \emph{index} of the position in the sequence, and it can possibly be in the range $-\infty \leq n \leq +\infty$. The quantity $x[n]$ is said to be the \emph{$n$-th sample of the sequence $x$}.
 
-Typically a discrete signal can be either a \emph{sampled-data signal} or a \emph{digital} signal. Both types of signals only exist in specific time quanta and they are likely the result of a sampling, but only digital signals have \emph{quantized} value---common sampled-data signals will possess continuous values. Values of digital signals are usually obtained from sample values either by \emph{rounding} or \emph{truncation} techniques---in both cases an error occurs and some information is inevitably lost.
+Typically, a discrete signal can be either a \emph{sampled-data signal} or a \emph{digital} signal. Both types of signals only exist in specific time quanta and they are likely the result of a sampling, but only digital signals have \emph{quantized} value---common sampled-data signals will possess continuous values ideally obtained from the related continuous signal. Values of digital signals can usually be obtained from sample values either by \emph{rounding} or \emph{truncation} techniques---in both cases a greater-than-zero error exists and \emph{some information is inevitably lost}.
 
-If the time in which samples occur are uniformly spaced, then one can normalize the independent variable $n$ so that it only assumes integer values.
+If the time in which samples occur are uniformly spaced, then one can normalize the independent variable $n$ so that it only assumes integer values, a preferrable behavior over an indexing variable that can assume any possible value.
 
-When dealing with Discrete-Time Signals, one can always assume---whether it is true or not---that the discrete sequence has been obtained by a sampling process of an underlying---already existing---continuous signal. Essentially, it's as if the discrete sequence keeps the information of some other continuous time signal from which it has been sampled.
+When dealing with Discrete-Time Signals, one can always assume---whether it is true or not---that the discrete sequence has been obtained by a sampling process of an underlying---already existing---continuous signal. Essentially, it's as if the discrete sequence keeps the information of some other continuous time signal from which it has been sampled, even though that sequence has not been obtained from an existing signal.
 
-Since signals can have multiple time domains, one has to clarify when equivalences between amplitudes may apply. In particular, the following relationship \[ x[n] = \left.x_a(t)\right|_{t=nT} = x_a(nT), n \in \Z\] yields only as long as we do not take in account any \emph{quantization error}, since---by definition---digital signals are the result of both a sampling process and a quantization process. Definitely, with the above relationship we are disregarding any quantization error, a practically unavoidable characteristic in digital signal processing. The spacing between two samples is said to be the \emph{sampling interval} or the \emph{sampling period} and measures in seconds, and the reciprocal of such quantity is called \emph{sampling frequency} $F_T$ or $F_S$ and measures in Hertz. Knowing the adopted sampling frequency when dealing with discrete-time sequences is of a paramount importance.
+Since signals can have multiple time domains, one has to clarify when equivalences between amplitudes may apply. In particular, the following relationship \[ x[n] = \left. x_a(t)\right|_{t=nT} = x_a(nT), n \in \Z\] holds only as long as we do not take in account any \emph{quantization error}, since---by definition---digital signals are the result of both a sampling process and a quantization process. Definitely, with the above relationship we are disregarding any quantization error, a \emph{practically unavoidable} characteristic of digital signal processing. The spacing between two samples is said to be the \emph{sampling interval} or the \emph{sampling period} and measures in seconds, and the reciprocal of such quantity is called \emph{sampling frequency} $F_T$ or $F_S$ and measures in Hertz (Hz). Knowing the adopted sampling frequency when dealing with discrete-time sequences is of a paramount importance, as it basically determines many important properties of a sequence and, more in general, of a signal.
 
 \section{Basic signal properties}
 
