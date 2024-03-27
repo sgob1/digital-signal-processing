@@ -18,16 +18,17 @@
 \include{upgreek-letters}
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
 \usepackage{pgfplots}
-%\usepackage{fontspec}
-\usepackage[default,regular,semibold]{sourceserifpro}
+% \usepackage{fontspec}
+% \usepackage[default,regular,semibold]{sourceserifpro}
+% \usepackage{mlmodern}
 %\usepackage{libertine}
-\usepackage[stickstoo,scale=0.95]{newtxmath}
+% \usepackage[stickstoo,scale=0.95]{newtxmath}
 % \usepackage[p]{scholax}
 % \usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
 %\usepackage[T1]{fontenc}
-% \usepackage{ETbb}
-% \let\oldstylenums\textosf
-% \usepackage[stickstoo,scale=0.95]{newtxmath}
+\usepackage{ETbb}
+\let\oldstylenums\textosf
+\usepackage[stickstoo,scale=0.95]{newtxmath}
 %\usepackage{stickstootext}
 %\usepackage[stickstoo,vvarbb]{newtxmath}
 %\usepackage{libertinust1math}
@@ -123,22 +124,22 @@ Since signals can have multiple time domains, one has to clarify when equivalenc
 
 \subsubsection{Nature of signals}
 
-Signals can be either \emph{deterministic} or \emph{random}; the first case denotes a signal that can be inferred by some rule or formula, while in the second case one has a random signal that cannot be \textbf{exactly} foretold ahead of time.
-Examples of random signals are the \emph{stock exchange}, or the \emph{coin flip}.
-Random signals are usually considered as they are generated in a random fashion---even though there might exist some actual underlying rule we don't actually know.
+Signals can be either \emph{deterministic} or of \emph{random} nature; the first case denotes a signal that can be inferred by some rule or formula, while in the second case one has a random signal that cannot be \textbf{exactly} foretold ahead of time.
+Examples of random signals are the \emph{stock exchange}, or the \emph{coin flip}, while deterministic signals are all signals obtained from sinusoids or similarly known formulas.
+Random signals are usually considered as if they are generated in a random fashion---even though there might exist some actual underlying rule we don't actually know, the mere fact we are unaware of a technique to predict it makes them actually as if they were random.
 
 \subsubsection{Filters}
 
-A \emph{filter} is a system which \emph{is able to control the frequency
-content of the output with respect to the input signal}.
+A \emph{filter} is a system which \emph{is able to control and modify the frequency content of the output with respect to the input signal}.
 The role of the filtering process is to remove or enhance some peculiar frequencies of a given input signal or sequence, producing a new output signal or sequence showing desired properties.
-When a filter is \emph{linear}, in the analog world, the output of the filtering operation sums up to the \emph{convolution} operation, which is the following signal,
+
+A particular case of a filter is the \textbf{linear filter}. When a filter is \emph{linear}, in the analog world, the output of the filtering operation can be obtained by means of the \emph{convolution} operation, which is the following signal,
 \[
 y(t) = \int_0^T x(t - \tau)h(\tau)d\tau.
 \]
 The role of $\tau$ in the convolution is to shift-reverse one of the two signals, while the multiplication with the other signal occurs. This ensures that the overall result will be a new signal which is the sum, sample-to-sample, between one of the two signals in its original form and a ``moving'' shift-reversed form of the other one.
 
-There are various other types of filters. A filter blocking a single frequency is said to be a \textbf{notch filter}. Such filters are capable of removing all frequency components, except those in a circumscribed range, that are thus \emph{selected} by the relative notch filter. Notch filters are widely adopted to filter out noise from \emph{power lines}---to filter out, for instance, the $60Hz$ of the Italian power lines. Differently, a \textbf{multiband filter} has more than one passband and more than one stopband, so it is generally able to keep alive multiple frequency ranges while rejecting all other frequencies. And lastly, a \textbf{comb filter} blocks frequencies that are integral multiplies of a low frequency, with a high response to several bands.
+There are various other types of filters. A filter blocking a single frequency is said to be a \textbf{notch filter}. Such filters are capable of removing all frequency components, except those in a circumscribed range, that are thus \emph{selected} by the relative notch filter. Notch filters are widely adopted to filter out noise from \emph{power lines}---to filter out, for instance, the $60Hz$ of the Italian power lines (in that case, the $60Hz$ frequencies are removed by the filter, so they are practically \emph{deselected}). Differently, a \textbf{multiband filter} has more than one passband and more than one stopband, so it is generally able to keep alive multiple frequency ranges while rejecting all other frequencies. And lastly, a \textbf{comb filter} blocks frequencies that are integral multiplies of a low frequency, with a high response to several bands.
 
 \subsubsection{Visual representation of a signal}
 
@@ -151,7 +152,7 @@ To represent signals, a \emph{stem plot} is usually adopted. There are two
 different forms of stem plot: a first one in which only samples are
 represented---dots along with their straight vertical line denoting the
 \emph{amplitude} of the signal in such quantum of time---and another one in
-which superposed to the samples an analog-like line is represented. In the
+which an analog-like line is represented superposed to the samples. In the
 latter case, there may be two different interpretations; either the digital
 signal is sampled from an original analog signal, or the continuous line
 denotes the amplitude of the digital signal \emph{as if} it were analog.
@@ -201,7 +202,7 @@ An important concept is the \textbf{strength} of a signal, also called \emph{siz
 \[
 ||x||_p = \left(\sum_{i=N_1}^{N_2} |x[n]|^p\right)^{\frac{1}{p}},
 \]
-where $p \in \N \setminus \{0\}$ is a positive integer, which is different from zero. In strength definition, one cannot ignore the specific value of the parameter $p$. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---in fact, RMS is the square root of the \textbf{mean} of the squares and not simply the square root of the sum of the squares, so there's an additional $\frac{1}{\sqrt{N}}$ factor that the $2$-strength lacks, with $N$ length of the sequence. The other two routine cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except for a constant scaling factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal.
+where $p \in \N \setminus \{0\}$ is a positive integer different from zero. In the strength definition, one cannot ignore the specific value of the parameter $p$, which essentially determines the kind of operation which is involved to compute the strength value. Typically, one has $p=1,2,\infty$, with $p=2$ being the \emph{root mean squares} apart from a scaling factor---in fact, RMS is the square root of the \textbf{mean} of the squares and not simply the square root of the sum of the squares, so there's an additional $\frac{1}{\sqrt{N}}$ factor that the $2$-strength lacks, with $N$ length of the sequence. The other two routine cases are $p=1$ corresponding to the \emph{mean absolute value} of the signal---except for a constant scaling factor---and $p=\infty$ where the strength of the signal would be the \emph{absolute peak value} of the signal. Choosing a peculiar $p$, in essence, gives a different meaning to the strength of a signal.
 
 We can use the above tool to compute in some way the difference between two sequences; from the concept of signal strength, the concept of \emph{relative error} immediately arises.
 Let $\{y[n]\}, 0 \leq n \leq N - 1$ be an approximation of the signal $\{x[n]\}, 0 \leq n \leq N - 1$, both being causal sequences having the same length.
@@ -209,10 +210,9 @@ In this case, one calls \textbf{relative error} the quantity
 \begin{equation}\label{eqn:RelativeError}
 	E_{rel} = \left(\frac{\sum_{n=0}^{N-1} |y[n] - x[n]|^2}{\sum_{n=0}^{N-1} |x[n]|^2}\right)^\frac{1}{2},
 \end{equation}
-the ratio of the $\mathcal L_2$-norm of the signal which is the difference between $y[n]$ and $x[n]$, and the $\mathcal L_2$-norm of the signal $\{x[n]\}$ alone.
-The relative error between a sequence $y$ and a sequence $x$ is actually the $2$-strength of the difference between $y$ and $x$ across their length from sample $0$ to sample $N-1$, divided by the $2$-strength of the sequence $x$. Everything is square-rooted, as each $2$-norm is actually square-rooted from its definition.
+the ratio of the $\mathcal L_2$-norm of the signal which is the difference between $y[n]$ and $x[n]$, and the $\mathcal L_2$-norm of the signal $\{x[n]\}$ alone. The relative error between a sequence $y$ and a sequence $x$ is actually the $2$-strength of the difference between $y$ and $x$ across their length from sample $0$ to sample $N-1$, divided by the $2$-strength of the sequence $x$. Everything is square-rooted, as each $2$-norm is actually square-rooted from its definition.
 
-The numerator of such quantity can be considered as the error between se\-quen\-ces $x$ and $y$, while the denominator is the $2$-strength of a non-approximated se\-quen\-ce. We can interpret it as the ratio between a kind of `error' between sequences $y$ and $x$, measured through the $\mathcal L_2$-norm, and the overall $2$-strength of the sequence $x$.
+The numerator of such quantity can be considered as the error between se\-quen\-ces $x$ and $y$, while the denominator is the $2$-strength of a non-approximated se\-quen\-ce. We can interpret it as the ratio between a kind of `error' of the sequences $y$ and $x$, measured through the $\mathcal L_2$-norm, and the overall $2$-strength of the sequence~$x$.
 
 \subsection{Operations on se\-quen\-ces}\label{sec:operationsOnSequences}
 
@@ -248,7 +248,7 @@ Basic signal operations are called \textbf{elementary operations}. The first ele
 \end{center}
 \end{figure}
 
-Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---a triangle-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ The addition is instead performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$
+Other elementary operations are the \emph{multiplication} operation and the \emph{addition} operation. The multiplier is denoted by a triangle---a triangle-like symbol is adopted---while the addition is a plus symbol inside a circle. Diagrams~\ref{tikz:multiplication-operation} and~\ref{tikz:addition-operation} summarize the overall notation. This time, multiplication is not performed between entire signals, but instead a constant $A$ multiplies a signal $x$, such that $$y[n] = A \cdot x[n].$$ Essentially, a multiplication is equivalent with a modulation of a signal $x$ with another signal $A$, which is of the same length and of constant value. The addition is instead performed between two distinct signals, hence $$z[n] = x[n] + y[n].$$ 
 
 \begin{figure}[ht]
 \begin{center}
@@ -319,7 +319,7 @@ Yet another common `operation' is the \emph{branching} operation, in which a sig
     \node [](D) at(1.5,-1.5){$x[n]$};
     \draw[->] (A) -- (B) -- (C);
     \draw[->] (B) -- (D);
-\end{tikzpicture}\caption{Notation for the branching (signal splitting) operation. The $b$ node allows splitting of the signal into two---equal---branches where $x$ is routed.}\label{tikz:branchingOperation}
+\end{tikzpicture}\caption{Notation for the branching (signal splitting) operation. The $b$ node allows splitting of the signal into two equal branches where $x$ is routed.}\label{tikz:branchingOperation}
 \end{center}
 \end{figure}
 
@@ -394,7 +394,7 @@ Up-sampling operation is denoted by a $\uparrow L$ block, as in Diagram~\ref{tik
 \end{center}
 \end{figure}
 
-On its essential core, up-sampling is an \emph{uphill} transformation that involves taking a signal over a discrete-time domain with sampling rate $\frac 1 T$ and generating a new signal with an higher sampling rate $\frac 1 {NT}$ by means of a convolution with a delta impulse in the output domain. The convolution with the correct delta impulses will yield a new signal, having the same original values, plus the new zeros added between the previous values.
+On its essential core, up-sampling is an \emph{uphill} transformation that involves taking a signal over a discrete-time domain with sampling rate $\frac 1 T$ and generating a new signal with an higher sampling rate $\frac 1 {NT}$ by means of a convolution with a delta impulse in the output domain. Such a delta impulse will correspond to a train of delta impulses with the new, desired, sampling rate frequency. The convolution with the correct delta impulses will yield a new signal, having the same original values, plus the new zeros added between the previous values.
 
 \subsubsection{Down-Sampling}
 
@@ -432,7 +432,7 @@ There are several ways to classify a se\-quen\-ce.
 
 The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymmetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$, and by summing up one obtains $x[n]$.
 
-Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{gcd}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{gcd}$ is the ``greatest common divisor'' operation;
+Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{\texttt{gcd}}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{\texttt{gcd}}$ is the ``greatest common divisor'' operation;
 
 One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity
 \begin{equation}\label{eqn:totalEnergy}
@@ -4308,7 +4308,7 @@ In \textsc{Matlab}, function \texttt{fftfilt} can be invoked to implement the ab
         \draw[dashed] (0.5*24.5, 1.5) -- (0.5*24.5, -7.5);
         \draw [thick, decorate, decoration = {calligraphic brace}] (0.5*20.6,1.6) --  (0.5*24.4,1.6);
         \node at (22.5*0.5, 1.9) {Add};
-        \node at (22.5*0.5, -7.3) {$\bm{\vdots}$};
+        \node at (22.5*0.5, -7.3) {$\bm {\vdots}$};
 
     \end{tikzpicture}
 \end{center}\caption{Overlap--Add of the partial output sequences, with increasing $m$. Merging the sequences involves overlapping and summing over $M - 1$ samples, in this case $M=5$, so over $M - 1 = 4$ samples. A remarkable attribute is that all sequences are \emph{causal} since the corresponding $x_m[n]$ are causal as well. The random sequences are purely illustrative and are not generated by a computation process from sequences in Figure~\ref{tikz:overlapAddPartitioning}.}\label{tikz:overlapAddMerging}
