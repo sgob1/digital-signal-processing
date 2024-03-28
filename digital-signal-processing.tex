@@ -32,7 +32,7 @@
 % \let\oldstylenums\textosf
 % \usepackage{XCharter}
 % \usepackage{stickstootext}
-\usepackage[stickstoo,scale=1.00]{newtxmath}
+\usepackage[stickstoo,vvarbb,scale=1.00]{newtxmath}
 %\usepackage[stickstoo,vvarbb]{newtxmath}
 %\usepackage{libertinust1math}
 %\usepackage{mlmodern}
@@ -897,7 +897,7 @@ The $M$-point attribute is related to the fact that---starting from time instant
 
 In most applications, the input data $x[n]$ is a bounded sequence; therefore, the $M$-point average $y[n]$ is a bounded sequence as well. Doubtlessly, if there is no bias in the measurements, an improved estimate of the noisy data is obtained by simply increasing the value of $M$.
 
-A direct implementation of the moving average discrete-time system requires $M-1$ additions, a single division and the storage of $M-1$ past input data samples. As we will see later on, this is far from the most efficient solution.
+A direct implementation of the moving average discrete-time system requires $M-1$ additions, a single division and the storage of $M-1$ past input data samples. As we will see just below, this is far from the most efficient solution.
 
 The $M$-point moving average system can be rewritten as follows,
 \begin{align*}
