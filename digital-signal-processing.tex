@@ -19,14 +19,15 @@
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
 \usepackage{pgfplots}
 % \usepackage{fontspec}
-% \usepackage[default,regular,semibold]{sourceserifpro}
+\usepackage[default,regular,semibold]{sourceserifpro}
 % \usepackage{mlmodern}
-%\usepackage{libertine}
+% \usepackage{libertine}
+% \usepackage{libertine}
 % \usepackage[stickstoo,scale=0.95]{newtxmath}
 % \usepackage[p]{scholax}
 % \usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
 %\usepackage[T1]{fontenc}
-\usepackage{ETbb}
+% \usepackage{ETbb}
 \let\oldstylenums\textosf
 \usepackage[stickstoo,scale=0.95]{newtxmath}
 %\usepackage{stickstootext}
@@ -612,11 +613,11 @@ Complex exponential sequences are capable, in some way, of incorporating the beh
 
 Another paramount property revolves around the oscillation frequency of a sinusoid $x[n]=\cos{(\omega_0 n)}$. In practice, the frequency of oscillation increases as $\omega_0$ goes from $0$ to $\pi$, while the contrary happens when moving from $\pi$ to $2\pi$. What does this mean?
 
-That is a property of \emph{discrete} sinusoids: the frequency of oscillation is the greatest around $\omega=\pi$, while it is the lowest possible for frequencies close to $0$ or close to $2\pi$. The first frequencies are said to be \textbf{high frequencies}, while the latter ones are indeed the \textbf{low frequencies}.
+That is a property of \emph{discrete} sinusoids: the frequency of oscillation is the greatest around $\omega=\pi$, while it is the lowest possible for frequencies close to $0$ or close to $2\pi$. The first frequencies are said to be \textbf{high frequencies}, while the latter ones are indeed the \textbf{low frequencies}. Practically, there's a symmetry in the frequency domain, centered at value $\pi$ and periodic on period $[0, 2\pi]$.
 
 For the first considered property, a sinusoidal se\-quen\-ce having frequency $\omega_0$ in the neighborhood of $\omega=2\pi k$ is indistinguishable from another sinusoidal se\-quen\-ce whose frequency is $\omega_0 - 2 \pi k$, in the neighborhood of $\omega = 0$. Along with the same reasoning, any frequency $\omega_0$ in the neighborhood of $\omega = \pi (2k + 1)$ is indistinguishable from a frequency $\omega_0 - \pi(2k + 1)$ in the neighborhood of $\omega = \pi$.
 
-Actually, what happens is that the oscillation shows a \emph{periodic} behavior across the frequency---hence, it is possible to describe the entire frequency space with the sole range of values $[0, \pi]$, as the other half $[\pi, 2\pi]$ is completely symmetric to the first range (what, in practice, occurs is that a discrete sinusoid increases its oscillation frequency moving from $0$ towards $\pi$, and decreases the other way around from $\pi$ to $2\pi$; the increasing and decreasing patterns are completely symmetric).
+Actually, what happens is that the oscillation shows a \emph{periodic} behavior across the frequency---hence, it is possible to describe the entire frequency space with the sole range of values $[0, \pi]$, as the other half $[\pi, 2\pi]$ is completely symmetric to the first range (what, in practice, occurs is that a discrete sinusoid increases its oscillation frequency moving from $0$ towards $\pi$, and decreases the other way around from $\pi$ to $2\pi$; the increasing and decreasing patterns are completely symmetric). The frequency at $\pi$ is the maximum possible frequency---this is because, in practice, it corresponds to an oscillation such as $\cos{(\pi n)}$, which is equivalent to the signal $\kappa[n] = (-1)^n$. Any frequency or oscillation faster than $\pi$ would inevitably be equivalent to a slower one.
 
 As previously said, frequencies in neighborhood of $\omega = 2 \pi k$ are the low frequencies, in contrast to those in the neighborhood of $\omega = \pi (2k + 1)$ that are the high frequencies. As an example, the se\-quen\-ce 
 \[
@@ -663,13 +664,13 @@ In the above example, the se\-quen\-ce $x[n]$ is represented by a weighted sum o
 
 \section{The sampling process}
 
-Usually, when dealing with discrete-time se\-quen\-ces, one encounters examples of signals that are obtained by uniformly sampling a countinuous-time signal. In such scenario, one has a se\-quen\-ce $x[n]$ extracted from a signal $x_a(t)$ by means of a sampling process.
+Usually, when dealing with discrete-time se\-quen\-ces, one encounters examples of signals that are obtained by uniformly sampling a countinuous-time signal. In such scenario, one has a se\-quen\-ce $x[n]$ extracted from a signal $x_a(t)$ by means of a \textbf{sampling process}.
 
 The relationship between the original con\-ti\-nuo\-us-time signal and the discrete-time se\-quen\-ce is the following one,
 \[
     x[n] = x_a(t)\Bigr\rvert_{t=nT} = x_a(nT), n = \dots,-2,-1,0,1,2,\dots
 \]
-The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ \emph{at some samples} $nT$, discarding every other point. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period $T$ out of an original continuous-time signal $x_a(t)$.
+The above relationship between the original signal and the sampled se\-quen\-ce states that the sampling process is equivalent to simply pick the value of the countinous-time signal $x_a$ \emph{at some samples} $nT$, discarding every other point. By performing such operation, one will obtain a sampled se\-quen\-ce with sampling period $T$ out of an original continuous-time signal $x_a(t)$. No quantization error occurs at this point, since we are essentially just picking the \emph{real value} of the continuous signal.
 
 The time variable $t$ of the con\-ti\-nuo\-us-time signal $x_a(t)$ is related to the time variable $n$ of $x[n]$ only in some discrete-time instants $t_n$, and each of them must abide to the following rule,
 \begin{equation}\label{eqn:timeSamplingRule}
