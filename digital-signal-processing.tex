@@ -20,19 +20,20 @@
 \usepackage{pgfplots}
 % \usepackage{fontspec}
 % \usepackage[usefilenames,RMstyle={Text,Semibold},SSstyle={Text,Semibold},TTstyle={Text,Semibold},DefaultFeatures={Ligatures=Common}]{plex-otf} %
-\usepackage[default,regular,semibold]{sourceserifpro}
+% \usepackage[default,regular,semibold]{sourceserifpro}
 % \usepackage{mlmodern}
 % \usepackage{libertine}
 % \usepackage{libertine}
 % \usepackage[stickstoo,scale=0.95]{newtxmath}
+\usepackage{tgschola}
 % \usepackage[p]{scholax}
-% \usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
+\usepackage[scaled=1.075,ncf,vvarbb]{newtxmath}
 %\usepackage[T1]{fontenc}
 % \usepackage{ETbb}
 % \let\oldstylenums\textosf
 % \usepackage{XCharter}
 % \usepackage{stickstootext}
-\usepackage[stickstoo,vvarbb,scale=1.00]{newtxmath}
+% \usepackage[stickstoo,vvarbb,scale=1.00]{newtxmath}
 %\usepackage[stickstoo,vvarbb]{newtxmath}
 %\usepackage{libertinust1math}
 %\usepackage{mlmodern}
@@ -435,7 +436,11 @@ There are several ways to classify a se\-quen\-ce.
 
 The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymmetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$, and by summing up one obtains $x[n]$.
 
-Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of \[N_f = \frac{N_a N_b}{\mathrm{\texttt{gcd}}(N_a, N_b)} \geq \max{(N_a, N_b)},\] where $\mathrm{\texttt{gcd}}$ is the ``greatest common divisor'' operation;
+Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of 
+\begin{equation}\label{eqn:greatestCommonDivisorPeriodFormula}
+	N_f = \frac{N_a N_b}{\mathrm{\texttt{gcd}}(N_a, N_b)} \geq \max{(N_a, N_b)},
+\end{equation} 
+where $\mathrm{\texttt{gcd}}$ is the ``greatest common divisor'' operation;
 
 One can also compute the \textbf{total energy} of a signal $x$, defined as the quantity
 \begin{equation}\label{eqn:totalEnergy}
@@ -604,6 +609,47 @@ Otherwise, we are in the case of an irrational $\frac{2\pi}{\omega_0}$ and the r
 Essentially, for a discrete sinusoid to be a periodic sequence the angular frequency $\omega_0$ should be an irrational number so that it cancels out with $\pi$.
 
 For instance, if one considers \[x_a[n] = \sin{(\sqrt{3}n + \varphi)},\] this (discrete) se\-quen\-ce will be aperiodic regardless of the fact that the continuous function would still be a periodic signal. In fact, substituting in \ref{eqn:sinusoidExponentialPeriodFraction} yields \[\frac{2\pi}{\sqrt{3}} = \frac N r,\] resulting in a quantity on the left that can never be rational as the right member of the equation (remember that both $N$ and $r$ are natural numbers, by definition). This is because the \ref{eqn:sinusoidExponentialPeriodFraction} strictly requires that the angular frequency is an irrational number---a multiple of $\pi$, to be accurate---in order for the condition of rationality to be properly fulfilled. Also the sequence \[x_b[n] = \sin{(3n + \varphi)}\] is not periodic for similar reasons as stated above. On contrary, the sequence \[x_c[n] = \sin{(3\pi n + \varphi)}\] is a periodic sequence, as \[\frac{2\pi}{3\pi} = \frac 2 3 \in \Q.\]
+
+\subsubsection{Examples}
+
+Another way to understand the above rule is by the converse: in order for a sinusoidal sequence to be periodic, given the above terms, $N$ must be a natural number. Let's pick three examples for that.
+
+\begin{enumerate}
+	\item The sequence \[x[n] = \sin{(\frac 1 8 \pi n)}\] must subside to
+		the following equation for it to be periodic,
+		\[
+			\frac 1 8 \pi n = \frac {2 \pi n}{N}.
+		\]
+		The above yields
+		\[
+			N = 16,
+		\]
+		and since $N$ is a natural number, the above sequence is \emph{periodic}.
+	\item The sequence \[y[n] = \cos{(0.5n + \pi)}.\] For it to be periodic, it must satisfy
+		\[
+			\frac 1 2 n = \frac{2 \pi n}{N},
+		\]
+		which yields $N = 4\pi$, an irrational number. The sequence $y$
+		is therefore \emph{not periodic}. This could also be seen
+		immediately, as the term $\omega_0 = \frac 1 2$ does not
+		contain (or is not a multiple of) $\pi$.
+	\item The sequence \[z[n] = \sin{(\frac {n\pi}{15})}e^{\frac {j\pi
+		n}{16}},\] which has an additional exponential term that
+		multiplies a sinusoidal sequence. For it to be periodic, the
+		two above sequences must be periodic independently. Let's
+		evaluate them separately,
+		\begin{align*}
+			\frac{n \pi}{15} &= \frac{2 \pi n}{N_s} \longrightarrow N_s = 30,\\
+			\frac{n \pi}{16} &= \frac{2 \pi n}{N_e} \longrightarrow N_e = 32,
+		\end{align*}
+		and the two sequences are separately periodic. To obtain the
+		overall period let's use formula expressed in
+		Equation~\ref{eqn:greatestCommonDivisorPeriodFormula},
+		\[
+			N = \frac{N_sN_e}{\mathrm{\texttt{gcd}}(N_s, N_e)} = \frac {30 \cdot 32}{2} = 480,
+		\]
+		therefore the overall sequence is \emph{periodic} with \emph{fundamental period} $N = 480$.
+\end{enumerate}
 
 \subsection{Frequency properties of basic sinusoidal se\-quen\-ces}
 
@@ -1243,6 +1289,47 @@ The output energy for such a system is given by
     \sum_{n=-\infty}^{\infty} |y[n]|^2 = |\alpha|^2 \sum_{n=-\infty}^{\infty}|x[n]|^2,
 \]
 and it depends on the choice of the coefficient $\alpha$, as it is either a passive system if $|\alpha| < 1$, or a lossless system in the case of $|\alpha| = 1$. Of course, it is neither passive nor lossless if $|\alpha| > 1$.
+
+\subsection{Invertible systems}
+
+\textbf{Invertible systems} are all those systems that can be inverted, that is
+for a given system $\mathcal H$ it is possible to find an \emph{inverse system}
+$\mathcal H^{-1}$ for which, if $y[n]$ is the output of the system $\mathcal H$
+given input $x[n]$, then $x[n]$ is the output of the system $\mathcal H^{-1}$
+given input $y[n]$, or alternatively, a system $\mathcal H$ is
+\emph{invertible} if
+\[
+	\exists \mathcal H^{-1} | \mathcal {H}(x[n]) = y[n] \Rightarrow \mathcal {H}^{-1}(y[n]) = x[n].
+\]
+
+For instance, a system
+\[
+	y[n] = m x[n]
+\]
+is invertible with inverse system
+\[
+	x[n] = \frac 1 m y[n];
+\]
+
+on contrary, the system
+\[
+	y[n] = (x[n])^2
+\]
+is not invertible, as the square function is not bijective, hence we cannot
+invert it safely (performing square root would cut out all negative values,
+since they are mapped as the same $y[n]$ in the above system).
+
+\subsection{Systems with memory}
+
+A system has \textbf{memory} if, in order to obtain the output at a given $n$,
+past input samples should be collected.
+
+To spot whether a system needs memory it is sufficient to look at the formula
+for terms of the form $x[n-k], k\in \N\setminus{0}$. For instance,
+\begin{itemize}
+	\item $y_1[n] = x[n] - x[n-1]$ has memory;
+	\item $y_2[n] = \cos{0.5 n}$ does not have memory.
+\end{itemize}
 
 \subsection{Impulse and Step Response of a Discrete-time System}
 
@@ -6472,11 +6559,14 @@ The waveform of the underlying continuous-time output shows \emph{distortion} wh
 
 In the \textbf{transform domain} it is trivial to deal with the analysis and with the characterization of an LTI system. Any LTI system is completely characterized by its impulse response sequence $\{h[n]\}$; as such, the transform of that sequence would grant us some additional insights into the behavior of such systems, by looking at the \emph{frequency response}. In fact, it is much easier to design filters by manipulating the frequency response instead of their impulse response. We now consider the use of the Discrete-time Fourier Transform and the $z$-transform to migrate from a time-domain representation to a frequency-domain representation and mitigate the difficulty of dealing with the former.
 
-In this book we shall be concerned with LTI discrete-time systems (filters) that are characterized by linear constant coefficients difference equations, having form
+In this book we shall be concerned with LTI discrete-time systems (filters) that are characterized by \textbf{linear constant coefficients difference equations}, having form
 \begin{equation}\label{eqn:ltiDiscreteTimeLinearConstantCoefficientsDifference}
     \sum_{k=0}^N d_k y[n-k] = \sum_{k=0}^M p_k x[n-k].
 \end{equation}
-Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$.
+Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is
+determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$.
+Non-recursive systems can be obtained if $d_k \equiv 0 \forall k > 0$, by
+eliminating all terms related to previous output samples.
 
 Applying $z$-transform on both sides of the difference equation, along with properties of linearity and time-invariance, quickly yields
 \begin{equation}\label{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifference}
