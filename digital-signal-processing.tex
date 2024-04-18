@@ -1780,8 +1780,10 @@ The accumulator is a \emph{causal} system as it possesses a causal impulse respo
 
 A good counter--example is the factor-of-$2$ interpolator, having equation
 \[
-    y[n] = x_u[n] + \frac 1 2(x_u[n-1] + x_u[n+1]).
+    y[n] = x_u[n] + \frac 1 2(x_u[n-1] + x_u[n+1]);
 \]
+in this case, the interpolator is not causal, since there is a term depending on
+a future time instant, $n+1$.
 
 The interpolator is a \emph{noncausal} system, because it has a noncausal impulse response that's given by
 \[
@@ -1794,17 +1796,106 @@ As we have previously seen, any noncausal LTI discrete-time system with a finite
 \]
 
 \section{Finite-Dimensional LTI Discrete-time Systems}
-A very important subclass of LTI systems is characterized by a linear constant coefficients difference equation. Those systems must abide to the following form
+A very important subclass of LTI systems is characterized by a \textbf{linear
+constant coefficients difference equation}. Those systems must abide to the
+following form
 \begin{equation}\label{eqn:finiteDimensionalLtiSystems}
     \sum_{k=0}^N d_k y[n-k] = \sum_{k=0}^M p_k x[n-k],
 \end{equation}
-where $x[n]$ and $y[n]$ are, respectively, the input and the output of the LTI system. Sequences $\{d_k\}$ and $\{p_k\}$ are constants characterizing the finite-dimensional system.
+where $x[n]$ and $y[n]$ are, respectively, the input and the output of the LTI
+system. Sequences $\{d_k\}$ and $\{p_k\}$ are constants characterizing the
+finite-dimensional system.
 
-Finite-dimensional LTI systems possess an \emph{order}; the order of the system is given by the quantity $\max {(N,M)}$, which is indeed the order of the difference equation. It is possible to implement any LTI systems characterized by a constant coefficient difference equation with two finite sums of products. In fact, if one assumes that the system is a causal LTI finite-dimensional system and that the coefficient $d_0 \neq 0$, then the output $y[n]$ can be obtained by \emph{recursively} computing the output
+Above systems are generally \emph{recursive}; this means that, in order to
+obtain the output at time $n$, knowledge of the output at past time is required
+for some past instants. Non-recursive systems can be obtained if $d_k \equiv 0,
+\forall k > 0$, by eliminating all terms related to previous output samples; in
+such a case, output $y[n]$ can be obtained by the only knowledge of the input
+$x[n]$ and some of its past samples.
+
+An example of an above system---although simple---can be the system described
+by the following relation, \[ z[n] = 0.25z[n-1] + x[n], z[-1] = 0. \] The
+system is described by coefficients $d_0 = 1$ and $d_1 = -0.25$, $p_0 = 1$.
+
+
+Finite-dimensional LTI systems are characterized by an \emph{order}; the order
+of the system is given by the quantity $\max {(N,M)}$, which is indeed the
+order of the difference equation. It is possible to implement any LTI systems
+characterized by a constant coefficient difference equation with two finite
+sums of products. In fact, if one assumes that the system is a causal LTI
+finite-dimensional system and that the coefficient $d_0 \neq 0$, then the
+output $y[n]$ can be obtained by \emph{recursively} computing the output
 \begin{equation}\label{eqn:finiteDimensionalLtiSystemsRecursive}
     y[n]= -\sum_{k=1}^N \frac {d_k}{d_0} y[n-k] + \sum_{k=0}^M \frac{p_k}{d_0} x[n-k],
 \end{equation}
-obtained by re\"arranging Equation~\ref{eqn:finiteDimensionalLtiSystems}. The output can be obtained this way for all $n \geq n_0$, by knowing both $x[n]$ and all the $N$ initial conditions $y[n_0-1], y[n_0-2],\dots,y[n_0-N]$.
+obtained by re\"arranging Equation~\ref{eqn:finiteDimensionalLtiSystems}.
+In this case, the coefficient $d_0$ acts as a scaling factor that divides each
+term on the right of the above formula.
+The output can be obtained this way for all $n \geq n_0$, by knowing both
+$x[n]$ and all the $N$ initial conditions $y[n_0-1], y[n_0-2],\dots,y[n_0-N]$.
+
+Usually, Finite-Dimensional LTI systems can exhibit two behaviours against an
+impulsive input: they can either be \textbf{Finite-Impulse Response Systems
+(FIR)}---showing a finite-length response to an impulse $\delta[n]$, or
+\textbf{Infinite-Impulse Response Systems (IIR)}---resulting in infinite-length
+responses to impulsive inputs.
+
+Generally, speaking, the form as in
+Equation~\ref{eqn:finiteDimensionalLtiSystems} results in IIR systems even for
+finite-dimensional systems. In fact, recursive formulas tend to preserve
+non-zero output for a long time---possibily for an infinite time---due to the
+dependency between the output and past outputs.
+On contrary, recursive systems as those in
+Equation~\ref{eqn:finiteDimensionalLtiSystemsRecursive} are
+always FIR, because they have a difference equation that can be expressed as
+
+\[
+	y[n] = \sum_{k=0}^M \alpha_k x[n - k],
+\]
+
+a sum of the current and past input samples (the system has memory). The
+impulse response, therefore, is simply
+
+\begin{equation}\label{eqn:finiteDimensionalLtiSystemsRecursiveImpulseResponse}
+	h[n] = \sum_{k=0}^M \alpha_k \delta[n - k],
+\end{equation}
+a \emph{finite} sum of coefficients!
+
+\subsubsection{Examples}
+
+\begin{enumerate}
+	\item Let's consider the system \[ y[n] = by[n-1] + x[n]. \] The above
+		system is recursive, so it can either be IIR or FIR. Its impulse response is
+		\[ h[n] = b^n u[n], \]
+		an \emph{infinite-length} impulse response. The system is an IIR system.
+	\item The system \[ w[n] = 0.5x[n] + 0.25 x[n-1], x[-1]=0 \] is not
+		recursive, so we should expect a FIR behavior. By applying a
+		delta impulse $x[n] = \delta[n]$ as input, one obtains
+		\[
+			h[n] = 0.5\delta[n] + 0.25\delta[n-1],
+		\]
+		which yields an impulse response such as
+		\[
+			h[n] = \begin{Bmatrix} 0.5 & 0.25 \end{Bmatrix},
+		\]
+		a \emph{finite-length} impulse response. The system is a FIR
+		system.
+	\item The system \[ z[n] = 0.25z[n-1] + x[n], z[-1] = 0 \] is a
+		recursive system. Applying an impulse as input,
+		\[
+			h[n] = 0.25h[n-1] + \delta[n].
+		\]
+		The system as an infinite-length impulse response (IIR), as by
+		computing some values
+		\begin{align*}
+			h[0] &= 0.25 h[-1] + \delta[0] = 0.25\cdot 0 + 1 = 1,\\
+			h[1] &= 0.25 h[0] + \delta[1] = 0.25\cdot 1 + 0 = 0.25,\\
+			h[2] &= 0.25 h[1] + \delta[2] = 0.25\cdot 0.25 + 0 = 0.0625,
+		\end{align*}
+		and so on, always multiplying previous output by $0.25$, never
+		reaching zero.
+
+\end{enumerate}
 
 \section{Classification of LTI Discrete-time Systems}
 
@@ -1838,8 +1929,12 @@ which is clearly a linear constant coefficient difference equation yielding a re
 \subsubsection{Classification based on output calculation process}
 Calculation process plays a determinant role over classification of LTI systems. There are two categories of LTI systems concerning calculation process:
 \begin{itemize}
-    \item \emph{nonrecursive systems}, that are those whose output can be calculated sequentially, knowing only the present and past input samples;
-    \item \emph{recursive systems} are instead all those systems whose output computation in addition to the present and past input samples has to take into account past (some) output samples.
+    \item \emph{non-recursive systems}, that are those whose output can be
+    	    calculated sequentially, knowing only the present and past input
+    	    	samples;
+    \item \emph{recursive systems} are instead all those systems whose output
+    	    computation in addition to the present and past input samples has
+    	    	to take into account past (some) output samples.
 \end{itemize}
 
 \subsubsection{Classification based on coefficients nature}
@@ -1911,10 +2006,17 @@ A peculiar remark of the autocorrelation is that its value at time instant $0$ i
     as the sum is equal to the definition of total energy as in Equation~\ref{eqn:totalEnergy}.
 \end{proof}
 
-The above predicate shows that, when the correlation is computed with no delay involved, the total energy is obtained. From the relation $r_{yx}[l] = r_{xy}[-l]$ it immediately follows that $r_{xx}[l] = r_{xx}[-l]$, implying that the autocorrelation is an \emph{even} function for real sequences $x[n]$.
+The above predicate shows that, when the correlation is computed with no delay
+involved, the total energy is obtained (or, alternatively, computing the first
+value of $r_{xx}$ yields the energy of the autocorrelated sequence). From the
+relation $r_{yx}[l] = r_{xy}[-l]$ it immediately follows that $r_{xx}[l] =
+r_{xx}[-l]$, implying that the autocorrelation is an \emph{even} function for
+real sequences $x[n]$.
 
 \subsection{Properties of cross-correlation and autocorrelation}
-Let $x[n]$ and $y[n]$ be two energy sequences. The energy of the combined sequence $\alpha x[n] + y[n-l]$ is also finite and nonnegative\footnote{Energy is nonnegative because it is squared.}, that is
+Let $x[n]$ and $y[n]$ be two energy sequences. The energy of the combined
+sequence $\alpha x[n] + y[n-l]$ is also finite and nonnegative\footnote{Energy
+is nonnegative because it is squared.}, that is
 \begin{align*}
     \sum_{n=-\infty}^\infty (\alpha x[n] + y[n-l])^2 &= \underbrace{\alpha^2 \sum_{n=-\infty}^\infty x^2[n]}_{\mathcal E_x} + \underbrace{2\alpha \sum_{n=-\infty}^\infty x[n] y[n-l]}_{cross-correlation}\\ &+ \underbrace{\sum_{n=-\infty}^\infty y^2[n-l]}_{\mathcal E_y} \geq 0.
 \end{align*}
@@ -2010,7 +2112,9 @@ The correlation sequences have a distinct formula for periodic signals as well. 
     \end{equation}
 \end{defin}
 
-Both quantities, as expected, are evaluated in a single period of the involved sequences. They will produce periodic signals, therefore both cross-correlation $r_{xy}[l]$ and $r_{xx}[l]$ are \emph{periodic signals of period $N$}. The periodicity property of the autocorrelation sequence can be exploited to determine the period of any periodic signal that might be affected by an additive random noise. Periodic signals affected by random noise will lose their periodicity, as the impredictable and random nature of the noise will inevitably lead to a non-periodic signal.
+Both quantities, as expected, are evaluated in a single period of the involved sequences. They will produce periodic signals, therefore both cross-correlation $r_{xy}[l]$ and $r_{xx}[l]$ are \emph{periodic signals of period $N$}.
+
+The periodicity property of the autocorrelation sequence can be exploited to determine the period of any periodic signal that might be affected by an additive random noise. Periodic signals affected by random noise will lose their periodicity, as the impredictable and random nature of the noise will inevitably lead to a non-periodic signal.
 
 Indeed, it is sufficient to evaluate the autocorrelation for a disturbed signal $w[n] = x[n] + d[n]$, with $x$ original signal and $d$ additive noise, and evaluate the autocorrelation for signal $w[n]$. If $w$ is composed of $M-1$ samples (that is, we collected $M$ samples of $w$, from $0 \leq n \leq M-1$) and $M \ll N$, it is possible to capture the period of $x$ by computing the autocorrelation of $w[n]$. In fact,
 \begin{align*}
@@ -2048,11 +2152,35 @@ This chapter will be devoted in the introduction to the analysis of discrete-tim
 
 \section{Continuous-time Fourier Transform}\label{sec:continuousTimeFourierTransform}
 
-A \textbf{Fourier transform (FT)} is a mathematical transform that decomposes functions depending on space or time into functions depending on spatial frequency or temporal frequency. That process is also called analysis. An example application would be decomposing the waveform of a musical chord into terms of the intensity of its constituent pitches. The term Fourier transform refers to both the frequency domain representation and the mathematical operation that associates the frequency domain representation to a function of space or time.
+A \textbf{Fourier transform (FT)} is a mathematical transform that decomposes
+functions depending on space or time into functions depending on spatial
+frequency or temporal frequency. That process is also called \emph{analysis}.
+An example application would be decomposing the waveform of a musical chord
+into terms of the intensity of its constituent pitches. The term Fourier
+transform refers to both the frequency domain representation and the
+mathematical operation that associates the frequency domain representation to a
+function of space or time.
 
-The Fourier transform of a function is a complex-valued function representing the complex sinusoids that comprise the original function. For each frequency, the magnitude (absolute value) of the complex value represents the amplitude of a constituent complex sinusoid with that frequency, and the argument of the complex value represents that complex sinusoid's phase offset. If a frequency is not present, the transform has a value of 0 for that frequency. The Fourier transform is not limited to functions of time, but the domain of the original function is commonly referred to as the time domain. The Fourier inversion theorem provides a synthesis process that recreates the original function from its frequency domain representation~\cite{bib:fourierTransform}.
+The Fourier transform of a function is a complex-valued function representing
+the complex sinusoids that comprise the original function. For each frequency,
+the magnitude (absolute value) of the complex value represents the amplitude of
+a constituent complex sinusoid with that frequency, and the argument of the
+complex value represents that complex sinusoid's phase offset. If a frequency
+is not present, the transform has a value of 0 for that frequency. The Fourier
+transform is not limited to functions of time, but the domain of the original
+function is commonly referred to as the time domain. The Fourier inversion
+theorem provides a synthesis process that recreates the original function from
+its frequency domain representation~\cite{bib:fourierTransform}.
 
-Functions that are localized in the time domain have Fourier transforms that are spread out across the frequency domain and vice versa, a phenomenon known as the \emph{uncertainty principle}. The critical case for this principle is the Gaussian function, of substantial importance in probability theory and statistics as well as in the study of physical phenomena exhibiting normal distribution (e.g., diffusion). The Fourier transform of a Gaussian function is another Gaussian function. Joseph Fourier introduced the transform in his study of heat transfer, where Gaussian functions appear as solutions of the heat equation.
+Functions that are localized in the time domain have Fourier transforms that
+are spread out across the frequency domain and vice versa, a phenomenon known
+as the \emph{uncertainty principle}. The critical case for this principle is
+the Gaussian function, of substantial importance in probability theory and
+statistics as well as in the study of physical phenomena exhibiting normal
+distribution (e.g., diffusion). The Fourier transform of a Gaussian function is
+another Gaussian function. Joseph Fourier introduced the transform in his study
+of heat transfer, where Gaussian functions appear as solutions of the heat
+equation.
 
 \begin{defin}[Continuous-time Fourier Transform]
     The \emph{Continuous-time Fourier Transform} of a continuous-time signal $x_a(t)$ is given by
@@ -2061,7 +2189,13 @@ Functions that are localized in the time domain have Fourier transforms that are
     \end{equation}
 \end{defin}
 
-The Continuous-time Fourier Transform is often referred to as the \emph{Fourier specturm} or the \emph{spectrum} of a continuous-time signal, with notation \[ x_a(t) \longleftrightarrow X_a(j\omega).\]
+The Continuous-time Fourier Transform is often referred to as the \emph{Fourier
+specturm} or the \emph{spectrum} of a continuous-time signal, with notation 
+\[
+	x_a(t) \longleftrightarrow X_a(j\omega)
+\]
+highlighting the relationship between the original signal $x_a$ and its
+spectrum $X_a$.
 
 \begin{defin}[Inverse Continuous-time Fourier Transform]
     The \emph{Inverse Continuous-time Fourier Transform} of a Fourier transform $X_a(t)$ is given by
@@ -2070,9 +2204,16 @@ The Continuous-time Fourier Transform is often referred to as the \emph{Fourier 
     \end{equation}
 \end{defin}
 
-The inverse transform is often referred to as the \emph{Fourier integral}.
+The inverse transform integral is often referred to as the \emph{Fourier
+integral}. Notice how there is a plus sign at the exponent and there is now a
+coefficient $\frac 1 {2\pi}$ in front of the Fourier integral---a scaling
+factor that should applied during the anti-transformations process.
 
-Variable $\omega$ is real, and denotes the continuous-time angular frequency in \emph{radians/sec} if the unit of the independent variable $t$ is in \emph{seconds}. In general, a Continuous-time Fourier Transform is a complex analog function of $\omega$ in the range of $-\infty < \omega < \infty$. As any complex function, it can be rewritten in its polar form, that is
+Variable $\omega$ is real, and denotes the continuous-time angular frequency in
+\emph{radians/sec} if the unit of the independent variable $t$ is in
+\emph{seconds}. In general, a Continuous-time Fourier Transform is a complex
+analog function of $\omega$ in the range of $-\infty < \omega < \infty$. As any
+complex function, it can be rewritten in its polar form, that is
 \begin{equation}\label{eqn:continuousTimeFourierTransformPolar}
     X_a(j\omega) = \left|X_a(j\omega)\right|e^{j\theta_a(\omega)},
 \end{equation}
@@ -2080,7 +2221,7 @@ where the function
 \begin{equation}\label{eqn:continuousTimeFourierTransformPolarTheta}
     \theta_a(\omega)=\arg\{X_a(j\omega)\}
 \end{equation}
-is the argument of the Fourier Transform\footnote{
+is the \emph{argument} of the Fourier Transform\footnote{
     The argument of a complex number $x+iy$ is provided by the function \[\mbox{Arg }(x+iy) = \mbox{atan2} (y, x),\] that is equal to
     \[
         \mbox{Arg }(x+iy) = \left\{\begin{array}{ll}
@@ -2106,15 +2247,26 @@ The quantity $|X_a(j\omega)|$ is called the \emph{magnitude spectrum} and the qu
     \end{enumerate}
 \end{rules}
 
-The following theorem, without proposed proof, establishes a consequence of a signal following the Dirichlet conditions.
+Dirichlet conditions hence become a quick way to determine whether or not a function
+admits a Fourier Transform.
+The following theorem, without proposed proof, establishes a consequence of a
+signal following the Dirichlet conditions.
 
 \begin{thm}[Convergence of a signal]
-    Let $x_a(t)$ be a continuous-time signal in the time-domain that satisfies the Dirichlet conditions. Then, the inverse continuous-time Fourier Transform
+    Let $x_a(t)$ be a continuous-time signal in the time-domain that satisfies
+    	the Dirichlet conditions. Then, the inverse continuous-time Fourier
+    	Transform
     \[
         \frac 1 {2\pi}\int_{-\infty}^\infty X_a(j\omega) e^{j\omega t}d\omega
     \]
     converges to $x_a(t)$ at \emph{all} values of $t$ except at values of $t$ where $x_a(t)$ manifests discontinuities.
 \end{thm}
+
+The above theorem---practically speaking---ensures us that no matter the number
+of (finite) discontinuities, if a signal follows Dirichlet conditions then the
+process of transforming it and then anti-transforming it will yield a signal
+that is almost identical (converges to) the original signal, except in its
+discontinuities.
 
 It can be shown that, if $x_a(t)$ is \emph{absolutely integrable}, then its Fourier Transform is bounded, $\left|X_a(j\omega)\right|<\infty$, ultimately implying the existence of the Continuous-time Fourier Transform.
 
@@ -2163,7 +2315,15 @@ The energy density spectrum plays a crucial role in determining the arrangement 
     \mathcal E_{x,r} = \frac 1 {2\pi} \int_{\omega_a}^{\omega_b} S_{xx}(\omega)d\omega.
 \end{equation}
 
-In practice, the energy density spectrum allows to select a portion $r = [\omega_a, \omega_b]$ of the frequency spectrum and to determine the arrangement of the frequencies by obtaining the energy that a signal $x(t)$ possesses in the selected frequency range. In plain words, the energy will be arranged over the frequency domain with a distribution that depends on the signal; since the energy density spectrum describes the frequency arrangement in the frequency domain, integrating over it yields the value of the energy in that selected frequency interval.
+In practice, the energy density spectrum allows to select a portion $r =
+[\omega_a, \omega_b]$ of the frequency spectrum and to determine the
+arrangement of the frequencies by obtaining the energy that a signal $x(t)$
+possesses in the selected frequency range. In plain words, the energy will be
+arranged over the frequency domain with a distribution that depends on the
+transform of the signal, and thus on the signal; since the energy density
+spectrum describes the frequency arrangement in the frequency domain,
+integrating over it yields the value of the energy in that selected frequency
+interval.
 
 \subsection{Band-limited Continuous-time Signals}\label{sec:bandLimitedSignals}
 
@@ -2172,7 +2332,11 @@ Generally speaking, the more concentrated $f(x)$ is, the more spread out its Fou
 Indeed, depending its the Fourier Transform, a signal could lay either in the entire frequency domain or in a portion of it. Susceptible to the case, a signal could be:
 \begin{itemize}
     \item either a \emph{full-band} signal, when it takes up the \emph{whole} frequency range $-\infty < \omega < \infty$;
-    \item or a \emph{band-limited} signal, when it is limited to \emph{a portion} of the frequency range $-B < \omega < B$, with $B$ \emph{band} of the signal.
+    \item or a \emph{band-limited} signal, when it is limited to \emph{a
+    	    portion} of the frequency range $-B < \omega < B$, with $B$
+    	    	\emph{band} of the signal. Outside the band of interest, either
+    	    	the signal is zero or has a negligible value that is of small
+    	    	interest.
 \end{itemize}
 
 A special class of signals deserves to be mentioned: an \textbf{ideal band-limited} signal has a spectrum that is zero outside a finite frequency range $[\omega_a, \omega_b]$, that is a signal whose Fourier Transform is defined as
@@ -6563,10 +6727,7 @@ In this book we shall be concerned with LTI discrete-time systems (filters) that
 \begin{equation}\label{eqn:ltiDiscreteTimeLinearConstantCoefficientsDifference}
     \sum_{k=0}^N d_k y[n-k] = \sum_{k=0}^M p_k x[n-k].
 \end{equation}
-Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is
-determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$.
-Non-recursive systems can be obtained if $d_k \equiv 0 \forall k > 0$, by
-eliminating all terms related to previous output samples.
+Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$. Non-recursive systems can be obtained if $d_k \equiv 0 \forall k > 0$, by eliminating all terms related to previous output samples.
 
 Applying $z$-transform on both sides of the difference equation, along with properties of linearity and time-invariance, quickly yields
 \begin{equation}\label{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifference}
