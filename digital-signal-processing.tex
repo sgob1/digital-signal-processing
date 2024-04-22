@@ -2207,7 +2207,7 @@ spectrum $X_a$.
 The inverse transform integral is often referred to as the \emph{Fourier
 integral}. Notice how there is a plus sign at the exponent and there is now a
 coefficient $\frac 1 {2\pi}$ in front of the Fourier integral---a scaling
-factor that should applied during the anti-transformations process.
+factor that should be applied during the anti-transformations process.
 
 Variable $\omega$ is real, and denotes the continuous-time angular frequency in
 \emph{radians/sec} if the unit of the independent variable $t$ is in
@@ -2234,8 +2234,16 @@ is the \emph{argument} of the Fourier Transform\footnote{
             \end{array}\right.
     \]
 }.
+The polar form of any complex number allows us to split the original function
+definition in two components, one---the \emph{magnitude}---describing the
+amplitude of the function at a given frequency $\omega$, the other---the
+\emph{phase}---describing the phase of the function at the frequency $\omega$.
 
-The quantity $|X_a(j\omega)|$ is called the \emph{magnitude spectrum} and the quantity $\theta_a(\omega)$ is called the \emph{phase spectrum}. Both quantities are real functions and concur in the definition of the Continuous-time Fourier Transform. In general, the Continuous-time Fourier Transform exists if the original signal in the time domain satisfies the \textbf{Dirichlet conditions},
+The quantity $|X_a(j\omega)|$ is called the \emph{magnitude spectrum} and the quantity $\theta_a(\omega)$ is called the \emph{phase spectrum}. Both quantities are real functions and concur in the definition of the Continuous-time Fourier Transform.
+
+A Continuous-time Fourier Transform is not guaranteed to exist, or it may not
+exist in some portions of the frequency spectrum.
+In general, the Continuous-time Fourier Transform exists if the original signal in the time domain satisfies the \textbf{Dirichlet conditions},
 \begin{rules}[Dirichlet Conditions]
     Let $x_a(t)$ be a continuous-time signal in the time-domain. Signal $x_a(t)$ satisfies the \emph{Dirichlet conditions} if it satisfies both
     \begin{enumerate}
@@ -2248,7 +2256,9 @@ The quantity $|X_a(j\omega)|$ is called the \emph{magnitude spectrum} and the qu
 \end{rules}
 
 Dirichlet conditions hence become a quick way to determine whether or not a function
-admits a Fourier Transform.
+admits a Fourier Transform. In fact, it is sufficient for a signal to possess a
+finite number of discontinuities, together with being absolutely summable, that
+is, the above integral must converge.
 The following theorem, without proposed proof, establishes a consequence of a
 signal following the Dirichlet conditions.
 
@@ -2263,9 +2273,9 @@ signal following the Dirichlet conditions.
 \end{thm}
 
 The above theorem---practically speaking---ensures us that no matter the number
-of (finite) discontinuities, if a signal follows Dirichlet conditions then the
-process of transforming it and then anti-transforming it will yield a signal
-that is almost identical (converges to) the original signal, except in its
+of discontinuities---although finite---if a signal follows Dirichlet conditions, then the
+process of transforming it and then anti-transforming it will provide a signal
+that is almost identical (converges to) the original signal, except at its
 discontinuities.
 
 It can be shown that, if $x_a(t)$ is \emph{absolutely integrable}, then its Fourier Transform is bounded, $\left|X_a(j\omega)\right|<\infty$, ultimately implying the existence of the Continuous-time Fourier Transform.
@@ -2310,7 +2320,21 @@ The quantity $\left|X(j\omega)\right|^2$ is called \textbf{energy density spectr
     \mathcal S_{xx}(\omega)=\left|X(j\omega)\right|^2.
 \end{equation}
 
-The energy density spectrum plays a crucial role in determining the arrangement of the energy over the frequency domain. In fact, the energy over a specified range of frequencies $r = [\omega_a, \omega_b]$, that is for frequencies $\omega_a \leq \omega \leq \omega_b$, can be computed by means of the energy density spectrum, by integrating over the latter:
+This leads to a remarkable result: \emph{the energy of a signal is equal to the
+integral of the energy spectrum}, that is
+\begin{equation}\label{enq:energyDensitySpectrumEquivalence}
+        \int_{-\infty}^\infty|x(t)|^2dt = \frac 1 {2\pi} \int_{-\infty}^\infty\mathcal S_{xx}(\omega) d\omega.
+\end{equation}
+This essentially means that---since the energy density spectrum represents the
+distribution of the energy of the signal in the frequency domain---the energy
+of a signal is equal of its cumulative distribution among the frequency domain.
+Simply put, the \emph{energy of a signal is preserved across its Fourier
+Transform transformation}.
+
+The above statement can be expanded as follows. The energy over a specified
+range of frequencies $r = [\omega_a, \omega_b]$, that is for frequencies
+$\omega_a \leq \omega \leq \omega_b$, can be computed by means of the energy
+density spectrum, by integrating over the latter:
 \begin{equation}\label{eqn:energyDensitySpectrumComputation}
     \mathcal E_{x,r} = \frac 1 {2\pi} \int_{\omega_a}^{\omega_b} S_{xx}(\omega)d\omega.
 \end{equation}
@@ -2323,7 +2347,8 @@ arranged over the frequency domain with a distribution that depends on the
 transform of the signal, and thus on the signal; since the energy density
 spectrum describes the frequency arrangement in the frequency domain,
 integrating over it yields the value of the energy in that selected frequency
-interval.
+interval. The above formula simply allows us to select a certain range of
+frequencies and compute the energy of the signal in that certain range.
 
 \subsection{Band-limited Continuous-time Signals}\label{sec:bandLimitedSignals}
 
@@ -2355,7 +2380,8 @@ frequency domain is stretched, the viceversa occurs. In this case, one needs
 an infinite-length sequence in the time domain to produce a finite-length
 sequence in the frequency domain. Of course, infinite-length time
 sequences---although treatable in mathematical terms---do not exist in
-reality.}.
+reality. We are, thus, forced to employ signals that only resemble ideal
+ones.}.
 
 Band-limited signals can be classified accordingly to their frequency range,
 that is where \emph{the majority}\footnote{As previously said, no band-limited
@@ -2368,9 +2394,9 @@ contains the majority of the signal's energy, outside of which a negligible
 portion of the energy is present, with a small density-per-frequency.} of the
 signal's energy is concentrated,
 \begin{description}
-    \item[Lowpass] signals are all signals arranged in a frequency range $|\omega| \leq \omega_p < \infty$, where $\omega_p$ is said to be the \emph{bandwidth} of the signal;
-    \item[Highpass] signals are all signals arranged in a frequency range $0 < \omega_p \leq |\omega| < \infty$, where the bandwitdh of the signal is in the interval $[\omega_p, \infty[$.
-    \item[Bandpass] signals are any signal whose spectrum is located in the frequency range $[\omega_L, \omega_H]$, that is $0 < \omega_L \leq |\omega| \leq \omega_H < \infty$, where the bandwidth is given by $\mathrm{BW} = \omega_H - \omega_L$.
+    \item[Lowpass] signals are all signals arranged in a frequency range $|\omega| \leq \omega_p < \infty$, where $\omega_p$ is said to be the \emph{bandwidth} of the signal. Those are all signals having ``low'' frequencies only;
+    \item[Highpass] signals are all signals arranged in a frequency range $0 < \omega_p \leq |\omega| < \infty$, where the bandwitdh of the signal is in the interval $[\omega_p, \infty[$. All those signals have ``high'' frequencies only;
+    \item[Bandpass] signals are any signal whose spectrum is located in the frequency range $[\omega_L, \omega_H]$, that is $0 < \omega_L \leq |\omega| \leq \omega_H < \infty$, where the bandwidth is given by $\mathrm{BW} = \omega_H - \omega_L$. These signals can be thought as all having ``middle-range'' frequencies.
 \end{description}
 
 \section{Discrete-time Fourier Transform}\label{sec:discreteTimeFourierTransform}
