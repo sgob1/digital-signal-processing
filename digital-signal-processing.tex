@@ -2343,14 +2343,30 @@ A special class of signals deserves to be mentioned: an \textbf{ideal band-limit
 \begin{equation}\label{eqn:idealBandSignal}
     X(j\omega) = \left\{\begin{array}{ll}
         0,  &   0 \leq |\omega| \leq \omega_a\\
-        0,  &   \omega_b \leq |\omega| \leq \infty\\
-        X(j\omega)  &   \omega_a \leq |\omega| \leq \omega_b
+        X(j\omega)  &   \omega_a \leq |\omega| \leq \omega_b,\\
+        0,  &   \omega_b \leq |\omega| \leq \infty
     \end{array}\right..
 \end{equation}
 
-An ideal band-limited signal can never be generated in practice, as the uncertainty principle would require an infinite-length sequence for it to be generated.
+An ideal band-limited signal can never be generated in practice, as the
+uncertainty principle would require an infinite-length sequence for it to be
+generated\footnote{As the more you compress the time domain, the more the
+frequency domain is stretched, the viceversa occurs. In this case, one needs
+an infinite-length sequence in the time domain to produce a finite-length
+sequence in the frequency domain. Of course, infinite-length time
+sequences---although treatable in mathematical terms---do not exist in
+reality.}.
 
-Band-limited signals can be classified accordingly to their frequency range, that is where the majority of the signal's energy is concentrated,
+Band-limited signals can be classified accordingly to their frequency range,
+that is where \emph{the majority}\footnote{As previously said, no band-limited
+signals can possibly exist. However, we can still produce sequences whose
+frequency magnitude is negligible outside a very specific portion of the
+spectrum, in this case we can consider the signal as somehow band-limited, even
+though the values outside the band of interests are still non-zero. That way,
+we can consider the band of the signal as the portion of the spectrum which
+contains the majority of the signal's energy, outside of which a negligible
+portion of the energy is present, with a small density-per-frequency.} of the
+signal's energy is concentrated,
 \begin{description}
     \item[Lowpass] signals are all signals arranged in a frequency range $|\omega| \leq \omega_p < \infty$, where $\omega_p$ is said to be the \emph{bandwidth} of the signal;
     \item[Highpass] signals are all signals arranged in a frequency range $0 < \omega_p \leq |\omega| < \infty$, where the bandwitdh of the signal is in the interval $[\omega_p, \infty[$.
@@ -2358,7 +2374,10 @@ Band-limited signals can be classified accordingly to their frequency range, tha
 \end{description}
 
 \section{Discrete-time Fourier Transform}\label{sec:discreteTimeFourierTransform}
-The frequency-domain representation of a discrete-time sequence is the \textbf{discrete-time Fourier Transform (DTFT)}. The Fourier transform maps a time-domain sequence into a continuous function of the frequency variable $\omega$.
+The frequency-domain representation of a discrete-time sequence is the
+\textbf{discrete-time Fourier Transform (DTFT)}. The Fourier transform maps a
+time-domain sequence into a continuous function of the frequency variable
+$\omega$.
 
 Indeed, the DTFT represents a different view on the sequences and systems, that is:
 \begin{itemize}
@@ -2376,7 +2395,12 @@ Indeed, the DTFT represents a different view on the sequences and systems, that 
 The infinite series given by~\ref{eqn:discreteTimeFourierTransform} may or may not converge depending on sequence $x[n]$; if it converges for all values of $\omega$, then the discrete-time Fourier Transform exists.
 \end{defin}
 
-The above definition provides \emph{two} important factors regarding the Discrete-time Fourier Transform: the first one is the transform formula, declared in Equation~\ref{eqn:discreteTimeFourierTransform}, and the second one the fact that the Discrete-time Fourier Transform cannot exist if the infinite series does not converge. In order for a Discrete-time Fourier Transform to exist, the series must converge.
+The above definition provides \emph{two} important factors regarding the
+Discrete-time Fourier Transform: the first one is the transform formula,
+declared in Equation~\ref{eqn:discreteTimeFourierTransform}, and the second one
+the fact that the Discrete-time Fourier Transform cannot exist if the infinite
+series does not converge. In order for a Discrete-time Fourier Transform to
+exist, the series must therefore converge.
 
 Generally speaking, $X(e^{j\omega})$ is a \emph{complex} function of \emph{real} variable $\omega$ and can be therefore written as
 \[
@@ -2392,7 +2416,10 @@ Function $\left|X(e^{j\omega})\right|$ is called the \emph{magnitude function} o
 
 When decomposing the Discrete-time Fourier Transform into its real and imaginary part or in its polar form, interesting patterns suddenly appear. For a real sequence $x[n]$, both magnitude $\left|X(e^{j\omega})\right|$ and real part $X_{re}(e^{j\omega})$ are \emph{even} functions in $\omega$, whereas both phase spectrum $\theta(\omega)$ and imaginary part $X_{im}(e^{j\omega})$ are \emph{odd} functions of $\omega$.
 
-The discrete-time Fourier Transform is a \emph{periodic} function in $\omega$, with a period $2\pi$.
+The discrete-time Fourier Transform is a \emph{periodic} function in $\omega$,
+with a period $2\pi$. Hence, any infinite-length sequence will transform to a
+continuous-valued periodic function in $\omega$, with period $2\pi$ which is
+given by the intrinsic nature of exponential terms.
 Due to exponentiation properties,
 \begin{align*}
     X(e^{j\omega}) &= \left|X(e^{j\omega})\right|e^{j\theta(\omega)}\\
@@ -2403,6 +2430,10 @@ for \emph{any} integer $k$. This means, however, that the phase function $\theta
     -\pi \leq \theta(\omega) < \pi.
 \end{equation}
 
+The principal value is, therefore, the range with width $2\pi$ of frequencies
+centered around zero which corresponds to an entire period of the discrete-time
+Fourier Transform and is sufficient to completely charaterize the frequency
+response---as it is periodic of period $2\pi$.
 The principal value is completely sufficient to characterize all the crucial aspects of the frequency response, as values outside the principal value would regardless yield repetitions in the frequency space, as the period of the exponential is $2\pi$.
 
 Moreover, it is sufficient to know only one \emph{half} of the values in the principal value for both magnitude and phase functions. This is because they are---respectively---even and odd functions whose values can be faithfully reconstructed even knowing only a half of the values.
