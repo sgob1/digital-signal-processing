@@ -3189,7 +3189,7 @@ Indeed, a paramount property that surely helps when it comes to performing convo
     where a convolution sum in the time-domain corresponds to a \emph{product} in the frequency domain.
 \end{thm}
 
-The Convolution Theorem states that any convolution sum can be performed as a product in the frequency domain. This also means that no matter the signals' domain, jumping into the related frequency domain and performing a product of the Fourier Transforms of the two signals is a straightforward way to perform a convolution sum.
+The Convolution Theorem states that any convolution sum can be performed as a product in the frequency domain. This provide a straightforward and simple way to compute the convolution sum (an expensive operation) as a simple multiplication across the alternate domain (a less expensive operation). This also means that no matter the signals' domain, jumping into the related frequency domain and performing a product of the Fourier Transforms of the two signals is a viable alterantive to the convolution sum in order to obtain the same end result.
 An immediate application of this crucial result is that the linear convolution $y[n]$ of $x[n]$ and $h[n]$ in a linear discrete-time system can be performed \emph{much} more quickly by going for the frequency-domain route. The steps of this faster process are the following ones,
 \begin{enumerate}
     \item first, one computes the discrete-time Fourier Transforms of $x$ and $h$, that are $X(e^{j\omega})$ and $H(e^{j\omega})$;
@@ -3239,7 +3239,9 @@ Let $x[n]$ be a sequence of length $N$. We define $\mathcal X[k], 0 \leq k \leq 
     \mathcal X[k] = \sum_{n=0}^{N-1} x[n] \psi^*[k,n], & 0 \leq k \leq N-1, \\\label{eqn:analysisEquationDTFT}
     x[k] = \sum_{k=0}^{N-1} \mathcal X[n] \psi[k,n], & 0 \leq n \leq N-1. \label{eqn:synthesisEquationDTFT}
 \end{eqnarray}
-The first Equation~\ref{eqn:analysisEquationDTFT} is called \emph{Analysis equation}, while the second Equation~\ref{eqn:synthesisEquationDTFT} is said to be the \emph{Synthesis equation}. Both analysis and synthesis equations concur in the definition of the orthogonal transform. Indeed, the analysis equation allows to perform the orthogonal transformation, while implicitly the synthesis equation serves as a ``inverse'' orthogonal transform. Still, the $\psi$ are said to be \emph{basis sequences} and are of length $N$ as well as the original sequence and the orthogonal transform sequence. Basis sequences can have complex values, so generally $\psi[k, n] \in \C$. In the class of transforms to be considered in this notes of digital signal processing, all the basis sequences will satisfy the following condition,
+The first Equation~\ref{eqn:analysisEquationDTFT} is called \textbf{Analysis equation}, while the second Equation~\ref{eqn:synthesisEquationDTFT} is said to be the \textbf{Synthesis equation}. The Analysis equation serves the purpose to transform an original signal $x[n]$ into a \emph{transformed sequence} by means of a function $\psi^*$; the transformed sequence may possesses some properties that should facilitate its analysis under certain conditions. On contrary, the Synthesis equation will return the original sequence when provided with a transformed one by means of a function $\psi$. Function $\psi^*$ is the complex--conjugate of $\psi$.
+
+Both analysis and synthesis equations concur in the definition of the orthogonal transform. Indeed, the analysis equation allows to perform the orthogonal transformation, while implicitly the synthesis equation serves as a ``inverse'' orthogonal transform. Still, the $\psi$ are said to be \emph{basis sequences} and are of length $N$ as well as the original sequence and the orthogonal transform sequence. Basis sequences can have complex values, so generally $\psi[k, n] \in \C$. In the class of transforms to be considered in this notes of digital signal processing, all the basis sequences will satisfy the following condition,
 \begin{equation}\label{eqn:orthogonalTransformsOrthogonalityCondition}
     \frac 1 N \sum_{n=0}^{N-1} \psi[k,n]\psi^*[l,n] = \left\{\begin{array}{ll}1, & l = k\\ 0, & l \neq k\end{array}\right.,
 \end{equation}
@@ -3247,11 +3249,11 @@ a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] i
 
 Really, in order for $\psi^*$ to be the inverse orthogonal transform, $\psi$ and $\psi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquationDTFT} into the analysis equation~\ref{eqn:analysisEquationDTFT},
 \begin{align*}
-    \sum_{n=0}^{N-1} x[n] \psi^*[k,n] &= \sum_{n=0}^{N-1}\left( \frac 1 N \sum_{k=0}^{N-1} \mathcal X[k] \psi[n,k]\right)\psi^*[l,n] \\
+    	\mathcal X[l] = \sum_{n=0}^{N-1} x[n] \psi^*[k,n] &= \sum_{n=0}^{N-1}\left( \frac 1 N \sum_{k=0}^{N-1} \mathcal X[k] \psi[n,k]\right)\psi^*[l,n] \\
                                       &= \sum_{k=0}^{N-1} \mathcal X[k] \left( \frac 1 N \sum_{n=0}^{N-1}\psi[n,k]\psi^*[l,n]\right) \\
                                       &= \mathcal X[l],
 \end{align*}
-which yields an identity. Of course, the other way around works exactly the same, hence the inverse orthogonal transform is expressed as in Equation~\ref{eqn:synthesisEquationDTFT}.
+where the last equality holds only in the case where the two basis functions---the one and its com\-plex--con\-ju\-ga\-te---are orthogonal to each other. Of course, the other way around works exactly the same, hence the inverse orthogonal transform is expressed as in Equation~\ref{eqn:synthesisEquationDTFT}.
 
 An important consequence of the orthogonality condition for orthogonal transforms is the \textbf{Energy Preservation Property}, which states that
 \begin{equation}\label{eqn:energyPreservationProperty}
@@ -3271,7 +3273,7 @@ It's now the time to introduce the \textbf{Discrete Fourier Transform (DFT)}, a 
     where $X[k]$ is a sequence of length $N$ in the frequency domain represented by the variable $k$. The sequence $X[k]$ is called the \emph{Discrete Fourier Transform (DFT)} of the sequence.
 \end{defin}
 
-The above definition has been obtained by sampling the $\omega$ frequency variable in samples $2k\pi / N$ so that the complex continuous exponential $e^{-j\omega}$ has become $e^{-2j\pi \frac{kn}{N}}$. Usually, in order to streamline the notation, the substitution
+The above definition has been obtained by sampling the $\omega$ frequency variable in samples $2k\pi / N$ so that the complex continuous exponential $e^{-j\omega}$ has become $e^{-2j\pi \frac{kn}{N}}$. Notice how the term $N$, the length of the original sequence, appears in the denominator in the exponent of the exponential. Usually, in order to streamline the notation, the substitution
 \begin{equation}\label{eqn:dftNotationWn}
     W_N = e^{-j\frac{2\pi}{N}}
 \end{equation}
@@ -3280,7 +3282,7 @@ under which the Discrete Fourier Transform now is rewritten into the following,
         X[k] = \sum_{n=0}^{N-1} x[n] W_N^{kn}, 0 \leq k \leq N-1.
 \end{equation}
 
-The notation expressed in~\ref{eqn:dftNotationWn} renders the orthogonal transform operator $W_N$ in Discrete Fourier Transform sum have a positive sign in its exponents. This behavior is the opposite of what one encounters by looking at the original definition.
+The notation expressed in~\ref{eqn:dftNotationWn} renders the orthogonal transform operator $W_N$ in Discrete Fourier Transform sum have a positive sign in its exponents despite the fact that the associated exponential has a negative sign, so a sign flip has been performed. This behavior is the opposite of what one encounters by looking at the original definition.
 
 Along with the DFT, the \textbf{Inverse Discrete Fourier Transform} should be defined as well in order to produce meaningful computations. Indeed,
 \begin{equation}\label{eqn:inverseDiscreteFourierTransformWn}
@@ -3304,12 +3306,14 @@ Now, since
 \begin{equation}\label{eqn:dftWnProperty}
     \sum_{n=0}^{N-1}W_N^{-(k-l)n} = \left\{\begin{array}{ll} N, & k - l = rN, r \in \Z\\ 0, & \mbox{otherwise}\end{array}\right.
 \end{equation}
-due to the exponentiation properties. In order to verify that, just substitute with the definition of $W_N$, that is \[\sum_{n=0}^{N-1}e^{+2j\pi\frac{(k-l)n}{N}},\] a quantity that indeed is equal to $N$ if and only if $k-l$ is a multiple of $N$ and $0$ otherwise. The term relative to $n=0$ is the sum of $N$ terms all equal to $1$, while the term for $n\neq 0$ is related to the first $N$ terms of a geometric progression, that are \[\sum_{n=0}^{N-1}\rho^n = \frac{1-\rho^N}{1 - \rho} = 0\] as the exponential $e^{j2\pi\frac{N}{N}} = 1$. Another way to see it is to consider that a set of $W_N$ vectors is summed together---when $k\neq l$ for each vector of phase $\varphi$ another vector of opposite phase $-\varphi$ is summed, and the result of the sum is exactly $0$; on contrary, the only way to avoid the cancellation of terms is when $k = l$, that is when all terms have magnitude equal to $|e^{j2\pi\frac{N}{N}}| = 1$ and possess phase $\varphi = 0$. For this reason, one obtains that the only non-zero term in the sum is $\sum_{n=0}^{N-1} W_N^{-(k-l)n}, k=l, 0\leq l,k \leq N-1$. Hence,
+due to the exponentiation properties. In order to verify that, just substitute with the definition of $W_N$, that is \[\sum_{n=0}^{N-1}e^{+2j\pi\frac{(k-l)n}{N}},\] a quantity that indeed is equal to $N$ if and only if $k-l$ is a multiple of $N$ and $0$ otherwise. The term relative to $n=0$ is the sum of $N$ terms all equal to $1$, while the term for $n\neq 0$ is related to the first $N$ terms of a geometric progression, that are \[\sum_{n=0}^{N-1}\rho^n = \frac{1-\rho^N}{1 - \rho} = 0\] as the exponential $e^{j2\pi\frac{N}{N}} = 1$. Another way to put it is to consider that a set of $W_N$ vectors is summed together---when $k\neq l$ for each vector of phase $\varphi$ another vector of opposite phase $-\varphi$ is summed, and the result of the sum is exactly $0$; on contrary, the only way to avoid the cancellation of terms is when $k = l$, that is when all terms have magnitude equal to $|e^{j2\pi\frac{N}{N}}| = 1$ and possess phase $\varphi = 0$. For this reason, one obtains that the only non-zero term in the sum is $\sum_{n=0}^{N-1} W_N^{-(k-l)n}, k=l, 0\leq l,k \leq N-1$, when $k$ is exactly equal to $l$ (that's the only way one can obtain an exact multiple of $N$ at the numerator given that both $k$ and $l$ are limited by value $N-1$), and that the single non-zero term is equal to $N$. Hence,
 \begin{align*}
     \sum_{n=0}^{N-1} x[n] W_N^{ln}
-    &= \frac 1 N \sum_{k=0}^{K-1} X[k] \left(\sum_{n=0}^{N-1}W_N^{-(k-l)n}\right).\\
+    &= \frac 1 N \sum_{k=0}^{K-1} X[k] \left(\sum_{n=0}^{N-1}W_N^{-(k-l)n}\right)\\
     &= \frac 1 N X[l] N = X[l].
 \end{align*}
+
+The above shows that the Synthesis equation can provide a kind of ``anti-transformation'' of the same kind we have already seen in previous chapters, when referring to the inverse DTFT or similarly for the inverse Fourier Transform.
 
 \subsection{Basis functions}\label{sec:basisFunctions}
 
@@ -3321,7 +3325,7 @@ and the other \emph{inverse},
 \[
     \psi(n, k) = e^{+j 2\pi \frac{nk}{N}},
 \]
-which are basically the two terms appearing in the sum required to transform a sequence. The notion of two basis functions to produce a transform will become useful later, when other kinds of transformations will be examined. In point of fact, the two basis functions will vary in relation to the specific transform to adopt. As we have seen in Section~\ref{sec:orthogonalTransforms}, \emph{any orthogonal transform can be expressed with their analysis and synthesis equations}, that is
+which are basically the two terms appearing in the sum required to transform a sequence. The notion of two basis functions to produce a transform will become useful later, when other kinds of transformations will be examined. In point of fact, the two basis functions \emph{will vary in relation to the specific transform to adopt}. As we have seen in Section~\ref{sec:orthogonalTransforms}, \emph{any orthogonal transform can be expressed with their analysis and synthesis equations}, that is
 \begin{equation}\label{eqn:analysisEquation}
     X(k) = \sum_{n=0}^{N-1} x(n)\psi^*(n, k),
 \end{equation}
@@ -3330,32 +3334,34 @@ known as the \textbf{synthesis equation}; the above leads to the matrix form
     \bm{X} = \bm{Fx}.
 \end{equation}
 
-The matrix $\bm{F}$ must be \emph{unitary}, which means it must satisfy
+In virtue of the orthogonality property, matrix $\bm{F}$ is \emph{unitary}, which means it must satisfy the following
 \begin{equation}\label{eqn:unitaryMatrix}
     \bm{F}^{-1} = \bm{F}^{*\top}.
 \end{equation}
 
-Any orthogonal transform also possesses a \textbf{synthesis equation}, which stands for theinverse operation, that can be expressed as
+Any orthogonal transform also possesses a \textbf{synthesis equation}, the inverse operation, that can be expressed as
 \begin{equation}\label{eqn:synthesisEquation}
     x(n) = \sum_{k=0}^{N-1} X(k)\psi(n, k),
 \end{equation}
-that leads to
+that leads to the matrix form
 \begin{equation}\label{eqn:synthesisEquationMatrixForm}
     \bm{x} = \bm{F}^{*\top}\bm{x}.
 \end{equation}
 
-The presence of the conjugation in the analysis equation is not casual: $\psi$ and $\psi^*$ are, in reality, conjugated versions of each other.
+The presence of the conjugation in the analysis equation is not casual: $\psi$ and $\psi^*$ are, in reality, conjugated versions of each other. To transform a sequence we will generally adopt the complex--conjugate basis function, whilst for retrieving the original sequence we will employ the direct basis function.
 
-For Parseval's theorem~(\ref{eqn:parsevalTheorem}), when computing $\bm X$ $\bm x$ preserves its length, and the energy is preserved as well,
+For Parseval's theorem~(\ref{eqn:parsevalTheorem}), when computing $\bm X$ $\bm x$ preserves its length, and the energy is preserved as well. This can be shown with the following equality chain, which makes use of the matrix form of both equations,
 \[
     \|\bm X\|^2 = \bm X^{*\top} \bm X = \bm x^{*\top}\bm F^{*\top} \bm {Fx} = \bm x^{*\top} \bm x = \|\bm x\|^2.
 \]
 
-Matrix $\bm X$ is a rotated version of $\bm x$ in an $N$-dimensional space, as the transform is a rotation of the co\"ordinates where the terms in $\bm X$ are \emph{the projections of $\bm x$ in the new space}. A suitable choice of the basis functions permits to exploit the \emph{energy compaction property} of an orthogonal transform: most of the contents of $\bm x$ can be represented by \emph{a subset} of the coefficients $\bm X$ instead of all of them, leading to much more efficient algorithms and representations.
+Importantly, the two equations (and related matrix forms) must be orthogonal in order for the two matrices $F$ and $F^{*\top}$ to disappear and the equality to hold.
 
-For instance, let $\bm x$ be a random signal possessing autocorrelation $\bm{R_x}$---the most efficient transform for random signals is the \textbf{Karhunen--Loève Transform (KLT)}, also called \textbf{Hotelling Transform}. The KLT is a transform that takes as basis functions the eigenvectors of the autocorrelation matrix $\bm {R_x}$. 
+Matrix $\bm X$ is a rotated version of $\bm x$ in an $N$-dimensional space, as the transform is a rotation of the co\"ordinates where the terms in $\bm X$ are \emph{the projections of $\bm x$ in the new space}. A suitable choice of the basis functions permits to exploit the \emph{energy compaction property} of an orthogonal transform to improve algorithmic efficiency and feasible computations: most of the contents of $\bm x$ can be represented by \emph{a subset} of the coefficients $\bm X$ instead of all of them, leading to much more efficient algorithms and representations which almost correctly approximate the original sequence $x$ by means of a smart handling of the coefficients of $X$ transformation.
 
-It is now clear that the DFT is not the only possible tranform, and depending on the scenario other orthogonal transforms can (and should) be used. Sections~\ref{sec:discreteCosineTransform}, \ref{sec:walshHadamardTransform}~and~\ref{sec:haarTransform} will cover some other instrumental orthogonal transforms one can employ in digital signal processing.
+For instance, let $\bm x$ be a random signal possessing autocorrelation $\bm{R_x}$---the most efficient transform for random signals is the \textbf{Karhunen--Loève Transform (KLT)}, also called \textbf{Hotelling Transform}. The KLT is a transform that takes as basis functions the eigenvectors of the autocorrelation matrix $\bm {R_x}$.
+
+It is now clear that the DFT is not the single possible tranform, and depending on the scenario other orthogonal transforms can (and should) be used. Sections~\ref{sec:discreteCosineTransform}, \ref{sec:walshHadamardTransform}~and~\ref{sec:haarTransform} will cover some other instrumental orthogonal transforms one can employ in digital signal processing.
 
 \subsection{Example of DTFs}
 
@@ -3383,17 +3389,19 @@ which is like the previous example, but translated of $m$. Its Discrete Fourier 
     Y[k] = \sum_{n=0}^{N-1} y[n]W_N^{kn} = y[m]W_N^{km} = W_N^{km}, 1\leq k \leq N-1.
 \]
 
+This is consistent with the fact that $y[n] = \delta[n-m]$ and, generally speaking, the Fourier Transform of a shifted delta impulse will result in the frequency domain in a complex exponential $e^{-j2\pi m/N}$ whose exponent contains the amount of shift $m$ to which the delta impulse is subject. Of course, the exact formula of the above varies depending on the domain we are considering (in this case, we transform from discrete-time to discrete-time).
+
 Let now $g[n] = \cos{2\pi \frac{rn}{N}}$ be a sequence of length $N$. Since
 \begin{align*}
     g[n] &= \frac 1 2 \left(e^{j2\pi \frac{rn}{N}} + e^{-j2\pi \frac{rn}{N}}\right)\\
-         &= \frac 1 2 \left(W_N^{rn} + W_N^{rn}\right),
+         &= \frac 1 2 \left(W_N^{-rn} + W_N^{rn}\right),
 \end{align*}
-and due to linearity the Discrete Fourier Transform will be the transform of the two addends. Therefore,
+and due to linearity the Discrete Fourier Transform will be the transform of the two addends. Therefore, if we equate the Discrete Fourier Transform expression with the above, one obtains
 \begin{align*}
     G[k] &= \sum_{n=0}^{N-1} g[n] W_N^{kn} \\
          &= \frac 1 2 \left(\sum_{n=0}^{N-1} W_N^{-(r-k)n} + \sum_{n=0}^{N-1} W_N^{-(r+k)n}\right)
 \end{align*}
-and by means of Identity~\ref{eqn:dftWnProperty} one finally obtains that
+and by means of Identity~\ref{eqn:dftWnProperty} one finally gets that
 \[
     G[k] = \left\{\begin{array}{ll}
             \frac N 2 & k = r\\
