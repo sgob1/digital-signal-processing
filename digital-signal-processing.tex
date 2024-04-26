@@ -2472,14 +2472,14 @@ Let $x[n] = \delta[n]$. The discrete-time Fourier Transform of the unit sample s
 \[
     \Delta(e^{j\omega}) = \sum_{n=-\infty}^\infty \delta[n]e^{-j\omega n} = \delta[0] = 1.
 \]
-Remarkably, the Fourier Transform of the discrete-time unit sample is a \emph{constant} of value $1$ across the entire frequency range. Usually, the shortest the sequence is, the largest the frequency range will be.
+Remarkably, the Fourier Transform of the discrete-time unit sample is a \emph{constant} of value $1$ across the entire frequency range. Usually, the shortest the sequence is, the largest the frequency range will be; in this specific example, the time-domain sequence is the shortest possible, hence the associated Fourier Transform will be a constant value across the whole frequency range.
 
 Let now $x[n] = \alpha^n\mu[n]$ be the impulse response of a causal exponentially weighted sequence with $|\alpha|<1$. The Fourier Transform of $x[n]$ is given by
 \begin{align*}
     X(e^{j\omega}) &= \sum_{n=-\infty}^\infty \alpha^n\mu[n]e^{-j\omega n} = \sum_{n=0}^\infty \alpha^n e^{-j\omega n} \\
                    &= \sum_{n=0}^\infty \left(\alpha e^{-j\omega}\right)^n = \frac{1}{1-\alpha e^{-j\omega}}
 \end{align*}
-and it exists since $\left|\alpha e^{-j\omega}\right| = |\alpha| < 1$. In the case of $|\alpha| \geq 1$ the discrete-time Fourier Transform of $x[n]$ would not exist at all. Figure~\ref{tikz:dtftExample} illustrates a plot of the above example for a value of $\alpha=0.5$.
+and it exists since $\left|\alpha e^{-j\omega}\right| = |\alpha| < 1$. In the case of $|\alpha| \geq 1$ the discrete-time Fourier Transform of $x[n]$ would not exist at all, as the associated sum would diverge. Figure~\ref{tikz:dtftExample} illustrates a plot of the above example for a value of $\alpha=0.5$.
 
 \begin{figure*}[ht]
     \begin{center}
@@ -2576,7 +2576,7 @@ The Fourier integral not only represents a way to generally obtain the Fourier c
     \[
         \mathcal F^{-1}\left[X(e^{j\omega})\right] = \frac 1 {2\pi} \int_{-\pi}^\pi \left(\sum_{l=-\infty}^\infty x[l]e^{-j\omega l}\right)e^{j\omega n} d\omega;
     \]
-    provided the summation inside the integral converges u\-ni\-for\-mly---that is, when the DTFT exists, but it exists by hy\-po\-the\-sis---the order of the summation and the integration can be freely exchanged. Hence,
+    the summation inside the integral converges u\-ni\-for\-mly by hypothesis, so the order of the summation and the integration can be freely exchanged. Hence,
     \begin{align*}
         \frac 1 {2\pi} \int_{-\pi}^\pi \left(\sum_{l=-\infty}^\infty x[l]e^{-j\omega l}\right)e^{j\omega n} d\omega &= \sum_{l=-\infty}^\infty x[l]\left(\frac 1 {2\pi} \int_{-\pi}^\pi e^{j\omega(n-l)} d\omega\right)\\
                                                                                                                     &= \sum_{l=-\infty}^\infty x[l]\frac {\sin{\pi(n-l)}}{\pi(n-l)}\\
@@ -2609,6 +2609,8 @@ From $X_K$ follows the concept of \emph{uniform convergence} of $X(e^{j\omega})$
     \lim_{K\rightarrow \infty}\left|X(e^{j\omega}) - X_K(e^{j\omega})\right| = 0.
 \end{equation}
 
+The above definition suggests that, the greater the considered $K$, the more similar the approximation of the discrete-time Fourier Transform will be with respect to the complete discrete-time Fourier Transform.
+
 A sufficient condition for the existence of a discrete-time Fourier Transform is given by the following Theorem,
 \begin{thm}[Existence of discrete-time Fourier Transform]\label{thm:existenceDTFT}
     Let $x[n]$ be an \emph{absolutely summable} sequence such that
@@ -2626,11 +2628,11 @@ A sufficient condition for the existence of a discrete-time Fourier Transform is
     and it exists as its magnitude is always finite for all values of $\omega$.
 \end{proof}
 
-The absolute summability of the sequence $x[n]$ is a sufficient condition fo the existence of the discrete-time Fourier Transform $X(e^{j\omega})$. Let's now evaluate the absolute summability of an example sequence.
+The absolute summability of the sequence $x[n]$ is a sufficient condition for the existence of the discrete-time Fourier Transform $X(e^{j\omega})$. Let's now evaluate the absolute summability of an example sequence.
 
 Let $x[n] = \alpha^n \mu[n]$ for $|\alpha| < 1$. The sequence is absolutely summable, as
 \[
-    \sum_{n=-\infty}^\infty |\alpha^n| \mu[n] = \sum_{n=-\infty}^\infty |\alpha^n| = \frac {1}{1-|\alpha|} < \infty,
+    \sum_{n=-\infty}^\infty |\alpha^n| \mu[n] = \sum_{n=0}^\infty |\alpha^n| = \frac {1}{1-|\alpha|} < \infty,
 \]
 and its discrete-time Fourier Transform will converge uniformly to $\frac{1}{1-\alpha e^{-j\omega}}$ as a consequence. We have already met this scenario in Section~\ref{sec:someExamplesDTFT}.
 
@@ -2638,7 +2640,7 @@ Absolutely summable sequences will always possess finite energy. Indeed, this is
 \[
     \sum_{n=-\infty}^\infty |x[n]|^2 \leq \left(\sum_{n=-\infty}^\infty |x[n]|\right)^2,
 \]
-an inequality imposing that an absolutely summable sequence always corresponds to a finite energy signal. If a sequence does not have finite energy, it will not be absolutely summable. However, a finite energy sequence might not be necessarily an absolutely summable sequence, as the implication only works in a single sense. As an example of this, consider the sequence defined as
+an inequality imposing that an absolutely summable sequence always corresponds to a finite energy signal (If the term inside the brackets is an absolutely summable sequence, then the left-side term will inevitably be limited as well). If a sequence does not have finite energy, it will not be absolutely summable. However, a finite energy sequence might not be necessarily an absolutely summable sequence, as the implication only works in a single sense. As an example of this, consider the sequence defined as
 \[
     x[n] = \left\{\begin{array}{ll} \frac 1 n & n \geq 1 \\ 0 & n \leq 0\end{array}\right.;
 \]
@@ -2658,7 +2660,7 @@ where
     X_K(e^{j\omega}) = \sum_{n=-K}^K x[n] e^{-j\omega n}.
 \end{equation}
 
-One might already have noticed that the approximate transform has a very similar formula to the~\ref{eqn:discreteTimeFourierTransform}, but now there is a \emph{finite} summation over the time domain. Indeed, this is the reason why the~\ref{eqn:meanSquareConvergenceTransform} is an \emph{approximate} transform of the sequence $x[n]$ and is computable. The underlying reason for all of this is that the sequence $x[n]$ is \emph{not} absolutely summable, therefore it is not possible to represent its transform.
+One might already have noticed that the approximate transform has a very similar formula to the~\ref{eqn:discreteTimeFourierTransform}, but now there is a \emph{finite} summation over the time domain. Indeed, this is the reason why the~\ref{eqn:meanSquareConvergenceTransform} is an \emph{approximate} transform of the sequence $x[n]$ and is actually computable. The underlying reason for all of this is that the sequence $x[n]$ is \emph{not} absolutely summable, therefore it is not possible to represent its transform, so we are forced to use an almost-exact approximation.
 
 The integral condition~\ref{eqn:meanSquareConvergence} implies that the total energy of the error\footnote{Posing a condition over the total energy of the error is a \emph{much less strict} requirement than to pose the same condition over the absolute value of the same quantity.} quantity $\Xi = X(e^{j\omega}) - X_K(e^{j\omega})$ must approach zero at each value of $\omega$, as $K\rightarrow \infty$.  In such a case, the absolute value of the error $|\Xi|$ does \emph{not} go to zero as $K\rightarrow \infty$, and the discrete-time Fourier Trasnform \emph{may be no longer bounded}. In practice, this means that the resulting Fourier Transform might include a $\delta(\omega)$, a quantity that is indeed not bounded in the continuous domain. To summarise, the mean-square convergence---our integral condition above---basically enforces a rule under which the approximate transform $X_K$ should be formed: the total energy of the error must be close to zero, at each value of $\omega$.
 
