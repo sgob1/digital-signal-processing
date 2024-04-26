@@ -2664,7 +2664,7 @@ One might already have noticed that the approximate transform has a very similar
 
 The integral condition~\ref{eqn:meanSquareConvergence} implies that the total energy of the error\footnote{Posing a condition over the total energy of the error is a \emph{much less strict} requirement than to pose the same condition over the absolute value of the same quantity.} quantity $\Xi = X(e^{j\omega}) - X_K(e^{j\omega})$ must approach zero at each value of $\omega$, as $K\rightarrow \infty$.  In such a case, the absolute value of the error $|\Xi|$ does \emph{not} go to zero as $K\rightarrow \infty$, and the discrete-time Fourier Trasnform \emph{may be no longer bounded}. In practice, this means that the resulting Fourier Transform might include a $\delta(\omega)$, a quantity that is indeed not bounded in the continuous domain. To summarise, the mean-square convergence---our integral condition above---basically enforces a rule under which the approximate transform $X_K$ should be formed: the total energy of the error must be close to zero, at each value of $\omega$.
 
-As an example, consider the discrete-time Fourier Transform as follows,
+As an example, consider the following discrete-time Fourier Transform,
 \[
     H_{LP}(e^{j\omega}) = \left\{\begin{array}{ll}
         1 & 0 \leq |\omega| \leq \omega_c\\
@@ -2702,7 +2702,8 @@ that acts as a \emph{low-pass filter}. Its plot is
 
 The inverse discrete-time Fourier Transform is soon obtained by
 \begin{align*}
-    h_{LP}[n] &= \int_{-\omega_c}^{\omega_c} e^{j\omega n}d\omega \\
+    h_{LP}[n] &= \int_{-\pi}^{\pi} e^{j\omega n}d\omega \\
+              &= \int_{-\omega_c}^{\omega_c} e^{j\omega n}d\omega \\
               &= \frac 1 {2\pi} \left(\frac{e^{j\omega_c n}}{jn} - \frac{e^{-j\omega_c n}}{jn}\right)\\
               &= \frac {\sin {\omega_c n}}{\pi n}\\
               &= \sinc {\omega_c n}
@@ -2717,9 +2718,9 @@ For Parseval's Theorem, the energy of $h_{LP}[n]$ is given by $\frac {\omega_c}{
 \[
     \sum_{n=-K}^K h_{LP}[n] e^{-j\omega n} = \sum_{n=-K}^K \sinc {(\omega_c n)} e^{-j\omega n}
 \]
-does not uniformly converge to the Fourier Transform $H_{LP}(e^{j\omega)}$ for all $\omega$ values; still, it converges to $H_{LP}(e^{j\omega)}$ in the \emph{mean-square sense} because its energy is finite.
+does not uniformly converge to the Fourier Transform $H_{LP}(e^{j\omega})$ for all $\omega$ values; still, it converges to $H_{LP}(e^{j\omega})$ in the \emph{mean-square sense} because its energy is finite.
 
-The mean-square convergence property of the sequence $h_{LP}[n]$ can be further illustrated bu examining the plot of the following function,
+The mean-square convergence property of the sequence $h_{LP}[n]$ can be further illustrated by examining the plot of the following function,
 \[
     H_{LP,K}(e^{j\omega}) = \sum_{n=-K}^K e^{-j\omega n}\sinc {\omega_c n},
 \]
@@ -2873,7 +2874,7 @@ In order to express infinite energy sequences with a discrete-time Fourier Trans
 \end{center}
 The Dirac's delta is the limiting form of a unit area pulse function $p_\Delta(\omega)$ as $\Delta \rightarrow 0$, satisfying Equation~\ref{eqn:diracDelta}.
 
-As an exaple, consider the complex exponential sequence
+As an example, consider the complex exponential sequence
 \begin{equation}\label{eqn:complexExponentialSequence}
     x[n] = e^{j \omega_0 n}.
 \end{equation}
@@ -2887,11 +2888,11 @@ with $\delta(\omega)$ being the Dirac's delta impulse function and $-\pi \leq \o
          &= \int_{-\pi}^\pi \delta(\omega - \omega_0) e^{j\omega n} d\omega = e^{j\omega_0 n},
 \end{align*}
 where we have employed the sampling property of the impulse function\footnote{
-    The sampling property of the impulse function is different regarding of the discrete or continuous domain, and states that
+    The sampling property of the impulse function is different between the discrete or continuous domain, and states that
     \begin{equation}\label{eqn:samplingPropertyDeltaSum}
         \sum_{k=-\infty}^\infty e^{j2\pi n}\delta(n-k) = e^{j 2 \pi k},
     \end{equation}
-    and
+    while
     \begin{equation}\label{eqn:samplingPropertyDeltaIntegral}
         \int_{-\infty}^\infty \delta(\omega-\omega_0)e^{j\omega} = e^{j\omega_0}.
     \end{equation}
@@ -2901,9 +2902,9 @@ This way, one can define numerous commonly used DTFT pairs, such as the followin
 \[
     \begin{array}{rcl}
         \delta[n] & \longleftrightarrow & 1, \\
-        1 & \longleftrightarrow & \sum_{k=-\infty}^\infty 2\pi \delta(\omega + 2\pi k), \\
-        1\cdot e^{j\omega_0 n} & \longleftrightarrow & \sum_{k=-\infty}^\infty 2\pi \delta(\omega - \omega_0 + 2\pi k), \\
-        \mu[n] & \longleftrightarrow & \frac {1}{1 - e^{-j\omega}} + \sum_{k=-\infty}^\infty \pi \delta(\omega + 2\pi k), \\
+        1 & \longleftrightarrow & 2\pi \sum_{k=-\infty}^\infty \delta(\omega + 2\pi k), \\
+        1\cdot e^{j\omega_0 n} & \longleftrightarrow & 2\pi \sum_{k=-\infty}^\infty \delta(\omega - \omega_0 + 2\pi k), \\
+        \mu[n] & \longleftrightarrow & \frac {1}{1 - e^{-j\omega}} + \pi \sum_{k=-\infty}^\infty \delta(\omega + 2\pi k), \\
         \alpha^n \mu[n], (|\alpha| < 1) & \longleftrightarrow & \frac{1}{1 - \alpha e^{-j\omega}}.
     \end{array}
 \]
@@ -2981,7 +2982,7 @@ The discrete-time Fourier Transform of the delta impulse is exactly $1$---using 
 \begin{array}{ccccccc}
     d_0v[n] &+& d_1v[n-1] &=& p_0\delta[n] &+& p_1\delta[n-1]\\
     \updownarrow & & \updownarrow & & \updownarrow & & \updownarrow \\
-    d_0V(e^{j\omega} &+& d_1e^{-j\omega}V(e^{j\omega}) &=& p_0 &+& p_1e^{-j\omega}.
+    d_0V(e^{j\omega}) &+& d_1e^{-j\omega}V(e^{j\omega}) &=& p_0\cdot 1 &+& p_1e^{-j\omega}.
 \end{array}
 \]
 
@@ -2989,6 +2990,8 @@ By solving the above equation, one obtains the final formula
 \[
     V(e^{j\omega}) = \frac{p_0 + p_1 e^{-j\omega}}{d_0 + d_1e^{-j\omega}}.
 \]
+
+\clearpage
 
 \section{Energy Density Spectrum relationships in discrete-time Fourier Transforms}
 
@@ -3007,14 +3010,14 @@ The energy density spectrum draws a curve---the area under the curve in the freq
 
 Spectrum of signals will differ in relation to their band type.
 
-Since the spectrum of a discrete-time signal is a periodic function of $\omega$ having period $2\pi$, a \emph{full-band} signal will possess a spectrum lying in the whole frequency range of $-\pi < \omega \leq \pi$. Vice-versa, a \emph{band-limited} discrete-time signal will possess a spectrum which will be limited to a specific portion of the frequency range $-\pi < \omega \leq \pi$.
+Since the spectrum of a discrete-time signal is a periodic function of $\omega$ having period $2\pi$, a \emph{full-band} signal will possess a spectrum lying in the whole frequency range of $-\pi < \omega \leq \pi$. Vice-versa, a \emph{band-limited} discrete-time signal will possess a spectrum which will be limited to a specific portion of the frequency range $-\pi < \omega \leq \pi$. Essentially, the frequency range $[-\pi, \pi]$ describes the full frequency range for discrete-time sequences which get transformed as discrete-time Fourier Transforms as periodic continuous frequency signals of period $2\pi$.
 
 Any \emph{ideal band-limited} signal has a spectrum that is zero outside a specific frequency range $[\omega_a, \omega_b]$, that is indeed expressed in Equation~\ref{eqn:idealBandSignal},
 \[
     X(j\omega) = \left\{\begin{array}{ll}
-        0,  &   0 \leq |\omega| \leq \omega_a\\
-        0,  &   \omega_b \leq |\omega| \leq \infty\\
-        X(j\omega)  &   \omega_a \leq |\omega| \leq \omega_b
+        0  &   0 \leq |\omega| \leq \omega_a\\
+        X(j\omega)  &   \omega_a \leq |\omega| \leq \omega_b\\
+        0  &   \omega_b \leq |\omega| \leq \infty
     \end{array}\right..
 \]
 
@@ -3076,7 +3079,7 @@ In order to compute the total energy one uses the Parseval's theorem as follows,
 \[
 h_{LP}[n] = \sum_{n=-\infty}^\infty \left|h_{LP}[n]\right|^2 = \frac 1 {2\pi} \int_{-\pi}^\pi \left|H_{LP}(e^{j\omega})\right|^2d\omega,
 \]
-where the already known discrete-time Fourier Transform $H_{LP}(e^{j\omega})$ is the function
+where the already known discrete-time Fourier Transform $H_{LP}(e^{j\omega})$ is the rectangle function
 \[
     H_{LP}(e^{j\omega}) = \left\{\begin{array}{ll}
         1 & 0 \leq |\omega| \leq \omega_c\\
@@ -3088,8 +3091,7 @@ By applying the latter in the Parseval's theorem equation, one finally gets
 \[
 h_{LP}[n] = \sum_{n=-\infty}^\infty \left|h_{LP}[n]\right|^2 = \frac 1 {2\pi} \int_{-\omega_c}^{\omega_c} d\omega = \frac {\omega_c} \pi < \infty,
 \]
-showing that the sequence $h_{LP}[n]$ is a lowpass sequence possessing finite energy.
-
+where the ``empty'' integral is the integral after applying the window definition as above. The result shows that the sequence $h_{LP}[n]$ is a lowpass sequence indeed possessing finite energy.
 
 In \textsc{Matlab}, the function \texttt{freqz} can be invoked to compute the values of the discrete-time Fourier Transform of a sequence, described as a rational function having the form
 \begin{equation}\label{eqn:dtftRationalForm}
