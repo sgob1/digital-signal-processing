@@ -3410,13 +3410,13 @@ and by means of Identity~\ref{eqn:dftWnProperty} one finally gets that
     \end{array}\right.
 \]
 
-The DFT of a cosine wave is a pair of impulses of amplitude $\frac N 2$, located at samples $r$ and $N-r$ that represent \emph{the same} frequency. Conceptually then, a cosine DFT is a pair of impulses just like in the case of the Discrete-time Fourier Transform.
+The DFT of a cosine wave is a pair of impulses of amplitude $\frac N 2$, located at samples $r$ and $N-r$ that represent \emph{the same} frequency. Conceptually then, a cosine DFT is a pair of impulses just like in the case of the Discrete-time Fourier Transform and the continuous-time Fourier Transform.
 
 \subsection{Matrix relations}
 
 Discrete Fourier Transform as expressed in~\ref{eqn:discreteTimeFourierTransformWn} can be easily expressed into a matrix form. Let $\bm x$ and $\bm X$ be two column vectors as defined,
 \[
-    \bm{x} = \begin{bmatrix} x[0] \\ x[1] \\ \vdots \\ x[N-1] \end{bmatrix}
+    \bm{x} = \begin{bmatrix} x[0] \\ x[1] \\ \vdots \\ x[N-1] \end{bmatrix},
     \bm{X} = \begin{bmatrix} X[0] \\ X[1] \\ \vdots \\ X[N-1] \end{bmatrix}
 \]
 the \emph{Matrix form of the Discrete Fourier Transform} is
@@ -3427,7 +3427,7 @@ with $\bm D_N$ the \textbf{DFT Matrix}, a $N \times N$ matrix given by
 \begin{equation}\label{eqn:dftMatrixDn}
     \bm D_N = \begin{bmatrix}
         1 & 1 & 1 & \cdots & 1 \\
-        1 & W_N^1 & W_N^2 & \cdots & W_N^{(N-1)} \\
+        1 & W_N & W_N^2 & \cdots & W_N^{(N-1)} \\
         1 & W_N^2 & W_N^4 & \cdots & W_N^{2(N-1)} \\
         \vdots & \vdots & \vdots & \ddots & \vdots \\
         1 & W_N^{(N-1)} & W_N^{2(N-1)} & \cdots & W_N^{(N-1)^2} \\
@@ -3451,9 +3451,9 @@ with $\bm D_N$ the \textbf{Inverse DFT Matrix}, a $N \times N$ matrix given by
 
 Remarkably, the following relationship holds between the inverse and the straight DFT Matrix,
 \[
-    \bm D_N = \frac 1 N \bm D^{-1}_N,
+    \bm D_N = \frac 1 N \bm D^{-1*}_N.
 \]
-with a factor of $\frac 1 N$ between the one and the other.
+The above shows that a straight DFT Matrix $\bm D_N$ is equal to its conjugate inverse $\bm D^{-1*}_N$, except for a given scaling factor~$\frac 1 N$.
 
 Matrix relations are crucial to learn how to manipulate Discrete Fourier Transforms in \textsc{Matlab}. In fact, the two functions \texttt{fft} and \texttt{ifft}---which stand for \emph{Fast Fourier Transform} and \emph{Inverse Fast Fourier Transform}---manipulate column vector data structures. These two functions make use of sophisticated techniques and efficient algorithms based on the ``dividi et impera'' concept to optimize the computation of the DFT.
 
@@ -3493,7 +3493,7 @@ xlabel('Frequency index k'); ylabel('Phase')
 \begin{center}
 \scalebox{0.6}{
 \input{octaves/dftCosine.tex}
-}\caption{Plots of original signal (left), magnitude (center) and phase (right) of the Discrete Fourier Transform of sequence $\cos{2\pi r \frac{n}{N}}$. Notice how two perfect impulses are generated if and only if the quantity $r$ is an integer.}\label{oct:dftCosine}
+}\caption{Plots of original signal (left), magnitude (center) and phase (right) of the Discrete Fourier Transform of sequence $\cos{2\pi r \frac{n}{N}}$. Notice how two perfect impulses are generated if and only if the quantity $r$ is an integer, while in the case of non-integer $r$ we assist at the formation of spurious samples around impulses.}\label{oct:dftCosine}
 \end{center}
 \end{figure*}
 
@@ -3543,8 +3543,8 @@ xlabel('Frequency index k'); ylabel('Phase')
 
 \subsection{Sampling process of a Discrete Fourier Transform}
 
-Consider a sequence $x[n]$ whose Discrete-time Fourier Transform is $X(e^{j\omega})$. In order to obtain the Discrete Fourier Transform, one has to sample the DTFT at equally spaced points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$, developing the frequency samples $\{X(e^{j\omega_k})\}$---these frequency samples can be considered the $N$-point DFT $Y[k]$ whose $N$-point IDFT is a sequence $y[n]$ of length $N$. This is because sampling a Discrete-time Fourier Transform will result in a Discrete Fourier Transform \emph{provided} the sampling is applied in $N$ points. That way, \[\{X(e^{j\omega_k})\} = Y[k].\]
-Now, since the Discrete-time Fourier Transform is, like in Equation~\ref{eqn:inverseDiscreteTimeFourierTransform}
+Consider a sequence $x[n]$ whose Discrete-time Fourier Transform is $X(e^{j\omega})$. In order to obtain the Discrete Fourier Transform, one has to sample the DTFT at equally spaced points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$, developing the frequency samples $\{X(e^{j\omega_k})\}$---these frequency samples can be considered the $N$-point DFT $Y[k]$ whose $N$-point IDFT is a sequence $y[n]$ of length $N$. This is because sampling a Discrete-time Fourier Transform will result in a Discrete Fourier Transform \emph{provided} the sampling is applied across $N$ points (the length of the DFT). That way, \[\{X(e^{j\omega_k})\} = Y[k].\]
+Now, since the Discrete-time Fourier Transform is, like in Equation~\ref{eqn:inverseDiscreteTimeFourierTransform},
 \[
     X(e^{j\omega}) = \sum_{l=-\infty}^\infty x[l] e^{-j\omega l};
 \]
@@ -3555,6 +3555,8 @@ this leads to
     &= \sum_{l=-\infty}^\infty x[l] e^{-j2\pi \frac{kl}{N}}\\
     &= \sum_{l=-\infty}^\infty x[l]W_N^{kl}.
 \end{align*}
+
+Roughly speaking, we simply performed a sampling by, in the practice, `substituting' $\omega_k$ with $2\pi \frac k N$, all while adapting the domain of the output signal to accomodate the sampling.
 
 The trick now is to compute the IDFT of $y[n]$ and substitute the just obtained expression for $Y[k]$. That is,
 \begin{align*}
@@ -3572,30 +3574,30 @@ which is analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired rela
     y[n] = \sum_{m=-\infty}^{\infty} x[n + mN], 0 \leq n \leq N-1.
 \end{equation}
 
-This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by re\"arranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on.
+This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by re\"arranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on, with also negative values participating in left-side replicas in a specular manner to right-side ones.
 
-The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed.
+The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed. No DFT can be computed before this very important step of periodic replication has been performed, otherwise a finite-length sequence would inevitably result in an infinite-length transformed sequence, which is not practically tractable.
 
-When applying Equation~\ref{eqn:dftInfiniteReplicas} to finite-length sequences, one assumes that the samples outside the specified range are all zeros (like in zero-padding). Hence, if $x[n]$ is a sequence of length $M$ with $M \leq N$, then the sequence $y[n] = x[n]$ for all values $0 \leq n \leq N-1$. This behavior results from the fact that $N$ samples are more than what is needed ($M$ samples are needed to describe the original sequence $x[n]$). On contrary, in the opposite case of $M > N$ there is a so called \emph{time-domain aliasing} of samples of the sequence $x[n]$ in generating $y[n]$, with the end result that $x[n]$ cannot be recovered anymore from $y[n]$.
+When applying Equation~\ref{eqn:dftInfiniteReplicas} to finite-length sequences, one assumes that the samples outside the specified range are all zeros (like in zero-padding). Hence, if $x[n]$ is a sequence of length $M$ with $M \leq N$, then the sequence $y[n] = x[n]$ for all values $0 \leq n \leq N-1$. This behavior results from the fact that $N$ samples are more than (or equal to) what is needed ($M$ samples are needed to describe the original sequence $x[n]$, and $N \geq M$). On contrary, in the opposite case of $M > N$ there is a so called \emph{time-domain aliasing} of samples of the sequence $x[n]$ in generating $y[n]$, with the end result that $x[n]$ cannot be recovered anymore from $y[n]$. Basically, this all boils down to using, numerically speaking, enough digital samples in the Fourier Transform, with a number $N$ that should at least equal the number of total samples that describe the time-domain sequence $M$.
 
 Suppose one has the sequence
 \[\{x[n]\} = \begin{Bmatrix} \underset{\uparrow}{0} & 1 & 2 & 3 & 4 & 5\end{Bmatrix}\]
-of length $M=6$. By sampling its Discrete-time Fourier Transform $X(e^{j\omega})$ at samples $\omega_k = \frac{2\pi k}{4}, 0 \leq k \leq 3$ and then applying a $4$-point Discrete Fourier Transform to these samples, one gets the sequence $y[n]$
+of length $M=6$. By sampling its Discrete-time Fourier Transform $X(e^{j\omega})$ at samples $\omega_k = \frac{2\pi k}{4}, 0 \leq k \leq 3$ and then applying a $4$-point Discrete Fourier Transform to these samples, one gets the generating sequence $y[n]$
 \[
     y[n] = x[n] + x[n+4] + x[n-4], 0 \leq n \leq 3
 \]
-that is
+that results in (by evaluating $x$ in above points, for all $n$ from $0$ to $3$,
 \[
     \{y[n]\} = \begin{Bmatrix}\underset{\uparrow}{4} & 6 & 2 & 3\end{Bmatrix}.
 \]
 
-It is clear that from this sequence it is impossible to recover the original sequence $x[n]$---this behavior is induced by the choice of $N=4$, less than what would be required $N\leq M = 6$ in order to recover the original sequence.
+It is clear that from this sequence it is impossible to recover the original sequence $x[n]$---this behavior is induced by the choice of $N=4$, less than what would be required $N\leq M = 6$ in order to recover the original sequence. Some of the sequence either gets cut out or gets added together to some other samples, corrupting the output $y[n]$ sequence.
 
 Let now
 \[
     \{x[n]\} = \begin{Bmatrix} 3 & 4&  5&  6&  7\end{Bmatrix},
 \]
-a sequence of length $M=5$ and compute $y[n]$ for values of $N=5$, $N=7$ and $N=3$. One obtains that,
+a sequence of length $M=5$ and compute $y[n]$ for values of $N=5$, $N=7$ and $N=3$. One obtains that, for the various choices of $N$,
 \begin{itemize}
     \item for $N=5$, the resulting sequence \begin{align*}\{y[n]\} &= \underbrace{\begin{Bmatrix} 3 & 4 & 5 & 6 & 7\end{Bmatrix}}_{m = 0} + \underbrace{\begin{Bmatrix} 0 & 0 & 0 & 0 & 0 \end{Bmatrix}}_{m=1}\\ &+ \underbrace{\begin{Bmatrix} 0 & 0 & 0 & 0 & 0 \end{Bmatrix}}_{m=2} +\dots,\end{align*} showing that the original sequence can be fully recovered from $m=0$;
     \item for $N=7$ the behavior is quite similar---resulting sequence will be \begin{align*}\{y[n]\} &= \underbrace{\begin{Bmatrix} 3 & 4 & 5 & 6 & 7 & 0 & 0\end{Bmatrix}}_{m = 0}\\ &+ \underbrace{\begin{Bmatrix} 0 & 0 & 0 & 0 & 0 & 0 & 0 \end{Bmatrix}}_{m=1}\\ &+ \underbrace{\begin{Bmatrix} 0 & 0 & 0 & 0 & 0 & 0 & 0 \end{Bmatrix}}_{m=2} +\dots,\end{align*} and again, the original sequence can be fully recovered from $m=0$;
@@ -3625,7 +3627,7 @@ The dense grid of frequencies is one of the ways in which a computation of a con
     &= \sum_{n=0}^{N-1} x[n] e^{-j2\pi \frac{kn}{M}}.
 \end{align*}
 
-Now, the original sequence of length $N$; since $M\gg N$, in order to avoid aliasing phenomena, one has to define a new \emph{extended sequence} $x_e[n]$ whose length is $M$ and it is extended by zero-padding from sample $N$ to sample $M-1$:
+Now, the original sequence is of length $N$; since $M\gg N$, in order to avoid aliasing phenomena, one has to define a new \emph{extended sequence} $x_e[n]$ whose length is (at least) $M$ and it is extended by zero-padding from sample $N$ to sample $M-1$:
 \[
     x_e[n] =
 \left\{
@@ -3638,8 +3640,9 @@ Now, the original sequence of length $N$; since $M\gg N$, in order to avoid alia
 
 Thanks to this extension of the original sequence, the Discrete-time Fourier Transform can be expressed as
 \[
-    X(e^{j\omega}) = \sum_{n=0}^{M-1} x_e[n] e^{-j2\pi \frac{kn}{M}}.
+    X(e^{j\omega}) = \sum_{n=0}^{M-1} x_e[n] e^{-j2\pi \frac{kn}{M}},
 \]
+with the extended sequence $x_e$.
 
 The DTFT $X(e^{j\omega})$ can essentially be thought as an $M$-point DFT $X_e[k]$ of the extended sequence $x_e[n]$ of length $M$. The latter DFT $X_e[k]$ can be computed ahead using the \emph{Fast Fourier Transform} algorithm if $M$ is conveniently chosen as an integer of power $2$, such as $M = 2^K, K \in N^+$.
 
