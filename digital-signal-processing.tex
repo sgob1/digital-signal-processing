@@ -3693,7 +3693,7 @@ In general, Fourier Transforms can be divided in multiple classes. The following
             x_a(t) = \sum_{k=-\infty}^\infty X[k] e^{+j2\pi kf_0t}.
         \end{equation}
         The value of $f_0$ is exactly the inverse of the length of the period $T_p$, that is $f_0 = \frac 1 {T_p}$. Veritably, in the case of signals whose period is far-reaching---that is, when $T_p$ is a lofty quantity---the frequency $f_0 \rightarrow 0$ as $T_p$ approaches infinity. Indeed, such transforms will resemble much and much more the continuous ones we find in the case of continuous aperiodic signals.
-    \item \textbf{The sequence is discrete and aperiodic in the time domain}---then, its Fourier Transform is \emph{continuous and periodic}. This is the case of the Discrete-time Fourier Transform as in Equation~\ref{eqn:discreteTimeFourierTransform}, a ccase that is conceptually the dual of the \emph{discrete and aperiodic sequences} that lead to continuous and periodic transforms. In truth, in this case the formulas are actually the reverse, as
+    \item \textbf{The sequence is discrete and aperiodic in the time domain}---then, its Fourier Transform is \emph{continuous and periodic}. This is the case of the Discrete-time Fourier Transform as in Equation~\ref{eqn:discreteTimeFourierTransform}, a case that is conceptually the dual of the \emph{discrete and aperiodic sequences} that lead to continuous and periodic transforms. In truth, in this case the formulas are actually the reverse, as
         \begin{equation}\label{eqn:fourierTransformDiscreteAperiodic}
             X(\omega) = \sum_{n=-\infty}^\infty x[n] e^{-j\omega n},
         \end{equation}
@@ -3719,7 +3719,7 @@ To summarize concisely,
     \item \textbf{periodic} signals will generate \textbf{discrete} transforms;
 \end{enumerate}
 
-If one pays adequate attention, can notice that there's a pattern comprised in the above rules, that is the following Table~\ref{tab:fourierTransformRules},
+If one pays adequate attention, they can notice that there's a pattern comprised in the above rules, that is the following Table~\ref{tab:fourierTransformRules},
 \begin{table}[ht]
 \centering
 \begin{tabular}{|l|c|l|}
@@ -3808,23 +3808,23 @@ Finite-length sequences have distinctive traits for which a special care is requ
 
 Contemplate a length-$N$ sequence $x[n]$, defined for samples $0\leq n \leq N-1$. Its sample values are equal to zero for all samples before $0$ and after $N-1$, that is for $n < 0 \wedge n \leq N$. A \emph{time-reversal} operation on $x[n]$ would result in a sequence $x[-n]$ of length $N$, that is defined for time instants $-(N-1) \leq n \leq 0$. Furthermore, a \emph{linear time-shift} of $x[n]$ by a quantity $M \in \Z$ would result in a sequence $x[n+M]$ of length $N$, no longer defined for $0 \leq n \leq N-1$, but for $M \leq n \leq N-1 + M$. Correspondingly, a \emph{convolution sum} of two sequences of length $N$ defined for $0 \leq n \leq N-1$ would result in a sequence of length $2N + 1$, defined for $0 \leq n \leq 2N-2$---such that it is longer than the original sequences.
 
-Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this logic, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}.
+Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this logic, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}. Circular operations are a special kind of operations that aim to perform operations on a sequence whilst not modifying its length.
 
 \subsection{Modulo operation}
 The time-reversal operation on a finite-length sequence is obtained by means of the \textbf{modulo operation}. Let $0,1,\dots, N-1$ be a set of $N$ positive integers and let $m \in \Z$ be any integer. The integer $r$ obtained by evaluating
 \begin{equation}\label{eqn:moduloOperation}
     r = \langle m \rangle_N = m \mod N
 \end{equation}
-is called the \textbf{residue}. The residue $r$ is an integer whose value is between $0$ and $N-1$ (as the modulo operation yields). We will denote the modulo operation with the notation \[ \langle m \rangle_N = m \mod N. \] Due to modulo properties, if $r = \langle m \rangle_N$ then $r = m + lN$, where $l \in \Z$ such that $0 \leq m + lN \leq N-1$.
+is called the \textbf{residue}. The residue $r$ is an integer whose value is between $0$ and $N-1$ (as the modulo operation yields), and it is the result of the modulo operation. We will denote the modulo operation with the notation \[ \langle m \rangle_N = m \mod N. \] Due to modulo properties, if $r = \langle m \rangle_N$ then $r = m + lN$, where $l \in \Z$ such that $0 \leq m + lN \leq N-1$.
 As an example, let $N=7$ and $m = 25$: one has
 \[
     r = 25 + 7l = 25 - 7 \times 3 = 4
 \]
-which means $\langle 25 \rangle_7 = 4$. Another example is $N=7$ and $m=-15$, for which
+which means $\langle 25 \rangle_7 = 4$. Another example, this time with a negative number $m$, is $N=7$ and $m=-15$, for which
 \[
     r = -15 + 7l = -15 + 7 \times 3 = 6
 \]
-and yields $\langle -15 \rangle_7 = 6$.
+and yields $\langle -15 \rangle_7 = 6$. Basically, this way of thinking the modulo operation allows it to work properly for negative numbers as well as with positive numbers.
 
 \subsection{Circular time-reversal operation}
 Another operation we are going to find a substitute for is the \emph{time-reversal}---in practice, we are going to build the \textbf{circular time-reversal operation}.
