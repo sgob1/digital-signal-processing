@@ -3658,7 +3658,7 @@ Due to the periodic nature of the complex exponential, both the Discrete Fourier
     &= \sum_{n=0}^{N-1} x_n e^{-j2\pi\frac{kn}{N}}\\
     &= X[k].
 \end{align*}
-and the inverse holds
+and the inverse still holds
 \begin{align*}
     x[n+N]
     &= \frac 1 N \sum_{k=0}^{N-1}X[k] e^{j2\pi \frac{k(n+N)}{N}}\\
@@ -3683,8 +3683,8 @@ In general, Fourier Transforms can be divided in multiple classes. The following
         \begin{equation}\label{eqn:inverseFourierTransformContinuousAperiodic}
             x_a(t) = \int_{-\infty}^\infty X_a(f) e^{+j2\pi ft} df.
         \end{equation}
-        The very same can be said of \emph{signals whose period is protracted for a very long time}, that is all signals that can be thought as ``almost aperiodic'' in the sense that they are remarkably far-reaching.
-    \item \textbf{The sequence is continuous and periodic in the time domain}---then, its Fourier Transform will be \emph{discrete and aperiodic}. Its aperiodicity is inherited from the fact that the original signal is \emph{continuous}, just like in the previous case. Indeed, the formulas will be
+        The very same can be said of \emph{signals whose period is protracted for a very long time}, that is all signals that can be thought as ``almost aperiodic'' in the sense that they are remarkably far-reaching when it comes to their period.
+    \item \textbf{The sequence is continuous and periodic in the time domain}---then, its Fourier Transform will be \emph{discrete and aperiodic}. Its aperiodicity is inherited from the fact that the original signal is \emph{continuous}, just like in the previous case; conversely, from its periodicity the Fourier Transform inherits its discrete nature. Indeed, the formulas will be
         \begin{equation}\label{eqn:fourierTransformContinuousPeriodic}
             X[k] = \frac{1}{T_p}\int_{T_p} x_a(t) e^{-j2\pi kf_0t} dt,
         \end{equation}
