@@ -3866,8 +3866,8 @@ with $x_c[n]$ also being a length-$N$ sequence defined for the same time instant
     x_c[n] =
     \left\{
         \begin{array}{ll}
-            x[n-n_0] & n_0 \leq n \leq N-1\\
-            x[N- n-n_0] & 0 \leq n < n_0
+            x[n - n_0] & n_0 \leq n \leq N-1\\
+            x[N + n - n_0] & 0 \leq n < n_0
         \end{array}
     \right.
 \]
@@ -3938,14 +3938,16 @@ As can be seen from Figure~\ref{tikz:circularShift}, a right circular shift from
     n_0 = \langle n_g \rangle_N = \langle 67 \rangle_{11} = 67 \mod 11 = 1
 \]
 completely comparable to a simple unit shift.
+Intuitvely, this can also be seen by the fact that when performing a shift of quantity $N$, we are ``getting back'' to the origin, essentially with no visible effect on the output sequence.
 
 \subsection{Circular padding operation}
-Yet another operation should be modified---the zero-padding operation, which would elseways alter the length of the original signal. In point of fact, the zero-padding operation \emph{actually means} altering the length of the original signal by adding a bunch of zeros to the left or to the right. Such an operation cannot deal proficiently in relation to the Discrete Fourier Transforms, since as we have earlier said the favored approach would be to preserve the characteristics of the original signal.
+Yet another operation should be modified---the zero-padding operation, which would elseways alter the length of the original signal. In point of fact, the zero-padding operation \emph{actually means} altering the length of the original signal by adding a bunch of zeros to the left or to the right. Such an operation cannot deal proficiently in relation to the Discrete Fourier Transforms, since as we have earlier said the favored approach would be to preserve the characteristics of the original signal, such as its length.
 
 The implicit periodicity of the sequences manipulated with the Discrete Fourier Transform requires to substitute the \emph{zero-padding} operation with a \emph{circular padding} variant. This circular padding variant will reconstruct and remodel our input signal by periodicizing it, an operation that will pad our signal with \emph{as many replicas of the original sequance as needed} instead of padding with zeros. This means that instead of performing
 \[
-    \begin{Bmatrix} 1 & 2 & 3 & 4 \end{Bmatrix} \rightarrow \begin{Bmatrix} \cdots & 0 & 0 & 1 & 2 & 3 & 4 & 0 & 0 & \cdots\end{Bmatrix}
+    \begin{Bmatrix} 1 & 2 & 3 & 4 \end{Bmatrix} \rightarrow \begin{Bmatrix} \cdots & 0 & 0 & 1 & 2 & 3 & 4 & 0 & 0 & \cdots\end{Bmatrix},
 \]
+the common case zero-padding operation,
 one adds multiple replicas of the very same signal as from input. The operation is illustrated in Figure~\ref{tikz:circularZeroPadding}.
 
 \begin{figure}[ht]
@@ -3963,7 +3965,8 @@ one adds multiple replicas of the very same signal as from input. The operation 
     \end{center}\caption{The \emph{circular padding} technique. Pay attention at how the pattern $\begin{bmatrix} 1 & 2 & 3 & 4 \end{bmatrix}$ is repeated indefinitely, to construct an infinite-length signal which repeats indefinitely with a period of the same length of the original signal---in this situation, $N=4$.}\label{tikz:circularZeroPadding}
 \end{figure}
 
-This way, one does not append an infinite number of zeros, but instead appends an infinite number of signal replicas before and after the original sequence. Of course, the resulting signal will virtually be of infinite length---still, it will be a periodic sequence.
+This way, one does not append an infinite number of zeros, but instead appends an infinite number of signal replicas before and after the original sequence. Of course, the resulting signal will virtually be of infinite length---still, it will be a periodic sequence of period the same of the original signal.
+This also means that the information about the length of the signal, while it being padded indefinitely, is preserved through its period.
 
 The circular padding acts very well with the Discrete Fourier Transforms. When we have examined the Discrete Fourier Transform we figured out that the $N$-point Inverse Discrete Fourier Transform $y[n]$ as expressed by Equation~\ref{eqn:dftInfiniteReplicas} was akin to the original $N$-length sequence $x[n]$, but composed of \emph{infinite replicas} of the original sequence. Regardless of the fact that the DFT was attained with its original formula as in~\ref{eqn:discreteFourierTransform} or from sampling the Discrete-time Fourier Transform, as a matter of fact the inverse DFT is an infinite-length sequence which is assembled from the original sampling by adding infinite replicas of $x[n]$ at a distance $N$ each other, an operation that is fully equivalent to applying infinite times circular padding to the original sequence.
 
@@ -3979,9 +3982,9 @@ Let $g[n]$ and $h[n]$ be two sequences each possessing length $N$. Their linear 
 \]
 When computing $y_L$ the underlying assumption was that both input sequences were zero-padded to extend their lengths to match the output's length $2N-1$. The longer duration of the output $y_L[n]$ results from the time-reversal of the sequence $h[n]$ and its linear shift from left to right, as the convolution sum requires to do. A new sequence of ``double-length less one'' is created with the linear approach.
 
-The first nonzero value of $y_L[n]$ is $y_L[0] = g[0]h[0]$---that is when the two signals first ``rendezvous'' during the shift from left to right of sequence $h[n-l]$---and the last nonzero value is $y_L[2N-2] = g[N-1]h[N-1]$---just before the $h[n-l]$ sequence ``departs'' from the steady sequence $g[l]$. Further samples will all yield $0$, as there is no more superposition between sequences $g[l]$ and $h[n-l]$.
+The first nonzero value of $y_L[n]$ is $y_L[0] = g[0]h[0]$---that is when the two signals first ``rendezvous'' during the shift from left to right of sequence $h[n-l]$---and the last nonzero value is $y_L[2N-2] = g[N-1]h[N-1]$---just before the $h[n-l]$ sequence ``departs'' from the steady sequence $g[l]$. Further samples (and originally, all samples before $y_L[0]$) will all yield $0$, as there is no more superposition between sequences $g[l]$ and $h[n-l]$.
 
-As we have earlier mentioned, this is a poor way to perform the convolution as the output sequence will have a \emph{different} period than input sequences, an undesired behavior. From there arises the need of developing a new convolution-like operation, whose result is still a length-$N$ sequence $y_C[n]$ alike the input sequences. The new operation is called the \textbf{Circular convolution} and is cleverly designed as a convolution whose \emph{time-reversal} and \emph{time-shifting} operations are replaced by their \emph{circular} counterparts by means of the modulo operation:
+As we have earlier mentioned, this is a poor way to perform the convolution as the output sequence will have a \emph{different} period than input sequences (they will see their period increased to $2N-1$), an undesired behavior. From there arises the need of developing a new convolution-like operation, whose result is still a length-$N$ sequence $y_C[n]$ alike the input sequences. The new operation is called the \textbf{Circular convolution} and is cleverly designed as a convolution whose \emph{time-reversal} and \emph{time-shifting} operations are replaced by their \emph{circular} counterparts by means of the modulo operation:
 \begin{equation}\label{eqn:circularConvolution}
     y_C[n] = \sum_{l=0}^{N-1} g[l]h[\langle n-l \rangle_N], 0 \leq n \leq N-1,
 \end{equation}
@@ -4084,7 +4087,7 @@ obtaining the output sequence
 \end{center}
 a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The pre\"eminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it, with the number of sums that is related to the length of both original sequences; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
 
-Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c).
+Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c). When combining the three above operations, one obtains a behavior that can also be described as if we were multiplying--adding $g$ sequence---immutable in its position---with all possible cir\-cu\-lar\-ly-shif\-ted alternatives of reversed $h$---moving one sample at a time.
 
 Of course, performing the circular convolution straightforwardly is not the only available way to gauge the problem---another method is to jump into the frequency domain and then performing a product between DFTs, as the convenient rule expressed in Table~\ref{tab:discreteFourierTransformPropertiesAndTheorems3} declares. Let $g[n]$ and $h[n]$ be the same sequences as in the ealier example. The $4$-point DFT $G[k]$ of $g[n]$ is soon obtained by
 \begin{align*}
@@ -4151,12 +4154,12 @@ and
             1 & -1 & 1 & -1 \\
             1 & j & -1 & -j
         \end{bmatrix}
-        \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \end{bmatrix}
+        \begin{bmatrix} 2 \\ 2 \\ 1 \\ 1 \end{bmatrix}
         =
         \begin{bmatrix}
-            4 \\
+            6 \\
             1 - j \\
-            -2 \\
+            0 \\
             1 + j
         \end{bmatrix}
 \end{equation*}
