@@ -3574,9 +3574,9 @@ where each $W_N$--term is equal to one when $l = n + mN$ is satisfied, which is 
     y[n] = \sum_{m=-\infty}^{\infty} x[n + mN], 0 \leq n \leq N-1.
 \end{equation}
 
-This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by an integer multiple of $N$ sampling instants and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by re\"arranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on, with also negative values participating in left-side replicas in a specular manner to right-side ones.
+This last result, expressed by Equation~\ref{eqn:dftInfiniteReplicas} implies that $y[n]$ is obtained from the original sequence $x[n]$ by adding an \emph{infinite number of shifted replicas} of it, with each replica shifted by the quantity $mN$, an integer multiple of $N$ sampling instants, and observing the sum only for the interval $0 \leq n \leq N-1$. It has been obtained by picking an original sequence $x[n]$, performing its Discrete-time Fourier Transform $X(e^{j\omega})$, sampling it in $N$ points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$ and finally obtained by re\"arranging and substituting on formulas. The integer number $m$ determines the amount of shift any replica of $x[n]$ is subject to---value $m=0$ corresponds to the original signal, value $m=1$ corresponds to a shift of $N$ samples, $m=2$ yields a replica shifted by $2N$, and so on, with also negative values participating in left-side replicas in a specular manner to right-side ones.
 
-The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed. No DFT can be computed before this very important step of periodic replication has been performed, otherwise a finite-length sequence would inevitably result in an infinite-length transformed sequence, which is not practically tractable.
+The concept of infinite replicas is related to the fact that, in order to compute the DFT of a signal, one conceptually has to first make the sequence $x[n]$ \emph{periodic} by adding infinite replicas of the very same signal to create a sequence $y[n] = \sum_{m=-\infty}^{\infty} x[n + mN],$ with $0 \leq n \leq N-1$, and then the DFT can be computed.
 
 When applying Equation~\ref{eqn:dftInfiniteReplicas} to finite-length sequences, one assumes that the samples outside the specified range are all zeros (like in zero-padding). Hence, if $x[n]$ is a sequence of length $M$ with $M \leq N$, then the sequence $y[n] = x[n]$ for all values $0 \leq n \leq N-1$. This behavior results from the fact that $N$ samples are more than (or equal to) what is needed ($M$ samples are needed to describe the original sequence $x[n]$, and $N \geq M$). On contrary, in the opposite case of $M > N$ there is a so called \emph{time-domain aliasing} of samples of the sequence $x[n]$ in generating $y[n]$, with the end result that $x[n]$ cannot be recovered anymore from $y[n]$. Basically, this all boils down to using, numerically speaking, enough digital samples in the Fourier Transform, with a number $N$ that should at least equal the number of total samples that describe the time-domain sequence $M$.
 
@@ -3681,7 +3681,7 @@ In general, Fourier Transforms can be divided in multiple classes. The following
         \end{equation}
         with its inverse transform of the form
         \begin{equation}\label{eqn:inverseFourierTransformContinuousAperiodic}
-            x_a(t) = \int_{-\infty}^\infty X_a(f) e^{+j2\pi ft} df.
+            x_a(t) = \frac{1}{2\pi} \int_{-\infty}^\infty X_a(f) e^{+j2\pi ft} df.
         \end{equation}
         The very same can be said of \emph{signals whose period is protracted for a very long time}, that is all signals that can be thought as ``almost aperiodic'' in the sense that they are remarkably far-reaching when it comes to their period.
     \item \textbf{The sequence is continuous and periodic in the time domain}---then, its Fourier Transform will be \emph{discrete and aperiodic}. Its aperiodicity is inherited from the fact that the original signal is \emph{continuous}, just like in the previous case; conversely, from its periodicity the Fourier Transform inherits its discrete nature. Indeed, the formulas will be
@@ -3759,7 +3759,7 @@ Discrete Fourier Transforms share a lot of properties with the Discrete-time Fou
     $x_{pca}[n]$ & $j\Im{X[k]}$ \\
     \hline
 \end{tabular}
-\caption{Notable Discrete Fourier Transform properties. $x_{pcs}[k]$ and $X_{pca}[k]$ are the conjugate-symmetric and conjugate-antisymmetric parts of $x[k]$, respectively. Likewise, $X_{pcs}[k]$ and $X_{pca}[k]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $X[k]$. The expression $\langle -k \rangle_N$ denotes the \emph{modulo expression}---the sequence is periodic of period $N$. $X$ is periodic and of infinite length.}\label{tab:discreteFourierTransformPropertiesAndTheorems}
+\caption{Notable Discrete Fourier Transform properties. $x_{pcs}[k]$ and $X_{pca}[k]$ are the conjugate-symmetric and conjugate-antisymmetric parts of $x[k]$, respectively. Likewise, $X_{pcs}[k]$ and $X_{pca}[k]$ are, respectively, the conjugate-symmetric and conjugate-antisymmetric parts of $X[k]$. The expression $\langle \cdot \rangle_N$ denotes the \emph{modulo expression of module $N$}---the sequence is periodic of period $N$. $X$ is periodic and of infinite length.}\label{tab:discreteFourierTransformPropertiesAndTheorems}
 \end{table*}
 
 \begin{table*}[ht]
@@ -3811,7 +3811,7 @@ Contemplate a length-$N$ sequence $x[n]$, defined for samples $0\leq n \leq N-1$
 Yet, we would like to preserve both the \emph{exact length} of the sequence and \emph{its location in time instants}. For instance, we would like the output of operations to persist in the range $0 \leq n \leq N-1$. By this logic, the need to define new types of operations emerges---in particular, new operations analogous of time-reversal, time-shifting and convolution sum with the resultant sequences in the same range of the input sequences. The key to solve this issue are the \textbf{circular operations}. Circular operations are a special kind of operations that aim to perform operations on a sequence whilst not modifying its length.
 
 \subsection{Modulo operation}
-The time-reversal operation on a finite-length sequence is obtained by means of the \textbf{modulo operation}. Let $0,1,\dots, N-1$ be a set of $N$ positive integers and let $m \in \Z$ be any integer. The integer $r$ obtained by evaluating
+The time-reversal operation on a finite-length sequence is obtained by means of the \textbf{modulo operation}. Let $0,1,\dots, N - 1$ be a set of $N$ positive integers and let $m \in \Z$ be any integer. The integer $r$ obtained by evaluating
 \begin{equation}\label{eqn:moduloOperation}
     r = \langle m \rangle_N = m \mod N
 \end{equation}
@@ -3966,7 +3966,7 @@ one adds multiple replicas of the very same signal as from input. The operation 
 \end{figure}
 
 This way, one does not append an infinite number of zeros, but instead appends an infinite number of signal replicas before and after the original sequence. Of course, the resulting signal will virtually be of infinite length---still, it will be a periodic sequence of period the same of the original signal.
-This also means that the information about the length of the signal, while it being padded indefinitely, is preserved through its period.
+This also means that the information about the length of the signal, while it being padded indefinitely, is preserved through its period, and like the case of an original zero-padding process, in order to retrieve the original sequence it is sufficient to window it by its original length, cutting out all added samples.
 
 The circular padding acts very well with the Discrete Fourier Transforms. When we have examined the Discrete Fourier Transform we figured out that the $N$-point Inverse Discrete Fourier Transform $y[n]$ as expressed by Equation~\ref{eqn:dftInfiniteReplicas} was akin to the original $N$-length sequence $x[n]$, but composed of \emph{infinite replicas} of the original sequence. Regardless of the fact that the DFT was attained with its original formula as in~\ref{eqn:discreteFourierTransform} or from sampling the Discrete-time Fourier Transform, as a matter of fact the inverse DFT is an infinite-length sequence which is assembled from the original sampling by adding infinite replicas of $x[n]$ at a distance $N$ each other, an operation that is fully equivalent to applying infinite times circular padding to the original sequence.
 
@@ -4087,7 +4087,9 @@ obtaining the output sequence
 \end{center}
 a length-$4$ sequence alike the two input sequences $g[n]$ and $h[n]$, as opportune. Notice how---similarly to the case of the linear convolution sum---the sequence $g[n]$ ``stays still'' while the $h[n]$ sequence ``moves'' as it is first time-reversed, then shifted along the $n$ axis. The pre\"eminent difference is that both time-reversing and shifting operations are \emph{circular operations} by virtue of the modulo operation. Instead of grabbing the inverted sequence $h[-l]$ and shifting it through the entire domain from left to right, one ``rotates it in place'' \emph{as if} the sequence was conceptually extended with infinite replicas of itself. Circular convolution in practice is equivalent to shifting an inverted sequence $h$ which was beforehand extended with infinite replicas of it, with the number of sums that is related to the length of both original sequences; the end result will be a circular shift movement that can be described by Figure~\ref{tikz:circularShift}.
 
-Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c). When combining the three above operations, one obtains a behavior that can also be described as if we were multiplying--adding $g$ sequence---immutable in its position---with all possible cir\-cu\-lar\-ly-shif\-ted alternatives of reversed $h$---moving one sample at a time.
+Conceptually chaining together (a) the circular time-reversal of sequence $h[\langle l\rangle_N]$, (b) the circular shift movement, towards the left, of the circularly reversed sequence $h[\langle n-l\rangle_N]$ and (c) the summation of it with an in-place sequence $g[l]$ grant a deeper understanding of the circular convolution operation that is only possible after having fully grasped the meaning of the three steps (a), (b) and (c). When combining the three above operations, one obtains a behavior that can also be described as if we were multiplying--adding $g$ sequence---immutable in its position---with all possible cir\-cu\-lar\-ly-shif\-ted alternatives of reversed $h$---moving one sample at a time.
+
+Another way to put the circular convolution is considering that it is like having a linear convolution which gets aliased by periodic replicas of one of the two sequences. This occurs because one of the two sequences gets \emph{circularly} reversed, and this results in replicated portions of the sequence that enter the computations from the left (or the right) and get summed up with the original sequence.
 
 Of course, performing the circular convolution straightforwardly is not the only available way to gauge the problem---another method is to jump into the frequency domain and then performing a product between DFTs, as the convenient rule expressed in Table~\ref{tab:discreteFourierTransformPropertiesAndTheorems3} declares. Let $g[n]$ and $h[n]$ be the same sequences as in the ealier example. The $4$-point DFT $G[k]$ of $g[n]$ is soon obtained by
 \begin{align*}
@@ -4163,6 +4165,31 @@ and
             1 + j
         \end{bmatrix}
 \end{equation*}
+
+To obtain them, it is sufficient to compute $W_4^{nk}$. Given that, if $N=4$, $n \times k = 16$, one has that
+\begin{align*}
+    W_4^{nk} &= e ^ {-j\frac {2\pi}{4} nk}\\
+             &= e ^ {-j\frac {\pi}{2} nk}\\
+             &= \cos {\frac {\pi}{2} nk} - j\sin{\frac{\pi}{2}nk}\\
+             &= (-j)^{nk}.
+\end{align*}
+Therefore, one shall compute the terms of the $4$-DFT Matrix, that is
+\begin{align*}
+    W_4^{nk} &= (-j)^{nk},\\
+    W_4^{1,0} &= 1,\\
+    W_4^{0,1} &= 1,\\
+    W_4^{2,0} &= 1,\\
+    W_4^{0,2} &= 1,\\
+    W_4^{1,1} &= -j,\\
+    W_4^{1,2} &= -1,\\
+    W_4^{2,1} &= -1,\\
+    W_4^{1,3} &= j,\\
+    W_4^{3,1} &= j,\\
+    W_4^{2,2} &= 1,\\
+    W_4^{2,3} &= -1,\\
+    W_4^{3,2} &= -1,\\
+    W_4^{3,3} &= -j.
+\end{align*}
 
 Let $Y_C[k]$ denote the $4$-point DFT of sequence $y_C[n]$; from Table~\ref{tab:discreteFourierTransformPropertiesAndTheorems3} one has that the circular convolution is simply the product between the two transforms, that is
 \[
@@ -4386,6 +4413,8 @@ The procedure as in Figure~\ref{tikz:convolutionWithDFT} is rather convenient, a
 
 A special attention is required by the linear convolution of a finite-length sequence with an \emph{infinite-length sequence} or a very long sequence. Since now one of the two sequences is an infinite-length sequence or a sequence having a too great (or unknown length), we cannot use the previous technique again, since that explicitly demands to have two finite-length inputs so that the outcome will be a finite-length signal as well, with a predetermined length.
 
+Moreover, loading in memory a signal in its entirety might lead to performance issues. First, FPGAs have little memory to operate with---secondly, one would have to wait to first obtain the entire signal before being able to successfully filter it, and that might require a lot of time (also cutting out all real-time applications).
+
 The trick to perform said operation is to \emph{partition the infinite-length sequence in finite-length blocks} and perform a circular convolution upon each block separately, summing app the results. Consider the DFT-based implementation of the circular convolution as in~\ref{eqn:circularConvolution}, with input sequence $x[n]$ being an infinite-length sequence, or at least a sequence whose length is much greater than $M$. Let the circular convolution be implemented by means of the convenient trick of going into the frequency-domain and perform a multiplication of DFTs.
 
 To do so, one first has to segment the dragging sequence $x[n]$ into smaller sequences: without loss of generality, it is legitimate to assume that $x[n]$ is a causal sequence---this is feasible, since the input signal can be always be shifted and adjusted to make it causal. Thereafter, many contiguous $N$-length sequences $x_m[n]$ shall be produced
@@ -4411,7 +4440,18 @@ where \[y_m[n] = h[n] \circledast x_m[n]\] is the linear con\-vo\-lu\-tion---ob\
 
 There is an elegant correspondence between the sequences $y[n], x[n]$ and $y_m[n], x_m[n]$: the first ones are obtained by the second ones by summing up all $m$ partitioned sequences, each one right-shifted by the quantity $mN$.
 
-As a result, the desired linear convolution $y[n]$ is broken up into a sum of infinite short-length linear convolutions $y_m[n]$, each of length $N + M - 1$. Without exception, each one can be implemented through the DFT technique we encountered before and considering a basis of $N + M - 1$ points.
+As a result, the desired linear convolution $y[n]$ is broken up into a sum of infinite short-length linear convolutions $y_m[n]$, each of length $N + M - 1$. Without exception, each one can be implemented through the DFT technique we encountered before and considering a basis of $N + M - 1$ points. Hence, a typical workflow would be one like the following one,:
+\begin{enumerate}
+    \item divide the (produced) signal in partitions $M$ samples long;
+    \item consume each partition:
+    \begin{enumerate}
+        \item DFT transform;
+        \item compute the convolution in the frequency domain;
+        \item DFT anti-transform;
+        \item collect values;
+        \item add collected values to previously consumed partition.
+    \end{enumerate}
+\end{enumerate}
 
 The implementation of~\ref{eqn:overlapAddMethod} requires a further attention: the first convolution $y_0[n]$ in the sum is of length $N + M - 1$ like the other ones and is defined for values of $0 \leq n \leq N + M - 2$; the second one $y_1[n]$ is defined for $N \leq n \leq 2N + M - 2$, the third one for $2N \leq n \leq 3N + M - 2$. Following the sum strictly results in an \emph{overlap} of $M - 1$ samples between any two short linear convolutions $x_{r-1}[n]$ and its successor $x_r[n]$ for $(r-1)N \leq n \leq rN + M - 2$. The output sequence $y[n]$ can be gathered by not only the concatenation of all partial convolutions, but by also \emph{summing up all the overlapping parts}: this happens because the convolution length $M + N - 1$ is greater than the partition length $M$. This method is in fact called the \textbf{Overlap--Add Method} since the result of the short linear convolutions overlap in some samples and the overlapped portions are then added altogether to achieve the final outcome. Depending on the value of $M$, $M-1$ values for each partial convolution should always be merged into a sum considering the proper position of them.
 
