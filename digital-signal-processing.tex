@@ -3543,7 +3543,7 @@ xlabel('Frequency index k'); ylabel('Phase')
 
 \subsection{Sampling process of a Discrete Fourier Transform}
 
-Consider a sequence $x[n]$ whose Discrete-time Fourier Transform is $X(e^{j\omega})$. In order to obtain the Discrete Fourier Transform, one has to sample the DTFT at equally spaced points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$, developing the frequency samples $\{X(e^{j\omega_k})\}$---these frequency samples can be considered the $N$-point DFT $Y[k]$ whose $N$-point IDFT is a sequence $y[n]$ of length $N$. This is because sampling a Discrete-time Fourier Transform will result in a Discrete Fourier Transform \emph{provided} the sampling is applied across $N$ points (the length of the DFT). That way, \[\{X(e^{j\omega_k})\} = Y[k].\]
+Consider a sequence $x[n]$ whose Discrete-time Fourier Transform is $X(e^{j\omega})$. In order to obtain the Discrete Fourier Transform, one has to sample the DTFT at equally spaced points $\omega_k = \frac{2k\pi}{N}$ with $0 \leq k \leq N-1$, developing the frequency samples $\{X(e^{j\omega_k})\}$---these frequency samples can be considered the $N$-point DFT $Y[k]$ whose $N$-point IDFT is a sequence $y[n]$ of length $N$. This is because sampling a Discrete-time Fourier Transform will result in a Discrete Fourier Transform \emph{provided} the sampling is applied across $N$ points (the length of the DFT). Each of those frequency samples corresponds to a certain specific \emph{harmonic} at which the DFT will be evaluated. That way, \[\{X(e^{j\omega_k})\} = Y[k].\]
 Now, since the Discrete-time Fourier Transform is, like in Equation~\ref{eqn:inverseDiscreteTimeFourierTransform},
 \[
     X(e^{j\omega}) = \sum_{l=-\infty}^\infty x[l] e^{-j\omega l};
@@ -3569,7 +3569,7 @@ by means of the following identity
 \begin{equation}\label{eqn:dftWnPropertyTwo}
     \sum_{n=0}^{N-1}W_N^{-k(n-l)} = \left\{\begin{array}{ll} N, & l = n + mN, \\ 0, & \mbox{otherwise}\end{array}\right.
 \end{equation}
-which is analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired relation
+where each $W_N$--term is equal to one when $l = n + mN$ is satisfied, which is also analogous of~\ref{eqn:dftWnProperty}, one soon obtains the desired relation
 \begin{equation}\label{eqn:dftInfiniteReplicas}
     y[n] = \sum_{m=-\infty}^{\infty} x[n + mN], 0 \leq n \leq N-1.
 \end{equation}
