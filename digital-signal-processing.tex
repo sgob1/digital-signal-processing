@@ -4825,7 +4825,20 @@ This fundamental law of nature can never be infringed, signifying that one canno
 
 In Section~\ref{sec:basisFunctions} we explored the definition and some properties of basis functions regarding orthogonal transforms. The last ones were useful in particular, since they allow to exploit their energy compaction property, efficiently representing the transformed sequence with less coefficients than otherwise required.
 
-Now, it is about time to introduce new transforms: let's begin with the \textbf{Discrete Cosine Transform (DFT)}, a transform with good compaction properties, generally exhibiting satisfactory performance for signals having strong autocorrelation.
+Now, it is about time to introduce new transforms: let's begin with the \textbf{Discrete Cosine Transform (DFT)}, a transform with good compaction properties\footnote{Cosine Fourier Transform is employed in \texttt{jpeg} due to its capacity to concentrate the energy of an area of pixel in single components, leaving low-energy components easier to compress with compression algorithms.}, generally exhibiting satisfactory performance for signals having strong autocorrelation.
+
+The Discrete Cosine Transform will only take the real component from a Discrete Fourier Transform, thus allowing us to discard information on the phase to drastically simplify involved math. In point of fact, since the DFT transform is, as in Equation~\ref{eqn:discreteFourierTransform},
+\[
+    X[k] = \sum_{n=0}^{N-1} x[n] e^{-2j\pi \frac{k n}{N}}, 0 \leq k \leq N-1
+\]
+it can be split in sine and cosine components, such as
+\begin{align*}
+    X[k] &= \sum_{n=0}^{N-1} x[n] e^{-2j\pi \frac{k n}{N}}\\
+         &= \sum_{n=0}^{N-1} x[n] (\cos{(2\pi \frac{k n}{N})} - j\sin{(2\pi \frac{k n}{N})})\\
+         &= \sum_{n=0}^{N-1} x[n] \cdot \cos{(2\pi \frac{k n}{N})} - x[n] \cdot j\sin{(2\pi \frac{k n}{N})}
+\end{align*}
+
+The Discrete Cosine Transform only considers the first term---the one related to the cosine---to include only information on real part and discard the imaginary component. This requires less coefficients, involves simpler math, makes computing magnitude gradient far easier, but in turn loses any information on the phase of the transformed sequence. Hence, the DFT is adopted in all scenarios where the phase is not crucial, other than to exploit other properties that will be exposed below.
 
 \begin{defin}[Discrete Cosine Transform]
     Let $x[n]$ be a sequence with (possibly) strong autocorrelation. Then, its \emph{Discrete Cosine Transform (DCT)} is
@@ -4844,6 +4857,8 @@ Now, it is about time to introduce new transforms: let's begin with the \textbf{
         \end{array}
     \end{equation}
 \end{defin}
+
+The two basis sequences are equal, as they have no imaginary component, and the complex--conjugate function will be the same as the original function. Note that also the coefficients are the same among the two formulas.
 
 To begin with, consider that in this case $\psi^*(n, k) = \psi(n, k)$ as $\cos^*{(x)} = \cos{(x)}$ for any argument. Furthermore, the Discrete Cosine Transform of a real sequence \emph{is real}, as no complex unit is involved in its computation. Third, unlike the DFT, the Discrete Cosine Transform is \emph{not} symmetrical around $\pi$.
 
@@ -4872,7 +4887,7 @@ According to the type of chosen periodic extension, up to $8$ different versions
     &= \sum_{n=0}^{2N-1} x_s[n] e^{-j\frac{2\pi}{2N}kn}\\
     &= \sum_{n=0}^{N-1} x[n] e^{-j\frac{2\pi}{2N}kn} + \sum_{n=N}^{2N-1} x[2N - 1 - n] e^{-j\frac{2\pi}{2N}kn},
 \end{align*}
-and by substituting $m = 2N-1-n$ one soon obtains that
+and by defining with substitution $m = 2N-1-n$ one soon obtains that
 \begin{align*}
     n &= N  \rightarrow  m = N - 1 \\
     n &= 2N - 1  \rightarrow  m = 0 \\
@@ -4888,11 +4903,12 @@ Ultimately, the DCT will be
     &= \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}kn} + e^{-j\frac{2\pi}{2N}k(-1-n)}\right) \\
     &= \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}kn} + e^{-j\frac{2\pi}{2N}k(-1-n)}\right) \cdot e^{j\frac{2\pi}{2N}\frac{k}{2}} e^{-j\frac{2\pi}{2N}\frac{k}{2}}\\
     &= e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\left(e^{-j\frac{2\pi}{2N}k(n + \frac 1 2)} + e^{+j\frac{2\pi}{2N}k(n + \frac 1 2)}\right)\\
-    &= 2e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\left(\cos{(\frac{2\pi}{2N}k(n + \frac 1 2))}\right),
+    &= 2e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\cos{\left(\frac{2\pi}{2N}k(n + \frac 1 2)\right)}\\
+    &= 2e^{j\frac{2\pi}{2N}\frac{k}{2}} \sum_{n=0}^{N-1} x[n]\cos{\left(\frac{\pi k(2n + 1))}{2N}\right)},
 \end{align*}
-which is equal to the DCT of $\bm x$, apart from scaling factors. Thus, it is possible to calculate the Discrete Cosine Transform by means of the Fast Fourier Transform, by first producing two \emph{half-sample, symmetric, right periodic extensions} of $x$, then summing up the Discrete Fourier Transform of these two sequences to obtain the Discrete Cosine Transform.
+which is equal to the DCT of $\bm x$, apart from scaling factors. Thus, it is possible to calculate the Discrete Cosine Transform by means of the Fast Fourier Transform, by first producing two \emph{half-sample, symmetric, right periodic extensions} of $x$, then summing up the Discrete Fourier Transform of these two sequences to obtain the Discrete Cosine Trans\-form---this ensures that we can still use FFT algorithms to compute a CFT, provided we adjust the obtained terms with applying the proper scaling factors.
 
-The periodicity artifacts are smaller in the DCT than in the DFT. Let an input sequence be of the following type,
+The periodicity artifacts are smaller in the DCT than in the DFT, because of the involved peculiar mirroring. Let an input sequence be of the following type,
 \begin{center}
     \begin{tikzpicture}
         \draw[thick,-stealth] (-1.5,0) -- (1.5,0) node[anchor=north west] {$n$};
@@ -4955,7 +4971,7 @@ Now, confront this with the pattern induced by the Discrete Cosine Transform, wh
         \node[] at (+2.8, .55) {$\cdots$};
     \end{tikzpicture}
 \end{center}
-so that no sudden jumps or whatsoever occur. The Discrete Cosine Transform ``mirrors'' the sequence when periodicizing it, doubling the period and modifying it slightly, but making less room for periodicity artifacts. Discrete Cosine Transforms are employed in \texttt{mp3} coding (MCDT) and in \texttt{JPEG} coding (2--D DCT).
+so that no sudden jumps or whatsoever occur. The Discrete Cosine Transform ``mirrors'' the sequence when periodicizing it, doubling the period and modifying it slightly in the sense that each two repetitions one appears time-reversed. This is done for three reasons: first, this makes less room for periodicity artifacts. Secondly---and most importantly---the mirroring generates an \emph{even} sequence, which will notably produce a \emph{real} sequence in the frequency domain, thus allowing its description in terms of real transform coefficients only. Thirdly, this also shows better frequency behavior due to the lack of induced abrupt interruptions and discontinuities between time-domain replicas. Discrete Cosine Transforms are employed in \texttt{mp3} coding (MCDT) and in \texttt{JPEG} coding (2--D DCT).
 
 \section{Walsh--Hadamard Transform}\label{sec:walshHadamardTransform}
 
@@ -4982,6 +4998,8 @@ The factor $\sqrt 2$ at the denominator is indeed a scaling factor, and at conve
     \bm F = \frac {1}{\sqrt 2}\begin{Vmatrix} 1 & 1 \\ 1 & -1 \end{Vmatrix}, \bm F_{inv} = \frac{1}{\sqrt 2}\begin{Vmatrix} 1 & 1 \\ 1 & -1 \end{Vmatrix} = \bm F^{-1} = \bm F^\top \equiv \bm F,
 \end{equation}
 with its inverse equal to the direct form.
+
+Walsh--Hadamard Transforms are employed to optimize computations which, on very low-end machines, would require a lot of time; it does so by replacing any extensive multiplication with a multiplication by $1$ or $-1$, which is a lot less intensive. It has been employed by NASA during space missions to compress images that were captured from distant probes.
 
 A generalization of the Walsh--Hadamard Transforms makes use of \emph{higher-order matrices}, for which a parameter $N$ is the number of columns and rows of the matrix form $\bm H$. In the case $N=2$, one obtains \[\bm H_1 = \bm F = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix},\] hence for $N=2$ one has the Walsh--Hadamard transform.
 
@@ -5272,7 +5290,7 @@ Since a $z$-transform of a sequence $g[n]$ with $r = 1$ is completely equivalent
 
 \subsection{Region of Convergence}
 
-Like the DTFT, there are conditions on the convergence of the infinite series in the definition~\ref{eqn:zTransform}; for a given sequence the set $\mathcal R$ of the values of $z$ among which the $z$-transform converges is said to be the \textbf{region of convergence (RoC)} of the $z$-transform.
+Like the DTFT, there are conditions on the convergence of the infinite series in the definition~\ref{eqn:zTransform}; for a given sequence the set $\mathcal R$ of the values of $z$ among which the $z$-transform converges is said to be the \textbf{region of convergence (RoC)} of the $z$-transform. Typically, a $z$-transform might lie in a restricted region of convergence, which should be identified in order for it to be analyzed correctly. The region of convergence is always a radial region, that is, an annular region having the origin as its center, and as such it is completely described by two single real numbers corresponding to the two radiuses, typically named $r_-$ and $r_+$, respectively the lower and greater radius of the annular region of convergence. In some cases, the annular region might diverge to infinity ($r_+ \rightarrow \infty, r_- < \infty$), be a circular region around the origin ($0 < r_+ < \infty, r_- = 0$) or collapse to a single circumference ($0 < r_+ = r_- < \infty$); in some pathological cases it might collapse to a single point if both radiuses are equal to zero. Of course, if $r_+ < r_-$, then the region of convergence does not include any point, and as such its related $z$-transform will not exist.
 
 In particular due to Theorem~\ref{thm:existenceDTFT}, the series
 \[
@@ -5309,7 +5327,7 @@ in the range \[ 0 \leq r_- \leq r \leq r_+ \leq \infty.\] The annular region def
     \end{tikzpicture}
 \end{center}
 
-A decisive remark is that a $z$-transform \emph{should always be accompanied by the relative region of convergence}. As a matter of fact, it is entirely meaningless to define a $z$-transform without its RoC, since the latter is a crucial information.
+A decisive remark is that a $z$-transform \emph{should always be accompanied by the relative region of convergence}. As a matter of fact, it is entirely meaningless to define a $z$-transform without its RoC, since the latter is a crucial information that allows its correct analysis.
 
 As an example, let's determine the $z$-transform $X(z)$ of a causal exponential sequence $x[n] = \alpha^n \mu[n]$, along with its region of convergence. To do so, compute
 \begin{align*}
@@ -5340,7 +5358,7 @@ which is very consonant with the previously-analyzed sequence $x[n] = \alpha^n
 \end{align*}
 yielding a RoC of $|z| < |\alpha|$, which is quite the opposite of the previous case; this region of convergence is related to an anti-causal signal in place of a causal signal.
 
-Please take a moment to consider that the $z$-transforms of the two sequences $\alpha^n \mu[n]$ and $-\alpha^n\mu[-n-1]$ are \emph{identical}, even though the two parent sequences are different: what in reality differs, are the two regions of convergence. This is the exact reason why it is paramount to first determine and then specify the RoC for each and every $z$-transform one has to manipulate.
+Please take a moment to consider that the $z$-transforms of the two sequences $\alpha^n \mu[n]$ and $-\alpha^n\mu[-n-1]$ are \emph{identical}, even though the two parent sequences are different: what in reality differs, are the two regions of convergence. This is the exact reason why it is paramount to first determine and then specify the RoC for each and every $z$-transform one has to manipulate, as two sequences may only differ on their RoC.
 
 All the convergence considerations we have hitherto ex\-pres\-sed culminate in the following theorem, which states the conditions under which a DTFT converges uniformly in terms of the characteristics that the region of convergence of its $z$-transform possesses.
 
@@ -5362,7 +5380,38 @@ be. Its DTFT is the following function,
         \end{array}
     \right.
 \]
-which converges in the mean-square sense. However, $h_{LP}[n]$ does not possess a $z$-transform, and it is not absolutely sum\-ma\-ble for any value of $r$ when performing the $z$-transform! Basically, it might happen that despite a DTFT exists, a $z$-transform does not. The following Table~\ref{tab:zTransforms} illustrates some of the most commonly used $z$-transform pairs.
+which converges in the mean-square sense. However, $h_{LP}[n]$ does not possess a $z$-transform, and it is not absolutely sum\-ma\-ble for any value of $r$ when performing the $z$-transform! Basically, it might happen that despite a DTFT exists, a $z$-transform does not.
+
+In the peculiar case of the $\sinc{\omega_c n} = \frac {\sin{\omega_c n}} n$, one can show it directly and prove that a $z$-Transform does not, in fact, exist.
+
+For the $z$-Transform to exist, the following series must converge absolutely,
+\[
+    \sum_{n = -\infty}^{\infty} \frac {\sin{\omega_c n}} n z^{-n}, \omega_c \in \R.
+\]
+
+Let's now consider the two subseries, the first one with $n$ ranging from $1$ to $\infty$, the other one with $n$ ranging from $-\infty$ to $-1$, excluding the sample at the origin. Indeed,
+\[
+    \sum_{n = 1}^{\infty} \frac {\sin{\omega_c n}} n z^{-n}
+\]
+converges absolutely if $|z| > 1$ (causal sequence), diverges for $|z| < 1$ and converges conditionally\footnote{Conditional convergence is a peculiar type of convergence for which \[\sum_{n=-\infty}^{\infty} x[n] < \infty,\] in contrast with the absolute convergence \[\sum_{n=-\infty}^{\infty} |x[n]| < \infty.\]} in the unit circle, that is for $|z| = 1$.
+
+On contrary, when considering
+\[
+    \sum_{n = -\infty}^{-1} \frac {\sin{\omega_c n}} n z^{-n}
+\]
+one has a series that converges absolutely for $|z| < 1$ (anti-causal sequence), diverges for $|z| > 1$ and converges conditionally for $|z| = 1$. This practically means that when considering the almost-complete series
+\[
+    \sum_{n \neq 0} \frac {\sin{\omega_c n}} n z^{-n}
+\]
+this series does not converge absolutely to any point, albeit it converges conditionally on the unit circle---thus, its DFT exists under conditional convergence only, and its $z$-Transform does not exist in any region of the complex plane.
+ 
+Still, the principal value converges, for instance
+\[
+  \lim_{\kappa \rightarrow \infty} \left(\sum_{n = -\kappa}^{-1} + \sum_{n = 1}^{\kappa}\right) \frac {\sin{\omega_c n}} n z^{-n}
+\]
+exists, despite the fact that it only approximates the sinc $z$-Transform in a certain degree that depends on $\kappa$.
+
+The following Table~\ref{tab:zTransforms} illustrates some of the most commonly used $z$-transform pairs.
 
 \begin{table}[ht]
 \centering
