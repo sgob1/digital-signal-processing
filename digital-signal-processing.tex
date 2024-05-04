@@ -222,18 +222,17 @@ The numerator of such quantity can be considered as the error between se\-quen\-
 
 Se\-quen\-ces may be subject to \emph{operations}. In particular, operations can be described by directed graphs in which there are (possibly multiple) input se\-quen\-ces and (possibly multiple) output se\-quen\-ces resulting from the operation. Of course, there may be well more than one input and one output. Operations in general can be seen as \textbf{discrete-time systems} as they allow manipulation of discrete-time sequences.
 
-    \begin{figure}[ht]
-\begin{center}
-\begin{tikzpicture}
+\begin{figure}[ht]
+	\begin{center}
+		\begin{tikzpicture}
+    			\node                 (input)                                 {$\{x[n]\}$};
+    			\node[squarednode]    (operation)     [right=of input]        {Operation};
+    			\node                 (output)        [right=of operation]    {$\{y[n]\}$};
 
-    \node                 (input)                                 {$\{x[n]\}$};
-    \node[squarednode]    (operation)     [right=of input]        {Operation};
-    \node                 (output)        [right=of operation]    {$\{y[n]\}$};
-
-    \draw[->] (input.east) -- (operation.west);
-    \draw[->] (operation.east) -- (output.west);
-\end{tikzpicture}\caption{The general scheme for elementary operations.}\label{tikz:operation-scheme}
-\end{center}
+    			\draw[->] (input.east) -- (operation.west);
+    			\draw[->] (operation.east) -- (output.west);
+		\end{tikzpicture}\caption{The general scheme for elementary operations.}\label{tikz:operation-scheme}
+	\end{center}
 \end{figure}
 
 Basic signal operations are called \textbf{elementary operations}. The first elementary operation is the \emph{modulation}, an operation in which a signal $x$ is multiplied by another signal, say $w$, to produce an output signal $y$ such that $$y[n] = x[n]\cdot w[n].$$ A common application of the modulation is the \textbf{windowing} process, in which an infinite-length signal $x$ is ``windowed'' by a finite-length signal $w$, whose non-zero values are limited to a finite interval and the non-zero values are all equal to $1$. In that case, it would be like ``selecting'' the values of $x$ that lay in the $w$ window, as any other value would be multiplied by $0$. Modulation is denoted with a cross inside a circle, as shown in Diagram~\ref{tikz:modulation-operation}.
@@ -5472,7 +5471,7 @@ The two aforementioned forms involved a ratio between two polynomials, something
 which of course allows the presence of an \emph{alternate form} as in the previous case,
 \begin{equation}\label{eqn:rationalzTransformFactoredAlternate}
     G(z) =
-    z^{(N-m)}\frac {
+    z^{(N-M)}\frac {
         p_0 \prod_{l=1}^M\left(z - \xi_l\right)
     } {
         d_0 \prod_{l=1}^N\left(z - \lambda_l\right)
