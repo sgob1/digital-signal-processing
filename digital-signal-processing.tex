@@ -5480,7 +5480,7 @@ which of course allows the presence of an \emph{alternate form} as in the previo
 where in both cases $\xi_l,\lambda_l \in \C$ are---respectively---the roots of the polynomial at the numerator and the roots of the polynomial at the denominator. Since for all values $z = \xi_l$ the $z$-transform yields $G(\xi_l) = 0$, these values of $z$ are said to be the \textbf{zeros} of $G(z)$. Correspondingly, for values $z = \lambda_l$ the $z$-transform behaves such that $G(\lambda_l) \rightarrow \infty$, these values of $z$ are known as the \textbf{poles} of $G(z)$. Zeroes and poles of the $z$-transform are one of their decisive characteristics, and they crucially determine the behavior of the transform. When considering a $z$-transform as expressed in~\ref{eqn:rationalzTransformFactoredAlternate}, that is
 \[
     G(z) =
-    z^{(N-m)}\frac {
+    z^{(N-M)}\frac {
         p_0 \prod_{l=1}^M\left(z - \xi_l\right)
     } {
         d_0 \prod_{l=1}^N\left(z - \lambda_l\right)
@@ -5649,21 +5649,21 @@ Let $g[n]$ be a \emph{finite-length} sequence defined for values in between $-M 
 \end{equation}
 $G(z)$ has $M$ poles at $z=\infty$ and $N$ poles at $z=0$, and no other pole. As can be seen from the above expression, the $z$-transform for a finite-length bounded sequence converges everywhere in the z-plane, except possibly at $z=0$ and at the infinity $z \rightarrow \infty$. Any finite-length sequence converges in between $z=0$ and $z=\infty$ excluded.
 
-\item[Region of convergence for right-sided sequences] A \emph{right-sided} sequence with non-zero values for $n\leq 0$ called a \emph{causal sequence}. Consider any causal sequence $\nu_1[n]$; its $z$-transform is given by
+\item[Region of convergence for right-sided sequences] A \emph{ri\-ght-si\-ded} sequence with non-zero values for $n\leq 0$ called a \emph{causal sequence}. Consider any causal sequence $\nu_1[n]$; its $z$-transform is given by
     \begin{equation}\label{eqn:zTransformCausalSequence}
         V_1(z) = \sum_{n=0}^\infty \nu_1[n] z^{-n}
     \end{equation}
         since any term of the sum would collapse to zero for $n < 0$. It can be shown that $V_1(z)$ converges \emph{exterior} to a circle $|z| < r_1$ \emph{including} the point $z=\infty$.
         On the other hand, a right-sided (but not causal) sequence $\nu_2[n]$ whose non-zero values are from $n \leq -M$ with $M \in \N\setminus \{0\}$ has a $z$-transform $V_2(z)$ with $M$ poles at $z=\infty$. The region of convergence of $V_2(z)$ will be exterior to a circle $|z| = r_2$ like for the causal signal---however, differently from before, the region of convergence \emph{does not include} the point at infinity $z = \infty$. If a sequence is right-sided but non-causal then the RoC of its $z$-transform will not include the point located at infinity.
 
-    \item[Region of convergence for left-sided sequences] \emph{Left-sided} se\-quen\-ces are almost the contrary of right-sided ones; as will soon uncovered, the behavior will be comparable to the case of the right-side sequences.
+    \item[Region of convergence for left-sided sequences] \emph{Le\-ft-si\-ded} se\-quen\-ces are almost the contrary of right-sided ones; as will soon uncovered, the behavior will be comparable to the case of the right-side sequences.
         Consider an anticausal sequence $a_1[n]$; its $z$-transform is given by
         \begin{equation}\label{eqn:zTransformAntiCausalSequence}
             A_1(z) = \sum_{n=-\infty}^0 a_1[n]z^{-n}.
         \end{equation}
         It can be shown that $A_1(z)$ converges \emph{interior} to a circle $|z| = r_1$ \emph{including} the point $z=0$. Comparably to the case of right-side sequences, a left-sided sequence $a_2[n]$ with non-zero sample values only for $n \leq N$, $N \in \N \setminus \{0\}$ has a $z$-transform $A_2(z)$ with $N$ poles at the origin $z = 0$, and whose RoC is interior to a circle $|z| = r_4$, but \emph{does not include} the point $z=0$. Similarly, simply left-sided sequences will have its $z$-transform whose RoC does not include the point at the origin, just like a simply right-sided sequence did not include points at the infinity.
 
-    \item[Region of convergence for two-sided sequences] \emph{Two-sided} se\-quen\-ces are generic sequences. Still, they can be written as a superposition of an anti-causal sequence and a causal sequence.
+    \item[Region of convergence for two-sided sequences] \emph{Two-si\-ded} se\-quen\-ces are generic sequences. Still, they can be written as a superposition of an anti-causal sequence and a causal sequence.
         Let $\Omega(z)$ be the $z$-transform of a two-sided sequence $\omega[n]$. One can write
         \begin{equation}\label{eqn:zTransformTwoSidedSequence}
             \Omega(z) = \sum_{n=-\infty}^\infty \omega[n]z^{-n} = \underbrace{\sum_{n=0}^\infty \omega[n]z^{-n}}_{\mbox{causal}} + \underbrace{\sum_{n=-\infty}^{-1} \omega[n]z^{-n}}_{\mbox{anticausal}}.
@@ -5692,7 +5692,7 @@ $G(z)$ has $M$ poles at $z=\infty$ and $N$ poles at $z=0$, and no other pole. As
     \end{tikzpicture}
 \end{center}
 
-while, on the opposite, no region of convergence exists in the next illustration. In green is denoted the RoC of the anti-causal sequence, in red the RoC of the causal sequence---both are oriented towards opposite directions, following the aforementioned rules, and no overlapping region occurs as $r_a < r_c$. Therefore, to evaluate the region of convergence of a two-sided sequence in order to determine the existence of its $z$-transform it is enough to first determine the regions of convergence of the two causal and anticausal sub-sequences---especially the two circle radiuses $r_a$ and $r_c$---and then to overlap the two just obtained regions. The following illustration depicts the case of no substantial overlapping:
+while, on the opposite, no region of convergence exists in the next illustration. In green it is denoted the RoC of the anti-causal sequence, in red the RoC of the causal sequence---both are oriented towards opposite directions, following the aforementioned rules, and no overlapping region occurs as $r_a < r_c$. Therefore, to evaluate the region of convergence of a two-sided sequence in order to determine the existence of its $z$-transform it is enough to first determine the regions of convergence of the two causal and anticausal sub-sequences---especially the two circle radiuses $r_a$ and $r_c$---and then to overlap the two just obtained regions. The following illustration depicts the case of no substantial overlapping:
 
 \begin{center}
     \begin{tikzpicture}
@@ -5779,7 +5779,7 @@ The first causal term converges for all $|z| > |\alpha|$, whereas the second ant
             (-2, -2) rectangle (2,2)
             (0,0) circle[radius=.7];
     \end{tikzpicture}
-\end{center}\caption{Region of convergence (blue color) in the cases of (left) a right-sided sequence, (center) a two-sided sequence and (right) a left-sided sequence.}\label{tikz:zTransformRocTypes}
+\end{center}\caption{Region of convergence (blue color) in the cases of (left) a right-sided sequence, (center) a two-sided sequence with $r_\alpha < r_\beta$, and (right) a left-sided sequence.}\label{tikz:zTransformRocTypes}
 \end{figure*}
 
 The region of convergence is bounded on the \emph{outside} by the pole with the \emph{smallest} magnitude that contributes for $n < 0$ (anticausal sequence), and on the \emph{inside} by the pole with the \emph{largest} magnitude that contributes for $n \leq 0$ (causal sequence). There are three possible RoCs of a rational $z$-transform with poles at $z = \alpha$ and $z = \beta$, with $|\alpha| < |\beta|$, depending on the values of $\alpha$ and $\beta$.
@@ -5915,7 +5915,7 @@ However, if $M\leq N$, then $G(z)$ can be rewritten as
     G(z) = \sum_{l=0}^{M-N} \eta_l z^{-l} + \underbrace{\frac{P'(z)}{D(z)}}_{\Upsilon(z)},
 \end{equation}
 where the degree of $P'(z)$ is \emph{less} than the original degree $N$.
-The rational function $\Upsilon(z) := \frac{P'(z)}{D(z)}$ is called \emph{proper fraction}. The proper fraction part $\Upsilon(z)$ can be developed from $G(z)$ by performing a long division between $P(z)$ and $D(z)$ in a reverse order until the remainder polynomial $P'(z)$is of a lower degree than that of the denominator---a technique called \textbf{method of residues}.
+The rational function $\Upsilon(z) := \frac{P'(z)}{D(z)}$ is called \emph{proper fraction}. The proper fraction part $\Upsilon(z)$ can be developed from $G(z)$ by performing a long division between $P(z)$ and $D(z)$ in a reverse order until the remainder polynomial $P'(z)$ is of a lower degree than that of the denominator---a technique called \textbf{method of residues}.
 
 Indeed, one can employ \textsc{Octave}'s command \texttt{residuez} to compute the partial-fraction expansion of a rational $z$-transform with numerator and denominator coefficients given by vectors \texttt{num} and \texttt{den},
 \begin{verbatim}
