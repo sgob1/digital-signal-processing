@@ -6126,7 +6126,7 @@ Clearly, in order to craft a system that is actually useful by virtue of being c
 
 \chapter{Sampling, interpolation, and reconstruction of signals}
 
-In general, only \emph{infinite-length} signals can have \emph{finite band}---since in reality one can only generate a finite-length signal, all signals will, in practice, possess an infinite band. Infinite band signals will see its Fourier Transform (Section~\ref{sec:continuousTimeFourierTransform}) spanning through the entire frequency domain, hence $B \rightarrow \infty$. This is why, in order to sample a finite-length signal it is paramount to first \emph{lowpass filter it}.
+In general, only \emph{infinite-length} signals can have \emph{finite band}---since in reality one can only generate a finite-length signal, all signals will, in practice, possess an infinite band. Infinite band signals will see its Fourier Transform (Section~\ref{sec:continuousTimeFourierTransform}) spanning through the entire frequency domain, hence $B \rightarrow \infty$. This is why, in order to sample a finite-length signal it is paramount to first \emph{lowpass filter it} in order to remove high frequencies that are induced by the finite-length nature of the original sequence.
 
 \section{Sampling}
 
@@ -6143,9 +6143,11 @@ by \emph{Fourier transforming} the sequence $x[n]$, one obtains
          &= F(f) \circledast S_\delta (f),
 \end{align*}
 where
-\[
-    S_\delta(f) = \mathcal F\left\{\sum_{n} \delta(t - n\Delta T)\right\} = \sum_{n=-\infty}^\infty \frac {1}{\Delta T} \delta(f - \frac n {\Delta T}).
-\]
+\begin{align*}
+    	S_\delta(f) &= \mathcal F\left\{\sum_{n} \delta(t - n\Delta T)\right\}\\
+    	&= \sum_{n=-\infty}^\infty \frac {1}{\Delta T} \delta(f - \frac n {\Delta T})\\
+    	&= \Delta F \sum_{n=-\infty}^\infty \delta(f - n \Delta F).
+\end{align*}
 
 By looking at the above relations, one can soon infer that the Fourier Transform $X(f)$ of the sampled sequence $x[n]$ is a \emph{periodic repetition of the spectrum of the original signal $f(t)$}, as to obtain the actual Fourier Transform $X(f)$ the Fourier Transform $F(f)$ of signal $f(t)$ is convoluted by the periodic train of impulses $S_\delta(f)$, producing a periodic transform as the end result. Hence, the transform of $x[n]$ obtained by sampling $f(t)$ with sampling step $\Delta T$ is a periodic repetition of the spectrum of the original signal $f(t)$ with period $\Delta f = \frac {1}{\Delta T}$.
 
@@ -6331,7 +6333,7 @@ In mathematics, an eigenfunction of a linear operator $D$ defined on some functi
 \begin{equation}\label{eqn:eigenFunction}
     Df = \lambda f.
 \end{equation}
-for some scalar eigenvalue $\lambda$\cite{bib:eigenFunctions}.
+for some scalar eigenvalue $\lambda$\cite{bib:eigenFunctions}. In this case, the linear operator $D$ will be represented by our LTI system, while the eigenvalue will be our scaling factor by which a passing $f$ input function will be multiplied.
 
 Let now $x[n]$ be an eigenfunction of the LTI system with an impulse response $\{h[n]\}$. Its input--output relationship in the time-domain is soon given by the following convolution sum
 \[
@@ -6341,18 +6343,19 @@ In the case of $x[n] = e^{j\omega_0 n}, -\infty < n < \infty$, it immediately fo
 \[
     y[n] = \sum_{k=-\infty}^\infty h[k]e^{j\omega_0 (n - k)} = \underbrace{\left(\sum_{k=-\infty}^\infty h[k] e^{-j\omega_0 k} \right)}_{H(e^{j\omega_0})} e^{j\omega_0 n},
 \]
-and if we name
+and if we recognize that the above sum is equal to the Fourier Transform of the function $h$,
 \[
-    H(e^{j\omega_0}) = \sum_{k=-\infty}^\infty h[k]e^{-j\omega_0 k}
+    H(e^{j\omega_0}) = \sum_{k=-\infty}^\infty h[k]e^{-j\omega_0 k} \in \C
 \]
-then we can obtain the output as
+then we can obtain the output as the product between two terms,
 \[
-    y[n] = H(e^{j\omega_0})e^{j\omega_0 n} = H(e^{j\omega_0})x[n].
+    y[n] = H(e^{j\omega_0})e^{j\omega_0 n} = H(e^{j\omega_0})x[n],
 \]
+the first one being the Fourier Transform of the impulse response $h[n]$, computed in $\omega_0$, while the second term is the original input itself, that is $x[n] = e^{j\omega_0 n}$.
 
 Hence, for a complex exponential input signal $e^{j\omega_0 n}$ the output of an LTI system is also a complex exponential signal, of the same frequency, multiplied by a complex constant $H(e^{j\omega_0})$: the exponential input signal $e^{j\omega_0 n}$ is an \emph{eigenfunction of the system.}
 
-Suppose to collect now every value of $H(e^{j\omega_0})$ for any possible choice of $\omega_0$ and put it into a function $H(e^{j\omega})$---for a generic frequency $\omega$, the function $H(e^{j\omega})$ is called the \textbf{frequency response} of the LTI discrete-time system. The frequency response provides a frequency-domain description of the system, and is precisely the Discrete-time Fourier Transform of the impulse response $\{h[n]\}$ of the system. Like the DTFT, the frequency response is---generally speaking---a complex function of period $2\pi$, and can be expressed either in terms of its real and imaginary parts, or in terms of its magnitude and phase, that is
+Suppose to collect now every value of $H(e^{j\omega_0})$ for any possible choice of $\omega_0$ and put it into a function $H(e^{j\omega})$---for a generic frequency $\omega$, the function $H(e^{j\omega})$ is called the \textbf{frequency response} of the LTI discrete-time system and it corresponds to the Discrete-time Fourier Transform of the impulse response. The frequency response provides a frequency-domain description of the system, and is precisely the Discrete-time Fourier Transform of the impulse response $\{h[n]\}$ of the system. Like the DTFT, the frequency response is---generally speaking---a complex function of period $2\pi$, and can be expressed either in terms of its real and imaginary parts, or in terms of its magnitude and phase, that is
 \[
     H(e^{j\omega}) = H_{re}(e^{j\omega}) + jH_{im}(e^{j\omega})
 \]
@@ -6364,7 +6367,7 @@ where
 \[
     \theta(\omega) = \arg{H(e^{j\omega})}
 \]
-results that were already highlighted in Section~\ref{sec:discreteTimeFourierTransform}, a part related to the DTFT. Especially the polar representation comes in handy, with two distinct components that should be put under the spotlight: the \textbf{magnitude response} $\left|H(e^{j\omega})\right|$, and the \textbf{phase response} $\theta(\omega)$ of the LTI discrete-time systems. Those two functions are both real functions, and together totally describe the complex-valued function that is the frequency response: for this reason, in many applications the two functions are those that are provided in order to describe the frequency response or the DTFT of a LTI system. In some cases a scaling is appropriate, with the magnitude function specified in \emph{decibels} as
+results that were already highlighted in Section~\ref{sec:discreteTimeFourierTransform}. In this case, the polar representation comes in handy, with two distinct components that should be put under the spotlight: the \textbf{magnitude response} $\left|H(e^{j\omega})\right|$, and the \textbf{phase response} $\theta(\omega)$ of the LTI discrete-time systems. Those two functions are both real functions, and together totally describe the complex-valued function that is the frequency response: for this reason, in many applications the two functions are those that are provided in order to describe the frequency response or the DTFT of a LTI system. In some cases a scaling is appropriate, with the magnitude function specified in \emph{decibels} as
 \[
     \mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
 \]
@@ -6372,7 +6375,7 @@ where $\mathcal G(\omega)$ is said to be the \textbf{gain function}. The negativ
 \[
     \mathcal A(\omega) = -\mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
 \]
-is called the \textbf{attenuation} or the \textbf{loss function}.
+is called the \textbf{attenuation} or the \textbf{loss function}. Both functions that have been just mentioned are almost always expressed in decibel.
 
 The frequency response share some properties with the DTFT. For instance, if the impulse response $h[n]$ is a real sequence, then it comes after that the magnitude function is an even function as well,
 \[
@@ -6392,9 +6395,9 @@ As an examplification, let $h[n]$ be the impulse response of an $M$-point moving
             \frac 1 M & 0 \leq n \leq M-1\\
             0, & \mbox{ otherwise }
         \end{array}
-    \right..
+    \right.,
 \]
-Its frequency response is simply given by the following formula,
+a window of width $M$. Its frequency response is immediately given by
 \begin{align*}
     H(e^{j\omega})
     &= \frac 1 M \sum_{n=0}^{M-1} e^{-j\omega n}\\
@@ -6404,20 +6407,20 @@ Its frequency response is simply given by the following formula,
         1 - e^{-j\omega}
     }\\
     H(e^{j\omega})
-    &= \frac 1 M \frac{
-        \sin{M\omega/2}
+    	&= \underbrace{\frac 1 M \frac{
+            \sin{(M\omega/2)}
     } {
-        \sin{\omega/2}
-    } e^{-j(M-1)\omega/2}.
+            \sin{(\omega/2)}
+    }}_{magnitude} \underbrace{e^{-j(M-1)\omega/2}}_{phase}.
 \end{align*}
 
 Thence, the \emph{magnitude response} of the $M$-point moving average filter will be
 \begin{equation}\label{eqn:mPointMovingAverageFilterMagnitudeReponse}
     \left|H(e^{j\omega})\right|
     = \left|\frac 1 M \frac{
-        \sin{M\omega/2}
+            \sin{(M\omega/2)}
     } {
-        \sin{\omega/2}
+            \sin{(\omega/2)}
     }\right|
 \end{equation}
 while the \emph{phase response} will be
@@ -6474,7 +6477,7 @@ Let $y[n]$ be the output of a real coefficient LTI discrete-time system, with a 
 \]
 we can express the input $x[n]$ in polar representation as
 \begin{align*}
-    x[n] &= \frac 1 2 Ae^{j\varphi}e^{j\omega_0 n} + \frac 1 2 e^{-j\varphi}e^{-j\omega_0 n}\\
+    x[n] &= \frac 1 2 Ae^{j\varphi}e^{j\omega_0 n} + \frac 1 2 Ae^{-j\varphi}e^{-j\omega_0 n}\\
          &= g[n] + g^*[n]
 \end{align*}
 with $g[n] = e^{j\varphi}e^{j\omega_0n}$. Since the output of the system for an eigenfunction $e^{j\omega_0n}$ is the frequency response multiplied by the eigenfunction, one has that the output $v[n]$ of $g[n]$ is
@@ -6486,7 +6489,7 @@ and the output $v^*[n]$ of $g^*[n]$ is
     v^*[n] = \frac 1 2 H(e^{-j\omega_0})Ae^{-j\varphi}e^{-j\omega_0n}.
 \]
 
-The complete output will be the sum of the two outputs taken alone (superposition principle),
+The complete output will be the sum of the two outputs taken alone, because of the superposition principle,
 \begin{align*}
     y[n]
     &= v[n] + v^*[n]\\
@@ -6496,15 +6499,15 @@ The complete output will be the sum of the two outputs taken alone (superpositio
 \end{align*}
 as 
 \[
-    H(e^{\pm j\omega}) = \left|H(e^{+ j\omega})\right|e^{\pm j\theta(\omega)}.
+    H(e^{\pm j\omega}) = \left|H(e^{\pm j\omega})\right|e^{\pm j\theta(\omega)}.
 \]
 
 The output $y[n]$ has the very same sinusoidal waveform that the input has, with two substantial differences: the first being that \emph{the amplitude is multiplied by a coefficient $\left|H(e^{j\omega_0})\right|$} that is the value of the magnitude function at $\omega = \omega_0$, the oscillation frequency of the sinusoid; second, the output has a \emph{phase lag} induced by the filter by an amount $\theta(\omega_0)$, the value of the phase function at $\omega = \omega_0$.
 
 \section{Response to a Causal Exponential Sequence}
-The above expression for the steady-state assumes that the system is \emph{initially relaxed} before application of the input sinusoid, which means that the system is under no stress right before the application of $x[n]$. This culminates in the fact that, in practical applications, exerciting a solicitation $x[n]$ to a causal LTI system usually means applying an input sequence that is \emph{right-sided}, at some starting sample index $n = n_0$; for such a generic input, an output will be soon derived.
+The above expression for the steady-state assumes that the system is \emph{initially relaxed} before application of the input sinusoid, which means that the system is under no stress right before the application of $x[n]$. This culminates in the fact that, in practical applications, exerciting a solicitation $x[n]$ to a causal LTI system usually means applying an input sequence that is \emph{right-sided}, at some starting sample index $n = n_0$, with all inputs $n < n0$ that are null; for such a generic input, an output will be soon derived.
 
-Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$, with no loss of generality with the implied causality. By looking at the input--output relationship for an LTI discrete-time system
+Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$, with no loss of generality with the implied causality\footnote{In an LTI system, due to the time-invariance property, the properties of a causal signal $x[n]$ starting at $n = 0$ will be preserved for any shifted variant of the same sequence $x[n-n_s]$, for any starting $n_s$. Thus, studying the behavior of an LTI system with a causal sequence does not imply any loss of generality with respect to non-causal shifts of the same sequence.}. By looking at the input--output relationship for an LTI discrete-time system
 \[
     y[n] = \sum_{k=-\infty}^\infty h[k]x[n-k]
 \]
