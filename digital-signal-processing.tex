@@ -435,9 +435,9 @@ There are several ways to classify a se\-quen\-ce.
 
 The first one is by \textbf{symmetry}. A \emph{conjugate-symmetric} se\-quen\-ce is a se\-quen\-ce that satisfies the property \[x[n] = x^*[-n];\] If $x$ is real, then it is said to be an \emph{even se\-quen\-ce}. The \emph{conjugate antisymmetric se\-quen\-ce}, on contrary, is such that \[x[n] = -x^*[-n],\] and if $x$ is real, then it is said to be an \emph{odd se\-quen\-ce}. Every se\-quen\-ce can be defined with the sum of its conjugate symmetric and antisimetric parts, that are two distinct signals \[x[n] = x_{cs}[n] + x_{ca}[n];\] in fact, $x_{cs} = \frac{1}{2}(x[n] + x^*[-n])$ and $x_{as} = \frac{1}{2}(x[n] - x^*[-n])$, and by summing up one obtains $x[n]$.
 
-Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_f$ of 
+Another way is by \textbf{periodicity}: a se\-quen\-ce $\tilde{x}[n]$ is \emph{periodic with period} $N$ if it satisfies the property \[\tilde{x}[n] = \tilde{x}[n + kN]\] for any $k \in \Z$ and $N \in \N$. Smallest $N$ value different than zero that satisfies such property is called \emph{fundamental period}. A se\-quen\-ce that does not satisfy this property is said to be \emph{aperiodic}. The sum of two periodic signals $x_a$ and $x_b$ of fundamental period---re\-spec\-ti\-ve\-ly---$N_a$ and $N_b$ is still a periodic se\-quen\-ce, having fundamental period $N_{sum}$ of 
 \begin{equation}\label{eqn:greatestCommonDivisorPeriodFormula}
-	N_f = \frac{N_a N_b}{\mathrm{\texttt{gcd}}(N_a, N_b)} \geq \max{(N_a, N_b)},
+	N_{sum} = \frac{N_a N_b}{\mathrm{\texttt{gcd}}(N_a, N_b)} \geq \max{(N_a, N_b)},
 \end{equation} 
 where $\mathrm{\texttt{gcd}}$ is the ``greatest common divisor'' operation;
 
@@ -950,13 +950,13 @@ The $M$-point moving average system can be rewritten as follows,
          &= \frac 1 M \left(\sum_{l=1}^{M-1}x[n-l] + x[n]\right)\\
          &= \frac 1 M \left(\sum_{l=1}^{M-1}x[n-l] + x[n] + x[n - M] - x[n - M]\right)
 \end{align*}
-and then
+and then, with the replacement $l = \lambda + 1$, $l = 1 \Rightarrow \lambda = 0$,
 \begin{align*}
     y[n] &= \frac 1 M \left(\sum_{l=1}^{M}x[n-l] + x[n] - x[n - M]\right)\\
-         &= \frac 1 M \left(\sum_{l=0}^{M-1}x[n-1-l] + x[n] - x[n - M]\right)\\
-         &= \frac 1 M \left(\sum_{l=0}^{M-1}x[n-l-1]\right) + \frac 1 M \left(x[n] - x[n - M]\right)
+         &= \frac 1 M \left(\sum_{\lambda=0}^{M-1}x[n-(\lambda + 1)] + x[n] - x[n - M]\right)\\
+         &= \frac 1 M \left(\sum_{\lambda=0}^{M-1}x[(n-1) - \lambda]\right) + \frac 1 M \left(x[n] - x[n - M]\right)
 \end{align*}
-and finally
+one finally obtains the formulation
 \[
     y[n] = y[n-1] + \frac 1 M \left(x[n] - x[n - M]\right).
 \]
@@ -982,9 +982,9 @@ In fact, this is soon shown by just substituting recursively the definition with
          &= \alpha^2(\alpha y[n-3] + x[n-2]) + \alpha x[n-1] + x[n]\\
          &= \alpha^3y[n-3] + \alpha^2 x[n-2] + \alpha x[n-1] + x[n]
 \end{align*}
-where it is immediately clear that the terms with $\alpha$ of higher order tend to be smaller as the order increases, leading to less and less emphasis on past data samples.
+where it is immediately clear that the terms with $\alpha$ of higher order tend to be smaller as the order increases, leading to less and less emphasis on past data samples. Fine-tuning the value of $\alpha$ allows to set the speed with which the past samples get less important with respect to the present data samples.
 
-Computation of the running average filter only requires a single addition and a single multiplication; still, it requires storage of the previously-run average value. As a bonus, it does not require the storage of the full-chain of past data samples.
+Computation of the running average filter only requires a single addition and a single multiplication; still, it requires storage of the previously-run average value. As a bonus, it does not require the storage of the full-chain of past data samples, as practically after a certain iteration each past term will vanish as they're losing importance with respect to the present samples.
 
 \subsection{Median Filter}
 
@@ -1134,10 +1134,11 @@ Moreover, since they follow the superposition principle, a property analogous of
 \end{align*}
 by the superposition principle one gets
 \begin{align*}
-    \alpha y_1[n] + \beta y_2[n]  &= \alpha ( y_1[-1] + \sum_{l=0}^n x_1[l]) + \beta ( y_2[-1] + \sum_{l=0}^n x_2[l])\\
-                                  &= (\alpha y_1[-1] + \beta y_2[-1]) + (\alpha\sum_{l=0}^n x_1[l] + \beta\sum_{l=0}^n x_2[l]),
+	y[n] &= \alpha y_1[n] + \beta y_2[n]\\
+	&= \alpha ( y_1[-1] + \sum_{l=0}^n x_1[l]) + \beta ( y_2[-1] + \sum_{l=0}^n x_2[l])\\
+        &= (\alpha y_1[-1] + \beta y_2[-1]) + (\alpha\sum_{l=0}^n x_1[l] + \beta\sum_{l=0}^n x_2[l]),
 \end{align*}
-and for this reason $y[n] = \alpha y_1[n] + \beta y_2[n]$ if and only if
+and for this reason $y[n] = \alpha y_1[n] + \beta y_2[n]$ \emph{if and only if}
 \begin{equation}\label{eqn:accumulatorInitialCondition}
     y[-1] = \alpha y_1[-1] + \beta y_2[-1],
 \end{equation}
@@ -1146,7 +1147,7 @@ an equation that establishes a precise condition under which the initial conditi
     y[-1] = \alpha y_1[-1] + \beta y_2[-1] \equiv 0.
 \]
 
-If the above condition is not satisfied, the sum of accumulators is not a linear system.
+If the above condition is not satisfied, the sum of accumulators is not a linear system, so for an accumulator to be linear it must be initially at rest.
 
 \subsection{Nonlinear Discrete-time Systems}
 
@@ -1164,7 +1165,7 @@ Another example of nonlinear discrete-time system is the second form of the accu
 
 \subsection{Shift-Invariant Systems}
 
-Any \textbf{Shift-Invariant System} is a system for which if the response to an input $x_1[n]$ is $y_1[n]$, then the response to an input \[x[n] = x_1[n-n_0]\] where $n_0 \in \Z$ is the translation of the output as well, that is \[y[n] = y_1[n-n_0].\] The above property is called the \emph{time-invariance property}.
+Any \textbf{Shift-Invariant System} is a system for which if the response to an input $x_1[n]$ is $y_1[n]$, then the response to an input \[x[n] = x_1[n-n_0]\] where $n_0 \in \Z$ is the translation of the output as well, that is \[y[n] = y_1[n-n_0].\] The above property is called the \textbf{time-invariance property}.
 
 The above relationship must hold for any arbitrary input and its corresponding input. This means that by simply shifting the input sequence one obtains an output sequence which is shifted as well, by the same quantity as the shift of the input sequence.
 
@@ -1198,7 +1199,7 @@ For a new input $\hat x[n] = x[n-n_0], n_0 \in \Z$, one obtains the output
 		\end{array}
 	\right.
 \end{align*}
-which is indeed \emph{different} from what one obtains by applying the definition straightforwardly, that is
+which is indeed \emph{different} from what one obtains by applying a shift from the output, that is
 \begin{align*}
     \hat x_u[n-n_0] &=
 	\left\{
@@ -1258,8 +1259,8 @@ An example of a BIBO stable system is soon provided. Consider an $M$-point movin
 Against a bounded input $|x[n]| \leq B_x < \infty$ one obtains
 \begin{align*}
     |y[n]| &= \left| \frac 1 M \sum_{k=0}^{M-1} x[n-k]\right|\\
-           &= \frac 1 M \sum_{k=0}^{M-1} \left| x[n-k]\right|\\
-           &= \frac 1 M (MB_x) = B_x.
+           &\leq \frac 1 M \sum_{k=0}^{M-1} \left| x[n-k]\right|\\
+           &\leq \frac 1 M (MB_x) = B_x.
 \end{align*}
 
 BIBO stable systems are indeed important, as they are all systems for which---provided the input is known to be bounded---the output will be necessarily bounded.
@@ -1316,7 +1317,8 @@ on contrary, the system
 \]
 is not invertible, as the square function is not bijective, hence we cannot
 invert it safely (performing square root would cut out all negative values,
-since they are mapped as the same $y[n]$ in the above system).
+since they are mapped as the same $y[n]$ in the above system---one should at
+least make the function bijective and then apply the square root).
 
 \subsection{Systems with memory}
 
@@ -1365,7 +1367,7 @@ by substituting with the impulse sequence one gets
     h[n] = \sum_{i=-\infty}^{n} \delta[l] = \mu[n].
 \]
 
-Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected.
+Since what an accumulator does, roughly speaking, is to ``collect and sum up all the values of a sequence up to time instant $n$'', its impulse response will be $0$ up to the origin, after which the value of $1$ will be collected and shown as output at every sample.
 
 The impulse response $h[n]$ of the factor-of-two interpolator
 \[
@@ -1380,9 +1382,13 @@ which yields the finite-length sequence having length $3$
     \{h[n]\} = \{0.5, \underset{\uparrow}{1}, 0.5\}.
 \]
 
-Please keep in mind that the above is \emph{not} a causal sequence. In order for it to be causal, one would have to move the arrow to the left until the first sample is the sample at the origin, that is, one shall adopt an impulse response such as
+Please keep in mind that the above is \emph{not} a causal sequence. In order for it to be causal, one would have to move the arrow to the left until the first sample is the sample at the origin, that is, one shall adopt a shifted impulse response such as
 \[
-    \{h[n]\} = \{\underset{\uparrow}{0.5}, 1, 0.5\}.
+    \{h[n]\} = \{\underset{\uparrow}{0.5}, 1, 0.5\},
+\]
+which corresponds to the system
+\[
+    y[n] = x_u[n-1] + \frac 1 2(x_u[n-2] + x_u[n]).
 \]
 
 To conclude, impulse response can be determined for \emph{any} discrete-time systems, no matter if they are linear or not. The impulse response is just the evolution of the system against a unit sample pulse $\delta[n]$.
