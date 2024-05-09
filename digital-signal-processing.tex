@@ -676,7 +676,7 @@ is a low frequency signal, while se\-quen\-ce
 \] 
 is a high frequency one. 
 
-\subsection{Representation of a se\-quen\-ce with basic se\-quen\-ces}
+\subsection{Representation of a se\-quen\-ce with basic se\-quen\-ces}\label{sec:representationOfSequencesWithBasicSequences}
 
 Any arbitrary se\-quen\-ce can be represented in the time domain as a \emph{weighted sum} of some basic se\-quen\-ces and its delayed--advanced versions. The trick works by making use of many impulse sequences, each to describe a single non-zero sample of the original sequence, opportunely delayed or advanced to locate them in the proprer index in time:
 
@@ -1290,7 +1290,7 @@ The output energy for such a system is given by
 \]
 and it depends on the choice of the coefficient $\alpha$, as it is either a passive system if $|\alpha| < 1$, or a lossless system in the case of $|\alpha| = 1$. Of course, it is neither passive nor lossless if $|\alpha| > 1$.
 
-\subsection{Invertible systems}
+\subsection{Invertible systems}\label{sec:invertibleSystems}
 
 \textbf{Invertible systems} are all those systems that can be inverted, that is
 for a given system $\mathcal H$ it is possible to find an \emph{inverse system}
@@ -1423,6 +1423,8 @@ in the end---thanks to the superposition principle---one gets
 
 This example highlights the fact that, both superposition principle and shift-invariance prove useful to immediately compute the impulse response of any LTI system. We can use the two rules to effectively write the output in function of the input with a \emph{truly} relevant and remarkable expression.
 
+In fact, since any input $x[n]$ can be described in terms of delta impulses $\delta[n-\kappa]$ as in Section~\ref{sec:representationOfSequencesWithBasicSequences}, any LTI system will show as output the sum of the individual contribution of each delta impulse term, which will correspond to a $h[n-\kappa]$ term multiplied for a coefficient. This way, the input can be deconstructed and treated separately, concurring in the total sum as a shifted impulse response term weighted by a coefficient which corresponds to the amplitude of a specific input sample.
+
 Since an arbitrary input $x[n]$ can be rewritten as a sum of (many) unit impulses
 \begin{equation}\label{eqn:inputAsSumOfImpulses}
     x[n] = \sum_{k=-\infty}^\infty x[k] \delta[n-k],
@@ -1516,9 +1518,9 @@ which illustrate that the impulse response $h[n]$ of the cascade of two LTI disc
     h[n]=h_1[n] \circledast h_2[n].
 \end{equation}
 
-Hence, the ordering of two LTI systems ``in series'' is not important\footnote{This happens because the ordering of the systems in the cascade has no effect on the overall impulse response, as the convolution sum enjoys the commutative property.}, and they can be converted into a single LTI system in which the convolution sum of the two impulse responses is the new impulse response of the unique system. Moreover, a cascade connection of two BIBO stable systems is stable as well, and the same goes for a cascade of two passive---or lossless---systems, which is passive---or lossless---as well.
+Hence, the ordering of two LTI systems ``in series'' is not important\footnote{This happens because the ordering of the systems in the cascade has no effect on the overall impulse response, as the convolution sum enjoys the commutative property.}, and they can be converted into a single LTI system in which the convolution sum of the two impulse responses is the new impulse response of the unique system. Moreover, a cascade connection of two BIBO stable systems is stable as well, and the same goes for a cascade of two passive---or lossless---systems, which is passive---or lossless---as well. This occurs since no filter is divergent, and the convolution sum between two non-divergent (impulse response) sequences cannot produce a divergent (impulse response) sequence; hence, the BIBO stability gets preserved if none of the sequences with which the cascade is composed is divergent.
 
-Cascade connections are important in the development of the so-called \emph{inverse systems}. Let a cascade connection satisfy the relationship \[h[n] \circledast \hat h[n] = \delta[n],\] then the LTI system corresponding to $\hat h[n]$ is said to be the \emph{inverse} of $h[n]$, and vice-versa. Applications of the inverse system are paramount in the recovery of a sequence $x[n]$ from a distorted version $\hat x[n]$ of the same one, appearing at the output of a trasmission channel. If the impulse response of the channel is already known, then $x[n]$ can soon be obtained by designing an inverse system of the channel itself, that is
+Cascade connections are important in the development of the so-called \emph{inverse systems}, introduced formally in Section~\ref{sec:invertibleSystems}. Let a cascade connection satisfy the relationship \[h[n] \circledast \hat h[n] = \delta[n],\] then the LTI system corresponding to $\hat h[n]$ is said to be the \emph{inverse} of $h[n]$, and vice-versa. Applications of the inverse system are paramount in the recovery of a sequence $x[n]$ from a distorted version $\hat x[n]$ of the same one, appearing at the output of a trasmission channel. If the impulse response of the channel is already known, then $x[n]$ can soon be obtained by designing an inverse system of the channel itself, that is
 
 \begin{center}
     \begin{tikzpicture}
@@ -1535,7 +1537,7 @@ Cascade connections are important in the development of the so-called \emph{inve
 \end{tikzpicture}
 \end{center}
 
-Some inverse systems are easy to obtain. Consider the discrete-time accumulator, having the impulse response $h[n] = \mu[n]$. The inverse system $\hat h[n]$ must satisfy the following relationship \[\mu[n] \circledast \hat h[n] = \delta[n].\] It immediately follows that $\hat h[n] \equiv 0, \forall n<0$, $\hat h[0] = 1$, and $\sum_{l=0}^n \hat h[l] = 0, \forall n \geq 1$. The only sequence that satisfies the previous relations is the following one,
+Some inverse systems are easy to obtain, some other are impossible. For the first case, consider the discrete-time accumulator, having the impulse response $h[n] = \mu[n]$. The inverse system $\hat h[n]$ must satisfy the following relationship \[\mu[n] \circledast \hat h[n] = \delta[n].\] It immediately follows that $\hat h[n] \equiv 0, \forall n<0$, $\hat h[0] = 1$, and $\sum_{l=0}^n \hat h[l] = 0, \forall n \geq 1$. The only sequence that satisfies the previous relations is the following one,
 \begin{equation}\label{eqn:backwardDifferenceSystem}
     \hat h[n] = \delta[n] - \delta[n-1],
 \end{equation}
@@ -1543,6 +1545,8 @@ which goes under the name of \emph{backward difference system}. Related input--o
 \[
     y[n] = x[n] - x[n-1].
 \]
+
+A backward difference system is related to the discrete derivative of a signal, as its inverse---the accumulator---is related to the discrete integral of a signal.
 
 \subsection{Parallel connections}
 
@@ -1574,9 +1578,11 @@ which shows that the output of a parallel connection of two LTI discrete-time sy
 \end{equation}
 with $h_1[n]$ and $h_2[n]$ impulse responses of, respectively, the first and the second LTI system.
 
+The reason why a sum is obtained for a parallel between two LTI systems lies in their linearity, and their superposition principle. In fact, any of the parallel systems will concur to the output with a contribution which is proportional to their individual contribution (in this case, the proportionality factor is $1$ as there is no multiplication coefficient). Superposition principle describes connections in parallel, but this only works for linear systems, as non-linear ones cannot be described by the above linear laws.
+
 \subsection{Streamlining the Interconnection Sche\-mes}
 
-Rules for cascade and parallel configurations can be chained together to simplify an interconnection scheme composed of multiple cascade and parallel systems. Indeed, consider as an example the discrete-time system
+Rules for cascade and parallel configurations can be chained together to simplify an interconnection scheme composed of multiple cascade and parallel systems. The series--parallel rules can be applied individually, and at each node the signal can be obtained as the superposition of the incoming parallel branches, with any series that contributes as the convolution of each element of the series. Indeed, consider as an example the discrete-time system
 \begin{align*}
     h_1[n] &= \delta[n] + 0.5\delta[n-1]\\
     h_2[n] &= 0.5\delta[n] - 0.25\delta[n-1]\\
@@ -1629,7 +1635,7 @@ By simplifying the block-diagram with rules~\ref{eqn:cascadeConnectionFormula}~a
         \draw [-stealth] (sum1) -- (output);
     \end{tikzpicture}
 \end{center}
-and then
+and then, since the two blocks form a series of systems,
 \begin{center}
     \begin{tikzpicture}
         \node [](input) at (0,0) {$x[n]$};
@@ -1659,7 +1665,7 @@ By substituting, one obtains
                               &= \delta[n] - \frac 1 2 \delta[n-1]\\
     h_2[n] \circledast h_4[n] &= \left(\frac 1 2 \delta[n] - \frac 1 4 \delta[n-1]\right) \circledast \left(-2 \left(\frac 1 2\right)^n \mu[n]\right)\\
                               &= -\left(\frac 1 2 \right)^n\mu[n] + \frac 1 2 \left(\frac 1 2\right)^{n-1} \mu[n-1]\\
-                              &= -\left(\frac 1 2 \right)^n\mu[n] + \frac 1 2 \left(\frac 1 2\right)^n \mu[n-1]\\
+                              &= -\left(\frac 1 2 \right)^n\mu[n] + \left(\frac 1 2\right)^n \mu[n-1]\\
                               &= -\left(\frac 1 2 \right)^n\delta[n] \\
                               &= -\delta[n],
 \end{align*}
@@ -1711,7 +1717,7 @@ For this peculiar input, the output $y[n]$ at $n=0$ will be
 \[
     y[0] = \sum_{k=-\infty}^\infty \mbox{sgn}(h[k])h[k] = \mathcal S \leq B_y < \infty,
 \]
-but since $|y[n]| \leq B_y$ this implies that $\mathcal S < \infty$.
+because the quantity inside the summation will be always equal to the positive value of $h[k]$, thus acting like an absolute value of $h[k]$. Now, since $|y[n]| \leq B_y$ this implies that $\mathcal S < \infty$.
 \end{proof}
 
 Equation~\ref{eqn:ltiBiboStabilityEnd} shows that the output for an LTI discrete-time system will be bounded, and in particular it will be the product of two bounds---the first related to the input signal $x[n]$, and the second associated to the absolute sum of the impulse response.
@@ -1720,8 +1726,9 @@ Some special LTI discrete-time systems are BIBO stable and are worthy of spendin
 
 For this system it holds that, to be BIBO stable,
 \[
-    \mathcal S = \sum_{n=-\infty}^\infty |\alpha|^n \mu[n] = \underbrace{\sum_{n=0}^\infty |\alpha|^n =\frac{1}{1-|\alpha|}}_{|\alpha| < 1} .
+    \mathcal S = \sum_{n=-\infty}^\infty |\alpha|^n \mu[n] = \underbrace{\sum_{n=0}^\infty |\alpha|^n =\frac{1}{1-|\alpha|}}_{|\alpha| < 1} ,
 \]
+$|\alpha| < 1$ must hold.
 
 For the above reason, if $|\alpha| < 1$ then the system is BIBO stable, as $\mathcal S < \infty$. For $|\alpha| \geq 1$ the system is \emph{not} BIBO stable.
 
@@ -1732,7 +1739,7 @@ The \textbf{causality condition} for an LTI system is a condition that severely 
     x_1[n] = x_2[n] &\mbox{ for } n \leq n_0,\\
     x_1[n] \neq x_2[n] &\mbox{ for } n > n_0,
 \end{align*}
-then the corresponding outputs at $n=n_0$ of an LTI system with an impulse response $h[n]$ are given by either one of the following formulas,
+so that they're equal up to a certain $n_0$, and after that time sample they act differenctly. Then, the corresponding outputs $y_1$ and $y_2$ at $n=n_0$ of an LTI system with an impulse response $h[n]$ are given by,
 
 \begin{align*}
     y_1[n_0] &= \sum_{k=-\infty}^\infty h[k]x_1[n_0 - k]\\
@@ -1741,22 +1748,18 @@ then the corresponding outputs at $n=n_0$ of an LTI system with an impulse respo
              &= \sum_{k=0}^\infty h[k]x_2[n_0 - k] + \sum_{k=-\infty}^{-1} h[k]x_2[n_0 - k].
 \end{align*}
 
-If the LTI system is also a causal system, then it must be true that
+If the LTI system is also a causal system, then it must be true that the following holds
 \[ y_1[n_0] = y_2[n_0] \]
-as the behavior of the two input sequences is identical up to the sample $n_0$. But this means that
+as the behavior of the two input sequences is identical up to the sample $n_0$. But, since the two sequences are the same up to $n_0$ the following
 \[
     \sum_{k=0}^\infty h[k] x_1[n_0 - k] = \sum_{k=0}^\infty h[k]x_2[n_0 - k],
 \]
-and also it must be true that
-\[
+holds, so the above equality reduces to the equality of the two following terms, related to negative values of $k$,
+\begin{equation}\label{eqn:ltiCausalNegativeKEquality}
     \sum_{k=-\infty}^{-1} h[k] x_1[n_0 - k] = \sum_{k=-\infty}^{-1} h[k]x_2[n_0 - k].
-\]
+\end{equation}
 
-Now, since $x_1[n] \neq x_2[n], n> n_0$ the only way the condition
-\[
-    \sum_{k=-\infty}^{-1} h[k] x_1[n_0 - k] = \sum_{k=-\infty}^{-1} h[k]x_2[n_0 - k]
-\]
-is satisfied is when both sums are equal to zero---a condition that is indeed satisfied if and only if
+Now, since in general $x_1[n] \neq x_2[n], n > n_0$ the only way the condition expressed in Equation~\ref{eqn:ltiCausalNegativeKEquality} is satisfied is when both sums are equal to zero---a condition that is guaranteed to be in general satisfied if and only if
 \begin{equation}\label{eqn:causalityConditionLTI}
     h[k] \equiv 0, \forall k < 0.
 \end{equation}
@@ -1835,7 +1838,10 @@ output $y[n]$ can be obtained by \emph{recursively} computing the output
 \end{equation}
 obtained by re\"arranging Equation~\ref{eqn:finiteDimensionalLtiSystems}.
 In this case, the coefficient $d_0$ acts as a scaling factor that divides each
-term on the right of the above formula.
+term on the right of the above formula. The recursiveness of the formula derives
+by the fact that, in order to obtain the output $y[n]$, knowledge of past output
+samples $y[n-\kappa], \kappa > 0$ is necessary.
+
 The output can be obtained this way for all $n \geq n_0$, by knowing both
 $x[n]$ and all the $N$ initial conditions $y[n_0-1], y[n_0-2],\dots,y[n_0-N]$.
 
@@ -1850,15 +1856,15 @@ Equation~\ref{eqn:finiteDimensionalLtiSystems} results in IIR systems even for
 finite-dimensional systems. In fact, recursive formulas tend to preserve
 non-zero output for a long time---possibily for an infinite time---due to the
 dependency between the output and past outputs.
-On contrary, recursive systems as those in
-Equation~\ref{eqn:finiteDimensionalLtiSystemsRecursive} are
+On contrary, non-recursive systems as follows are
 always FIR, because they have a difference equation that can be expressed as
 
 \[
 	y[n] = \sum_{k=0}^M \alpha_k x[n - k],
 \]
 
-a sum of the current and past input samples (the system has memory). The
+a sum of the current and past input samples (the system has memory, but does
+not involve storing past output samples). The
 impulse response, therefore, is simply
 
 \begin{equation}\label{eqn:finiteDimensionalLtiSystemsRecursiveImpulseResponse}
@@ -1959,7 +1965,7 @@ Another application in which correlation proves useful is in the radar and sonar
 
 The correlation of signals idea leads to the following definition of \textbf{cross-correlation},
 \begin{defin}[Cross-correlation]
-    Let $x[n]$ and $y[n]$ be two energy signals. The \emph{cross-correlation sequence} $r_{xy}[l]$ is a sequence such that
+    Let $x[n]$ and $y[n]$ be two energy signals. The \emph{cross-correlation sequence} $r_{xy}[l]$ between the two sequences $x$ and $y$ is a new sequence such that
     \begin{equation}\label{eqn:crossCorrelation}
         r_{xy}[l] = \sum_{n=-\infty}^\infty x[n]y[n-l], l = 0, \pm 1, \pm 2, \dots
     \end{equation}
@@ -2019,31 +2025,34 @@ r_{xx}[-l]$, implying that the autocorrelation is an \emph{even} function for
 real sequences $x[n]$.
 
 \subsection{Properties of cross-correlation and autocorrelation}
+We will now derive some important remarks on the magnitude of correlation
+sequences, with respect to the original signals and their energies.
+
 Let $x[n]$ and $y[n]$ be two energy sequences. The energy of the combined
-sequence $\alpha x[n] + y[n-l]$ is also finite and nonnegative\footnote{Energy
-is nonnegative because it is squared.}, that is
+sequence $\alpha x[n] + \beta y[n-l]$ is also finite and nonnegative\footnote{Energy
+is nonnegative because it is a squared quantity.}, that is
 \begin{align*}
-    \sum_{n=-\infty}^\infty (\alpha x[n] + y[n-l])^2 &= \underbrace{\alpha^2 \sum_{n=-\infty}^\infty x^2[n]}_{\mathcal E_x} + \underbrace{2\alpha \sum_{n=-\infty}^\infty x[n] y[n-l]}_{cross-correlation}\\ &+ \underbrace{\sum_{n=-\infty}^\infty y^2[n-l]}_{\mathcal E_y} \geq 0.
+    \sum_{n=-\infty}^\infty (\alpha x[n] + \beta y[n-l])^2 &= \alpha^2 \underbrace{\sum_{n=-\infty}^\infty x^2[n]}_{\mathcal E_x} + 2\alpha\beta \underbrace{\sum_{n=-\infty}^\infty x[n] y[n-l]}_{cross-correlation}\\ &+ \beta^2 \underbrace{\sum_{n=-\infty}^\infty y^2[n-l]}_{\mathcal E_y} \geq 0.
 \end{align*}
 
 This means that
 \[
-    \alpha^2 r_{xx}[0] + 2\alpha r_{xy}[l] + r_{yy}[0] \geq 0,
+    \alpha^2 r_{xx}[0] + 2\alpha \beta r_{xy}[l] + \beta^2 r_{yy}[0] \geq 0,
 \]
 where $r_{xx}[0] = \mathcal E_x > 0$ and $r_{yy}[0] = \mathcal E_y > 0$.
 
 One can rewrite the above equations as the following matrix system,
 
 \[
-    \begin{bmatrix} \alpha & 1 \end{bmatrix}\begin{bmatrix} r_{xx}[0] & r_{xy}[l] \\ r_{xy}[l] & r_{yy}[0]\end{bmatrix}\begin{bmatrix}\alpha \\ 1\end{bmatrix} \geq 0,
+    \begin{bmatrix} \alpha & \beta \end{bmatrix}\begin{bmatrix} r_{xx}[0] & r_{xy}[l] \\ r_{xy}[l] & r_{yy}[0]\end{bmatrix}\begin{bmatrix}\alpha \\ \beta\end{bmatrix} \geq 0,
 \]
 that is
 \[
-    \begin{bmatrix} \alpha & 1 \end{bmatrix}\begin{bmatrix} \mathcal E_x & r_{xy}[l] \\ r_{xy}[l] & \mathcal E_y \end{bmatrix}\begin{bmatrix}\alpha \\ 1\end{bmatrix} = \begin{bmatrix} \alpha & 1 \end{bmatrix}\bm{R}\begin{bmatrix} \alpha \\ 1 \end{bmatrix} \geq 0,
+    \begin{bmatrix} \alpha & \beta \end{bmatrix}\begin{bmatrix} \mathcal E_x & r_{xy}[l] \\ r_{xy}[l] & \mathcal E_y \end{bmatrix}\begin{bmatrix}\alpha \\ \beta\end{bmatrix} = \begin{bmatrix} \alpha & \beta \end{bmatrix}\bm{R}\begin{bmatrix} \alpha \\ \beta \end{bmatrix} \geq 0,
 \]
-for any finite value of $\alpha$.
+for any finite value of $\alpha$ and $\beta$.
 
-The matrix $\bm R$ is a \emph{positive semidefinite} matrix. As such, $\det {(\bm R)} \geq 0,$ that is \[\det {(\bm R)} =r_{xx}[0]r_{yy}[0] - r^2_{xy}[l] \geq 0\] or equivalently \begin{equation}\label{eqn:crossCorrelationUpperBound}|r_{xy}| \leq \sqrt{r_{xx}[0]r_{yy}[0]}= \sqrt{\mathcal E_x\mathcal E_y}.\end{equation} The latter specifies that the magnitude of the cross-correlation is always smaller than the geometric average between the energies of signals $x$ and $y$, and provides an upper bound for the cross-correlation samples. In the case of the autocorrelation it soon becomes
+The matrix $\bm R$ must be a \emph{positive semidefinite} matrix, as it is a correlation matrix. As such, $\det {(\bm R)} \geq 0,$ that is \[\det {(\bm R)} =r_{xx}[0]r_{yy}[0] - r^2_{xy}[l] \geq 0\] or equivalently \begin{equation}\label{eqn:crossCorrelationUpperBound}|r_{xy}| \leq \sqrt{r_{xx}[0]r_{yy}[0]}= \sqrt{\mathcal E_x\mathcal E_y}.\end{equation} The latter specifies that the magnitude of the cross-correlation is always smaller than the geometric average between the energies of signals $x$ and $y$, and provides an upper bound for the cross-correlation samples. In the case of the autocorrelation it soon becomes
 \begin{equation}\label{eqn:autocorrelationUpperBound}
     |r_{xx}[l]| \leq r_{xx}[0] = \mathcal E_x,
 \end{equation}
@@ -2051,7 +2060,7 @@ a remarkable property of the autocorrelation. In practice, above inequality esta
 
 Consider now the case of \[y[n] = \pm b x[n-N],\] where $N$ is an integer and $b>0$ is an arbitrary number. That case, \[\mathcal E_y = b^2\mathcal E_x,\] since the multiplication constant appears squared after the energy evaluation.
 
-But this means that the geometric mean \[|r_{xy}[l] \leq \sqrt{\mathcal E_x \mathcal E_y} = \sqrt{b^2 \mathcal E^2_x} = b\mathcal E_x\] for a signal scaled by factor $b$. By means of inequality
+But this means that the geometric mean \[|r_{xy}[l]| \leq \sqrt{\mathcal E_x \mathcal E_y} = \sqrt{b^2 \mathcal E^2_x} = b\mathcal E_x\] for a signal scaled by factor $b$. By means of inequality
 \[
     |r_{xy}[l]| \leq \sqrt{\mathcal E_x \mathcal E_y}
 \]
@@ -2076,7 +2085,7 @@ Correlation possesses so-called \textbf{normalized forms}. Normalized forms are 
 
 Normalized forms are often employed for convenience in comparing and displaying correlation values, as both are smaller than $1$. Indeed,
 \begin{align*}
-    -1 \leq &\rho_{xx}[l] \leq +1,
+    -1 \leq &\rho_{xx}[l] \leq +1,\\
     -1 \leq &\rho_{xy}[l] \leq +1,
 \end{align*}
 independently of the range of values of sequences $x[n]$ and $y[n]$.
@@ -2121,7 +2130,7 @@ Both quantities, as expected, are evaluated in a single period of the involved s
 
 The periodicity property of the autocorrelation sequence can be exploited to determine the period of any periodic signal that might be affected by an additive random noise. Periodic signals affected by random noise will lose their periodicity, as the impredictable and random nature of the noise will inevitably lead to a non-periodic signal.
 
-Indeed, it is sufficient to evaluate the autocorrelation for a disturbed signal $w[n] = x[n] + d[n]$, with $x$ original signal and $d$ additive noise, and evaluate the autocorrelation for signal $w[n]$. If $w$ is composed of $M-1$ samples (that is, we collected $M$ samples of $w$, from $0 \leq n \leq M-1$) and $M \ll N$, it is possible to capture the period of $x$ by computing the autocorrelation of $w[n]$. In fact,
+Indeed, it is sufficient to evaluate the autocorrelation for a disturbed signal $w[n] = x[n] + d[n]$, with $x$ original signal and $d$ additive noise, and evaluate the autocorrelation for signal $w[n]$. If $w$ is composed of $M-1$ samples (that is, we collected $M$ samples of $w$, from $0 \leq n \leq M-1$) and $M \ll N$, it is possible to capture the period of $x$ by looking for peaks in the autocorrelation of $w[n]$. In fact,
 \begin{align*}
     r_{ww}[l] &= \frac 1 M \sum_{n=0}^{M-1} w[n]w[n-l]\\
               &= \frac 1 M \sum_{n=0}^{M-1} (x[n] + d[n])(x[n-l] + d[n-l])\\
