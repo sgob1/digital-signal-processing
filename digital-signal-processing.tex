@@ -2240,8 +2240,8 @@ is the \emph{argument} of the Fourier Transform\footnote{
     \[
         \mbox{Arg }(x+iy) = \left\{\begin{array}{ll}
                 \arctan{(\frac y x)} & \mbox { if } x>0,\\
-                \arctan{(\frac y x)} + \pi & \mbox { if } x>0 \mbox { and } y \geq 0,\\
-                \arctan{(\frac y x)} - \pi & \mbox { if } x>0 \mbox { and } y < 0,\\
+                \arctan{(\frac y x)} + \pi & \mbox { if } x<0 \mbox { and } y \geq 0,\\
+                \arctan{(\frac y x)} - \pi & \mbox { if } x<0 \mbox { and } y < 0,\\
                 +\frac \pi 2  & \mbox { if } x=0 \mbox { and } y>0,\\
                 -\frac \pi 2  & \mbox { if } x=0 \mbox { and } y<0,\\
                 \mathrm{ undefined } & \mbox{ if } x=0 \mbox { and } y = 0.
@@ -2312,7 +2312,7 @@ The total energy $\mathcal E_x$ of $x(t)$ is given by the following formula,
 \[
     \mathcal E_x = \int_{-\infty}^\infty |x(t)|^2dt = \int_{-\infty}^\infty x(t)x^*(t)dt;
 \]
-by rewriting the above expression---substituting $x^*(t)$ with its Fourier Transform---one obtains
+	by rewriting the above expression---substituting $x^*(t)$ with its Fourier Transform\footnote{Fourier Anti-Transform of $x^*(t)$ is \[x^*(t) \leftrightarrow X^*(-f) \Rightarrow x^*(t) = \int_{\hat I} df X^*(f)\left(e^{+i2\pi ft}\right)^*, \] hence the substitution.}---one obtains
 \[
     \mathcal E_x = \int_{-\infty}^\infty x(t)\left(\frac{1}{2\pi}\int_{-\infty}^\infty X^* (j\omega) e^{-j\omega t} d\omega \right) dt.
 \]
@@ -2412,6 +2412,36 @@ signal's energy is concentrated,
     \item[Highpass] signals are all signals arranged in a frequency range $0 < \omega_p \leq |\omega| < \infty$, where the bandwitdh of the signal is in the interval $[\omega_p, \infty[$. All those signals have ``high'' frequencies only;
     \item[Bandpass] signals are any signal whose spectrum is located in the frequency range $[\omega_L, \omega_H]$, that is $0 < \omega_L \leq |\omega| \leq \omega_H < \infty$, where the bandwidth is given by $\mathrm{BW} = \omega_H - \omega_L$. These signals can be thought as all having ``middle-range'' frequencies.
 \end{description}
+
+\subsection{Relationship with the Fourier Series}
+Continuous-time periodic signals, with period $T_p$, will transform as \emph{discrete-time sequences}, whose values are the coefficients of the Fourier Series. To prove that, let's notice that the dual dominion of $I = \R / Z(T_p)$ is $\hat I = Z(1 / T_p)$, or a non-periodic sequence having a time interval of $1 / T_p$. Fourier Transform of a sequence $s(t)$ will be as follows,
+
+\begin{align*}
+	S(\frac k {T_p}) &= \int_{I} dt s(t) e^{-j2\pi ft}\\
+			 &= \int_{0}^{T_p} s(t) e^{-j2\pi \frac k {T_p} t} dt.
+\end{align*}
+
+Now, let's compute its anti-transform,
+
+\begin{align*}
+	s(t) &= \int_{\hat I} df S(f) e^{j2\pi ft}\\
+			 &= \frac 1 {T_p} \sum_{k = -\infty}^{\infty} S(\frac k {T_p}) e^{-j2\pi \frac k {T_p} t},
+\end{align*}
+which corresponds to the \emph{Fourier Series}. Let's derive a proper formulation. To do so, first remind that, if $s(t)\in \R$, then for any Fourier Transform $S(f)$ one has that $S(f) = S^*(-f)$ because both $s*(t) = s(t)$ and $s*(t) \leftrightarrow S*(-f)$. Then, let's divide the sum in multiple sub-sums as follows:
+
+\begin{align*}
+	s(t) &= \frac 1 {T_p} S(0) +  \frac 1 {T_p}\sum_{k=1}^{\infty} S(\frac k {T_p})e^{j2\pi \frac k {T_p}t} + \sum_{k=-\infty}^{-1} S(\frac k {T_p})e^{j2\pi \frac k {T_p}t}\\
+	     &=  \frac 1 {T_p}S(0) +  \frac 1 {T_p}\sum_{k=1}^{\infty} S(\frac k {T_p})e^{j2\pi \frac k {T_p}t} + \sum_{k=1}^{\infty} S^*(\frac k {T_p})e^{-j2\pi \frac k {T_p}t}\\
+	     &=  \frac 1 {T_p}S(0) +  \frac 1 {T_p}\sum_{k=1}^{\infty} 2Re \left\{S(\frac k {T_p})e^{j2\pi \frac k {T_p}t}\right\}\\
+	     &=  \frac 1 {T_p}S(0) +  \frac 2 {T_p}\sum_{k=1}^{\infty} \left[S_r(k)\cos{\left(2\pi \frac k {T_p}t\right)} - S_i(k)\sin{\left(2\pi \frac k {T_p}t\right)}\right],
+\end{align*}
+which highlights the contribution of two different terms, the first ones being cosines weighted by the real part of the Fourier Transform (index $k$), the second ones being sines weighted by the purely imaginary part of the Fourier Transform (index $k$).
+
+This could have also be rewritten using polar form of $S(\frac k {T_p}) = \left|S(\frac k {T_p})\right|e^{j\varphi_s}$, which results in the slightly different form
+\begin{align*}
+	s(t) &=  \frac 1 {T_p}S(0) +  \frac 2 {T_p}\sum_{k=1}^{\infty} \left|S(\frac k {T_p})\right|\left(\cos{\left(2\pi \frac k {T_p}t\right)}\cos{\varphi_s}\right.\\ &- \left.\sin{\left(2\pi \frac k {T_p}t\right)}\sin{\varphi_s}\right)\\
+	&= \frac 1 {T_p}S(0) +  \frac 2 {T_p}\sum_{k=1}^{\infty} \left|S(\frac k {T_p})\right|\cos{\left(2\pi \frac k {T_p}t + \varphi_s\right)}.
+\end{align*}
 
 \section{Discrete-time Fourier Transform}\label{sec:discreteTimeFourierTransform}
 The frequency-domain representation of a discrete-time sequence is the
