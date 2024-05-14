@@ -2487,19 +2487,17 @@ Function $\left|X(e^{j\omega})\right|$ is called the \emph{magnitude function} o
 
 When decomposing the Discrete-time Fourier Transform into its real and imaginary part or in its polar form, interesting patterns suddenly appear. For a real sequence $x[n]$, both magnitude $\left|X(e^{j\omega})\right|$ and real part $X_{re}(e^{j\omega})$ are \emph{even} functions in $\omega$, whereas both phase spectrum $\theta(\omega)$ and imaginary part $X_{im}(e^{j\omega})$ are \emph{odd} functions of $\omega$.
 
-The discrete-time Fourier Transform is a \emph{periodic} function in $\omega$,
-with a period $2\pi$. Hence, any infinite-length sequence will transform to a
-continuous-valued periodic function in $\omega$, with period $2\pi$ which is
-given by the intrinsic nature of exponential terms.
+The discrete-time Fourier Transform is a \emph{periodic} function in $\omega$, with a period $2\pi$. This is because the original signal $x[n]$ lies in the discrete domain (hence, the name discrete-time Fourier Transform). Discreteness in time-domain always results in a periodic behavior in the frequency. Summing up, any infinite-length sequence will transform to a continuous-valued periodic function in $\omega$, with period $2\pi$ which is given by the intrinsic nature of exponential terms.
 Due to exponentiation properties,
 \begin{align*}
     X(e^{j\omega}) &= \left|X(e^{j\omega})\right|e^{j\theta(\omega)}\\
                    &= \left|X(e^{j\omega})\right|e^{j\theta(\omega) + 2\pi k}
 \end{align*}
-for \emph{any} integer $k$. This means, however, that the phase function $\theta(\omega)$ cannot be \emph{uniquely} specified for any Discrete-time Fourier Transform, and that the range must be appropriately selected for that function, to exclude repetitions. Unless otherwise stated, one shall assume that the phase function $\theta(\omega)$ is restricted to the range of values $[-\pi,\pi[$, that is the \emph{principal value}
+for \emph{any} integer $k$. This means, however, that the phase function $\theta(\omega)$ cannot be \emph{uniquely} specified for any Discrete-time Fourier Transform, and that the range must be appropriately selected for that function, to exclude repetitions induced by the periodicity. Unless otherwise stated, one shall assume that the phase function $\theta(\omega)$ is restricted to the range of values $[-\pi,\pi[$, a special frequency range of length one period that it is called \emph{principal value}
 \begin{equation}\label{eqn:phasePrincipalValue}
-    -\pi \leq \theta(\omega) < \pi.
+    -\pi \leq \theta(\omega) < \pi
 \end{equation}
+in virtue of the fact that it is centered at the origin.
 
 The principal value is, therefore, the range with width $2\pi$ of frequencies
 centered around zero which corresponds to an entire period of the discrete-time
@@ -2509,16 +2507,18 @@ The principal value is completely sufficient to characterize all the crucial asp
 
 Moreover, it is sufficient to know only one \emph{half} of the values in the principal value for both magnitude and phase functions. This is because they are---respectively---even and odd functions whose values can be faithfully reconstructed even knowing only a half of the values.
 
-The discrete-time Fourier Transforms for some sequences exhibit discontinuities of $2\pi$ in their phase res\-pon\-ses---the\-re\-fo\-re, an alternate type of phase function that is a continuous function of $\omega$ is often used in place of the function that gives discontinuities. The process of removing the discontinuities is said to be \emph{``unwrapping''}, and consists in deriving a new phase function from the original phase one by removing the discontinuities of $2\pi$. The resulting phase function is denoted as $\theta_c(\omega)$. In some cases, discontinuities of $\pi$ might still be present after performing the unwrapping process.
+The discrete-time Fourier Transforms for some sequences exhibits discontinuities of $2\pi$ in their phase res\-pon\-ses---the\-re\-fo\-re, an alternate type of phase function that is a continuous function of $\omega$ is often used in place of the function that gives discontinuities. The process of removing the discontinuities is said to be \emph{``unwrapping''}, and consists in deriving a new phase function from the original phase one by removing the discontinuities of $2\pi$. The resulting phase function is denoted as $\theta_c(\omega)$. In some cases, discontinuities of $\pi$ might still be present after performing the unwrapping process.
 
 \subsection{Some examples}\label{sec:someExamplesDTFT}
 Let $x[n] = \delta[n]$. The discrete-time Fourier Transform of the unit sample sequence is given by
 \[
-    \Delta(e^{j\omega}) = \sum_{n=-\infty}^\infty \delta[n]e^{-j\omega n} = \delta[0] = 1.
+    \Delta(e^{j\omega}) = \sum_{n=-\infty}^\infty \delta[n]e^{-j\omega n} = \delta[0] \cdot 1 = 1,
 \]
+due to the revealing property of the delta impulse. Generally speaking, if input domain $I$ is $Z(T)$, then the delta impulse will have value $\frac 1 T$ at the origin; in this specific case, we normalized the time quantum $T=1$, so that $\delta[0] = 1$.
+
 Remarkably, the Fourier Transform of the discrete-time unit sample is a \emph{constant} of value $1$ across the entire frequency range. Usually, the shortest the sequence is, the largest the frequency range will be; in this specific example, the time-domain sequence is the shortest possible, hence the associated Fourier Transform will be a constant value across the whole frequency range.
 
-Let now $x[n] = \alpha^n\mu[n]$ be the impulse response of a causal exponentially weighted sequence with $|\alpha|<1$. The Fourier Transform of $x[n]$ is given by
+Let now $x[n] = \alpha^n\mu[n]$ be the impulse response of a causal exponentially weighted sequence with $|\alpha|<1$. Again, $I = Z(1)$; the Fourier Transform of $x[n]$ is given by
 \begin{align*}
     X(e^{j\omega}) &= \sum_{n=-\infty}^\infty \alpha^n\mu[n]e^{-j\omega n} = \sum_{n=0}^\infty \alpha^n e^{-j\omega n} \\
                    &= \sum_{n=0}^\infty \left(\alpha e^{-j\omega}\right)^n = \frac{1}{1-\alpha e^{-j\omega}}
@@ -2620,7 +2620,7 @@ The Fourier integral not only represents a way to generally obtain the Fourier c
     \[
         \mathcal F^{-1}\left[X(e^{j\omega})\right] = \frac 1 {2\pi} \int_{-\pi}^\pi \left(\sum_{l=-\infty}^\infty x[l]e^{-j\omega l}\right)e^{j\omega n} d\omega;
     \]
-    the summation inside the integral converges u\-ni\-for\-mly by hypothesis, so the order of the summation and the integration can be freely exchanged. Hence,
+    the summation inside the integral converges u\-ni\-for\-mly by hypothesis, so the order of the summation and the integration can be freely exchanged. Hence, remembering that the transform of a window is a sinc,
     \begin{align*}
         \frac 1 {2\pi} \int_{-\pi}^\pi \left(\sum_{l=-\infty}^\infty x[l]e^{-j\omega l}\right)e^{j\omega n} d\omega &= \sum_{l=-\infty}^\infty x[l]\left(\frac 1 {2\pi} \int_{-\pi}^\pi e^{j\omega(n-l)} d\omega\right)\\
                                                                                                                     &= \sum_{l=-\infty}^\infty x[l]\frac {\sin{\pi(n-l)}}{\pi(n-l)}\\
@@ -2682,18 +2682,17 @@ and its discrete-time Fourier Transform will converge uniformly to $\frac{1}{1-\
 
 Absolutely summable sequences will always possess finite energy. Indeed, this is because
 \[
-    \sum_{n=-\infty}^\infty |x[n]|^2 \leq \left(\sum_{n=-\infty}^\infty |x[n]|\right)^2,
+    \sum_{n=-\infty}^\infty |x[n]|^2 \leq \left(\sum_{n=-\infty}^\infty |x[n]|\right)^2 < \infty,
 \]
-an inequality imposing that an absolutely summable sequence always corresponds to a finite energy signal (If the term inside the brackets is an absolutely summable sequence, then the left-side term will inevitably be limited as well). If a sequence does not have finite energy, it will not be absolutely summable. However, a finite energy sequence might not be necessarily an absolutely summable sequence, as the implication only works in a single sense. As an example of this, consider the sequence defined as
+an inequality imposing that an absolutely summable sequence always corresponds to a finite energy signal (if the term inside the brackets is an absolutely summable sequence, then the left-side term will inevitably be limited as well). If a sequence does not have finite energy, it will not be absolutely summable. However, a finite energy sequence might not be necessarily an absolutely summable sequence, as the implication only works in a single sense. As an example of this, consider the sequence defined as
 \[
     x[n] = \left\{\begin{array}{ll} \frac 1 n & n \geq 1 \\ 0 & n \leq 0\end{array}\right.;
 \]
 such sequence has finite energy that is equal to
 \[
-    \mathcal E_x = \sum_{n=1}^\infty \left(\frac 1 n\right)^2 = \frac {\pi^2}{6}.
+    \mathcal E_x = \sum_{n=1}^\infty \left(\frac 1 n\right)^2 = \frac {\pi^2}{6},
 \]
-
-However, $x[n] = \sum_{n=1}^\infty \frac 1 n$ is \emph{not} absolutely summable.
+because it is a square-summable function; on contrary, $x[n] = \sum_{n=1}^\infty \frac 1 n$ is \emph{not} absolutely summable.
 
 To represent a finite energy sequence $x[n]$ that is not absolutely summable by a discrete-time Fourier Transform $X(e^{j\omega})$, it is necessary to consider an integral condition, that is called the \textbf{mean-square convergence} of $X(e^{j\omega})$. Such integral condition allows to build a Fourier Transform $X_K(e^{j\omega})$ which despite \emph{not} being the exact discrete-time Fourier Transform of the sequence $x[n]$, it is a good approximation of it. Indeed, the integral condition is expressed in the following equation,
 \begin{equation}\label{eqn:meanSquareConvergence}
@@ -2744,7 +2743,7 @@ that acts as a \emph{low-pass filter}. Its plot is
 \end{tikzpicture}
 \end{center}
 
-The inverse discrete-time Fourier Transform is soon obtained by
+The inverse discrete-time Fourier Transform is soon obtained---again, the Fourier Transform of a window is a sinc---by
 \begin{align*}
     h_{LP}[n] &= \int_{-\pi}^{\pi} e^{j\omega n}d\omega \\
               &= \int_{-\omega_c}^{\omega_c} e^{j\omega n}d\omega \\
@@ -2757,8 +2756,7 @@ for all values $-\infty < n < \infty$. Hence, one obtains the inverse Discrete-t
     h_{LP} = \sinc {\omega_c n}, -\infty < n < \infty.
 \end{equation}
 
-
-For Parseval's Theorem, the energy of $h_{LP}[n]$ is given by $\frac {\omega_c}{\pi}$. Thus, $h_{LP}[n]$ is a finite-energy sequence, despite being \emph{not absolutely summable}. As a result, the quantity
+For Parseval's Theorem, the energy of $h_{LP}[n]$ is given by $\frac {\omega_c}{\pi}$, because the energy is preserved among transformations. Thus, $h_{LP}[n]$ is a finite-energy sequence as well as its Fourier Transform, despite being \emph{not absolutely summable} (the sinc function is not absolutely summable). As a result, the quantity
 \[
     \sum_{n=-K}^K h_{LP}[n] e^{-j\omega n} = \sum_{n=-K}^K \sinc {(\omega_c n)} e^{-j\omega n}
 \]
@@ -2924,14 +2922,17 @@ As an example, consider the complex exponential sequence
 \end{equation}
 Its discrete-time Fourier Transform is given by the following
 \begin{equation}\label{eqn:complexExponentialSequenceFourierTransform}
-    X(e^{j\omega}) = \sum_{k=-\infty}^\infty 2\pi \delta(\omega - \omega_0 + 2\pi k)
+    X(e^{j\omega}) = 2\pi \sum_{k=-\infty}^\infty \delta(\omega - \omega_0 + 2\pi k)
 \end{equation}
-with $\delta(\omega)$ being the Dirac's delta impulse function and $-\pi \leq \omega_0 \leq \pi$. The function expressed by~\ref{eqn:complexExponentialSequenceFourierTransform} is a periodic function of $\omega$---this can be seen by the $2\pi k$ term in the Dirac's delta argument---which has a peculiar name and is called \emph{periodic impulse train}. To verify that the above DTFT is the correct one, the best idea would be to simply compute the inverse discrete-time Fourier Transform of $X(e^{j\omega})$. Therefore,
+with $\delta(\omega)$ being the Dirac's delta impulse function and $-\pi \leq \omega_0 \leq \pi$.
+The reason for the above is soon explained: the exponential $e^{j\omega_0 n}$ multiplies $1$ and can be thought as the delay in frequency, so its transform will be a delayed delta impulse $\delta(\omega - \omega_0)$; still, the output domain is continuous periodic of period $2\pi$ ($\R / Z(2\pi)$), so the overall outcome is a train of delta impulses in the continuous frequency domain.
+
+The function expressed by~\ref{eqn:complexExponentialSequenceFourierTransform} is a periodic function of $\omega$---this can be seen by the $2\pi k$ term in the Dirac's delta argument---which has a peculiar name and is called \emph{periodic impulse train}. To verify that the above DTFT is the correct one, the best idea would be to simply compute the inverse discrete-time Fourier Transform of $X(e^{j\omega})$. Therefore,
 \begin{align*}
     x[n] &= \frac 1 {2\pi} \int_{-\pi}^\pi \sum_{k=-\infty}^\infty 2\pi\delta(\omega - \omega_0 + 2\pi k)e^{j\omega n}d\omega\\
          &= \int_{-\pi}^\pi \delta(\omega - \omega_0) e^{j\omega n} d\omega = e^{j\omega_0 n},
 \end{align*}
-where we have employed the sampling property of the impulse function\footnote{
+where we employed the sampling property of the impulse function\footnote{
     The sampling property of the impulse function is different between the discrete or continuous domain, and states that
     \begin{equation}\label{eqn:samplingPropertyDeltaSum}
         \sum_{k=-\infty}^\infty e^{j2\pi n}\delta(n-k) = e^{j 2 \pi k},
@@ -2940,7 +2941,7 @@ where we have employed the sampling property of the impulse function\footnote{
     \begin{equation}\label{eqn:samplingPropertyDeltaIntegral}
         \int_{-\infty}^\infty \delta(\omega-\omega_0)e^{j\omega} = e^{j\omega_0}.
     \end{equation}
-} $\delta(\omega)$.
+} $\delta(\omega)$, together with the fact that we are evaluating an integral over a single period, so a single term of the infinite sum survives.
 
 This way, one can define numerous commonly used DTFT pairs, such as the following ones,
 \[
@@ -3289,7 +3290,7 @@ Both analysis and synthesis equations concur in the definition of the orthogonal
 \begin{equation}\label{eqn:orthogonalTransformsOrthogonalityCondition}
     \frac 1 N \sum_{n=0}^{N-1} \psi[k,n]\psi^*[l,n] = \left\{\begin{array}{ll}1, & l = k\\ 0, & l \neq k\end{array}\right.,
 \end{equation}
-a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] is equal to $1$ if and only if indexes $l = k$, a property that if satisfied then the basis sequences are said to be \emph{orthogonal to each other}.
+a condition that substantially poses that the product \[\psi[k,n]\psi^*[l,n]\] will be such that the total sum is equal to $N$ if and only if indexes $l = k$, a property that if satisfied then the basis sequences are said to be \emph{orthogonal to each other}.
 
 Really, in order for $\psi^*$ to be the inverse orthogonal transform, $\psi$ and $\psi^*$ have to be orthogonal to each other. This can be verified by substituting the synthesis equation~\ref{eqn:synthesisEquationDTFT} into the analysis equation~\ref{eqn:analysisEquationDTFT},
 \begin{align*}
@@ -3418,8 +3419,9 @@ The first example in exam is a DFT of the following sequence of length $N$,
 \]
 that is quite similar to the delta impulse. Its $N$-point Discrete Fourier Transform is given by
 \[
-    X[k] = \sum_{n=0}^{N-1} x[n]W_N^{kn} = x[0]W_N^{k0} = 1, 1\leq k \leq N-1.
+    X[k] = \sum_{n=0}^{N-1} x[n]W_N^{kn} = x[0]W_N^{k0} = 1, 1\leq k \leq N-1,
 \]
+a full-one transform.
 
 The second example is of a sequence
 \[
@@ -4490,7 +4492,7 @@ As a result, the desired linear convolution $y[n]$ is broken up into a sum of in
     \item consume each partition:
     \begin{enumerate}
         \item DFT transform;
-        \item compute the convolution in the frequency domain;
+        \item compute the convolution in the frequency domain with a product;
         \item DFT anti-transform;
         \item collect values;
         \item add collected values to previously consumed partition.
