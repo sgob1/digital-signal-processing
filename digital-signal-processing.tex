@@ -2414,7 +2414,7 @@ signal's energy is concentrated,
 \end{description}
 
 \subsection{Relationship with the Fourier Series}
-Continuous-time periodic signals, with period $T_p$, will transform as \emph{discrete-time sequences}, whose values are the coefficients of the Fourier Series. To prove that, let's notice that the dual dominion of $I = \R / Z(T_p)$ is $\hat I = Z(1 / T_p)$, or a non-periodic sequence having a time interval of $1 / T_p$. Fourier Transform of a sequence $s(t)$ will be as follows,
+Continuous-time periodic signals, with period $T_p$, will transform as \emph{discrete-time sequences}, whose values are the coefficients of the Fourier Series. To prove that, let's notice that the dual dominion of $I = \R / Z(T_p)$ is $\hat I = Z(1 / T_p)$, or a non-periodic sequence having a time interval of $1 / T_p$. Fourier Transform of a sequence $s(t)$, with $t \in Z(T)$, will be as follows,
 
 \begin{align*}
 	S(\frac k {T_p}) &= \int_{I} dt s(t) e^{-j2\pi ft}\\
@@ -2705,7 +2705,7 @@ where
 
 One might already have noticed that the approximate transform has a very similar formula to the~\ref{eqn:discreteTimeFourierTransform}, but now there is a \emph{finite} summation over the time domain. Indeed, this is the reason why the~\ref{eqn:meanSquareConvergenceTransform} is an \emph{approximate} transform of the sequence $x[n]$ and is actually computable. The underlying reason for all of this is that the sequence $x[n]$ is \emph{not} absolutely summable, therefore it is not possible to represent its transform, so we are forced to use an almost-exact approximation.
 
-The integral condition~\ref{eqn:meanSquareConvergence} implies that the total energy of the error\footnote{Posing a condition over the total energy of the error is a \emph{much less strict} requirement than to pose the same condition over the absolute value of the same quantity.} quantity $\Xi = X(e^{j\omega}) - X_K(e^{j\omega})$ must approach zero at each value of $\omega$, as $K\rightarrow \infty$.  In such a case, the absolute value of the error $|\Xi|$ does \emph{not} go to zero as $K\rightarrow \infty$, and the discrete-time Fourier Trasnform \emph{may be no longer bounded}. In practice, this means that the resulting Fourier Transform might include a $\delta(\omega)$, a quantity that is indeed not bounded in the continuous domain. To summarise, the mean-square convergence---our integral condition above---basically enforces a rule under which the approximate transform $X_K$ should be formed: the total energy of the error must be close to zero, at each value of $\omega$.
+The integral condition~\ref{eqn:meanSquareConvergence} implies that the total energy of the error\footnote{Posing a condition over the total energy of the error is a \emph{much less strict} requirement than to pose the same condition over the absolute value of the same quantity.} quantity $\Xi = X(e^{j\omega}) - X_K(e^{j\omega})$ must approach zero at each value of $\omega$, as $K\rightarrow \infty$.  In such a case, the absolute value of the error $|\Xi|$ does \emph{not} go to zero as $K\rightarrow \infty$, and the discrete-time Fourier Transform \emph{may be no longer bounded}. In practice, this means that the resulting Fourier Transform might include a $\delta(\omega)$, a quantity that is indeed not bounded in the continuous domain. To summarise, the mean-square convergence---our integral condition above---basically enforces a rule under which the approximate transform $X_K$ should be formed: the total energy of the error must be close to zero, at each value of $\omega$.
 
 As an example, consider the following discrete-time Fourier Transform,
 \[
@@ -5311,13 +5311,15 @@ One of the means of designing digital filters is to take analog designs, subject
 
 The Discrete-time Fourier Transform provides a frequency-domain representation of discrete-time signals and LTI dis\-cre\-te-time systems. Because of the convergence condition as in Equation~\ref{thm:existenceDTFT}, in many cases the DTFT of a sequence might not exist. As a consequence, it is not possible to make use of such frequency characterization in all cases where the transform does not converge.
 
+\section{The $z$-Transform}
 A generalization of the Discrete-time Fourier Transform is the
 \textbf{$z$-Transform}, defined by
 \begin{equation}\label{eqn:zTransform}
     G(z) = \sum_{n=-\infty}^\infty g[n] z^{-n},
 \end{equation}
 where the \emph{$z$-frequency} $z := \Re{(z)} + j \Im{(z)}$ is a complex
-variable.
+variable (not just a real variable anymore). As a complex variable, it can be
+expressed as a point in a complex plane, which takes the name of $z$-plane.
 
 If one lets $z = re^{j\omega}$, it is straightforward to notice that the
 $z$-transform reduces to
@@ -5328,7 +5330,7 @@ and given that the formula for the Discrete-time Fourier Transform is
 \[
     X(e^{j\omega}) = \sum_{n=-\infty}^\infty x[n]e^{-j\omega n}
 \]
-one concludes that $G(re^{j\omega})$ can be interpreted as the DTFT of the modified sequence $\{g[n]r^{-n}\}$. For $r = 1$ one has $|z| = 1$, and the $z$-transform reduces to its DTFT, provided the latter exists. For sure, the $z$-transform is decisive in all case where a DTFT of a sequence does not exist, hence when the sequece is not suitable to be transformed into Fourier domain.
+one concludes that $G(re^{j\omega})$ can be interpreted as the DTFT of the modified sequence $\{g[n]r^{-n}\}$. For $r = 1$ one has $|z| = 1$, and the $z$-transform reduces to its DTFT, provided the latter exists. The $z$-transform proves useful in all case where a DTFT of a sequence does not exist, that is when the sequece is not suitable to be transformed into the standard Fourier domain.
 
 Since a $z$-transform of a sequence $g[n]$ with $r = 1$ is completely equivalent to a DTFT of the same input sequence, the DTFT reduces to compute the $z$-transform and evaluating it at $z$-frequencies such that $|z| = 1$; this practically means that amid all possible complex frequencies, the DTFT is like evaluating the $z$-transform in the \textbf{unit circle} of radius $1$, that is the countour $|z| = 1$. The complex variable $z = re^{j\omega}$ can be split into two components, $r$ and a complex exponential $e^{j\omega}$. The first term is the \emph{distance between the point and the origin} in the z-plane (the radius), the second one determines the \emph{angle} at which the complex number is located. When $r=1$, we are basically lying in the contour of the unit circle as $z$ will possess module $|z|=1$. At last, the $z$-transform is an extension of the Discrete-time Fourier Transform, from the circle of radius $1$ to all complex domain.
 
@@ -5409,7 +5411,7 @@ Please take a moment to consider that the $z$-transforms of the two sequences $\
 All the convergence considerations we have hitherto ex\-pres\-sed culminate in the following theorem, which states the conditions under which a DTFT converges uniformly in terms of the characteristics that the region of convergence of its $z$-transform possesses.
 
 \begin{thm}[Uniform convergence of the DTFT]\label{thm:convergenceDTFTz}
-    Let $G(e^{j\omega})$ be a Discrete-time Fourier Transform of a sequence $g[n]$. $G$ \emph{converges uniformly} if and only if the Region Of Convergence of the $z$-transform $G(z)$ of $g[n]$ includes the unit circle, that is if and only if it includes $|z| = 1$.
+    Let $G(e^{j\omega})$ be a Discrete-time Fourier Transform of a sequence $g[n]$. $G$ \emph{converges uniformly} if and only if the Region Of Convergence of the $z$-transform $G(z)$ of $g[n]$ includes the unit circle, that is if and only if it includes all points of the $z$-plane such that $|z| = 1$.
 \end{thm}
 
 Moreover, the existence of the DTFT does not always imply the existence of the $z$-transform, since the first exists only in terms of \emph{mean square convergence}, or it has impulses. Very much, the following example illustrates this apparent paradox: let the finite energy sequence
@@ -5535,11 +5537,14 @@ where in both cases $\xi_l,\lambda_l \in \C$ are---respectively---the roots of t
 \]
 the number of zeros and poles is finite, and utterly depends on $M$ and $N$. That is,
 \begin{itemize}
+    \item there are $M$ zeros and $N$ poles at minimum, not counting zero--pole mutual cancellations;
     \item if $N > M$ there are additional $N - M$ zeros at $z=0$, the origin of the z-plane;
     \item vice versa, if $N < M$ there are additional $M - N$ poles at $z=0$, the origin of the z-plane.
 \end{itemize}
 
-As an example, let $M(z)$ be the $z$-transform of the unit step sequence $\mu[n]$,
+The factored form---and consecutively, the zero--pole form---represents a convenient way to treat rational $z$-transforms with factors that can possibly simplify with each other. This will prove useful in all those cases in which a pole and a zero share the same value, or a value which is very similar.
+
+Let's now pick an example; let $M(z)$ be the $z$-transform of the unit step sequence $\mu[n]$,
 \[
     M(z) = \frac{1}{1 - z^{-1}}, |z| > 1.
 \]
@@ -5595,7 +5600,7 @@ has the same zeros and poles, but yields a RoC as shown next:
 \end{figure}
 
 
-\emph{Causal} sequences will reflect a region of convergence \emph{outside} a circle and \emph{opposite} to the origin, whilst \emph{anti-causal} sequences will possess a region of convergence oriented \emph{towards} the origin. In addition, Figure~\ref{tikz:rocCausalAnticausalExponential} illustrates RoC for both $\alpha^n \mu[n]$ and $-\alpha^n \mu[-n-1]$.
+\emph{Causal} sequences will result in a region of convergence \emph{outside} a circle and \emph{opposite} to the origin, whilst \emph{anti-causal} sequences will possess a region of convergence oriented \emph{towards} the origin. In addition, Figure~\ref{tikz:rocCausalAnticausalExponential} illustrates RoC for both $\alpha^n \mu[n]$ and $-\alpha^n \mu[-n-1]$.
 
 \begin{figure*}[ht]
 \begin{center}
@@ -5635,7 +5640,7 @@ has the same zeros and poles, but yields a RoC as shown next:
         (-3, -3) rectangle (3,3)
         (0,0) circle[radius=1.5];
     \end{tikzpicture}
-\end{center}\caption{Region of convergence for sequences $x_c[n] = \alpha^n \mu[n]$ and $x_a[n] = -\alpha^n\mu[-n-1]$.}\label{tikz:rocCausalAnticausalExponential}
+\end{center}\caption{Region of convergence for sequences $x_c[n] = \alpha^n \mu[n]$ and $x_a[n] = -\alpha^n\mu[-n-1]$, respectively, left and right.}\label{tikz:rocCausalAnticausalExponential}
 \end{figure*}
 
 A physical interpretation of the poles and zeros can be given by plotting the \emph{log-magnitude} of $G(z)$. The log-magnitude of a function $f(x)$ is the quantity $20\log_{10}{\left|f(x)\right|}$, and is often employed to allow plotting essentially exponential functions in a linear fashion. A first use of the log-magnitude resizing technique would be to plot the following $z$-transform along with its main properties,
@@ -5646,7 +5651,7 @@ A physical interpretation of the poles and zeros can be given by plotting the \e
         1 + 0.4z^{-1} - 0.12z^{-2}
     }.
 \]
-Plots of the zeros, poles, impulse responses and magnitude of $G(z)$ along with its FIR approximation are shown in Figures~\ref{oct:zTransform1} and~\ref{oct:zTransform2}. FIR approximations are obtained from the original by computing the impulse response up to a certain number of samples. Figure~\ref{oct:zTransform2} notably shows that the magnitude plot exhibits very large peaks located at the points $p_1 = -0.6$ and $p_2 = 0.2$, the position of the poles. Deep wells are instead located where the zeros lie, that is in point $z_1 = -2$ and in the origin $z_2 = 0$. A similar behavior is evident for the FIR approximation.
+Plots of the zeros, poles, impulse responses and magnitude of $G(z)$ along with its FIR approximation are shown in Figures~\ref{oct:zTransform1} and~\ref{oct:zTransform2}. FIR approximations are obtained from the original by computing the impulse response up to a certain number of samples. Figure~\ref{oct:zTransform2} notably shows that the magnitude plot exhibits very large peaks located at the points $p_1 = -0.6$ and $p_2 = 0.2$, the position of the poles. Deep wells are instead located where the zeros lie, that is in point $z_1 = -2$ and in the origin $z_2 = 0$. A similar behavior is evident for the FIR approximation, although the aggressive approximation causes a change in poles and zeros locations.
 
 The region of convergence of a $z$-transform is a paramount concept---without the knowledge of the RoC, there is no unique relationship between a sequence and its $z$-transform; moreover, an crucial information is discarded. Again, the $z$-transform \emph{must always be specified along with its region of convergence}.
 If the RoC of a $z$-transform includes the unit circle, the Discrete-time Fourier Transform of the sequence is quickly attainable by evaluating the $z$-transform in the unit circle, for all values $|z| = 1$. There is a strict relationship between the region of convergence of a $z$-transform of the impulse response of a causal LTI discrete-time system and its BIBO stability. In fact, a remarkable rule is that \emph{the RoC of a rational $z$-transform is bounded by the location of its poles.}
@@ -5681,7 +5686,7 @@ which yields the following region of convergence,
 
 Again, this region of convergence is fenced by the pole at $z=-0.6$ which essentially determines the location of the circle, the border of the region of convergence. The DTFT for sequence $\varkappa[n]$ exists, since the unit circle (dashed, in figure) lies in the region of convergence of the $z$-transform, as Theorem~\ref{thm:convergenceDTFTz} declares.
 
-The Region of Convergence of a rational $z$-transform predominantly depends on the type of the sequence of interest---be it \emph{finite-length}, \emph{right-sided}, \emph{left-sided} or ultimately \emph{two-sided}.
+The Region of Convergence of a rational $z$-transform predominantly depends on the type of the sequence of interest, namely by its sidedness---be it \emph{finite-length}, \emph{right-sided}, \emph{left-sided} or ultimately \emph{two-sided}.
 
 \begin{description}
     \item[Region of convergence for finite-length sequences]
