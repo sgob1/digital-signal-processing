@@ -5382,7 +5382,7 @@ As an example, let's determine the $z$-transform $X(z)$ of a causal exponential 
     X(z) &= \sum_{n=-\infty}^\infty \alpha^n \mu[n] z^{-n} = \sum_{n=0}^\infty \alpha^n z^{-n}\\
          &= \frac{1}{1 - \alpha z^{-1}}.
 \end{align*}
-Now, the region of convergence---the above power series converges to the above fraction only if $\left|\alpha z^{-1}\right| < 1$, which yields an annular region of convergence of $|z| > |\alpha|$. Aforesaid region is where the $z$-transform lives, since there the series is absolutely summable in all values.
+Now, the region of convergence---the above power series converges to the above fraction only if $\left|\alpha z^{-1}\right| < 1$, which yields an annular region of convergence of $|z| > |\alpha|$. This peculiar constraint is due to the fact that the associated geometric series---that is $\sum_{k=0}^{\infty} q^k = \frac 1 {1 - q}$ converges to a finite value only if $|q| < 1$. Aforesaid region is where the $z$-transform lives, since there the series is absolutely summable in all values.
 
 It immediately follows that, by picking $\alpha = 1$, the $z$-transform of the sequence $x[n] = \mu[n]$ will be
 \[
@@ -5697,23 +5697,28 @@ Let $g[n]$ be a \emph{finite-length} sequence defined for values in between $-M 
         \sum_{n=0}^{N+M} g[n-M]z^{N+M-n}
     } {
         z^N
-    }.
+    },
 \end{equation}
-$G(z)$ has $M$ poles at $z=\infty$ and $N$ poles at $z=0$, and no other pole. As can be seen from the above expression, the $z$-transform for a finite-length bounded sequence converges everywhere in the z-plane, except possibly at $z=0$ and at the infinity $z \rightarrow \infty$. Any finite-length sequence converges in between $z=0$ and $z=\infty$ excluded.
+with the latter being obtained through the variable change $n \rightarrow n - M$, or shifting by $M$ samples.
+
+$G(z)$ has $M$ poles at $z=\infty$\footnote{Poles at infinity are given by the difference between the degree of the numerator and the degree of the denominator. If $N$ is the degree of the numerator and $M$ is the degree of the denominator, and $N > M$, there will be $N - M$ poles at infinity. They are induced by the fact that, when the numerator has a higher degree, the transfer function $G(z) \rightarrow \infty$ as $z \rightarrow \infty$. Conversely, if the denominator is of higher order than the numerator (as must be the case for a physically realisable system), $M>N$, then there will be $M-N$ zeros at infinity.} and $N$ poles at $z=0$, and no other pole. As can be seen from the above expression, the $z$-transform for a finite-length bounded sequence converges everywhere in the z-plane, except possibly at $z=0$ and at the infinity $z \rightarrow \infty$. Any finite-length sequence converges in between $z=0$ and $z=\infty$ excluded.
+
+More particularly, if $N \leq 0$ the region of convergence will include $z=0$, and when $(-M) \geq 0$ it will include $z = \infty$; for this reason, the only sequence whose region of convergence is the entire $z$-plane is the delta impulse $c\delta[n]$.
 
 \item[Region of convergence for right-sided sequences] A \emph{ri\-ght-si\-ded} sequence with non-zero values for $n\leq 0$ called a \emph{causal sequence}. Consider any causal sequence $\nu_1[n]$; its $z$-transform is given by
     \begin{equation}\label{eqn:zTransformCausalSequence}
         V_1(z) = \sum_{n=0}^\infty \nu_1[n] z^{-n}
     \end{equation}
-        since any term of the sum would collapse to zero for $n < 0$. It can be shown that $V_1(z)$ converges \emph{exterior} to a circle $|z| < r_1$ \emph{including} the point $z=\infty$.
+since any term of the sum would collapse to zero for $n < 0$. It can be shown that $V_1(z)$ converges \emph{exterior} to a circle $|z| < r_1$ \emph{including} the point $z=\infty$. More generally, a right-sided sequence will have a region of convergence that extends outward from the outermost pole of $V_1(z)$.
         On the other hand, a right-sided (but not causal) sequence $\nu_2[n]$ whose non-zero values are from $n \leq -M$ with $M \in \N\setminus \{0\}$ has a $z$-transform $V_2(z)$ with $M$ poles at $z=\infty$. The region of convergence of $V_2(z)$ will be exterior to a circle $|z| = r_2$ like for the causal signal---however, differently from before, the region of convergence \emph{does not include} the point at infinity $z = \infty$. If a sequence is right-sided but non-causal then the RoC of its $z$-transform will not include the point located at infinity.
 
-    \item[Region of convergence for left-sided sequences] \emph{Le\-ft-si\-ded} se\-quen\-ces are almost the contrary of right-sided ones; as will soon uncovered, the behavior will be comparable to the case of the right-side sequences.
+    \item[Region of convergence for left-sided sequences] \emph{Le\-ft-si\-ded} se\-quen\-ces are almost the contrary of right-sided ones; as will soon uncovered, the behavior will be comparable to the case of the right-side sequences, albeit mirrored.
         Consider an anticausal sequence $a_1[n]$; its $z$-transform is given by
         \begin{equation}\label{eqn:zTransformAntiCausalSequence}
             A_1(z) = \sum_{n=-\infty}^0 a_1[n]z^{-n}.
         \end{equation}
-        It can be shown that $A_1(z)$ converges \emph{interior} to a circle $|z| = r_1$ \emph{including} the point $z=0$. Comparably to the case of right-side sequences, a left-sided sequence $a_2[n]$ with non-zero sample values only for $n \leq N$, $N \in \N \setminus \{0\}$ has a $z$-transform $A_2(z)$ with $N$ poles at the origin $z = 0$, and whose RoC is interior to a circle $|z| = r_4$, but \emph{does not include} the point $z=0$. Similarly, simply left-sided sequences will have its $z$-transform whose RoC does not include the point at the origin, just like a simply right-sided sequence did not include points at the infinity.
+        It can be shown that $A_1(z)$ converges \emph{interior} to a circle $|z| = r_1$ \emph{including} the point $z=0$. Comparably to the case of right-side sequences, a left-sided sequence $a_2[n]$ with non-zero sample values only for $n \leq N$, $N \in \N \setminus \{0\}$ has a $z$-transform $A_2(z)$ with $N$ poles at the origin $z = 0$, and whose RoC is interior to a circle $|z| = r_4$, but \emph{does not include} the point $z=0$. Similarly, simply left-sided sequences will have its $z$-transform whose RoC does not include the point at the origin, just like a simply right-sided sequence did not include points at the infinity. More generally, a left-sided sequence will have a region of convergence that extends inward from the innermost pole of $V_1(z)$.
+
 
     \item[Region of convergence for two-sided sequences] \emph{Two-si\-ded} se\-quen\-ces are generic sequences. Still, they can be written as a superposition of an anti-causal sequence and a causal sequence.
         Let $\Omega(z)$ be the $z$-transform of a two-sided sequence $\omega[n]$. One can write
@@ -5766,6 +5771,7 @@ while, on the opposite, no region of convergence exists in the next illustration
             (0,0) circle[radius=1.5];
     \end{tikzpicture}
 \end{center}
+More generally, a two-sided sequence will have a region of convergence that is a ring in the $z$-plane bounded on the interior and exterior by a pole.
 
 Suppose for a moment to evaluate the RoC of the two-sided exponential sequence $\zeta[n] = \alpha^n$, with $\alpha \in \C$. Its $z$-transform is given by
 \begin{equation}\label{eqn:zTransformTwoSidedExponential}
@@ -5877,7 +5883,7 @@ computing the coefficients of each second-order factor given as an $L \times 6$ 
         b_{01} & b_{11} & b_{21} & a_{01} & a_{11} & a_{21} \\
         b_{02} & b_{12} & b_{22} & a_{02} & a_{12} & a_{22} \\
         \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
-        b_{0L} & b_{1L} & b_{2L} & a_{0L} & a_{1L} & a_{1L}
+        b_{0L} & b_{1L} & b_{2L} & a_{0L} & a_{1L} & a_{2L}
     \end{bmatrix}
 \]
 where factors are of the $2$nd order and are expressed as follows,
