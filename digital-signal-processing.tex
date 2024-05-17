@@ -5956,7 +5956,7 @@ This means that the contour integral can be soon evaluated by means of the \emph
     g[n] = \sum\left[ \makecell{ \mbox{ residues of } G(z)z^{n-1} \\ \mbox{ at the poles inside } \zeta} \right].
 \]
 
-In reality, the above integration is merely a conceptual step, rather than an actual method for inversion that should be adopted. In fact, inversion is usually performed through the \textbf{Partial-Fraction Expansion}. This method draws its core idea from the fact that any rational $z$-transform $G(z)$ with a causal inverse transform $g[n]$ has a RoC that is exterior to a circle: it is more convenient to express $G(z)$ in a \emph{partial-fraction expansion} form and then determine $g[n]$ by summing the inverse transform of the individual simpler terms in the expansion. The trick here is to somehow make the rational form \emph{simpler} by splitting it into smaller terms, each one with their own simpler inverse transform, and summing up all together in the end.
+In reality, the above integration is merely a conceptual step, rather than an actual method for inversion that should be adopted. In fact, inversion is usually performed through the \textbf{Partial-Fraction Expansion}. This method draws its core idea from the fact that any rational $z$-transform $G(z)$ with a causal inverse transform $g[n]$ has a RoC that is exterior to a circle (conversely, any rational $z$-transform which has an anti-causal inverse transform will have a RoC interior to a circle): it is more convenient to express $G(z)$ in a \emph{partial-fraction expansion} form and then determine $g[n]$ by summing the inverse transform of the individual simpler terms in the expansion. The trick here is to somehow make the rational form \emph{simpler} by splitting it into smaller terms, each one with their own simpler inverse transform, and summing up all together in the end.
 
 As we have already seen, rational $G(z)$ functions can be expressed as follows,
 \[
@@ -6031,7 +6031,7 @@ where the $\dots$ signify that among the infinite sum only values up to term $z^
 \[
     \{h[n]\} =
     \begin{Bmatrix} 
-        1 & 1.6z^{-1} - 0.52z^{-2} & 0.4z^{-3} - 0.2224z^{-4} & \cdots
+        1 & 1.6 - 0.52 & 0.4 - 0.2224 & \cdots
     \end{Bmatrix}
 \]
 
@@ -6067,7 +6067,7 @@ The $z$-transform of $\left(\frac 1 2\right)^n \mu[n]$ is
 \[
     A(z) = \frac{z}{z-\frac 1 2},
 \]
-which yields a RoC of $|z| > \frac 1 2$. Similarly, the $z$-transform of the other addendum $\left(-\frac 1 4\right)^n \mu[n]$ is
+which yields a RoC of $|z| > \frac 1 2$, major operand because it is a causal sequence. Similarly, the $z$-transform of the other addendum $\left(-\frac 1 4\right)^n \mu[n]$ is
 \[
     B(z) = \frac{z}{z+\frac 1 4}
 \]
@@ -6090,7 +6090,7 @@ possessing a RoC of $|z| > - \frac 1 4$. The two regions of convergence, then, w
             (0,0) circle[radius=.75];
     \end{tikzpicture}
 \end{center}
-with red area denoting the RoC of $A(z)$, and the green area denoting the RoC of $B(z)$. Note that the green area and the red area overlaps outside of the circle of radius $|z| = 0.5$. In virtue of the superposition principle, the two $z$-transform can be added together to form $X_1(z) = A(z) + B(z)$. That is,
+with red area denoting the RoC of $A(z)$, and the green area denoting the RoC of $B(z)$. Note that the green area and the red area overlaps outside of the circle of radius $|z| = 0.5$. Now, we have to achieve a complete form for the $z$-transform, which does not involve additions, but only factors; in virtue of the superposition principle, the two $z$-transform can be added together to form $X_1(z) = A(z) + B(z)$. That is,
 \begin{align*}
     X_1(z)  &= \frac{z}{z - \frac 1 2} + \frac{z}{z + \frac 1 4} \\
             &= \frac {
@@ -6157,8 +6157,9 @@ By superposition principle, once again we are able to merge together the above r
                 \left(z + \frac 1 4\right)\left(z - \frac 1 2\right)
             }
 \end{align*}
+and it ends up with the same $z$-transform formula as before.
 
-Again by observation one can conclude that there are two poles and two zeros; hence, $z_{p1} = -\frac 1 4$, $z_{p2} = \frac 1 2$, $z_{z1} = \frac 1 8$ and finally the zero at the origin $z_{z2} = 0$. The plot will then be as follows, with the region of converge the annular region in between the two poles.
+Again by observation one can conclude that there are two poles and two zeros; hence, $z_{p1} = -\frac 1 4$, $z_{p2} = \frac 1 2$, $z_{z1} = \frac 1 8$ and finally the zero at the origin $z_{z2} = 0$. This time, however, the sidedness of one of the two sequences has changed, and according to that the related region of convergence has changed as well. The plot will then be as follows, with the region of converge the annular region in between the two poles.
 
 \begin{center}
     \begin{tikzpicture}
@@ -6188,7 +6189,7 @@ In general, only \emph{infinite-length} signals can have \emph{finite band}---si
 
 \section{Sampling}
 
-Suppose an infinite-length continuous-time signal $f(t)$ is sampled with sampling step $\Delta T$, to obtain a sequence $x[n]$ from it,
+Suppose an infinite-length continuous-time signal $f(t)$ is sampled with sampling step $\Delta T$, to obtain a sequence $x[n]$ from it. To do so, let's evaluate the function at specific intervals using a train of delta impulses,
 \begin{align*}
     x[n] &= f(t) \sum_{n=-\infty}^\infty \delta(t - n\Delta T)\\
          &= \sum_{n=-\infty}^\infty f(t)\delta(t - n \Delta T);
@@ -6413,7 +6414,9 @@ the first one being the Fourier Transform of the impulse response $h[n]$, comput
 
 Hence, for a complex exponential input signal $e^{j\omega_0 n}$ the output of an LTI system is also a complex exponential signal, of the same frequency, multiplied by a complex constant $H(e^{j\omega_0})$: the exponential input signal $e^{j\omega_0 n}$ is an \emph{eigenfunction of the system.}
 
-Suppose to collect now every value of $H(e^{j\omega_0})$ for any possible choice of $\omega_0$ and put it into a function $H(e^{j\omega})$---for a generic frequency $\omega$, the function $H(e^{j\omega})$ is called the \textbf{frequency response} of the LTI discrete-time system and it corresponds to the Discrete-time Fourier Transform of the impulse response. The frequency response provides a frequency-domain description of the system, and is precisely the Discrete-time Fourier Transform of the impulse response $\{h[n]\}$ of the system. Like the DTFT, the frequency response is---generally speaking---a complex function of period $2\pi$, and can be expressed either in terms of its real and imaginary parts, or in terms of its magnitude and phase, that is
+Suppose to collect now every value of $H(e^{j\omega_0})$ for any possible choice of $\omega_0$ and put it into a function $H(e^{j\omega})$---for a generic frequency $\omega$, the function $H(e^{j\omega})$ is called the \textbf{frequency response} of the LTI discrete-time system and it corresponds to the Discrete-time Fourier Transform of the impulse response. The frequency response provides a frequency-domain description of the system, and is precisely the Discrete-time Fourier Transform of the impulse response $\{h[n]\}$ of the system. The frequency response will tell us how the system behaves, for a certain frequency $\omega_0$, when that frequency $\omega_0$ is provided as input. In virtue of the superposition principle, we will be able to decompose the input signal in multiple frequencies, each one being manipulated by the frequency response $H(e^{j\omega})$ of the filter in a way that depends on its value at each frequency $\omega$ of which the input signal is composed.
+
+Like the DTFT, the frequency response is---generally speaking---a complex function of period $2\pi$, and can be expressed, depending on needs, either in terms of its real and imaginary parts, or in terms of its magnitude and phase, that is
 \[
     H(e^{j\omega}) = H_{re}(e^{j\omega}) + jH_{im}(e^{j\omega})
 \]
@@ -6425,7 +6428,9 @@ where
 \[
     \theta(\omega) = \arg{H(e^{j\omega})}
 \]
-results that were already highlighted in Section~\ref{sec:discreteTimeFourierTransform}. In this case, the polar representation comes in handy, with two distinct components that should be put under the spotlight: the \textbf{magnitude response} $\left|H(e^{j\omega})\right|$, and the \textbf{phase response} $\theta(\omega)$ of the LTI discrete-time systems. Those two functions are both real functions, and together totally describe the complex-valued function that is the frequency response: for this reason, in many applications the two functions are those that are provided in order to describe the frequency response or the DTFT of a LTI system. In some cases a scaling is appropriate, with the magnitude function specified in \emph{decibels} as
+results that were already highlighted in Section~\ref{sec:discreteTimeFourierTransform}. In this case, the polar representation comes in handy, with two distinct components that should be put under the spotlight: the \textbf{magnitude response} $\left|H(e^{j\omega})\right|$, and the \textbf{phase response} $\theta(\omega)$ of the LTI discrete-time systems. Those two functions are both real functions, and together concur to the description of the complex-valued function that is the frequency response: for this reason, in many applications the two functions are those that are provided in order to describe the frequency response or the DTFT of a LTI system. Moreover, the two functions related to magnitude and phase will affect distinct components of the input--output relationship, so it is in any case useful to analyse them concurrently or at least separately.
+
+In some cases a scaling is appropriate, with the magnitude function specified in \emph{decibels} as
 \[
     \mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
 \]
@@ -6433,7 +6438,7 @@ where $\mathcal G(\omega)$ is said to be the \textbf{gain function}. The negativ
 \[
     \mathcal A(\omega) = -\mathcal G(\omega) = 20 \log_{10}{\left|H(e^{j\omega})\right|} dB
 \]
-is called the \textbf{attenuation} or the \textbf{loss function}. Both functions that have been just mentioned are almost always expressed in decibel.
+is called the \textbf{attenuation} or the \textbf{loss function}. Both functions that have been just mentioned are almost always expressed in decibel, as they would otherwise tend to assume large values describing exponential relationships.
 
 The frequency response share some properties with the DTFT. For instance, if the impulse response $h[n]$ is a real sequence, then it comes after that the magnitude function is an even function as well,
 \[
@@ -6455,7 +6460,7 @@ As an examplification, let $h[n]$ be the impulse response of an $M$-point moving
         \end{array}
     \right.,
 \]
-a window of width $M$. Its frequency response is immediately given by
+a window of width $M$. Its frequency response corresponds to a sinc function traslated by $\frac M 2$ in the frequecy domain; it is given by
 \begin{align*}
     H(e^{j\omega})
     &= \frac 1 M \sum_{n=0}^{M-1} e^{-j\omega n}\\
@@ -6531,9 +6536,9 @@ The phase response of a discrete-time system, when determined by a calculator, m
 From the frequency response we are also able to determine the \emph{steady-state response} of an LTI discrete-time system to a sinusoidal input.
 Let $y[n]$ be the output of a real coefficient LTI discrete-time system, with a frequency response $H(e^{j\omega})$ for a sinusoidal input of the form
 \[
-    x[n] = A\cos{(\omega_0 n + \varphi)}, -\infty < n < \infty;
+    x[n] = A\cos{(\omega_0 n + \varphi)}, -\infty < n < \infty.
 \]
-we can express the input $x[n]$ in polar representation as
+We expect that for such an input, due to how the cosine can be split using Euler's Formula, two frequencies $\pm\omega_0$ will be passed as input. So, we can express the input $x[n]$ in polar representation as
 \begin{align*}
     x[n] &= \frac 1 2 Ae^{j\varphi}e^{j\omega_0 n} + \frac 1 2 Ae^{-j\varphi}e^{-j\omega_0 n}\\
          &= g[n] + g^*[n]
@@ -6547,7 +6552,7 @@ and the output $v^*[n]$ of $g^*[n]$ is
     v^*[n] = \frac 1 2 H(e^{-j\omega_0})Ae^{-j\varphi}e^{-j\omega_0n}.
 \]
 
-The complete output will be the sum of the two outputs taken alone, because of the superposition principle, and if we decompose $H$ in their magnitude--phase spectra,
+The complete output will be the sum $y[n] = v[n] + v^*[n]$ of the two outputs taken alone due to the superposition principle, and if we decompose $H$ in their magnitude--phase spectra,
 \begin{align*}
     y[n]
     &= v[n] + v^*[n]\\
@@ -6562,10 +6567,12 @@ as
 
 The output $y[n]$ has the very same sinusoidal waveform that the input has, with two substantial differences: the first being that \emph{the amplitude is multiplied by a coefficient $\left|H(e^{j\omega_0})\right|$} that is the value of the magnitude function at $\omega = \omega_0$, the oscillation frequency of the sinusoid; second, the output has a \emph{phase lag} induced by the filter by an amount $\theta(\omega_0)$, the value of the phase function at $\omega = \omega_0$.
 
+The above result highlights how a filter with frequency response $H(e^{j\omega})$ will modify any frequency $\omega_0$ passed as input---in the form of cosines, sines, or more generally in the form of complex exponentials---applying a magnitude that corresponds to the magnitude of the frequency response at that specific frequency $\omega_0$, that is $\left|H(e^{j\omega_0})\right|$, and applying a phase shift that corresponds to the phase of the frequency response at that specific frequency $\omega_0$, that is $\theta(\omega_0)$.
+
 \section{Response to a Causal Exponential Sequence}
 The above expression for the steady-state assumes that the system is \emph{initially relaxed} before application of the input sinusoid, which means that the system is under no stress right before the application of $x[n]$. This culminates in the fact that, in practical applications, exerciting a solicitation $x[n]$ to a causal LTI system usually means applying an input sequence that is \emph{right-sided}, at some starting sample index $n = n_0$, with all inputs $n < n_0$ that are null; for such a generic input, an output will be derived right below.
 
-Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$ (a causal signal), with no loss of generality with the implied causality\footnote{In an LTI system, due to the time-invariance property, the properties of a causal signal $x[n]$ starting at $n = 0$ will be preserved for any shifted variant of the same sequence $x[n-n_s]$, for any starting $n_s$. Thus, studying the behavior of an LTI system with a causal sequence does not imply any loss of generality with respect to non-causal shifts of the same sequence.}. By looking at the input--output relationship for an LTI discrete-time system
+Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$ (a causal signal), with no loss of generality with the implied causality\footnote{In an LTI system, due to the time-invariance property, the properties of a causal signal $x[n]$ starting at $n = 0$ will be preserved for any shifted variant of the same sequence $x[n-n_s]$, for any starting $n_s$. Thus, studying the behavior of an LTI system with a causal sequence does not imply any loss of generality with respect to non-causal shifts of the same sequence, because it will always be possible to shift the sequence to match a causal one, without affecting the properties of the system.}. By looking at the input--output relationship for an LTI discrete-time system
 \[
     y[n] = \sum_{k=-\infty}^\infty h[k]x[n-k]
 \]
@@ -6577,7 +6584,7 @@ one soon observes that the output is given by the following
 Let's now determine the output. For $n<0$ is, trivially, $y[n]=0$. For $n \geq 0$ one must assess the following sum
 \begin{align*}
     y[n] &= \left(\sum_{k=0}^n h[k] e^{-j\omega k}\right)e^{j\omega n}\\
-    &= \left(\sum_{k=0}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} \\
+    &= \left(\sum_{k=-\infty}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n} \\
     &= H(e^{j\omega_0})e^{j\omega n} - \left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right)e^{j\omega n}.
 \end{align*}
 
@@ -6590,9 +6597,14 @@ Steady state occurs after the system becomes settled. This term describes the co
 
 Separately, the second term on the right-hand side is said to be the \textbf{transient response}, that is the component of the response that exists before the output settles on the steady-state response. The transient response describes the contribute to the behavior of the system that occurs before (or after) stabilizing,
 \begin{equation}\label{eqn:transientResponse}
-    y_{tr}[n] = -\left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right) e^{j\omega n}.
+    y_{tr}[n] = -\left(\sum_{k=n+1}^\infty h[k] e^{-j\omega k}\right) e^{j\omega n},
 \end{equation}
-In essence, the transient is the state in which the system finds itself when the input changes, and in this phase the output signal is dominated by the transient term; after it settled on the input, the output is dominated by the steady-state term, until the input changes again, leading to yet another phase of transient output.
+and
+\[
+        \lim_{n -> \infty} y_{tr}[n] = 0.
+\]
+
+In essence, the transient is the state in which the system finds itself when the input changes, and in this phase the output signal is dominated by the transient term; after it settled on the input, the output is dominated by the steady-state term, until the input changes again, leading to yet another phase of transient output. In short, the transient response will decay over time if the system is stable, which means that, on a given solicitation or stable input, the transient response will decay while the steady-state response will remain constant or periodic.
 
 In order to determine the effect of the transient response, one notices that
 \begin{align*}
@@ -6613,17 +6625,19 @@ Summing up, the response to a causal exponential sequence will be the superposit
 
 In signal processing, a filter is a device or process that removes some unwanted components or features from a signal. Filtering is a class of signal processing, the defining feature of filters being the complete or partial suppression of some aspect of the signal. Most often, this means removing some frequencies or frequency bands. However, filters do not exclusively act in the frequency domain; especially in the field of image processing many other targets for filtering exist. Correlations can be removed for certain frequency components and not for others without having to act in the frequency domain. Filters are widely used in electronics and telecommunication, in radio, television, audio recording, radar, control systems, music synthesis, image processing, and computer graphics\cite{bib:filtering}.
 
-One application of an LTI discrete-time system is to \emph{pass} certain frequency components in an input sequence without any distortion---if possible---and to \emph{block} unwanted frequency components. Such systems are called \textbf{digital filters}.
+One application of an LTI discrete-time system is to \emph{pass} certain frequency components in an input sequence without any distortion---if possible---and to \emph{block} unwanted frequency components. The idea is that with a filter we will be able to modify some properties of the original signal---for example, its magnitude and phase at certain determined frequencies---without distorting it in a way that it is undesired. Such systems are called \textbf{digital filters}, and are widely employed in the digital signal processing field.
 
 The key to the filtering process is represented by the following integral,
 \begin{equation}\label{eqn:filteringProcess}
     x[n] = \frac 1 {2\pi} \int_{-\pi}^\pi X(e^{j\omega})e^{j\omega n}d\omega,
 \end{equation}
-which expresses an arbitrary input as a linear weighted sum of an infinite number of exponential sequences---or equivalently as a \emph{linear weighted sum of sinusoidal sequences}, whose weights are the values of the Discrete-time Fourier Transform $X(e^{j\omega})$. The filtering process occurs by carefully choosing the function $X$ (that will be the frequency response $H(e^{j\omega})$ of an LTI digital filter) so that its magnitude $\left|H(e^{j\omega})\right|$ is greater or lower at some frequencies depending on the needs. Since any input sinusoid will be multiplied by the magnitude of the frequency response of the filter, then one can \emph{amplify} or \emph{attenuate} some frequency at will by designing a suitable frequency response.
+which expresses an arbitrary input as a linear weighted sum of an infinite number of exponential sequences---or equivalently as a \emph{linear weighted sum of sinusoidal sequences}, whose weights are the values of the Discrete-time Fourier Transform $X(e^{j\omega})$. Of course, we shall not limit ourselves to the DTFT; all the other transforms can be adopted for filtering, with the DFT being the one that can actually be computed, due to its (periodic) discrete nature.
+
+The filtering process, in general, occurs by carefully choosing the function $X$ (that will be called the frequency response $H(e^{j\omega})$ of an LTI digital filter) so that its magnitude $\left|H(e^{j\omega})\right|$ is greater or lower at some frequencies depending on the needs, and its phase $\theta(\omega)$ has desired properties as the required frequencies. Since any input sinusoid will be multiplied by the magnitude of the frequency response of the filter, then one can \emph{amplify} or \emph{attenuate} some frequencies at will by designing a suitable frequency response with the desired properties.
 
 \subsection{Core concepts behind filters}
 
-To better understand the inner workings behind the design of filters that are actually able to filter specific frequencies, consider a real-coefficient LTI discrete-time system characterized by
+To better understand the inner workings behind the design of filters that are actually able to filter specific frequencies, consider a real-coefficient LTI discrete-time system characterized by the following window of width $\omega_c$,
 \begin{equation}\label{exa:idealFilter1}
     \left|H(e^{j\omega})\right| \simeq
     \left\{
@@ -6635,11 +6649,11 @@ To better understand the inner workings behind the design of filters that are ac
 \end{equation}
 
 
-We then apply to the above system an input composed of sinusoids
+We then apply to the above system an input composed of sinusoids of the kind
 \[
-    x[n] = A\cos{\omega_1 n} + B\cos{\omega_2 n}
+    x[n] = A\cos{\omega_1 n} + B\cos{\omega_2 n},
 \]
-at two, distinct, frequencies $\omega_1$ and $\omega_2$, so that $0 < \omega_1 < \omega_c < \omega_2 < \pi$. The constraint that frequency must be below $\pi$ is due to the periodicity of the Discrete-time Fourier Transform.
+at two, distinct, frequencies $\omega_1$ and $\omega_2$, so that $0 < \omega_1 < \omega_c < \omega_2 < \pi$. Recall that there is a constraint which forces the frequency to be below $\pi$; that is due to the periodicity of the Discrete-time Fourier Transform, which maps the entire frequency domain of a discrete-time original sequence within the period $[0, 2\pi]$ and repeats periodically over the entire frequency domain, and due to the fact that the original sequence $x[n]$ is a real sequence. Such a mapping, in the case of real original sequences, involves frequencies within $[0,\pi]$ to be mirrored by negative frequencies in the mirror interval $[-\pi, 0]$ because of the complex-conjugate symmetry of the Fourier Transform of real sequences, thus resulting in specular or mirrored periodic repetitions in frequency if we consider inervals of width $\pi$, and true periodic repetitions if we consider intervals of width $2\pi$. Hence, the entire frequency spectrum of a real sequence can be described within the interval $[0, \pi]$ if we consider the fact that the other half period will be a mirrored repetition of such frequencies, and we will not lose any information by cutting the period in half.
 
 Due to linearity, the outputs of this system will be the superposition of the two responses to the single sinusoids of distinct frequencies:
 \begin{align*}
