@@ -6578,7 +6578,8 @@ Let's assume $x[n] = e^{j\omega n}\mu[n]$ be a right-sided signal for $n < 0$ (a
 \]
 one soon observes that the output is given by the following
 \begin{align*}
-    y[n] &= \left(\sum_{k=0}^n h[k] e^{j\omega(n - k)}\right) \mu[n]\\
+    	y[n] &= \left(\sum_{k=0}^n h[k] e^{-j\omega k}\right) e^{j\omega n}\mu[n]\\
+         &= \left(\sum_{k=0}^n h[k] e^{j\omega(n - k)}\right) \mu[n]\\
          &=\left(\sum_{k=0}^n h[k] e^{-j\omega k}\right)e^{j\omega n} \mu[n].
 \end{align*}
 Let's now determine the output. For $n<0$ is, trivially, $y[n]=0$. For $n \geq 0$ one must assess the following sum
@@ -6686,7 +6687,7 @@ as the term corresponding to frequency $\omega_2$ \emph{has been filtered} since
         \draw [-stealth, red, thick] (2.15, 0) -- (2.15, 1.2) node[anchor=south] {$\omega_2$};
     \end{tikzpicture}
 \end{center}
-where the green sinusoid is allowed to pass, the red sinusoid is instead filtered out (multiplied by a value that is very close to---if not exactly---zero). Still, the above filter is not ideal, and for this reason we cannot use equalities\footnote{The almost-exact equality as expressed in~\ref{exa:idealFilter1} highlights the fact that no actuall filter can possibly show the frequency properties of a perfect window---that is, frequency properties like it would with a perfect equality. Hence, we are confined with non ideal filters, having no perfect frequency behavior. Notably, frequencies that are meant to be filtered cannot be completely suppressed, as their frequencies are multiplied by a term that is not exactly zero, but still very close to it. This is far from being the single or the most important property of a filter, but indeed, the closer to zero is the gain at frequencies we would like to suppress, the better the filter will be for our filtering purposes.}.
+where the green sinusoid is allowed to pass, the red sinusoid is instead filtered out (multiplied by a value that is very close to---if not exactly---zero). Still, the above filter is just a representation and in any practical way it can never be ideal; for this reason, we cannot use equalities\footnote{The almost-exact equality as expressed in~\ref{exa:idealFilter1} highlights the fact that no actuall filter can possibly show the frequency properties of a perfect window---that is, frequency properties like it would with a perfect equality. Hence, we are confined with non ideal filters, having no perfect frequency behavior. Notably, frequencies that are meant to be filtered cannot be completely suppressed, as their frequencies are multiplied by a term that is not exactly zero, but still very close to it. This is far from being the single or the most important property of a filter, but indeed, the closer to zero is the gain at frequencies we would like to suppress, the better the filter will be for our filtering purposes.}.
 
 In virtue of the fact that only frequencies lower than a certain frequency $\omega_c$ are allowed to pass, the system is called a \textbf{lowpass filter}. Conversely, filters that allow to pass frequencies higher than a certain frequency $\omega_c$ are called \textbf{highpass filters}. Furthermore, we say that a filter is a \textbf{bandpass filter} when the range of frequencies allowed to pass is between two values $\omega_h$ and $\omega_l$, that is a digital filter that favors the passage of frequencies $\omega_l < \omega < \omega_h$.
 
@@ -6703,7 +6704,7 @@ that is $h[0] = h[2] = \alpha$ and $h[1] = \beta$. In order to determine the out
     &= \alpha x[n] + \beta x[n-1] + \alpha x[n-2].
 \end{align*}
 
-It is clear that adequate values of $\alpha$ and $\beta$ should be chosen for only the higher sinusoid to pass. To do so, one has to look at the frequency response of the FIR filter, which can be obtained by computing the Fourier Transform of the impulse response $h[n]$:
+It is clear that adequate values of $\alpha$ and $\beta$ should be chosen for only the higher sinusoid to pass. To do so, one has to look at the frequency response of the FIR filter, which can be obtained by computing the Fourier Transform of the impulse response $h[n]$, in this case easy to compute by hand:
 \begin{align*}
     H(e^{j\omega})
         &= h[0] + h[1]e^{-j\omega} + h[2]e^{-j2\omega}\\
