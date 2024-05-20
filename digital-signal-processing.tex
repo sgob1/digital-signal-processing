@@ -6788,7 +6788,7 @@ where the term
         \omega_0
     }
 \end{equation}
-is called the \textbf{phase delay} of the filter whose frequency response is $H(e^{j\omega})$. The phase delay is the phase response of the filter $H$ \emph{normalized} by the frequency at which it applies $\omega_0$, and it is introduced to provide a way to directly evaluate it against the time $n$. The two minus signs in the two equations may confuse at first; however, it is clear that if we define the lag as a time delay $n - \tau_p(\omega_0)$ one has to define the phase delay with a minus sign as well, in order for the argument of the cosine to be subject to an actual delay (otherwise it would result in an anticipation). Substituting the phase delay equation~\ref{eqn:phaseDelay} in the above equation~\ref{eqn:phaseDelayResponse} one obtains the output response as already known.
+is called the \textbf{phase delay} of the filter whose frequency response is $H(e^{j\omega})$, and it measures in \emph{samples}. The phase delay is the phase response of the filter $H$ \emph{normalized} by the frequency at which it applies $\omega_0$, and it is introduced to provide a way to directly evaluate it against the time $n$. The two minus signs in the two equations may confuse at first; however, it is clear that if we define the lag as a time delay $n - \tau_p(\omega_0)$ one has to define the phase delay with a minus sign as well, in order for the argument of the cosine to be subject to an actual delay (otherwise it would result in an anticipation). Substituting the phase delay equation~\ref{eqn:phaseDelay} in the above equation~\ref{eqn:phaseDelayResponse} one obtains the output response as already known.
 
 Therefore, the output $y[n]$ is a time-delayed version of the input $x[n]$ of frequency $\omega_0$, with delay
 $
@@ -6816,7 +6816,7 @@ Generally speaking, this results to the fact that the output sequence will not b
 		\draw[dashed] (0,0) -- node(taup) {$\tau_p(\omega_c)$} ++ (3.2, 1.9);
 		\draw[dashed] (1.6, 0.27) -- (4.6, 3.27) node(taug) {$\tau_g(\omega_c)$};
 		\node at (3.2, -0.2) {$\omega_c$};
-	\end{tikzpicture}\caption{Evaluation of phase delay $\tau_p$ and group delay $\tau_p$ over a given frequency $\omega_c$. Notice how the two quantities result in different slopes, the group delay one being the derivative over $\omega$ of the phase function $\theta(\omega)$ evaluated on $\omega_c$. The slopes are the opposite of the quantities of the two delays, because of the negative sign in their definitions.}\label{tikz:phaseDelayGroupDelayComparison}
+	\end{tikzpicture}\caption{Evaluation of phase delay $\tau_p$ and group delay $\tau_g$ over a given frequency $\omega_c$. Notice how the two quantities result in different slopes, the group delay one being the derivative over $\omega$ of the phase function $\theta(\omega)$ evaluated on $\omega_c$. The slopes are the opposite of the quantities of the two delays, because of the negative sign in their definitions.}\label{tikz:phaseDelayGroupDelayComparison}
 \end{center}
 \end{figure*}
 
@@ -6839,9 +6839,9 @@ For instance, let's consider the phase function of the FIR filter
 \[
     y[n] = \alpha x[n] + \beta x[n-1] + \alpha x[n-2]
 \]
-as the previous example, which is $\theta(\omega) = -\omega$. The phase delay is, therefore,
+as the previous example. It has a frequency response of $H(e^{j\omega}) = (2\alpha\cos \omega + \beta)e^{-j\omega}$ which results in the function $\theta(\omega) = -\omega$. The phase delay is, therefore,
 \[
-	\tau(\omega)
+	\tau_p(\omega)
 	=
 	-\frac {
 		\theta(\omega)
@@ -6855,13 +6855,13 @@ as the previous example, which is $\theta(\omega) = -\omega$. The phase delay is
 		\omega
 	}
 	=
-	+1.
+	+1,
 \]
-Hence, its group delay is given by
+while its group delay is given by
 \[
     \tau_g(\omega) = +1,
 \]
-a constant, verifying the result of Figure~\ref{oct:highpassFilterExample1}. In this specific, case the phase delay and the group delay coincide, but this is not guaranteed in general.
+a constant, verifying the result of Figure~\ref{oct:highpassFilterExample1}. In this specific case, the phase delay and the group delay coincide.
 
 Let now
 \[
@@ -6879,13 +6879,17 @@ be an $M$-point moving average FIR filter. Its phase function is, like in Equati
 \]
 a linear phase system. Its group delay is the negative derivative of the above (divided by $\omega$),
 \begin{equation}\label{eqn:mPointMovingAverageFilterGroupDelay}
-    \tau_g(\omega) = \frac {M-1}{2}.
+    \tau_g(\omega) = \frac {M-1}{2},
+\end{equation}
+as well as its phase delay,
+\begin{equation}\label{eqn:mPointMovingAverageFilterPhaseDelay}
+        \tau_p(\omega) = - \frac {-(M-1)\omega}{2\omega} = \frac {M-1}{2}.
 \end{equation}
 
 The step-summations term in Equation~\ref{eqn:mPointMovingAverageFilterPhaseReponse} should vanish as it only represents the sudden jumps every $2\pi$ the phase is subject to; although considering them would provide a more accurate mathematical representation, they can be discarded as they add little meaning and effect to the group delay representation. Even in this case, the phase delay and the group delay coincide, except for the sign.
 
 The physical significance of the phase and group delay are better understood by examining the continuous-time case.
-Consider, in fact, an LTI continuous-time system with a frequency response of 
+Consider, in fact, an LTI continuous-time system with a frequency response of
 \[
     H_a(j\omega) = \left|H_a(j\omega)\right|e^{j\theta_a(\omega)}
 \]
@@ -6899,7 +6903,7 @@ with $a(t)$ being a low frequency modulating signal with a band-limited Continuo
 \end{align*}
 with $\cos{(\omega_c t)}$ being the \emph{high-frequency carrier signal} of the amplitude modulation.
 
-We assume that in the frequency range $\omega_c - \omega_0 < |\omega| < \omega_c + \omega_0$ the frequency response of the continuous-time system has a constant magnitude and a linear phase; the latter--- by Taylor expansion of the phase function---can be conveniently expressed in terms of phase delay and group delay
+We assume that in the frequency range $\omega_c - \omega_0 < |\omega| < \omega_c + \omega_0$ the frequency response of the continuous-time system has a constant magnitude and a linear phase; the latter--- by Taylor expansion of the phase function around frequency $\omega_c$---can be conveniently expressed in terms of phase delay and group delay
 \begin{align*}
     \left|H_a(j\omega)\right| &= \left|H_a(j\omega_c)\right|\\
     \theta_a(\omega) &= \theta_a(\omega_c) - (\omega - \omega_c)\frac{d\theta_a(\omega)}{d\omega}\Bigr\rvert_{\omega=\omega_c}\\
