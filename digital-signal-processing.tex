@@ -6979,7 +6979,7 @@ What happens is that in the continuous-time case the \emph{group delay} $\tau_g(
                 \addlegendentry{Group delayed signal}
                         \addplot[mark = none, draw=black, thick] gnuplot[raw gnuplot] {
                             a(x) = 5*x*exp(-1.5*x);
-                            c(x) = cos(2*pi*x);
+                            c(x) = cos(2*pi*x - 1);
                             y(x) = a(x)*c(x);
                             z(x) = 0;
                             plot[+0:1] z(x);
