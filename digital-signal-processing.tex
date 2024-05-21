@@ -7020,13 +7020,13 @@ In this book we shall be concerned with LTI discrete-time systems (filters) that
 \begin{equation}\label{eqn:ltiDiscreteTimeLinearConstantCoefficientsDifference}
     \sum_{k=0}^N d_k y[n-k] = \sum_{k=0}^M p_k x[n-k].
 \end{equation}
-Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$. Non-recursive systems can be obtained if $d_k \equiv 0 \forall k > 0$, by eliminating all terms related to previous output samples.
+Such filters are specified in a \emph{recursive} way, as the output $y[n]$ is determined by inputs $x[n - k]$ \emph{and} previous outputs $y[n-k]$. Non-recursive systems can be obtained if $d_k \equiv 0, \forall k > 0$, by eliminating all terms related to previous output samples.
 
 Applying $z$-transform on both sides of the difference equation, along with properties of linearity and time-invariance, quickly yields
 \begin{equation}\label{eqn:zTransformLtiDiscreteTimeLinearConstantCoefficientsDifference}
     \sum_{k=0}^N d_k z^{-k} Y(z) = \sum_{k=0}^M p_k z^{-k} X(z),
 \end{equation}
-with $X(z)$ and $Y(z)$ being the $z$-transforms of---respectively---$x[n]$ and $y[n]$ with corresponding associated RoCs that shall not be forgotten. Terms $z^{-k}$ appear due to $z$-transform properties related to time-shifting. Each of the components $y[n]$ can be transformed in $z^{-k}Y(z)$ and multiplied by the very same factor $d_k$---the same goes for $x[n]$ components.
+with $X(z)$ and $Y(z)$ being the $z$-transforms of---respectively---$x[n]$ and $y[n]$ with corresponding associated RoCs that shall not be forgotten. Terms $z^{-k}$ appear due to $z$-transform properties related to time-shifting. Each of the components $y[n-k]$ can be transformed in $z^{-k}Y(z)$ and multiplied by the very same factor $d_k$---the same goes for $x[n]$ components.
 
 A way more convenient representation is given by the following formula, in which some parentheses highlights the fact that the $z$-transforms have been collected,
 \[
@@ -7040,7 +7040,7 @@ which suddenly leads to
         \left(\sum_{k=0}^N d_k z^{-k}\right)
     } X(z),
 \end{equation}
-in which it is clear that the output $z$-transform is given by the input $z$-transform, multiplied by a ratio of polynomials $H(z) = \frac{D(z)}{P(z)}$ that, certainly, is the \emph{transfer function} of the system.
+in which it is clear that the output $z$-transform is given by the input $z$-transform, multiplied by a ratio of polynomials $H(z) = \frac{P(z)}{D(z)}$ that, certainly, is the \emph{transfer function} of the system.
 
 To prove it, let's consider the output as given by the convolution sum
 \[
@@ -7051,10 +7051,10 @@ and move it into the frequency-domain by applying the $z$-transform to it. Apply
     Y(z) 
     &= \sum_{n=-\infty}^\infty y[n]z^{-n} \\
     &= \sum_{n=-\infty}^\infty \left(\sum_{k=-\infty}^\infty h[k] x[n-k]\right)z^{-n}\\
-    &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{n=-\infty}^\infty x[n-k]z^{-n}\right)\\
+    &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{n=-\infty}^\infty x[n-k]z^{-n}\right),
 \end{align*}
 \begin{align*}
-    &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{l=-\infty}^\infty x[l]z^{-(l+k)}\right)\\
+    Y(z) &= \sum_{k=-\infty}^\infty h[k] \left(\sum_{l=-\infty}^\infty x[l]z^{-(l+k)}\right)\\
     &= \sum_{k=-\infty}^\infty h[k] \underbrace{\left(\sum_{l=-\infty}^\infty x[l]z^{-l}\right)}_{X(z)}z^{-k}\\
     &= \underbrace{\left(\sum_{k=-\infty}^\infty h[k]z^{-k}\right)}_{H(z)} X(z)\\
     &= H(z)X(z)
@@ -7101,11 +7101,11 @@ The \emph{region of convergence} of a causal transfer function will be \emph{ext
 
 All of this should not be completely novel to us---Section~\ref{sec:rationalzTransforms} already highlighted some of these concepts, especially the various forms and the presence of poles and zeros. The difference now is that our focus is on the analysis of transfer functions, a narrower kind of $z$-transforms than the generic ones.
 
-As an example, let the impulse response be that of an $M$-point moving average filter as in~\ref{eqn:mPointMovingAverageEquation}. Its transfer function is therefore given by
+As an example, let the impulse response be that of an $M$-point moving average filter as in~\ref{eqn:mPointMovingAverageEquation}. Its transfer function is therefore given by\footnote{Recall that, the summation of the first $N$ terms of a geometric series is, with $r\neq 1$, \[\sum_{n=0}^{N-1}a r^{n} = a\frac {1 - r^n} { 1 - r }.\]}
 \begin{align*}
-    H(z) 
+    H(z)
     &= \frac 1 M \sum_{n=0}^{M-1} z^{-n}\\
-    &= \frac {1 - z^{-M}}{M(1 - z^{-1}}\\
+    &= \frac {1 - z^{-M}}{M(1 - z^{-1})}\\
     &= \frac {z^{M} - 1}{M[z^{M-1}(z - 1)]}.
 \end{align*}
 
@@ -7187,7 +7187,7 @@ Two zeros and two poles form pairs of complex conjugates, while another pole lie
             (0,0) circle[radius=2.5807];
     \end{tikzpicture}
 \end{center}
-with poles farthes from the origin have magnitude $\sqrt{0.74}$.
+with poles farther from the origin having magnitude $\sqrt{0.74}$.
 
 \section{From Transfer Function to Frequency Response}
 
@@ -7195,11 +7195,12 @@ Naturally, if the region of convergence of the transfer function includes the un
 \[
     H(e^{j\omega}) = H(z)\Bigr\rvert_{z=e^{j\omega}}.
 \]
+The above relationship relies on the fact that the frequency response is the $z$-transform of a filter, \emph{computed at the unit circle}.
 
 For a stable rational transfer function as in~\ref{eqn:rationalzTransformFactoredAlternate}, that is
 \[
     H(z) = \frac{p_0}{d_0}
-    z^{(N-m)}\frac {
+    z^{(N-M)}\frac {
         \prod_{l=1}^M\left(z - \xi_l\right)
     } {
         \prod_{l=1}^N\left(z - \lambda_l\right)
@@ -7208,7 +7209,7 @@ For a stable rational transfer function as in~\ref{eqn:rationalzTransformFactore
 the frequency response can be obtained in a factored form as well,
 \begin{equation}\label{eqn:frequencyResponseFactoredAlternate}
     H(e^{j\omega}) = \frac{p_0}{d_0}
-    e^{j\omega(N-m)}\frac {
+    e^{j\omega(N-M)}\frac {
         \prod_{l=1}^M\left(e^{j\omega} - \xi_l\right)
     } {
         \prod_{l=1}^N\left(e^{j\omega} - \lambda_l\right)
@@ -7217,19 +7218,22 @@ the frequency response can be obtained in a factored form as well,
 This form allows for a clearer understanding of the contribute of each and every pole and zero. From the above one can soon obtain the \textbf{magnitude function}
 \begin{equation}\label{eqn:magnitudeRationalTransferFunction}
     \left|H(e^{j\omega})\right| =
-    \left|\frac{p_0}{d_0}\right|\left|e^{j\omega(N-m)}\right|\frac {
+    \left|\frac{p_0}{d_0}\right|\left|e^{j\omega(N-M)}\right|\frac {
         \prod_{l=1}^M\left|e^{j\omega} - \xi_l\right|
     } {
         \prod_{l=1}^N\left|e^{j\omega} - \lambda_l\right|
     }.
 \end{equation}
 
-Similarly, one can obtain the \textbf{phase function} for a rational transfer function as follows,
-\begin{equation}\label{eqn:phaseRationalTransferFunction}
-    \arg{H(e^{j\omega})} = \arg{\frac {p_0}{d_0}} + \omega(N-M) + \sum_{k=1}^M \arg{(e^{j\omega} - \xi_k)} - \sum_{k=1}^N \arg{(e^{j\omega} - \lambda_k)}.
-\end{equation}
+The magnitude function of a transfer function is the product of the magnitude of four terms: the magnitude of the ratio between $p_0$ and $d_0$, the magnitude of $e^{j\omega (N - M)}$ (equal to $1$), the magnitude of the zeros and the magnitude of the poles.
 
-In order,
+Similarly, one can obtain the \textbf{phase function} for a rational transfer function as follows,
+\begin{align}\label{eqn:phaseRationalTransferFunction}
+	\arg{H(e^{j\omega})} &= \arg{\frac {p_0}{d_0}} + \omega(N-M) +\\
+	&+ \sum_{k=1}^M \arg{(e^{j\omega} - \xi_k)} - \sum_{k=1}^N \arg{(e^{j\omega} - \lambda_k )}.\nonumber
+\end{align}
+
+Let's analyse the four terms. In order,
 \begin{enumerate}
     \item the first term corresponds to the phase of the known terms;
     \item the second term is the phase of $z^{N-M}$;
@@ -7237,7 +7241,7 @@ In order,
     \item the fourth term is the phase of all poles at the denominator.
 \end{enumerate}
 
-For a real coefficient transfer function it can be shown that the squared norm
+For a real coefficient transfer function it can be shown that the squared magnitude function
 \begin{align*}
     \left|H(e^{j\omega})\right|^2 
     &= H(e^{j\omega}) H^*(e^{j\omega})\\
@@ -7253,6 +7257,39 @@ It follows that the magnitude-squared function of a real-coefficient transfer fu
         \prod_{l=1}^N\left(e^{j\omega} - \lambda_l\right)\left(e^{-j\omega} - \lambda^*_l\right)
     }.
 \]
+
+\subsection{Geometric interpretation of Frequency Response Computation}
+
+A geometric interpretation of the Frequency Response can be derived. The interpretation allows a filter designer to quickly plot a sketch of the frequency response of a function across the frequency domain.
+
+A typical factor $\gamma(\omega)$ in the factored form of the frequency response appears like the following one,
+\[
+	\gamma_l(\omega) = \left(e^{j\omega} - \rho_l e^{j\phi_l}\right),
+\]
+where the term $\rho_l e^{j\phi_l}$ can be either a zero or a pole, depending on the fact that the $\gamma_l(\omega)$ factor in exam lies in the numerator or in the denominator.
+
+The term $\gamma_l(\omega)$ represents a vector that starts at the point represented by the zero or pole ($\rho_l e^{j\phi_l}$) and ends on the unit circle $e^{j\omega}$ due to vector algebra. As the frequency $\omega$ varies from $0$ to $2\pi$ completing the circle, the vector rotates to match the position in the unit circle that is described by the quantity $e^{j\omega}$, making the value of the vector that results from the factor $\gamma_l(\omega)$ dependent on the frequency.
+
+\[
+	\left|H(e^{j\omega})\right| =
+	\left|\frac{p_0}{d_0}\right|
+	\frac {
+		\prod_{l=1}^M\left|\gamma_{l,z}(\omega)\right|
+	} {
+		\prod_{l=1}^N\left|\gamma_{l,p}(\omega)\right|
+	}.
+\]
+
+The overall magnitude response, as in Equation~\ref{eqn:magnitudeRationalTransferFunction}, will depend on the product of the magnitude of the vectors associated with the zeros of the transfer function (zero vectors) and the magnitude of the vectors associated with the poles of the transfer function (pole vectors), together with the magnitude of the ratio between $p_0$ and $d_0$. 
+
+\begin{align*}
+	\arg{H(e^{j\omega})} &= \arg{\frac {p_0}{d_0}} + \omega(N-M) +\\
+	&+ \sum_{l=1}^M \arg{\gamma_{l,z}(\omega)} - \sum_{l=1}^N \arg{\gamma_{l,z}(\omega)}.
+\end{align*}
+
+Similarly, as in Equation~\ref{eqn:phaseRationalTransferFunction}, the overall phase response will depend on the sum of all phase terms induced by the zero vectors and pole vectors---those, being at the denominator of the transfer function, will appear as subtracting terms (there is also the term from the linear-phase term $e^{j\omega(M-N)}$, which is $\omega(M-N)$, to be added together with the phase of the ratio between $p_0$ and $d_0$).
+
+Any term $\gamma(\omega)$ will have its minimum magnitude at the frequency $\omega = \phi$, that is the frequency at which the vector is aligned with the radius. To highly attenuate frequencies around $\omega_c$, it would be wise to place zeros very close to the unit circle in a frequency range close to $\omega_c$, so that when $\omega=\omega_c\simeq\phi$ the attenuation will be the highest possible.
 
 \section{Plots with Octave}
 
