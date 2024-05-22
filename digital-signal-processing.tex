@@ -7040,7 +7040,14 @@ which suddenly leads to
         \left(\sum_{k=0}^N d_k z^{-k}\right)
     } X(z),
 \end{equation}
-in which it is clear that the output $z$-transform is given by the input $z$-transform, multiplied by a ratio of polynomials $H(z) = \frac{P(z)}{D(z)}$ that, certainly, is the \emph{transfer function} of the system.
+in which it is clear that the output $z$-transform is given by the input $z$-transform, multiplied by a ratio of polynomials $H(z) = \frac{P(z)}{D(z)}$. The ratio of polynomials takes the name of \textbf{transfer function} of the system, and it is expressed as
+\begin{equation}\label{eqn:transferFunctionFilter}
+H(z) = \frac {
+        \left(\sum_{k=0}^M p_k z^{-k}\right)
+    } {
+        \left(\sum_{k=0}^N d_k z^{-k}\right)
+    }.
+\end{equation}
 
 To prove it, let's consider the output as given by the convolution sum
 \[
@@ -7289,7 +7296,7 @@ The overall magnitude response, as in Equation~\ref{eqn:magnitudeRationalTransfe
 
 Similarly, as in Equation~\ref{eqn:phaseRationalTransferFunction}, the overall phase response will depend on the sum of all phase terms induced by the zero vectors and pole vectors---those, being at the denominator of the transfer function, will appear as subtracting terms (there is also the term from the linear-phase term $e^{j\omega(M-N)}$, which is $\omega(M-N)$, to be added together with the phase of the ratio between $p_0$ and $d_0$).
 
-Any term $\gamma(\omega)$ will have its minimum magnitude at the frequency $\omega = \phi$, that is the frequency at which the vector is aligned with the radius. To highly attenuate frequencies around $\omega_c$, it would be wise to place zeros very close to the unit circle in a frequency range close to $\omega_c$, so that when $\omega=\omega_c\simeq\phi$ the attenuation will be the highest possible.
+Any term $\gamma(\omega)$ will have its minimum magnitude at the frequency $\omega = \phi$, that is the frequency at which the vector is aligned with the radius. To highly attenuate frequencies around $\omega_c$, it would be wise to place zeros very close to the unit circle in a frequency range close to $\omega_c$, so that when $\omega=\omega_c\simeq\phi$ the attenuation will be the highest possible. Similarly, to emphasize signal components in a specific frequency range $\omega_d$, we will need to place poles very close to the unit circle (not above!), close to the target frequencies.
 
 \section{Plots with Octave}
 
@@ -7354,6 +7361,114 @@ Note that in all examples, plotting the magnitude of each $W(z)$ means going thr
 \end{figure*}
 
 \clearpage
+
+\section{Stability condition in terms of pole locations}
+
+An important aspect in the study of digital filters is assessing their \emph{stability}. 
+We will say that a digital filter is \textbf{BIBO Stable} if and only if its
+impulse respone $h[n]$ is absolutely summable, that is
+\[
+	\mathcal S = \sum_{k=-\infty}^{\infty} |h[k]| < \infty,
+\]
+as previously seen in Theorem~\ref{eqn:ltiBiboStability}.
+The goal now is to develop a faster way to assess BIBO stability of a digital
+filter by knowing its $H(z)$ transfer function.
+
+As we have seen in Section~\ref{sec:zTransform}, the region of convergence of the $z$-transform $H(z)$ of an impulse response $h[n]$ is defined by all values $|z| = r$ for which the quantity $h[n]r^{-n}$ is absolutely summable, that is
+\[
+	\sum_{k=-\infty}^{\infty} \left|h[n]r^{-n}\right| < \infty.
+\]
+
+Remarkably, if $r=1$ then the above becomes the BIBO stability condition as in Theorem~\ref{eqn:ltiBiboStability}, so in order for the above to be stable when $r = 1$ the impulse response alone has to be absolutely summable. Geometrically, this means that if the region of convergence includes the unit circle $|z| = r = 1$, then the digital filter is BIBO stable. Hence, \emph{if the region of convergence of the $z$-transform of the impulse response includes the unit circle, then the associated LTI system is BIBO stable.}
+
+In addition, for any stable and causal digital filter whose $h[n]$ is a right-sided sequence, the region of convergence will include the unit circle and the entire $z$-plane, including the point at infinity $z = \infty$. This is because, in order for it to be stable, the region of convergence must include the unit circle, and as all causal sequences, it expands up to infinity. 
+
+Stability also depends on impulse response duration.
+Regarding finite impulse response filters, we can tell that \emph{any FIR digital filter with bounded impulse response is always BIBO stabile}. On contrary, infinite impulse response filters are not guaranteed to be stable, as their stability ultimately depend on their design.
+
+To further complicate things, proper or improper quantization of infinite precision coefficients that depend on actual implementation can possibly make unstable any previously stable filter.
+
+As an example, let's consider the filter expressed by the following causal IIR transfer function
+
+\begin{equation}\label{eqn:exampleCoefficientsApproximationLeadsToInstabilityStableCase}
+	H(z) = \frac {
+		1
+	}	{
+		1 - 1.845z^{-1} + 0.850586z^{-2}.
+	}
+\end{equation}
+
+As we can see from Figure~\ref{oct:iirStableUnstableApprox}, the filter is
+stable as its impulse response decays over time as $n$ increases. Now, if we
+consider an alternate version of the same filter, this time with up to $2$
+decimal digits as follows,
+\begin{equation}\label{eqn:exampleCoefficientsApproximationLeadsToInstabilityUnstableCase}
+	H(z) = \frac {
+		1
+	}	{
+		1 - 1.85z^{-1} + 0.85z^{-2},
+	}
+\end{equation}
+this time the filter is \emph{unstable} as shown in Figure~\ref{oct:iirStableUnstableApprox} below, as its output does not decay over time with increasing values of $n$. A small approximation had been enough for this filter to become unstable. In this specific case, the approximated impulse response develops rapidly into a constant value, violating the (absolute) summability condition.
+
+\begin{figure*}[ht]
+\begin{center}
+\scalebox{0.6}{
+    \input{octaves/iirStableUnstableApprox.tex}
+}\caption{Plot of transfer function $H(z)$ as in Equation~\ref{eqn:exampleCoefficientsApproximationLeadsToInstabilityStableCase} (top) and its $2$-decimal-digits approximated version as in Equation~\ref{eqn:exampleCoefficientsApproximationLeadsToInstabilityUnstableCase} (bottom). Notice how the first filter is stable, while its approximation, despite having a very similar transfer function, results in a completely unstable filter due to decimal digits rounding.}\label{oct:iirStableUnstableApprox}
+\end{center}
+\end{figure*}
+
+Generally speaking, it is very hard to correctly compute the infinite sum $\mathcal S = \sum_{k=-\infty}^{\infty} |h[k]|$ to test BIBO stability condition as in Theorem~\ref{eqn:ltiBiboStability}. Hence, sometimes it can be enough to compute an \emph{approximate sum} over a finite number $\kappa$ of terms, adopting an algorithm that takes in account the difference with the previous term of the sum. The approximated sum is
+\begin{equation}\label{eqn:ltiBiboStabilityApproximatedSumUpToK}
+	\mathcal {S}_\kappa = \sum_{k=0}^{\kappa - 1} \left| h[k] \right|.
+\end{equation}
+
+The partial sum as in~\ref{eqn:ltiBiboStabilityApproximatedSumUpToK} is computed for increasing values of $\kappa$, until the difference betweem a series of consecutive values of $\mathcal {S}_\kappa$ is smaller than some arbitrarily chosen threshold $\varepsilon$, which is typically $\varepsilon = 10^{-6}$. Hence, the filter is deemed to be stable if, within a certain number $\kappa < \kappa_{max}$ the series $\mathcal {S}_\kappa < varepsilon$.
+
+Still, this approach might not be good; for transfer functions of very high order, the approach might become expensive and overall complex. Thus, another stability condition which is easier to test shall be developed next.
+
+Consider the causal IIR digital filter with a rational transfer function as in Equation~\ref{eqn:transferFunctionFilter}, that is
+\[
+	H(z) = \frac {
+	        \left(\sum_{k=0}^M p_k z^{-k}\right)
+	    } {
+	        \left(\sum_{k=0}^N d_k z^{-k}\right)
+	    }.
+\]
+
+If its impulse response $h[n]$ is a right sided sequence, then the region of convergence of $H(z)$ as above is exterior to a circle going through the pole that is the furthest from $z=0$. Since the BIBO stability condition as in~\ref{eqn:ltiBiboStability} requires that the impulse response $h[n]$ be absolutely summable, and since if $h[n]$ is absolutely summable then the DTFT $H\left(e^{j\omega}\right)$ of $h[n]$ exists and the DTFT lies in the unit circle, therefore it is clear that \emph{all poles of a causal stable transfer function $H(z)$ must be strictly inside the unit circle} as in the unit circle,
+\[
+	H\left(e^{j\omega}\right) = \left.H(z)\right|_{z=e^{j\omega}}.
+\]
+
+Referring to systems $H_u(z)$ as in~\ref{eqn:exampleCoefficientsApproximationLeadsToInstabilityStableCase} and its approximation $H_a(z)$ as in~\ref{eqn:exampleCoefficientsApproximationLeadsToInstabilityUnstableCase}, the first system has poles at $p_0=0.9430$ and $p_1=0.9020$, as can be seen with the following \textsc{octave} commands,
+
+\begin{verbatim}
+> [z,p,k] = tf2zp(Hu)
+z = [](0x1)
+p =
+
+   0.9430
+   0.9020
+
+k = 1
+\end{verbatim}
+
+Differently, the system described by the transfer function $H_a(z)$ will have poles at $p_0 = 1.0000$ and $p_1=0.8500$,
+
+\begin{verbatim}
+> [z,p,k] = tf2zp(Ha)
+z = [](0x1)
+p =
+
+   1.0000
+   0.8500
+
+k = 1
+\end{verbatim}
+
+Since the first system has all its poles within the unit circle, it is stable. On contrary, the second approximated system has a pole that lines in the unit circle, and as such it is an unstable system. This has been already confirmed by plot in Figure~\ref{oct:iirStableUnstableApprox}.
 
 \section{Types of Transfer Functions}
 
