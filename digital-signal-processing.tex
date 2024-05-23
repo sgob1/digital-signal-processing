@@ -7617,6 +7617,8 @@ one has that the output energy is equal to the input energy---such a digital fil
 
 Both BR and LBR transfer functions are the keys to the realization of digital filters with \emph{low coefficient sensitivity}.
 
+To summarise, bounded read transfer functions (BR) possess the unique characteristic of \emph{lowering the energy of the sequence} that passes through them, so that the output sequence will never possess more energy than the input sequence.
+
 \subsubsection{Example}
 As an example, consider a causal IIR transfer function
 \[
@@ -7627,7 +7629,7 @@ As an example, consider a causal IIR transfer function
     },
     0 < |\alpha| < 1
 \]
-where $K$ and $\alpha$ are real constants. Its square-magnitude function is given by the following
+where $K$ and $\alpha$ are real constants. It is well-known that such a transfer functions comes from the impulse response $h[n] = K\alpha^n\mu[n]$, considered causal since nothing has been said on that regard. Its square-magnitude function is given by the following
 \[
     \left|H(e^{j\omega})\right|^2 = H(z)H(z^{-1})\Bigr\rvert_{z=e^{j\omega}} =
         \frac {
@@ -7663,7 +7665,7 @@ at $\omega=0$, and the minimum value is
         (1 + \alpha)^2
     }
 \]
-at $\omega=\pi$.
+at $\omega=\pi$. To obtain the above, we trivially used the reverse square of binomial formula.
 
 It is clear now that the properties of the transfer function all depend on the particular choice of $\alpha$ and $K$. For instance, in order to obtained a maximum value equal to $1$ one can choose $K = \pm(1 - \alpha)$, and in that case the minimum value will become
 \[
@@ -7710,47 +7712,58 @@ Some transfer functions are completely flat---such systems are said to be \emph{
 \begin{center}
 \scalebox{0.45}{
     \input{octaves/allpassTransferFunctionMirrorExample.tex}
-}\caption{Plot of magnitude functions and phase functions of $H(z) = \frac{K}{(1 - \alpha z^{-1})}$, for values of $K=0.5$ and $\alpha=\pm 0.5$. The first of the two filters acts as a lowpass filter, while the other one behaves like a highpass filter.}\label{oct:allpassTransferFunctionMirrorExample}
+}\caption{Plot of zeros and poles of the allpass transfer function $\mathcal A_3(z) = \frac {
+        -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
+    } {
+        1 + 0.4 z^{-1} + 0.18z^{-2} - 0.2z^{-3}
+    }$, as in Example~\ref{eqn:allpassTransferFunctionMirroringExample}. One can notice soon that all poles are mirrored by a related zero beyond the unit circle, and viceversa. Such a mirroring determines the peculiar characteristics of an allpass filter.}\label{oct:allpassTransferFunctionMirrorExample}
 \end{center}
 \end{figure*}
 
-An allpass filter, basically, is a filter which simply \emph{passess all frequences}; Equation~\ref{eqn:allpassTransferFunctionM} gives the form of such filter. By calling the denominator of $\mathcal A_M(z)$ as $D_M(z)$
+An allpass filter, basically, is a filter which simply \emph{passess all frequences}; Equation~\ref{eqn:allpassTransferFunctionM} gives the form of such filter.
+
+The first thing one has to notice is that, differently from forms as in Equation~\ref{eqn:transferFunctionFilter}, whose numerator has a different order $N$ than the denominator, the numerator has the same order $M$ of the denominator. This means that there will be the same amount of zeros as the number of poles.
+
+ By calling the denominator of $\mathcal A_M(z)$ as $D_M(z)$
 \[
     D_M(z) = 1 + d_1z^{-1} + \cdots + d_{M-1}z^{-M+1} + d_Mz^{-M},
 \]
 it follows that one can rewrite $\mathcal A_M(z)$ in the following manner,
 \begin{equation}\label{eqn:allpassTransferFunctionMCompact}
-    \mathcal A_M(z) = \pm \frac {
-        z^{-M} D_M(z^{-1})
+    \mathcal A_M(z) = \pm z^{-M} \frac {
+        D_M(z^{-1})
     } {
         D_M(z)
     }
 \end{equation}
-Notice how the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. In fact, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. This is the rule of a very important scenario---for this reason, the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} (MIP) of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a tilde,
+
+Now, the above expression shows a remarkable property, as an allpass system is entirely described by a transfer function that has the same function to describe both poles and zeros, except for the argument (the zeros function will possess a reciprocal of $z$ as its argument, differently from the function describing the denominator which has $z$ as argument). In fact, the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. Indeed, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. 
+
+This is a paramount rule---the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} (MIP) of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a \emph{tilde},
 \begin{equation}\label{eqn:mirrorImagePolynomial}
     \tilde{D}_M(z) = z^{-M}D_M(z^{-1}).
 \end{equation}
 
-Later on a similar concept will also prove useful---similarly to the mirror-image polynomial, one can define an \textbf{antimirror-image polynomial} (AIP) as any polynomial that satisfies the following equation,
+Later on a similar concept will also prove useful---similarly to the mirror-image polynomial, one can define an \textbf{an\-ti\-mir\-ror-i\-mage polynomial} (AIP) as any polynomial that satisfies the following equation,
 \begin{equation}\label{eqn:antimirrorImagePolynomial}
     \tilde{D}_M(z) = -z^{-M}D_M(z^{-1}).
 \end{equation}
 
 
 From the mirror-image property, a fundamental property can be inferred: all poles and zeros of a real-coefficient allpass transfer function must exhibit a \emph{mirror-image symmetry} in the z-plane, with respect to the unit circle. For instance, let's plot the following
-\[
+\begin{equation}\label{eqn:allpassTransferFunctionMirroringExample}
     \mathcal A_3(z) = \frac {
         -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
     } {
         1 + 0.4 z^{-1} + 0.18z^{-2} - 0.2z^{-3}
     }
-\]
+\end{equation}
 into Figure~\ref{oct:allpassTransferFunctionMirrorExample}.
 
 To show off that the filter is an allpass filter, that is $\left| \mathcal A_M(e^{j\omega}) \right| = 1$, one has to simply observe that
 \[
-    \mathcal A_M(z^{-1}) = \pm \frac {
-        z^{M} D_M(z)
+    \mathcal A_M(z^{-1}) = \pm z^{M} \frac {
+        D_M(z)
     } {
         D_M(z^{-1})
     }.
@@ -7772,30 +7785,22 @@ which immediately leads to
 \[
     \left|\mathcal A_M(e^{j\omega})\right|^2 = \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
 \]
-a situation which undoubtedly yields
+an outcome which undoubtedly yields
 \[
     \left|\mathcal A_M(e^{j\omega})\right| = 1.
 \]
 
-In order for a transfer function to be causal, it must lie \emph{inside} the unit circle in the z-plane---else, the region of convergence would not contain the unit circle, and as a result the corresponding transfer function would never be stable. Since all poles should stay inside the unit circle, and since the \emph{mirror-image polynomial} will contain all zeros whose location is given by the mirroring property, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle. Indeed, this is what occurs, as shown in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for an example allpass filter given by the formula
-\[
-    A_3(z) = \frac{
-        -0.2 + 0.18z^{-1} + 0.4z^{-2} + z^{-3}
-    } {
-        1 + 0.4z^{-1} + 0.18z^{-2} - 0.2z^{-3}
-    }, 
-\]
-and what generally happens for every allpass filter.
+In order for a transfer function to be causal, it must lie \emph{inside} the unit circle in the z-plane---else, the region of convergence would not contain the unit circle, and as a result the corresponding transfer function would never be stable. Since all poles should stay inside the unit circle, and since the \emph{mirror-image polynomial} will contain all zeros whose location is given by the mirroring property, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle as their mirrored poles counterparts have to forcefully stay within the unit circle. Indeed, this is what occurs, as shown in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for the example allpass filter given by the formula in Example~\ref{eqn:allpassTransferFunctionMirroringExample}, and what generally happens for every allpass filter.
 
 \begin{figure*}[ht]
 \begin{center}
 \scalebox{0.45}{
     \input{octaves/allpassTransferFunctionMirrorExamplePhase.tex}
-}\caption{Principal value---wrapped and unwrapped---of $3$-rd order allpass function $A_3(z)$. Notice the discointinuity by the amount of $2\pi$ in the phase $\theta(\omega)$; the discontinuity is generally solved by unwrapping the phase as seen in previous chapters.}\label{oct:allpassTransferFunctionMirrorExamplePhase}
+}\caption{Principal value---wrapped and unwrapped---of $3$-rd order allpass function $\mathcal A_3(z)$. Notice the discontinuity by the amount of $2\pi$ in the phase $\theta(\omega)$; the discontinuity is generally solved by unwrapping the phase as seen in previous chapters.}\label{oct:allpassTransferFunctionMirrorExamplePhase}
 \end{center}
 \end{figure*}
 
-Let's also plot the phase function of the above filter. Figure~\ref{oct:allpassTransferFunctionMirrorExamplePhase} shows the principal value and the unwrapped phase function of filter $A_3(z)$.
+Let's also plot the phase function of the above filter. Figure~\ref{oct:allpassTransferFunctionMirrorExamplePhase} shows the principal value and the unwrapped phase function of filter $\mathcal A_3(z)$.
 Generally speaking, the unwrapped phase function of \emph{any allpass function} which is also causal and stable is a continuous function in $\omega$.
 
 Some other paramount properties will be highlighted in the next section.
@@ -7803,10 +7808,12 @@ Some other paramount properties will be highlighted in the next section.
 \subsection{Properties of allpass transfer functions}
 The main properties of allpass transfer functions that distinguish them from a generic transfer functions are the following three.
 \begin{enumerate}
-    \item A causal, stable, real-coefficient allpass transfer function is a \emph{lossless bounded real} (LBR) function; or, equivalently, a causal stable allpass filter is a \emph{lossless structure};
-    \item the magnitude function of a stable allpass function $A(z)$ satisfies the following
+    \item A causal, stable, real-coefficient allpass transfer function is a \emph{lossless bounded real} (LBR) function; or, equivalently, a causal stable allpass filter is a \emph{lossless structure}---this is due to the fact that \[
+	    \left|\mathcal A_M(e^{j\omega})\right|^2 = \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
+		\] leading to a lossless system;
+    \item the magnitude function of a stable allpass function $\mathcal A_M(z)$ satisfies the following
         \[
-            |A(z)| = 
+            |\mathcal A_M(z)| = 
             \left\{
                 \begin{array}{ll}
                     < 1, & |z| > 1\\
@@ -7815,19 +7822,19 @@ The main properties of allpass transfer functions that distinguish them from a g
                 \end{array}
             \right..
         \]
-        Hence, the magnitude in the z-plane is equal to $1$ only in the unit circle, and greater or smaller than $1$ depending---respectively---whether $z$ is inside or outside the unit circle;
-    \item let $\tau(\omega)$ be the group delay function of an allpass filter $A(z)$, then
+        Hence, the magnitude in the z-plane is equal to $1$ only in the unit circle, and greater or smaller than $1$ depending---respectively---whether $z$ is inside or outside the unit circle. Since the frequencies of interest are those in the unit circle---those which map to the associated Fourier Transform---the filter will act as an allpass (magnitude equal to $1$ for all frequencies) for input signals;
+    \item let $\tau(\omega)$ be the group delay function of an allpass filter $\mathcal A_M(z)$, then
         \[
             \tau(\omega) = -\frac{d}{d\omega}[\theta_c(\omega)]
         \]
         is equal to the negative derivative of the \emph{unwrapped} phase function $\theta_c(\omega)$.
-\end{enumerate}
-The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following integral equation,
-\begin{equation}\label{eqn:allpassIntegralPhaseEquation}
-    \int_0^\pi \tau(\omega)d\omega = M\pi.
-\end{equation}
+		The unwrapped phase function $\theta_c(\omega)$ of $A(z)$, a stable allpass transfer function, is a monotonically decreasing function in $\omega$ so that $\tau(\omega)$ is \emph{everywhere positive} in the range of frequencies $0 < \omega < \pi$. In addition, the group delay of an $M$-th order stable real coefficient allpass transfer function satisfies the following integral equation,
+		\begin{equation}\label{eqn:allpassIntegralPhaseEquation}
+		    \int_0^\pi \tau(\omega)d\omega = M\pi.
+		\end{equation}
 
-Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will be proportional to the order of the filter. In particular, a single pole will induce a rotation of $\pi$, whilst pole pairs will induce rotations of $2\pi$. Zeros will not introduce any rotation---either single ones or a pair of them will generate $0$ radians rotation. Generally speaking, an allpass transfer function with an order of $M$ will induce a phase rotation of $M\pi$, as indeed expressed by Equation~\ref{eqn:allpassIntegralPhaseEquation}.
+		Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will be proportional to the order of the filter. In particular, a single pole will induce a rotation of $\pi$, whilst pole pairs will induce rotations of $2\pi$. Zeros will not introduce any rotation---either single ones or a pair of them will generate $0$ radians rotation. This is shown in Figure~\ref{tikz:phaseRotationPolesZeros}. Generally speaking, an allpass transfer function with an order of $M$ will induce a phase rotation of $M\pi$, as indeed expressed by Equation~\ref{eqn:allpassIntegralPhaseEquation}.
+\end{enumerate}
 
 \begin{figure*}
 \begin{center}
@@ -7901,32 +7908,43 @@ Phase rotation for $\omega$ from $0$ to $\pi$ in allpass transfer function will 
         \pic [draw, stealth-, red, "$\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = pi--pzero--O};
         \pic [draw, stealth-, blue, "$-\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = O--nzero--pi};
     \end{tikzpicture}
-\end{center}\caption{Phase rotation induced by poles and zeros, in example configurations. In red and blue, induced phase rotations by the poles--zeros. On top-left, single pole configuration; top-right, double pole configuration; bottom-left, single zero configuration (notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle) and bottom-right, double zero configuration. In the last configuration, the two zeros induce an opposite phase rotation, resulting in no induced rotation. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
+\end{center}\caption{Phase rotation induced by poles and zeros, in example configurations. In red and blue, induced phase rotations by the poles--zeros. The amount of rotation is determined by the sum of the rotations of the zero--pole vectors in exam, when moving from frequency $0$ to frequency $\pi$. On top-left, a single pole configuration, showing that the amount of rotation is exactly $\pi$---any single pole is forced to lie in the real axis, as they would otherwise form a complex-conjugate pair. On top-right, double pole configuration; this requires some more calculations, as the above pole will rotate $\pi + \alpha + \beta$, whilst the below one will compensate for the $\alpha$ and $\beta$ angles with a rotation of $\pi - \alpha - \beta$, for a total rotation of $\pi + \pi = 2\pi$. On bottom-left a single zero configuration---notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle and it must lie in the real axis, as it is a single zero. Finally, on bottom-right, double zero configuration; in this last configuration, the two zeros induce an opposite phase rotation $\gamma$, resulting in no induced total rotation as their sum, $\gamma - \gamma$, is always zero. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
 \end{figure*}
 
 \subsection{Delay equalizers}\label{sec:delayEqualizers}
 
 Allpass filters are not only an abstract concept; they can find their applications in many fields and techniques, for instance as happens for \textbf{delay equalizers}.
 
-Let $G(z)$ be the transfer function of a digital filter designed to meet a prescribed magnitude response. Broadly speaking, what usually happens is that such a filter will introduce a \emph{nonlinear phase response} due to its peculiar shape and properties. Such a phase distortion should be corrected, just like a pair of glasses should be prescribed to a visually impaired person. To correct the phase response it could be useful to employ an allpass filter with a proper phase response---such a filter will leave the magnitude response unscathered (because $|A(e^{j\omega})| = 1$) while modifying the phase response so that the overall cascade of filters will have a \emph{constant group delay} in the band of interest.
+
+In general, exact linear-phase filters will be rather expensive. Approximate solutions shall be adopted; however, they're very prone to show phase distortions in the group delay response, especially if the filter poles are very close to the unit circle. To compensate with this phenomenon, a delay equalizer can be adopted to simply `restore' the original signal's phase, while applying the magnitude response of the desired approximated filter.
+
+Let $G(z)$ be the transfer function of a digital filter designed to meet a prescribed magnitude response. Broadly speaking, what usually happens is that such a filter will introduce a \emph{nonlinear phase response} due to its peculiar shape and properties. Such a phase distortion should be corrected, just like a pair of glasses should be prescribed to a visually impaired person. To correct the phase response it could be useful to employ an allpass filter with a proper phase response---such a filter will leave the magnitude response unscathered (because $|\mathcal A(e^{j\omega})| = 1$) while modifying the phase response so that the overall cascade of filters will have a \emph{constant group delay} in the band of interest.
 
 \begin{center}
     \begin{tikzpicture}
         \node[draw, thick, rectangle, minimum width=2cm, minimum height=.9cm](G) at (0, 0) {$G(z)$};
-        \node[draw, thick, rectangle, minimum width=2cm, minimum height=.9cm](A) at (3, 0) {$A(z)$};
-        \draw[-stealth] (-2, 0) -- (G);
-        \draw[-stealth] (G) -- (A);
-        \draw[-stealth] (A) -- (5, 0);
+        \node[draw, thick, rectangle, minimum width=2cm, minimum height=.9cm](A) at (3, 0) {$\mathcal A(z)$};
+        \node (x) at (-2, 0) {$x[n]$};
+        \node (y) at (5, 0) {$y[n]$};
+        \draw[-stealth] (x) -- (G);
+        \draw[-stealth] (G) -- node[above] {$\tilde{y}[n]$} (A);
+        \draw[-stealth] (A) -- (y);
     \end{tikzpicture}
 \end{center}
 
-The overall magnitude will be identical to the magnitude of the original filter $|G(e^{j\omega})A(e^{j\omega})| = |G(e^{j\omega})|$, but the overall group delay will be the \emph{sum} of the group delays of $G(z)$ and $A(z)$.
+As the picture above shows, a sequence $x[n]$ is passed into the filter $G(z)$, which causes a distorted output $\tilde{y}[n]$. The distorted output phase group delay response can be restored by means of the allpass filter $\mathcal A(z)$, to obtain the `proper' output $y[n]$.
+
+Such an output $y[n]$ filter will have a magnitude that is identical to the magnitude of the original filter, as 
+\[
+	|G(e^{j\omega})\mathcal A(e^{j\omega})| = |G(e^{j\omega})|,
+\]
+but the overall group delay will be the \emph{sum} of the group delays of $G(z)$ and $\mathcal A(z)$. Choosing the appropriate allpass transfer function will result in an optimal group delay equalization.
 
 \section{Classification of transfer functions based on phase characteristics}
 
 Transfer functions can be classified with respect to their unique \emph{phase characteristics}. Commonly, manipulating signals and sequences with filters or digital filters can introduce phase distortions, just like those addressed by the delay equalizers in Section~\ref{sec:delayEqualizers}. Phase distortions can be ignored or not depending on the situation and the application---in some cases, it is absolutely mandatory to correct any distortion of the input signal components' phase, especially in the band of interest. In such situations it is imperative to design a so-called \textbf{zero phase characteristic filter}.
 
-Zero phase characteristic filters are special filters that ideally have a \emph{real} and \emph{non-negative} characteristic. Unfortunately, it is not possible to build \emph{causal} digital filters with zero phase---therefore it is only possible to operate such zero phase characteristic filters on application that do not require \emph{real-time processing}. To say it shortly, zero phase filters can never be achieved if the filter is a causal filter, and for that reason real-time applications which strictly require causality are immediately put out of this game.
+Zero phase characteristic filters are special filters that ideally have a \emph{real} and \emph{non-negative} characteristic. Unfortunately, it is not possible to build \emph{causal} digital filters with zero phase---therefore it is only possible to operate such zero phase characteristic filters on applications that do not require \emph{real-time processing}. To say it shortly, zero phase filters can never be achieved if the filter is a causal filter, and for that reason real-time applications which strictly require causality are immediately put out of this game.
 
 A straightforward zero phase filtering scheme is sketched in the following diagram,
 
@@ -7953,7 +7971,7 @@ which can be soon understood by focusing on the frequency domain. Let $X(e^{j\om
     V(e^{j\omega}) &= H(e^{j\omega})X(e^{j\omega}),\\
     W(e^{j\omega}) &= H(e^{j\omega})U(e^{j\omega}),\\
     U(e^{j\omega}) &= V^*(e^{j\omega}),\\
-    V(e^{j\omega}) &= W^*(e^{j\omega}).
+    Y(e^{j\omega}) &= W^*(e^{j\omega}).
 \end{align*}
 (Remember that, for a complex-valued sequence $x[n]$, the DTFT of $x[-n]$ is $X(e^{-j\omega})$ and that $X(e^{j\omega}) = X^*(e^{-j\omega})$, so the above relationships are indeed correct.) Then, let's combine the above equations. This leads to a direct relationship between the input and the overall output
 \begin{align*}
@@ -7962,19 +7980,27 @@ which can be soon understood by focusing on the frequency domain. Let $X(e^{j\om
                    &= \left|H(e^{j\omega})\right|^2X(e^{j\omega}).
 \end{align*}
 
-We have just obtained the DTFT of the output $Y$ as the DTFT input $X$ multiplied by the square magnitude of the filter's transfer function $\left|H(e^{j\omega})\right|^2$. In designing a filter, it is acceptable to replace a desired $H(e^{j\omega})$ directly with its square magnitude $\left|H(e^{j\omega})\right|^2$, in order to obtain a zero phase transfer function.
+We have just obtained the DTFT of the output $Y$ as the DTFT input $X$ multiplied by the square magnitude of the filter's transfer function $\left|H(e^{j\omega})\right|^2$. In designing a filter, it is acceptable to replace a desired $H(e^{j\omega})$ directly with its square magnitude $\left|H(e^{j\omega})\right|^2$, in order to obtain a zero phase transfer function. This---however---comes at a cost: the involved filter requires to perform \emph{time-reversal} operations, which need future samples and as such they are impossible to perform with past samples only, cutting out the chance of building a \emph{causal} zero-phase filter with this technique. Essentially, since time-reversal operations are required, all signal's data, past and future, must be available at any time and for this specific reason this technique will never result in a causal filter.
 
-On \textsc{Matlab}, a function called \texttt{filtfilt} can be employed to implement a zero phase filtering scheme such as the former.
-
+On \textsc{Matlab}, a function called \texttt{filtfilt} can be employed to implement a non-causal zero phase filtering scheme such as the former that has been described just above.
 
 \subsection{Linear phase transfer functions}\label{sec:linearPhaseTransferFunctions}
 
-Now, the previous trick only works in the context of non-causal requirements, which cuts off every real-time application. What can we do in order to avoid phase distortion in all real-time contexts, respecting the causality requirement?
+Now, the previous trick only works in the context of non-causal requirements, which cuts off every real-time application. This also includes zero phase pseudo-real-time techniques, such as taking a portion of the incoming input sequence, applying a zero phase digital filter, and going on with the next portion (this technique is rather expensive, and still introduces a significant delay, as no output sequence will be produced until enough input data has been first collected and then processed). What can we do then in order to avoid phase distortion in all real-time contexts, respecting the causality requirement?
 
 In such scenarios, the phase distortion can be avoided by ensuring that the transfer function
 has a \emph{unity magnitude} and a \textbf{linear phase characteristic} in the band of interest. The resulting filtering scheme is said to have a \textbf{linear phase transfer function}.
 
 In signal processing, linear phase is a property of a filter where the phase response of the filter is a linear function of frequency. The result is that all frequency components of the input signal are shifted in time (usually delayed) by the same constant amount (the slope of the linear function), which is referred to as the group delay. Consequently, there is no phase distortion due to the time delay of frequencies relative to one another. For discrete-time signals, perfect linear phase is easily achieved with a finite impulse response (FIR) filter by having coefficients which are symmetric or anti-symmetric. Approximations can be achieved with infinite impulse response (IIR) designs, which are more computationally efficient\cite{bib:linearPhase}.
+
+In general, Finite--impulse response filters possess some notable characteristics that differentiate them from the Infinite--impulse response design, as they\cite{bib:firVsIIR}:
+\begin{itemize}
+	\item \emph{require no feedback}---any rounding errors are not compounded by summed iterations, and across all calculations the same relative error occurs. Essentially, this guarantees that implementation errors do not sum over time, making implementation safer, more correct and ultimately simpler;
+	\item \emph{are inherently stable}---as the output is a finite sum of terms coming from input values in the form of multiples of past input samples, the output cannot be larger than $\sum_{b_i}$ times the largest value in the input sequence, and as such they are BIBO stable;
+	\item \emph{can be designed to have linear phase}---by making the coefficients in the impulse response symmetric. This property is sometimes desired for phase-sensitive applications, for example data communications, seismology, crossover filters, and mastering.
+\end{itemize}
+
+The main disadvantage of FIR filters is that considerably more computation power in a general purpose processor is required compared to an IIR filter with similar sharpness or selectivity, especially when low frequency (relative to the sample rate) cutoffs are needed. However, many digital signal processors provide specialized hardware features to make FIR filters approximately as efficient as IIR for many applications\cite{bib:firVsIIR}.
 
 Practically, linear phase transfer functions are adopted in all cases where it is desired to pass input signal components \emph{in a certain specific frequency range}---that is, the band of interest---undistorted in both magnitude and phase; this purpose is easily attained by linear phase transfer functions, as their magnitude is equal to $1$ and their phase is linear in a peculiar frequency range.
 
