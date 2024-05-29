@@ -7362,7 +7362,7 @@ Note that in all examples, plotting the magnitude of each $W(z)$ means going thr
 
 \clearpage
 
-\section{Stability condition in terms of pole locations}
+\section{Stability condition in terms of pole locations}\label{sec:stabilityConditionPoleLocations}
 
 An important aspect in the study of digital filters is assessing their \emph{stability}. 
 We will say that a digital filter is \textbf{BIBO Stable} if and only if its
@@ -7724,6 +7724,8 @@ An allpass filter, basically, is a filter which simply \emph{passess all frequen
 
 The first thing one has to notice is that, differently from forms as in Equation~\ref{eqn:transferFunctionFilter}, whose numerator has a different order $N$ than the denominator, the numerator has the same order $M$ of the denominator. This means that there will be the same amount of zeros as the number of poles.
 
+The second thing is that the coefficients of the numerator are the same ones as the denominator, only in resverse order (the coefficient of term $z^{-M}$ will be $d_M$ for the denominator, and $d_0=1$ for the numerator, the coefficient of $z^{M-1}$ will be $d_{M-1}$ for the denominator, and $d_1$ for the numerator, and so on).
+
  By calling the denominator of $\mathcal A_M(z)$ as $D_M(z)$
 \[
     D_M(z) = 1 + d_1z^{-1} + \cdots + d_{M-1}z^{-M+1} + d_Mz^{-M},
@@ -7739,7 +7741,7 @@ it follows that one can rewrite $\mathcal A_M(z)$ in the following manner,
 
 Now, the above expression shows a remarkable property, as an allpass system is entirely described by a transfer function that has the same function to describe both poles and zeros, except for the argument (the zeros function will possess a reciprocal of $z$ as its argument, differently from the function describing the denominator which has $z$ as argument). In fact, the above equation will have a zero at $z=\frac 1 r e^{j\varphi}$ for any pole at $z = re^{j\varphi}$, thanks to Equation~\ref{eqn:allpassTransferFunctionMCompact}. Indeed, to any pole $z_p = \varkappa$ will correspond a zero at position $z_s = \frac 1 \varkappa$, the reciprocal of the pole. 
 
-This is a paramount rule---the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} (MIP) of the denominator, and vice versa. Mirror-image polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a \emph{tilde},
+This is a paramount rule---the numerator of a real-coefficient allpass transfer function is said to be the \textbf{mirror-image polynomial} (MIP) of the denominator, and vice versa. Mir\-ror-i\-ma\-ge polynomials will carry an amount of zeros which is equal to the amount of poles expressed by the denominator, in a position which is determined by the ``reflection'' of the poles in the unit circle---it is from this reflection process that the mirror-image polynomials got their name. One can then employ a convenient notation to denote the mirror-image polynomial of a degree-$M$ polynomial $D_M(z)$, for instance by denoting the polynomial with a \emph{tilde},
 \begin{equation}\label{eqn:mirrorImagePolynomial}
     \tilde{D}_M(z) = z^{-M}D_M(z^{-1}).
 \end{equation}
@@ -7785,10 +7787,11 @@ which immediately leads to
 \[
     \left|\mathcal A_M(e^{j\omega})\right|^2 = \mathcal A_M(z) \mathcal A_M(z^{-1})\Bigr\rvert_{z=e^{j\omega}} = 1,
 \]
-an outcome which undoubtedly yields
+and since
 \[
-    \left|\mathcal A_M(e^{j\omega})\right| = 1.
+    \left|\mathcal A_M(e^{j\omega})\right| = 1
 \]
+the above transfer function is an allpass.
 
 In order for a transfer function to be causal, it must lie \emph{inside} the unit circle in the z-plane---else, the region of convergence would not contain the unit circle, and as a result the corresponding transfer function would never be stable. Since all poles should stay inside the unit circle, and since the \emph{mirror-image polynomial} will contain all zeros whose location is given by the mirroring property, all zeros of a causal stable allpass transfer function \emph{must} lie outside the unit circle as their mirrored poles counterparts have to forcefully stay within the unit circle. Indeed, this is what occurs, as shown in Figure~\ref{oct:allpassTransferFunctionMirrorExample} for the example allpass filter given by the formula in Example~\ref{eqn:allpassTransferFunctionMirroringExample}, and what generally happens for every allpass filter.
 
@@ -7908,7 +7911,7 @@ The main properties of allpass transfer functions that distinguish them from a g
         \pic [draw, stealth-, red, "$\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = pi--pzero--O};
         \pic [draw, stealth-, blue, "$-\gamma$", angle radius=5mm, angle eccentricity=.55] {angle = O--nzero--pi};
     \end{tikzpicture}
-\end{center}\caption{Phase rotation induced by poles and zeros, in example configurations. In red and blue, induced phase rotations by the poles--zeros. The amount of rotation is determined by the sum of the rotations of the zero--pole vectors in exam, when moving from frequency $0$ to frequency $\pi$. On top-left, a single pole configuration, showing that the amount of rotation is exactly $\pi$---any single pole is forced to lie in the real axis, as they would otherwise form a complex-conjugate pair. On top-right, double pole configuration; this requires some more calculations, as the above pole will rotate $\pi + \alpha + \beta$, whilst the below one will compensate for the $\alpha$ and $\beta$ angles with a rotation of $\pi - \alpha - \beta$, for a total rotation of $\pi + \pi = 2\pi$. On bottom-left a single zero configuration---notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle and it must lie in the real axis, as it is a single zero. Finally, on bottom-right, double zero configuration; in this last configuration, the two zeros induce an opposite phase rotation $\gamma$, resulting in no induced total rotation as their sum, $\gamma - \gamma$, is always zero. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
+\end{center}\caption{Phase rotation induced by poles and zeros, in example configurations involving selected zeros and poles from an allpass filter. In red and blue, induced phase rotations by the poles--zeros. The amount of rotation is determined by the sum of the rotations of the zero--pole vectors in exam, when moving from frequency $0$ to frequency $\pi$. On top-left, a single pole configuration, showing that the amount of rotation is exactly $\pi$---any single pole is forced to lie in the real axis, as they would otherwise form a complex-conjugate pair. On top-right, double pole configuration; this requires some more calculations, as the above pole will rotate $\pi + \alpha + \beta$, whilst the below one will compensate for the $\alpha$ and $\beta$ angles with a rotation of $\pi - \alpha - \beta$, for a total rotation of $\pi + \pi = 2\pi$. On bottom-left a single zero configuration---notice how the total phase rotation angle is $0$, since the zero can only be located outside the unit circle and it must lie in the real axis, as it is a single zero. Finally, on bottom-right, double zero configuration; in this last configuration, the two zeros induce an opposite phase rotation $\gamma$, resulting in no induced total rotation as their sum, $\gamma - \gamma$, is always zero. In all poles configurations, the angle of rotation is equal to $M\pi$, with $M$ number of poles.}\label{tikz:phaseRotationPolesZeros}
 \end{figure*}
 
 \subsection{Delay equalizers}\label{sec:delayEqualizers}
@@ -8008,12 +8011,39 @@ Let's now investigate on linear phase transfer functions. Let $H$ be a full-band
 \begin{equation}\label{eqn:linearPhaseTransferFunction}
     H(e^{j\omega}) = e^{-j\omega D},
 \end{equation}
-with $D$ being a real constant that can be either an integer or a real number. Such filter will possess a linear phase from $\omega=0$ to $\omega=2\pi$; moreover, its magnitude will be equal to $1$, and its group delay will be exactly $D$,
+with $D$ being a real constant that can be either an integer or a real number. Such filter will possess a linear phase from $\omega=0$ to $\omega=2\pi$; moreover, as $\left|e^{-j\omega D}\right| = 1$ its magnitude will be equal to $1$ at all frequencies, and its group delay will be exactly $D$,
 \begin{equation}\label{eqn:linearPhaseTransferFunctionGroupDelay}
     \tau(\omega) = D
 \end{equation}
 resulting in a fully \emph{constant group delay}.
 
+The output $y[n]$ of such a filter to an input $x[n]=Ae^{j\omega n}$ is given by
+\begin{equation}\label{eqn:linearPhaseTransferFunctionOutput}
+    y[n] = Ae^{j\omega D} e^{j\omega n} = Ae^{j\omega(n - D)}.
+\end{equation}
+
+For continuous-time signals $x(t)$ and $y(t)$ whose sampled versions at $t = nT$ are $x[n]$ and $y[n]$ given above, then the delay between $x(t)$ and $y(t)$ is precisely the group delay of amount $D \in \R$---but since we are in the context of digital signal processing, the value of $D$ will produce differences depending whether it is an integer or not:
+\begin{itemize}
+    \item if $D$ is an \emph{integer} $D \in \Z$, then the resulting sequence $y[n]$ will be \emph{identical} to the input one $x[n]$, but simply delayed of an amount $D$ of samples;
+    \item otherwise, if $D \notin \Z$, the resulting sequence $y[n]$ will not be identical to $x[n]$ as it is delayed by a fractional amount of samples $D$ and not by an integer amount.
+\end{itemize}
+Despite the shape of the output sequence $y[n]$ will vary according to the nature of the group delay $D$, the underlying continuous-time output $y(t)$ will remain identical to the waveform of the underlying continuous-time input $x(t)$, delayed of $D$ units of time.
+
+Remarkably, linear-phase is a desirable property among filters, as \emph{no phase distortion occurs} and recovering the original sequence is as simple as anticipating by $D$ (in the case where $D$ is not an integer this will not work as the output samples are not an exact delayed replica of the input samples).
+
+As already mentioned, linear phase transfer functions act in a specific band of interest; outside that band---for instance, in \emph{stopband}---the phase response can be of any shape, since in that region of frequencies the resulting output, no matter its distortion, will be of no use for the filter designer.
+
+Suppose one wants to determine the impulse response of an ideal lowpass filter with a linear phase response of
+\[
+    H_{LP} (e^{j\omega}) = 
+    \left\{
+        \begin{array}{ll}
+            e^{-j\omega n_0}, & 0 < |\omega| < \omega_c\\
+            0, & \omega_c \leq |\omega| \leq \pi
+        \end{array}
+    \right.,
+\]
+as shown in next Figure,
 \begin{center}
     \begin{tikzpicture}
         \draw[-stealth, thick] (-3.5, 0) -- (3.5, 0) node[anchor=west] {$\omega$};
@@ -8037,34 +8067,10 @@ resulting in a fully \emph{constant group delay}.
         \draw (+1.2, -0.05) -- (+1.2, 0.05);
         \draw[dashed] (-1.2, 0.9) -- (-1.2, 0);
         \draw[dashed] (1.2, -0.9) -- (1.2, 0);
-    \end{tikzpicture}
+    \end{tikzpicture}.
 \end{center}
 
-The output $y[n]$ of such a filter to an input $x[n]=Ae^{j\omega n}$ is given by
-\begin{equation}\label{eqn:linearPhaseTransferFunctionOutput}
-    y[n] = Ae^{j\omega D} e^{j\omega n} = Ae^{j\omega(n - D)}.
-\end{equation}
-
-For continuous-time signals $x(t)$ and $y(t)$ whose sampled versions at $t = nT$ are $x[n]$ and $y[n]$ given above, then the delay between $x(t)$ and $y(t)$ is precisely the group delay of amount $D \in \R$---but since we are in the context of digital signal processing, the value of $D$ will produce differences depending whether it is an integer or not:
-\begin{itemize}
-    \item if $D$ is an \emph{integer} $D \in \Z$, then the resulting sequence $y[n]$ will be \emph{identical} to the input one $x[n]$, but simply delayed of an amount $D$ of samples;
-    \item otherwise, if $D \notin \Z$, the resulting sequence $y[n]$ will not be identical to $x[n]$ as it is delayed by a fractional amount of samples $D$ and not by an integer amount.
-\end{itemize}
-Despite the shape of the output sequence $y[n]$ will vary according to the nature of the group delay $D$, the underlying continuous-time output $y(t)$ will remain identical to the waveform of the underlying continuous-time input $x(t)$, delayed of $D$ units of time.
-
-As already mentioned, linear phase transfer functions act in a specific band of interest; outside that band---for instance, in \emph{stopband}---the phase response can be of any shape, since in that region of frequencies the resulting output, no matter its distortion, will be of no use for the filter designer.
-
-Suppose one wants to determine the impulse response of an ideal lowpass filter with a linear phase response of
-\[
-    H_{LP} (e^{j\omega}) = 
-    \left\{
-        \begin{array}{ll}
-            e^{-j\omega n_0}, & 0 < |\omega| < \omega_c\\
-            0, & \omega_c \leq |\omega| \leq \pi
-        \end{array}
-    \right.;
-\]
-by applying the frequency-shifting property of the DTFT to the impulse response of an ideal zero phase lowpass filter one gets
+By applying the frequency-shifting property of the DTFT to the impulse response of an ideal zero phase lowpass filter one gets
 \[
     h_{LP}[n] = \frac{
         \sin \omega_c(n - n_0)
@@ -8073,7 +8079,7 @@ by applying the frequency-shifting property of the DTFT to the impulse response 
     }, -\infty < n < \infty.
 \]
 
-As before, the above filter is both non-causal and of doubly infinite length---a practically unfeasible filter. However, it is still possible to truncate the impulse response to a finite number of terms, to compose a feasible FIR approximation of the ideal lowpass filter. By choosing $n_0 = \frac N 2$ with $N\in\N$ the truncated and shifted version is
+As before, the above filter is both non-causal (requires samples for $n>0$) and of doubly infinite length (on both sides)---a practically unfeasible filter. However, it is still possible to truncate the impulse response to a finite number of terms, to compose a feasible FIR approximation of the ideal lowpass filter, which is both finite in nature and causal. By choosing $n_0 = \frac N 2$ (symmetry around the middle of the impulse response) with $N\in\N$, the truncated and shifted version is
 \[
     \hat{h}_{LP}[n] = \frac{
         \sin \omega_c(n - \frac N 2)
@@ -8151,13 +8157,13 @@ Figure~\ref{oct:minimumPhaseMaximumPhaseExamplePhase} shows off that $H_2(z)$ ha
 \[
     H_2(z) = \frac{bz + 1}{z + a} = \underbrace{\left(\frac{z + b}{z + a}\right)}_{H_1(z)}\underbrace{\left(\frac{bz + 1}{z + b}\right)}_{A(z)},
 \]
-where $A(z) = \frac{bz + 1}{z + b}$ is a \emph{stable allpass function} which basically introduces a phase group delay which is proportional to the order of the allpass filter. (In this peculiar case, the order of the allpass filter is $M=1$, so for Equation~\ref{eqn:allpassIntegralPhaseEquation} a phase delay of $M\pi = \pi$ will be introduced.) Indeed, the phase function of $H_2(z)$ will be the sum of the phase functions of both above terms,
+where $A(z) = \frac{bz + 1}{z + b}$ is a \emph{stable allpass function} which basically introduces a phase group delay which is proportional to the order of the allpass filter. In this peculiar case, the order of the allpass filter is $M=1$, so for Equation~\ref{eqn:allpassIntegralPhaseEquation} a phase delay of $M\pi = \pi$ will be introduced. Indeed, the phase function of $H_2(z)$ will be the sum of the phase functions of both above terms,
 \[
     \arg{H_2(e^{j\omega})} = \arg{H_1(e^{j\omega})} + \arg{A(e^{j\omega})};
 \]
-as the unwrapped phase function of a stable first-order allpass function is a negative function in $\omega$, it follows from the above that $H_2(z)$ has an \textbf{excess phase lag} with respect to its ``twin'' filter $H_1(z)$.
+as the unwrapped phase function of a stable first-order allpass function is a negative function in $\omega$, it follows from the above that $H_2(z)$ has an \textbf{excess phase lag} with respect to its ``twin'' filter $H_1(z)$, even though the two filters will exhibit the same magnitude response.
 
-To generalize, let $H_m(z)$ be a causal stable transfer function with all zeros inside the unit circle, and let $H(z)$ be any causal stable transfer function with the same magnitude
+To generalize, let $H_m(z)$ be a causal stable transfer function with all zeros inside the unit circle, and let $H(z)$ be any causal stable transfer function with the same magnitude,
 \[
     \left|H(e^{j\omega})\right| = \left|H_m(e^{j\omega})\right|.
 \]
@@ -8171,7 +8177,7 @@ where $A(z)$ is an \emph{allpass function} which is causal and stable. Their mag
 \end{equation}
 the transfer function $H(z)$ it is said to have an \textbf{excess phase lag} with respect to $H_m(z)$---the latter is called a \textbf{minimum-phase transfer function}.
 
-Essentially, a transfer function whose zeros are all inside the unit circle $H_m(z)$ is said to possess a \emph{minimum-phase delay}. Intrinsically, any other transfer function $H(z)$ whose magnitude is the same of $H_m(z)$ can be always re\"expressed by the product of $H_m(z)$ \emph{and} a specially crafted allpass function $A(z)$. Since the allpass function will introduce a phase group delay of $\pi$ \emph{for each} pole $M$, the transfer function $H(z)$ will exhibit a \emph{greater} amount of phase delay when put in comparison with $H_m(z)$, unless the allpass filter has no poles---but this suggests that the allpass filter is a $0$th-order filter; a filter with no poles at all. This circumstance, however, occurs only if the transfer function has \emph{all zeros inside the unit circle}. It is enough for it to have at least a zero outside the unit circle, that the allpass filter $A(z)$ will exhibit at least a pole---causing a non-zero phase group delay.
+Essentially, a transfer function whose zeros are all inside the unit circle $H_m(z)$ is said to possess a \emph{minimum-phase delay}. Intrinsically, any other transfer function $H(z)$ whose magnitude is the same of $H_m(z)$ can be always re\"expressed by the product of $H_m(z)$ \emph{and} a specially crafted allpass function $A(z)$. Since the allpass function will introduce a phase group delay of $\pi$ \emph{for each} pole $M$, the transfer function $H(z)$ will exhibit a \emph{greater} amount of phase delay when put in comparison with $H_m(z)$, unless the allpass filter has no poles---but this suggests that the allpass filter is a $0$th-order filter; a filter with no poles (and no zeros) at all, which is out of interest.
 
 This leads to other two new definitions. The first one is the exact opposite of the former. Causal stable transfer functions will \emph{all zeros} outside the unit circle are said to be \textbf{maximum-phase transfer functions}---consonantly, causal stable transfer functions with zeros both inside and outside the unit circle are called \textbf{mixed-phase transfer functions}. Both ones will present an excess of phase lag with respect to another minimum-phase transfer function $H_m(z)$.
 
@@ -8183,7 +8189,7 @@ An example of this could be the following mixed-phase transfer function,
         (1-0.2z^{-1})(1 + 0.5z^{-1})
     }
 \]
-which exhibits a zero outside the unit circle ($z = 2.5$).
+which exhibits a zero outside the unit circle $z = 2.5$, induced by the factor $(0.4 - z^{-1})$.
 
 Thanks to Equation~\ref{eqn:minimumPhaseMaximumPhaseRelation}, the transfer function can be re\"arranged into the following form
 \[
@@ -8198,6 +8204,15 @@ Thanks to Equation~\ref{eqn:minimumPhaseMaximumPhaseRelation}, the transfer func
     }\right),
 \]
 and---as expected---the allpass function in round brackets presents a pole, which alters the phase complexively of $\pi$. We have been able to re\"arrange the transfer function in a new form only because a zero outside of the unit circle was present. The rogue zero was embodied in the factor $(0.4 - z^{-1})$ at numerator, and is was sufficient to multiply--divide by the term $(1 - 0.4z^{-1})$ to automatically craft an allpass transfer function.
+
+Now, the minimum-phase filter associated with the above example is simply $H(z)$ without the allpass component, which is
+\[
+	    H_m(z) = \frac{
+        2(1+0.3z^{-1})(1-0.4z^{-1})
+    } {
+        (1-0.2z^{-1})(1+0.5z^{-1})
+    }.
+\]
 
 \clearpage
 
@@ -8223,7 +8238,7 @@ The above system is constructed so that the desired behavior is
 \[
     \tilde{x}[n] \equiv x[n],
 \]
-so that the output signal $\tilde{x}[n]$ is the same of the input signal $x[n]$ before it passed through the LTI system $H(z)$ which induced undesired distortions---apart for a delay which is induced by the system as a whole.
+so that the output signal $\tilde{x}[n]$ is the same of the input signal $x[n]$ before it passed through the LTI system $H(z)$ which induced undesired distortions---apart for a delay which is induced by the system as a whole. Naturally, the purpose of an inverse system is to \emph{restore the original signal}, so that---complexively---it will be as if it were never modified by the LTI system $H(z)$; this makes sense only in the case where the LTI system $H(z)$ is something we cannot directly control and of which we would not want to observe its distorting effects on the passing signal.
 
 It must be pointed out that the inverse system is completely determined only if its Region of Convergence is also defined. Typically, one wants \emph{causal} inverse systems, but sometimes it might be useful---for instance for applications which do not require real-time processing---to obtain a ROC which is typical of a non-causal inverse system.
 
@@ -8251,9 +8266,9 @@ The inverse system will have a different Region of Convergence than the original
     \item the third and last is $\frac 1 5 < |z| < \frac 1 4$---bilateral, unstable.
 \end{itemize}
 
-In general, there is no guarantee that the inverse system technique will produce a useful result. The inverse system technique, in fact, requires the knowledge of the LTI system $H(z)$ first to determine its inverse system. Very much, it is really unlikely that the designer will know the nature of the LTI system $H(z)$; more frequently, the exact formula of $H(z)$ will be completely unknown. Secondarily, there will always be some kind of noise disturbing the signal. Under an excess of noise, it is truly difficult---let alone possible---to ascertain the nature of $H(z)$. The noise occurs as an additive signal $d[n]$ to the intermediate signal $w[n]$. Ultimately, quantization will make the process of determining the inverse system even harder, as errors in computation prevent the design of an \emph{exact} inverse system's filter.
+In general, there is no guarantee that the inverse system technique will produce a useful result. The inverse system technique, in fact, requires the knowledge of the LTI system $H(z)$ first to determine its inverse system. Very much, it is really unlikely that the designer will know the nature of the LTI system $H(z)$; more frequently, the exact formula of $H(z)$ will be completely unknown, especially in all those cases in which a system is out of our control (typically, an unwanted distorting effect due to some transmission channel or similar). Secondarily, there will always be some kind of noise disturbing the signal. Under an excess of noise, it is truly difficult---let alone possible---to ascertain the nature of $H(z)$. The noise occurs as an additive signal $d[n]$ to the intermediate signal $w[n]$. Ultimately, quantization will make the process of determining the inverse system even harder, as errors in computation prevent the design of an \emph{exact} inverse system's filter.
 
-For a causal system $H(z)$, its inverse system $H^{-1}(z)$ can only be built if the former is a \textbf{minimum phase} system: all poles and zeros exchange their position moving from $H$ to $H^{-1}$ (its numerator takes the place of the denominator, and vice-versa), hence all zeros outside the unit circle would be come poles outside the unit circle, which would clearly render the inverse system unstable.
+For a causal system $H(z)$, its inverse system $H^{-1}(z)$ can only be built if the former is a \textbf{minimum phase} system: all poles and zeros exchange their position moving from $H$ to $H^{-1}$ (its numerator takes the place of the denominator, and vice-versa), hence all zeros outside the unit circle would be come poles outside the unit circle, which would clearly render the inverse system unstable, as seen in Section~\ref{sec:stabilityConditionPoleLocations}.
 
 The inverse system procedure has its own advantages and disadvantages. First and foremost, it is \emph{simple to understand}---ideally, an inverse system is just a system defined as the reciprocal of the transfer function of another system. Any distortion induced by the latter can be ``corrected'' with the application of the inverse system, with the only byproduct being the \emph{introduction of a delay}, which could be a disadvantage or not. However, in order to adopt such technique, \emph{the original direct system $H(z)$ must be well-known}; a feat that rarely and hardly occurs. Moreover, \emph{additive noise} could boycott the functioning of the inverse system, as well as \emph{quantization errors}. In practice, it is very hard to employ this simple technique effectively, due to the underlying issues that inevitably affect it.
 
@@ -8276,11 +8291,13 @@ Now, let's determine some of its values:
     \longrightarrow & x[n] = \frac{\bar{x}[n] - \sum_{k=0}^{n-1}x[k]h[n-k]}{h[0]}.\\
 \end{align*}
 
-This way, it is possible to retrieve a signal $x[n]$ from its estimate $\bar{x}[n]$, provided $h[n]$ is known in advance. The main disadvantages of this technique are that $h$ should be predetermined, and secondly that the process can accumulate errors, as errors at any sample will propagate recursively, since to determine $x[\kappa]$ it is necessary to have priorly determined $x[\kappa - 1]$ (and all previous samples as well, of course, starting from $x[0]$). This method provides a clever way to obtain a sequence $x[n]$ from an estimation of it, directly in the time domain; however, one should be careful in the design, as any error can propagate and sum altogether.
+This way, it is possible to retrieve a signal $x[n]$ from its estimate $\bar{x}[n]$, provided $h[n]$ is known in advance. The main disadvantages of this technique are that $h$ should be predetermined, and secondly that the process can accumulate errors, as errors at any sample will propagate recursively, since to determine $x[\kappa]$ it is necessary to have priorly determined $x[\kappa - 1]$ (and all previous samples as well, of course, starting from $x[0]$) and any rounding error will be injected again in the recursive equation, propagating and amplifying its effects on each recursion step. This method provides a clever way to obtain a sequence $x[n]$ from an estimation of it, directly in the time domain; however, one should be careful in the design, as any error can propagate and sum altogether.
 
 \section{Sinusoidal digital oscillators}
 
 Crucially important devices in electronics and signal processing are the \textbf{sinusoidal oscillators}. Sinusoidal oscillators are special filters, either analog or digital, that after being activated by a \emph{trigger} are capable of producing an \emph{oscillation} of values, at a certain frequency $\omega_0$, indefinitely in time. In digital signal processing, the digital version of the sinusoidal oscillators are the \textbf{sinusoidal digital oscillators}.
+
+Sinusoidal digital oscillators are one of the specific applications of poles located in the unit circle, and not inside it---the resulting system will exhibit unstable-bounded behavior, which can be controlled by injecting a specific sinusoidal \emph{trigger} as input.
 
 \begin{defin}[Sinusoidal digital oscillator]
     A \textbf{sinusoidal digital oscillator} with oscillation frequency $\omega_0$ is any device whose transfer function has the form
@@ -8305,27 +8322,36 @@ Crucially important devices in electronics and signal processing are the \textbf
     \end{equation}
     Before sample $0$, an oscillator has output equal to zero, hence $y[-1]=y[-2]=0$.
 
-    The \textbf{trigger} for the sinusoidal digital oscillator is the input sequence
+    The \textbf{trigger} for the sinusoidal digital oscillator is the input sequence $x_T$
 \begin{equation}\label{eqn:sinusoidalDigitalOscillatorTrigger}
-    x_T[n] = A\sin{(\omega_0)}\delta[n].
+    x_T[n] = A\sin{(\omega_0)}\delta[n],
 \end{equation}
+	the Kronecker's delta impulse weighted by amplitude $A$ and the value of $\sin_{\omega_0}$, a quantity that depends on the oscillator features\footnote{So, to impress an amplitude $A$ to the output oscillation, one must first assess $\sin{\omega_0}$---a value that depends on the natural frequency of the sinusoidal digital oscillator filter---and then apply $A\sin{\omega_0}$ as the multiplier for the trigger impulse.}.
+
     A trigger sequence will initialize the oscillator, causing it to produce the sinusoidal output sequence indefinitely.
 \end{defin}
 
 Let an oscillator be as described by Equation~\ref{eqn:sinusoidalDigitalOscillator} and let the trigger input sequence be the one introduced in Equation~\ref{eqn:sinusoidalDigitalOscillatorTrigger}; then, the resulting output sequence will be
 \[
-    y[n] = \{A\sin\omega_0, 2A\sin\omega_0\cos\omega_0 = A\sin{2\omega_0}, A\sin{3\omega_0}, \dots, A\sin{n\omega_0}\}.
+    y[n] = \{A\sin\omega_0, A\sin{2\omega_0}, A\sin{3\omega_0}, \dots, A\sin{n\omega_0}\},
 \]
+as the following relationship holds
+\[
+	n\sin\omega_0\cos\omega_0 = \sin{n\omega_0}
+\]
+and each term of the output sequence is multiplied by an additional $2\cos(\omega_0)$.
 
 Suitable initial conditions allow to discard the trigger input $x[n]$ altogether,
 \begin{equation}\label{eqn:sinusoidalDigitalOscillatorTriggerInitialConditionsFormula}
-    y[n] = 2\cos{(\omega_0)}y[n-1] - y[n-2],
+    y[0] = 2\cos{(\omega_0)}y[-1] - y[-2],
 \end{equation}
 with peculiar initial conditions
 \begin{align}\label{eqn:sinusoidalDigitalOscillatorTriggerInitialConditions}
     y[-1] &= 0,\\
     y[-2] &= -A\sin{\omega_0}.
 \end{align}
+
+With the above initial condition and the above trigger, a sinusodal digital oscillator will keep producing a sinusoidal wave, of frequency $\omega_0$ (given the poles $p = e^{j\omega_0}$ and $p^* = e^{-j\omega_0}$), indefinitely.
 
 
 \chapter{Linear phase FIR transfer functions}
