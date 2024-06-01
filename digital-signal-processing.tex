@@ -8372,15 +8372,15 @@ We have also seen that the output $y[n]$ of a linear phase filter to the special
 
 When dealing with digital signals, the nature of $D$ matters: if $D$ is not an integer, the outcome of a linear phase transfer function will be dissimilar to the input. Conversely, linear phase systems with integer $D$s will produce an outcome which is similar to the input, but delayed of $D\in\Z$ samples.
 
-In general, it is impossible to design an IIR transfer function with an exact linear phase. However, for a limited band of interest and for FIR transfer functions, it is \emph{always possible} to design a linear phase transfer function, for instance by truncating a sinc-shaped impulse response. To recall, the IIR impulse response, of linear phase,
+In general, it is impossible to design an IIR transfer function with an exact linear phase. However, for a limited band of interest and for FIR transfer functions, it is \emph{always possible} to design a linear phase transfer function, for instance by truncating a sinc-shaped impulse response. To recall, the IIR impulse response, of linear phase, of a window-like transfer function is the sinc function over the whole time domain,
 \[
     h_{IIR,lp}[n] = \frac{
         \sin{(\omega_c(n - n_0))}
     } {
         \pi (n - n_0)
-    }, -\infty < n < \infty.
+    }, -\infty < n < \infty,
 \]
-can be truncated to the FIR impulse response, of linear phase as well,
+which can be restricted by truncation to a portion of the time domain of length $N+1$, obtaining the FIR impulse response of linear phase
 \[
     \hat{h}_{FIR,lp}[n] = \frac{
         \sin{(\omega_c(n - \frac N 2))}
@@ -8400,7 +8400,7 @@ if $H(z)$ should have a linear phase response, its frequency response must have 
 \begin{equation}\label{eqn:linearPhaseTransferFunctionForm}
     H(e^{j\omega}) = e^{j(c\omega + \beta)}\breve{H}(\omega),
 \end{equation}
-where $c$ and $\beta$ are constants and $\breve{H}(\omega)$ is said to be the \textbf{amplitude response} or \textbf{zero phase response}. From now on, we can always write linear phase systems as the product of two terms, the first one being a term which is only responsible for producing a shift in phase---a \emph{linear} shift, in this case. This term will not contribute to the amplitude of the linear phase transfer function in any way. The second term, on contrary, has the sole purpose of being responsible of the amplitude of the filter---with \emph{no} contribution to phase. As such, the amplitude response is a real function in $\omega$. Its nature also depends on the nature of $H(z)$: if the latter is a real transfer function, then the amplitude response will be an \emph{even} function (this means that $\left|H(e^{j\omega})\right| = \left|H(e^{-j\omega})\right|$). Not only that---since $\left|H(e^{j\omega})\right| = \left|\breve{H}(\omega)\right|$, the amplitude response is \emph{either} an even or an odd function in $\omega$, that means that
+where $c$ and $\beta$ are constants and $\breve{H}(\omega)$ is said to be the \textbf{amplitude response} or \textbf{zero phase response}. From now on, we can always write linear phase systems as the product of two terms, the first one being a term which is only responsible for producing a shift in phase---a \emph{linear} shift, in this case, as there is only a linear dependency on the argument of the exponential, which is $c\omega + \beta$, the second one describing the amplitude where no phase modifications are applied. The first term will not contribute to the amplitude of the linear phase transfer function in any way, only to its phase. The second term, on contrary, has the sole purpose of being responsible of the amplitude of the filter---with \emph{no} contribution to phase. As such, the amplitude response is a real function in $\omega$. Its nature also depends on the nature of $H(z)$: if the latter is a real transfer function, then the amplitude response will be an \emph{even} function (this means that $\left|H(e^{j\omega})\right| = \left|H(e^{-j\omega})\right|$). Not only that---since $\left|H(e^{j\omega})\right| = \left|\breve{H}(\omega)\right|$, the amplitude response is \emph{either} an even or an odd function in $\omega$, that means that
 \[
     \breve{H}(-\omega) = \pm\breve{H}(\omega).
 \]
@@ -8420,9 +8420,15 @@ In the case that $\breve{H}(\omega)$ is an even function in $\omega$, then $\bre
     e^{j\beta} = e^{-j\beta}
 \]
 implying that either $\beta = 0$ or $\beta = \pi$. Following up, from Equation~\ref{eqn:linearPhaseTransferFunctionForm} one can express the amplitude response in terms of the inverse transform
+\begin{equation}\label{eqn:amplitudeResponseInTermsOfInverseTransform}
+    \breve{H}(\omega) = e^{-j(c\omega + \beta)}H(e^{j\omega})= e^{-j(c\omega + \beta)}\sum_{l=0}^{N}h[n]e^{-j\omega l}
+\end{equation}
+
+If we keep going on with the computations,
 \begin{align*}
     \breve{H}(\omega) &= e^{-j(c\omega + \beta)}H(e^{j\omega})\\
-                      &= e^{-j\beta}\sum_{n=0}^N h[n]e^{-j\omega(c + n)}.
+					  &= e^{-j(c\omega + \beta)}\sum_{l=0}^{N}h[n]e^{-j\omega l}\\                      
+                      &= e^{-j\beta}\sum_{l=0}^N h[l]e^{-j\omega(c + l)}.
 \end{align*}
 Since the amplitude function is even, we could freely replace $\omega$ with $-\omega$; however, for the moment let's only determine $\breve{H}(-\omega)$,
 \[
@@ -8437,15 +8443,16 @@ Now we can make use of the even nature of the amplitude response---as $\breve{H}
 \[
     h[n]e^{-j\omega(c+n)} = h[N-n]e^{j\omega(c + N - n)};
 \]
-by choosing $c = -\frac N 2$, one has, for left and right sides,
+by choosing $c = -\frac N 2$---corresponding to a group delay of half the filter length---one has, for left and right sides,
 \begin{align*}
     h[n]e^{-j\omega(-\frac N 2 + n)} &= h[n]e^{+j\omega(+\frac N 2 - n)}\\
-    h[N - n]e^{j\omega(-\frac N 2 + N - n)} &= h[N - n]e^{+j\omega(+\frac N 2 - n)}
+    h[N - n]e^{j\omega(-\frac N 2 + N - n)} &= h[N - n]e^{j\omega(+\frac N 2 - n)}
 \end{align*}
-with the first equation resulting from the left side of the previous condition, and the second equation resulting from the right side of the condition. Equating them yields
+with the first equation resulting from the left side of the previous condition, and the second equation resulting from the right side of the condition. Equating what we have just obtained yields
 \[
-    h[n] = h[N-n], 0 \leq n \leq N.
+    h[n] = h[N-n], 0 \leq n \leq N,
 \]
+since all the right-side exponentials are equal to each other.
 
 This result clearly shows that, for \emph{even} amplitude functions, \textbf{the impulse response is symmetric}---or, equivalently, a FIR filter with an \emph{even} amplitude response can have a linear phase response only if it has a \textbf{symmetric impulse response}. Since property in Equation~\ref{eqn:transferFunctionSymmetryProperty} is true for all transfer functions, above condition is the same as equaling
 \[
@@ -8482,8 +8489,10 @@ but this time $\breve{H}(\omega)$ is an odd function, and as such (by again repl
 \end{align*}
 Equating the obtained results yields
 \[
-    e^{-j\beta}\sum_{n=0}^N h[n]e^{+j\omega(c + n)} = -e^{-j\beta}\sum_{n=0}^N h[N - n]e^{-j\omega(c + N - n)}.
+    e^{-j\beta}\sum_{n=0}^N h[n]e^{+j\omega(c + n)} = -e^{-j\beta}\sum_{n=0}^N h[N - n]e^{-j\omega(c + N - n)},
 \]
+a result that is indeed similar to the even case, except there's now a minus sign before one of the two sides of the equation.
+
 For $c = -\frac N 2$, one gets
 \[
     \sum_{n=0}^N h[n]e^{+j\omega(-\frac N 2 + n)} = -\sum_{n=0}^N h[N - n]e^{-j\omega(-\frac N 2 + N - n)},
@@ -8497,7 +8506,7 @@ but this ultimately provides
     h[n] = -h[N-n], 0 \leq n \leq N.
 \]
 
-This last result, similarly to the previous one, can be interpreted with the fact that a FIR filter with an \emph{odd} amplitude response will have a linear phase response only if it has an \textbf{anti-symmetric impulse response}. Remember that, in order to retrieve the two results, the amplitude response had to be either even or odd---but one of the two conditions are always satisfied---and $c=-\frac N 2$. A linear phase transfer function will have $c$ always equal to $-\frac N 2$, and the value of $\beta$ either $0$,$2\pi$ or $\frac \pi 2$, $-\frac \pi 2$ depending depending---respectively---whether the amplitude response is even or odd.
+This last result, similarly to the previous one, can be interpreted with the fact that a FIR filter with an \emph{odd} amplitude response will have a linear phase response only if it has an \textbf{anti-symmetric impulse response}. Remember that, in order to retrieve the two results, the amplitude response had to be either even or odd---but one of the two conditions are always satisfied, because $\left|H(e^{j\omega})\right| = \left|\breve{H}(\omega)\right|$---and $c=-\frac N 2$. A linear phase transfer function will have $c$ always equal to $-\frac N 2$, and the value of $\beta$ either $0$ or $\pi$, or $\frac \pi 2$ or $-\frac \pi 2$ depending depending---respectively---whether the amplitude response is even or odd.
 
 Since the length of the impulse response is $N$, a number that can be either or odd, \emph{four} kinds of linear phase FIR transfer functions can be described,
 \begin{enumerate}
@@ -8550,7 +8559,7 @@ and $h[4]$ will be the only sample not involved in a symmetric pair, as it's the
         + h[4]\right).
 \end{align*}
 
-The corresponding frequency response will be
+The corresponding frequency response (obtained by evaluating $z = e^{j\omega}$ will be
 \begin{align*}
     H(e^{j\omega}) &= e^{-j 4\omega}\left(2h[0]\cos{(4\omega)} + 2h[1]\cos{(3\omega)}\right.\\
     & + \left. 2h[2]\cos{(2\omega)} + 2h[3]\cos{(\omega)} + h[4]\right),
@@ -8562,7 +8571,7 @@ as
 
 The quantity inside the parentheses is a real function of $\omega$, and can assume positive or negative values in the frequency range of $0 \leq |\omega| \leq \pi$.
 
-The phase function is given by
+The phase function is determined by the factor $e^{-j4\omega}$ and as such it is given by
 \[
     \theta(\omega) = -4\omega + \beta
 \]
@@ -8579,7 +8588,7 @@ and a group delay of
     \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa.
 \end{equation}
 
-The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$, with $\kappa$ being an \emph{integer} value. (Remember that, in order to obtain an odd length $N+1$, an even $N$ must be chosen.) As the amplitude response is an even function, either $\beta=0$ or $\beta=\pi$.
+The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$, with $\kappa$ being an \emph{integer} value\footnote{Remember that, in order to obtain an odd length $N+1$, an even $N$ must be chosen.}. As the amplitude response is an even function, either $\beta=0$ or $\beta=\pi$.
 
 Generally speaking, for \textbf{Type 1} FIR filters with $\kappa = \frac N 2$ the frequency response has the form
 \begin{equation}\label{eqn:linearPhaseTypeIResponse}
@@ -8587,14 +8596,15 @@ Generally speaking, for \textbf{Type 1} FIR filters with $\kappa = \frac N 2$ th
 \end{equation}
 with an (even) amplitude response of the form
 \begin{equation}\label{eqn:linearPhaseTypeIAmplitudeResponse}
-    \breve{H}(\omega) = h[\kappa] + 2\sum_{n=1}^\kappa h[\kappa - n]\cos{(\omega n)}.
+    \breve{H}(\omega) = h[\kappa] + 2\sum_{n=1}^\kappa h[\kappa - n]\cos{(\omega n)},
 \end{equation}
+which has been obtained directly from Equation~\ref{eqn:amplitudeResponseInTermsOfInverseTransform} by collapsing equal terms due to the even symmetry with an odd number of terms.
 
 An example of a Type 1 FIR filter can be the following, of length $7$,
 \[
     H_7(z) = \frac 1 6 \left[\frac 1 2 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5} + \frac 1 2z^{-6}\right],
 \]
-which could be seen as a slightly modified version of a $7$-point moving average filter, as in \ref{eqn:mPointMovingAverageEquation}. (To point out the differences, two samples of the impulse response are halved, and that is the discrepancy between the classic $M$-point moving average filter and this Type 1 FIR filter.) Since the above impulse response is symmetric and its length is odd, then it will possess the linear phase property of a Type 1 filter. Plots of the magnitude response of both $H_7(z)$ and a $7$-point moving average filter are shown in Figure~\ref{oct:typeI}. The impulse response has been improved by simply halving the first and the last coefficients---verily, the above Type 1 FIR filter is equivalent to the cascade of two moving average filters, the first of length $2$ and the second of length $6$:
+which could be seen as a slightly modified version of a $7$-point moving average filter, as in \ref{eqn:mPointMovingAverageEquation}\footnote{To point out the differences, two samples of the impulse response are halved, and that is the discrepancy between the classic $M$-point moving average filter and this Type 1 FIR filter.}. Since the above impulse response is symmetric and its length is odd, then it will possess the linear phase property of a Type 1 filter. Plots of the magnitude response of both $H_7(z)$ and a $7$-point moving average filter are shown in Figure~\ref{oct:typeI}. The impulse response has been improved by simply halving the first and the last coefficients---verily, the above Type 1 FIR filter is equivalent to the cascade of two moving average filters, the first of length $2$ and the second of length $6$:
 \[
     H_7(z) = \underbrace{\frac 1 2\left(1 + z^{-1}\right)}_{M=2}\cdot\underbrace{\frac 1 6 \left(1 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5}\right)}_{M=6},
 \]
@@ -8640,7 +8650,7 @@ with $\beta$ either equal to $0$ or equal to $\pi$, since the amplitude response
 \[
     \tau(\omega) = +\frac 7 2,
 \]
-a constant delay of $\frac 7 2$ samples.
+a constant delay of $\frac 7 2$ samples, a non integer quantity.
 
 Since $c=-\frac N 2$, a generic choice of $N = 2\kappa$, that is $\kappa = \frac N 2$ would lead to a phase function of 
 \begin{equation}\label{eqn:linearPhaseTypeIIPhaseFunction}
@@ -8658,10 +8668,11 @@ In general, for \textbf{Type 2} FIR filters with $\kappa = \frac N 2$ (a fractio
 \end{equation}
 with an (even) amplitude response of the form
 \begin{equation}\label{eqn:linearPhaseTypeIIAmplitudeResponse}
-    \breve{H}(\omega) = 2\sum_{n=1}^{\frac{N+1}{2}} h[\frac{N+1}{2} - n]\cos{(\omega (n - \frac 1 2))}.
+    \breve{H}(\omega) = 2\sum_{n=1}^{\frac L 2} h[\frac L 2 - n]\cos{\left(\omega (n - \frac 1 2)\right)}
 \end{equation}
+with $L = N+1$ be the length of the impulse response.
 
-Notice how, this time, the sum should be computed on $\frac {N+1}{2}$ terms instead of $\kappa = \frac N 2$ terms, as the term $h[\kappa]$ that was present in~\ref{eqn:linearPhaseTypeIAmplitudeResponse} ouside of the summation now is included in the summation for the above amplitude response formula. An even length (or, equivalently, an odd $N$) means that for Type 2 a ``central'' coefficient in the impulse response is missing, therefore the center of the impulse response will be located at $\kappa = \frac N 2$, resulting in a fractional value.
+Notice how, this time, the sum should be computed over $\frac L 2 = \frac {N+1}{2}$ terms instead of $\kappa = \frac N 2$ terms, as the term $h[\kappa]$ that was present in~\ref{eqn:linearPhaseTypeIAmplitudeResponse} ouside of the summation now is included in the summation for the above amplitude response formula. An even length (or, equivalently, an odd $N$) means that for Type 2 a ``central'' coefficient in the impulse response is missing, therefore the center of the impulse response will be located at $\kappa = \frac N 2$, resulting in a fractional value symmetry.
 
 
 \section{Type 3: Anti-symmetric impulse response with odd length and even $N$}
@@ -8687,7 +8698,7 @@ as
 \[
     e^{+j\varphi\omega} - e^{-j\varphi\omega} = 2j\sin{(\varphi \omega)}.
 \]
-A factor $e^{j\frac \pi 2}$ has been introduced, due to the Euler's formula when getting the sine function. (By way of clarification, $j = e^{j \frac \pi 2}$.)
+A factor $e^{j\frac \pi 2}$ has been introduced, due to the Euler's formula when getting the sine function\footnote{By way of clarification, one has that $j = e^{j \frac \pi 2}$.}.
 
 The linear phase response is
 \[
@@ -8697,7 +8708,7 @@ and, this time, $\beta$ could either be $\frac \pi 2$ or $-\frac \pi 2$, as the 
 \[
     \tau(\omega) = +4,
 \]
-and just like the previous cases it is a constant group delay. (More similarly to the Type 1, the group delay is an \emph{integer} constant delay.)
+and just like the previous cases it is a constant group delay. More similarly to the Type 1, the group delay is an \emph{integer} constant delay.
 
 Since $c=-\frac N 2$, as always, a generic choice of $N = 2\kappa$ would lead to a phase function of 
 \begin{equation}\label{eqn:linearPhaseTypeIIIPhaseFunction}
@@ -8720,7 +8731,7 @@ with an (odd) amplitude response of the form
 \end{equation}
 and $h[\kappa] = 0$.
 
-Very similar to the Type 1 amplitude response, still, the only difference is the presence of a sine function in place of a cosine function, which was caused by the anti-symmetry requirement (Type 3 filters are subject to an anti-symmetry property in place of a symmetry property).
+Very similar to the Type 1 amplitude response, still, the only differences are the presence of a sine function in place of a cosine function, which was caused by the anti-symmetry requirement (Type 3 filters are subject to an anti-symmetry property in place of a symmetry property) and the fact that the middle sample $h[\kappa] = 0$.
 
 
 \begin{figure*}[ht]
@@ -8860,15 +8871,17 @@ In the general case, for \textbf{Type 4} FIR filters with $\kappa = \frac N 2$ (
 \end{equation}
 with an (odd) amplitude response of the form
 \begin{equation}\label{eqn:linearPhaseTypeIVAmplitudeResponse}
-    \breve{H}(\omega) = 2\sum_{n=1}^{\frac{N+1}{2}} h[\frac{N+1}{2} - n]\sin{(\omega (n - \frac 1 2))}.
+    \breve{H}(\omega) = 2\sum_{n=1}^{\frac{L}{2}} h[\frac{L}{2} - n]\sin{\left(\omega (n - \frac 1 2)\right)},
 \end{equation}
+where, again, $L = N+1$ is the length of the impulse response and one has to perform a summation over $\frac L 2 = \frac {N+1} 2$ samples due to the fact that, now, we cannot extact the term $h[\kappa] = h[\frac N 2]$ from the summation.
 
 
 \section{General form of the frequency response}
 In all four types of linear phase FIR filters, the \textbf{frequency response} has a general form, that is
 \begin{equation}\label{eqn:linearPhaseGeneralResponse}
-    H(e^{j\omega}) = e^{-j\frac N 2 \omega}e^{j\beta}\breve{H}(\omega).
+    H(e^{j\omega}) = e^{-j\frac N 2 \omega}e^{j\beta}\breve{H}(\omega),
 \end{equation}
+with values of $N$ depending on the chosen Type (if Type is even, then filter length will be even and $N$ will be odd---conversely, if Type is odd, then filter length will be odd and $N$ will be even) and $\beta$ that depends on the fact that the amplitude response presents symmetry or anti-symmetry around the center of the impulse response (Type I and II will present symmetry---Type III and IV anti-symmetry).
 
 The amplitude response, in general, can become negative over certain frequency ranges; typically, it will become negative \emph{in the stopband}. In particular, the \textbf{magnitude} and \textbf{phase response} of linear phase FIR filters are given by the following two formulas,
 \begin{equation}\label{eqn:linearPhaseGeneralMagnitudeResponse}
@@ -8904,7 +8917,7 @@ By the change of variable $m = N - n$, one can soon re\"express the above as
 \]
 which clearly leads to
 \[
-    H(z) = \sum_{n=0}^N h[N-n]z^{-n} = z^{-N}\underbrace{\sum_{m=0}^N h[m]z^{-m}}_{H(z^{-1})} = z^{-N}H(z^{-1}),
+    H(z) = \sum_{n=0}^N h[N-n]z^{-n} = z^{-N}\underbrace{\sum_{m=0}^N h[m]z^{m}}_{H(z^{-1})} = z^{-N}H(z^{-1}),
 \]
 and definitely
 \[
@@ -8959,9 +8972,9 @@ These two scenarios of symmetric and anti-symmetric transfer functions---the mir
 \[
     H(z) = \pm z^{-N}H(z^{-1})
 \]
-one can easily infer that if $z=\xi_0$ is a zero of $H(z)$, then $z=\frac 1 {\xi_0}$ must be a zero as well. (To explain that, simply recall the results highlighted in Section~\ref{sec:allpassTransferFunctions}, which explains how mirror-image polynomials of real-coefficient transfer functions possess pairs of zeros located in the `mirror' position, that is the reciprocal of the value of the zero.)
+one can easily infer that if $z=\xi_0$ is a zero of $H(z)$, then $z=\frac 1 {\xi_0}$ must be a zero as well\footnote{To explain that, simply recall the results highlighted in Section~\ref{sec:allpassTransferFunctions}, which explains how mirror-image polynomials of real-coefficient transfer functions possess pairs of zeros located in the `mirror' position, that is the reciprocal of the value of the zero.}.
 
-Additionally, if the impulse response is totally real-valued, then the zeros of $H(z)$ will occur in \emph{complex--conjugate pairs}; but this means that for any zero $z=\xi_0$ there will be a conjugate associated twin at $z=\xi^*_0$. This leads to the following, crucial result for linear-phase FIR filters: any complex zero that is not in the unit circle will be associated to other $3$ zeros, forming \textbf{a set of $4$ zeros} given by the following expressions
+Additionally, if the impulse response is totally real-valued, then the zeros of $H(z)$ will occur in \emph{complex--conjugate pairs}; but this means that for any zero $z_{i,1}=\xi_0$ there will be a conjugate associated twin at $z_{i,2}=\xi^*_0$. This leads to the following, crucial result for linear-phase FIR filters: any complex zero that is not in the unit circle will be associated to other $3$ zeros, forming \textbf{a set of $4$ zeros} given by the following expressions
 \begin{eqnarray}\label{eqn:linearPhaseGeneralZeroLocationsSet}
     z_{1,2} = r e^{\pm j\varphi}, \\
     z_{3,4} = \frac 1 r e^{\pm j\varphi}.
@@ -8981,7 +8994,7 @@ If a zero is real, then its reciprocal appears at the mirror location, and the z
 
 Finally, all $4$ zeros will appear \textbf{the same} if $z=\pm1$; that's because both the complex--conjugate pair and the (anti)mirror-image pair will overlap.
 
-After looking at how the sets of zeros are built---namely, there must be both a complex--conjugate pair and an (anti)mirror-image pair, which could possibly overlap---we will now discover that some \emph{constraints} on zero locations exist, depending on the types of linear-phase transfer functions. 
+After looking at how the sets of zeros are built---namely, there must be both a complex--conjugate pair and an (an\-ti)mir\-ror-i\-mage pair, which could possibly overlap---we will now discover that some \emph{constraints} on zero locations exist, depending on the types of linear-phase transfer functions. 
 
 The following list explains such constraints and properties, and also contains example illustrations for each type.
 
@@ -8994,7 +9007,7 @@ The following list explains such constraints and properties, and also contains e
         \[
             H(-1) = (-1)^{-N} H(-1) = -H(-1) \equiv 0,
         \]
-        which proves the claim;
+        as the only way in which $H(-1) = -H(-1)$ is that $H(-1)\equiv 0, \forall z$, which proves the claim;
         \begin{center}
             \begin{tikzpicture}
                 \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
@@ -9024,7 +9037,7 @@ The following list explains such constraints and properties, and also contains e
         \[
             H(1) = -(1)^{-N} H(1) = -H(1) \equiv 0,
         \]
-        forcing a zero at $z=+1$;
+        forcing a zero at $z=+1$. This has been obtained similarly with the case of Type II filters because this time the negative sign has been induced by the anti-symmetric nature of the impulse response;
         \begin{center}
             \begin{tikzpicture}
                 \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
@@ -9058,7 +9071,7 @@ The following list explains such constraints and properties, and also contains e
         \[
             H(-1) = -(-1)^{-N}H(-1) = -H(-1) \equiv 0
         \]
-        are true, forcing the two zeros to exist;
+        are true, forcing the two zeros to exist. This has been obtained because $N$ is even, and as such it leaves the minus sign that was caused by the anti-symmetry intact;
         \begin{center}
             \begin{tikzpicture}
                 \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
@@ -9085,7 +9098,7 @@ The following list explains such constraints and properties, and also contains e
         \[
             H(z) = z^{-N}H(z^{-1}), N \mbox{ even },
         \]
-        which leads to no forced zeros at all.
+        which leads to no forced zeros at all, as there is no way to impose $H(z) \equiv 0$ from the above.
         \begin{center}
             \begin{tikzpicture}
                 \draw[thick,-stealth] (-3.0,0) -- (3.0,0) node[anchor=north west] {$\Re z$};
@@ -9127,7 +9140,7 @@ We can then summarize the results into the following Table,
     3 & odd & odd\\
     4 & odd & even or none
 \end{tabular}
-\caption{Number of zeros at $z=\pm 1$ for different types of linear-phase FIR filters.}\label{tab:linearPhaseGeneralZeroNumbers}
+\caption{Number of zeros at $z=\pm 1$ for different types of linear-phase FIR filters. Essentially, if a peculiar Type forces a zero to exist, then such a zero is a single zero which does not represent a collapsed antimirror-image pair, but it is induced by equations and relationships themselves.}\label{tab:linearPhaseGeneralZeroNumbers}
 \end{table}
 \bigskip
 
