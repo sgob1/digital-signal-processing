@@ -8605,9 +8605,9 @@ An example of a Type 1 FIR filter can be the following, of length $7$,
     H_7(z) = \frac 1 6 \left[\frac 1 2 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5} + \frac 1 2z^{-6}\right],
 \]
 which could be seen as a slightly modified version of a $7$-point moving average filter, as in \ref{eqn:mPointMovingAverageEquation}\footnote{To point out the differences, two samples of the impulse response are halved, and that is the discrepancy between the classic $M$-point moving average filter and this Type 1 FIR filter.}. Since the above impulse response is symmetric and its length is odd, then it will possess the linear phase property of a Type 1 filter. Plots of the magnitude response of both $H_7(z)$ and a $7$-point moving average filter are shown in Figure~\ref{oct:typeI}. The impulse response has been improved by simply halving the first and the last coefficients---verily, the above Type 1 FIR filter is equivalent to the cascade of two moving average filters, the first of length $2$ and the second of length $6$:
-\[
+\begin{equation}\label{eqn:mPointMovingAverageFilterCascade}
     H_7(z) = \underbrace{\frac 1 2\left(1 + z^{-1}\right)}_{M=2}\cdot\underbrace{\frac 1 6 \left(1 + z^{-1} + z^{-2} + z^{-3} + z^{-4} + z^{-5}\right)}_{M=6},
-\]
+\end{equation}
 and for this reason $H_7(z)$ has a double zero at $z=-1$, which means $\omega = \pi$ in the unit circle---this allows to concretely push to $0$ the magnitude response at the very high frequencies, and ultimately improve the frequency response.
 
 
@@ -9165,6 +9165,8 @@ All simple digital filters hereby listed have integer-valued impulse responses c
     H_0(z) = \frac 1 2 \left(1 + z^{-1}\right) = \frac {z+1} {2z}.
 \end{equation}
 
+The $2$-point moving average filter is the smallest possible variant as in Equation~\ref{eqn:mPointMovingAverageEquation} (if we exclude the one-point moving average, a filter that does nothing in practice) and it only requires a single past sample with which the average should performed. It also has a very short charging setup time, and it will result in a very small group delay.
+
 The above transfer function is symmetric and of even length (hence, $N$ is odd)---a Type 2 transfer function. For this reason, it will possess a zero in $\zeta=-1$ and additionally a pole in $\xi = 0$. A digital FIR filter of this kind will possess a zero at high frequencies $\omega = \pi$, while keeping the magnitude of any other point as close to the input value as this configurations makes possible---indeed, the \emph{pole vector} (the vector from the pole to the unit circle when going through $\omega$ frequencies) will have a constant module of $1$, as shown in the next graph.
 
 \begin{center}
@@ -9201,8 +9203,10 @@ The peak value is $\left|H_0(e^{j0})\right| = 1$ and the minimum is $\left|H_0(e
 
 The frequency response of the above filter will be
 \begin{equation}\label{eqn:twoPointMovingAverageFilterFIRFrequencyResponse}
-    H_0(e^{j\omega}) = e^{-j\frac \omega 2}\cos{(\frac \omega 2)}.
+    H_0(e^{j\omega}) = e^{-j\frac \omega 2}\cos{(\frac \omega 2)},
 \end{equation}
+as it is a Type II digital FIR filter with $N=1$, and as such it automatically
+presents a zero $\zeta = -1$.
 
 Undoubtedly, by considering the magnitude response
 \[
@@ -9284,7 +9288,7 @@ at such frequency, the \textbf{gain} $\mathcal G (\omega_c)$, in decibel (dB), i
                          &= 20\log_{10}\left|H(e^{j0})\right| - 20\log_{10}\sqrt{2}\\
                          &\simeq 3 \mbox{dB},
 \end{align*}
-as the gain $\mathcal G(0) = 20 \log_{10}\left|H(e^{j0})\right| = 0$. As a result, the gain $\mathcal G(\omega)$ at $\omega = \omega_c$ is approximately $3$ dB less than the gain at $\omega = 0$---the frequency $\omega_c$ is said to be the \textbf{3-dB Cutoff Frequency}.
+as the gain $\mathcal G(0) = 20 \log_{10}\left|H(e^{j0})\right|= 20 \log_{10}\left|1\right| = 0$. As a result, the gain $\mathcal G(\omega)$ at $\omega = \omega_c$ is approximately $3$ dB less than the gain at $\omega = 0$---the frequency $\omega_c$ is said to be the \textbf{3-dB Cutoff Frequency}, and it is used during measurements of the performance of a filter by marking the value below which the filter is considered to cut a frequency. For example, if a lowpass filter has a cutoff frequency $\omega_c$, then all frequencies $\omega_h > \omega_c$ will be considered out of the band of interest.
 
 The 3-dB cutoff frequency $\omega_c$ for any filter will be the frequency for which
 \begin{equation}\label{eqn:cutoffFrequency}
@@ -9302,22 +9306,27 @@ For \emph{lowpass} digital filters, frequencies split by the $\omega_c$ will eit
 In the above, $\omega_c = \frac \pi 2$, the passband region is $[0, \frac \pi 2]$ and as a result the stopband region will be the remaining portion of higher frequencies, $[\frac \pi 2, \pi]$.
 The zero of $H_0(z)$ lies in the stopband of the filter (of course, as it causes the input frequency to be totally dissolved).
 
-As we have already seen, a cascade of moving average filters could be useful in order to improve the frequency response properties of the overall system, in particular related to performing lowpass to input signals---Figure~\ref{oct:simpleFiltersComparisonSingleThreeMPointMovingAverageFilters} highlights this property, showing off a better frequency response---when it comes to lowpass performance---for the bank of three filters.
+As we have already seen for filter in Equation~\ref{eqn:mPointMovingAverageFilterCascade}, a cascade of moving average filters could be useful in order to improve the frequency response properties of the overall system, in particular related to performing lowpass to input signals---Figure~\ref{oct:simpleFiltersComparisonSingleThreeMPointMovingAverageFilters} highlights this property, showing off a better frequency response---when it comes to lowpass performance---for a bank composed of a series of three filters.
 
 Generally speaking, a bank of $K$ sections results in a filter whose $3$-dB cutoff frequency will be
 \begin{equation}\label{eqn:simpleFiltersMovingAverageSectionsOmegaC}
-    \omega_c = 2\cos^{-1}{\left(2^{(-\frac 1 2 K)}\right)}.
+    \omega_c = 2\cos^{-1}{\left(2^{(-\frac 1 2 K)}\right)};
 \end{equation}
+therefore, a bank of filters will result in a smaller cutoff frequency---and thus, better performance in that regard---with respect to the single filter.
 
-For $K = 3$, the above yields $\omega_c = 0.302\pi$.
-As one can see from Equation~\ref{eqn:simpleFiltersMovingAverageSectionsOmegaC}, the $\omega_c$ will actually decrease as $K$ increases, or alternatively, as $K$ increases the passband gets smaller and smaller.
-This behavior is actually a trade--off: greater $K$s allow to generate better frequency responses, but all of this comes at the cost of a smaller passband width.
+For $K = 3$, Formula~\ref{eqn:simpleFiltersMovingAverageSectionsOmegaC} yields $\omega_c = 0.302\pi$.
+As one can see from that formula, the $\omega_c$ will actually decrease as $K$ increases, or alternatively, as $K$ increases the passband gets smaller and smaller.
+This behavior is actually a trade--off: greater $K$s allow to generate better frequency responses, but all of this comes at the cost of a smaller passband width. So, if one is concerned of passing frequencies higher than a specific $\omega_K$ that depends on the above formula, he should tune the value of $K$ to obtain the desired bandwidth, at the cost of possibly having a lower performance in the stopband.
+
 Better approximations to the \emph{ideal} lowpass filter---the rectangle filter---are given by higher-order moving average filters.
 Such filters have the property to remove sudden peaks and spurs presented by the input signal, de facto ``smoothing'' the signal.
 However, signals with abrupt changes overtime or which show spurs are typically high-frequency signals.
 $M$-point moving average filters have the property to remove spurs and abrupt changes induced by noise, but can also smoothe the signal, ultimately removing the high-frequency contents carried by the latter.
+This can be a problem whether or not one the smoothing results in an unwanted signal modification.
+Moreover, a moving average filter will introduce a group delay that is as huge as half the length of the filter.
+Excessively increasing the value of $M$ will inevitably result in a greater group delay.
 
-In general, $2$-point moving average filters are a simple and straightforward way to quickly obtain a cheap and fast lowpass FIR digital filter, both with a low hardware cost and a small mental effort. The next section will cover the counterpart of these filters---the \emph{highpass FIR digital filters}.
+In general, $2$-point moving average filters are a simple and straightforward way to quickly obtain a cheap and fast lowpass FIR digital filter with a small group delay, both with a low hardware cost and a small mental effort. The next section will cover the counterpart of these filters---the \emph{highpass FIR digital filters}.
 
 \section{Highpass FIR digital filters}
 \textbf{Highpass FIR digital filters} are the first category of simple digital filters we will encounter. The simplest of them is the $2$-point moving average filter, but replacing $z$ with $-z$. This involves a flip over the $z$ domain, and leads to
