@@ -8547,7 +8547,7 @@ and because of symmetry induced by an even amplitude response by hypothesis, the
 \end{align*}
 and $h[4]$ will be the only sample not involved in a symmetric pair, as it's the center of symmetry. Therefore, we can write
 \begin{align*}
-    H(z) &= h[0](z^{-1} + z^{-8})
+    H(z) &= h[0](z^{-0} + z^{-8})
         + h[1](z^{-1} + z^{-7})
         + h[2](z^{-2} + z^{-6})\\
         & + h[3](z^{-3} + z^{-5})
@@ -8559,7 +8559,7 @@ and $h[4]$ will be the only sample not involved in a symmetric pair, as it's the
         + h[4]\right).
 \end{align*}
 
-The corresponding frequency response (obtained by evaluating $z = e^{j\omega}$ will be
+The corresponding frequency response (obtained by evaluating $z = e^{j\omega}$) will be
 \begin{align*}
     H(e^{j\omega}) &= e^{-j 4\omega}\left(2h[0]\cos{(4\omega)} + 2h[1]\cos{(3\omega)}\right.\\
     & + \left. 2h[2]\cos{(2\omega)} + 2h[3]\cos{(\omega)} + h[4]\right),
@@ -8575,7 +8575,7 @@ The phase function is determined by the factor $e^{-j4\omega}$ and as such it is
 \[
     \theta(\omega) = -4\omega + \beta
 \]
-with the choice of $N=8$. Value of $\beta$ can either be $0$ or $\pi$ as the amplitude function is an even function---hence, the phase function is a linear function in $\omega$. The corresponding group delay is
+with the choice of $N=8$ and with the term $+\beta$ coming from the amplitude response (that has a factor $e^{-j\beta}$ that multiplies the phase one). Value of $\beta$ can either be $0$ or $\pi$ as the amplitude function is an even function---hence, the phase function is a linear function in $\omega$. The corresponding group delay is
 \[
     \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +4
 \]
@@ -8587,6 +8587,7 @@ and a group delay of
 \begin{equation}\label{eqn:linearPhaseTypeIGroupDelay}
     \tau(\omega) = -\frac{d\theta(\omega)}{d\omega} = +\kappa.
 \end{equation}
+In any case, the term $\beta$ vanishes in the derivative since it does not contribute to the phase $\omega$ other than being an additive constant.
 
 The group delay of a linear phase transfer function with an even amplitude response and an odd length--degree $N$ is a constant delay of value $\kappa = \frac {N}{2}$, with $\kappa$ being an \emph{integer} value\footnote{Remember that, in order to obtain an odd length $N+1$, an even $N$ must be chosen.}. As the amplitude response is an even function, either $\beta=0$ or $\beta=\pi$.
 
@@ -8670,7 +8671,7 @@ with an (even) amplitude response of the form
 \begin{equation}\label{eqn:linearPhaseTypeIIAmplitudeResponse}
     \breve{H}(\omega) = 2\sum_{n=1}^{\frac L 2} h[\frac L 2 - n]\cos{\left(\omega (n - \frac 1 2)\right)}
 \end{equation}
-with $L = N+1$ be the length of the impulse response.
+with $L = N+1$ be the length of the impulse response, and a $-\frac 1 2$ term in the the cosines' argument.
 
 Notice how, this time, the sum should be computed over $\frac L 2 = \frac {N+1}{2}$ terms instead of $\kappa = \frac N 2$ terms, as the term $h[\kappa]$ that was present in~\ref{eqn:linearPhaseTypeIAmplitudeResponse} ouside of the summation now is included in the summation for the above amplitude response formula. An even length (or, equivalently, an odd $N$) means that for Type 2 a ``central'' coefficient in the impulse response is missing, therefore the center of the impulse response will be located at $\kappa = \frac N 2$, resulting in a fractional value symmetry.
 
