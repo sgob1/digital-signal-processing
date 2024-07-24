@@ -3331,7 +3331,7 @@ The notation expressed in~\ref{eqn:dftNotationWn} renders the orthogonal transfo
 
 Along with the DFT, the \textbf{Inverse Discrete Fourier Transform} should be defined as well in order to produce meaningful computations. Indeed,
 \begin{equation}\label{eqn:inverseDiscreteFourierTransformWn}
-    x[k] = \sum_{k=0}^{N-1} X[k] W_N^{-kn}, 0 \leq n \leq N-1,
+    x[k] = \frac 1 N \sum_{k=0}^{N-1} X[k] W_N^{-kn}, 0 \leq n \leq N-1,
 \end{equation}
 expressed under the new notation\footnote{
     The original Discrete Fourier Transform---without employing the new notation---would be
@@ -3374,7 +3374,7 @@ which are basically the two terms appearing in the sum required to transform a s
 \begin{equation}\label{eqn:analysisEquation}
     X(k) = \sum_{n=0}^{N-1} x(n)\psi^*(n, k),
 \end{equation}
-known as the \textbf{synthesis equation}; the above leads to the matrix form
+known as the \textbf{analysis equation}; the above leads to the matrix form
 \begin{equation}\label{eqn:analysisEquationMatrixForm}
     \bm{X} = \bm{Fx}.
 \end{equation}
